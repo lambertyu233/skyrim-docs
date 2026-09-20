@@ -1,0 +1,20 @@
+Quests are the stories and adventures of Skyrim.  The list of quests appear in the Object Window under [[:Category:Character|Character]].  The principal parts of a quest are the Aliases, Stages, Objectives and Dialogue (topics and scenes).
+
+==Quest Window==
+* [[Quest Data Tab]]
+* [[Quest Stages Tab]]
+* [[Quest Objectives Tab]]
+* [[Quest Alias Tab]]
+* [[Dialogue Views Tab]]
+* [[Player Dialogue Tab]]
+* [[Scenes Tab]]
+* [[Combat Tab]]
+* [[Favors Tab]]
+* [[Detection Tab]]
+* [[Misc Tab]]
+* [[Scripts Tab]]
+
+
+[[Category:Character]]
+[[Category:Game Systems]]
+[[Category:Radiant Story]]

@@ -1,0 +1,1060 @@
+{
+  "meta": {
+    "generated_at": "2026-09-20",
+    "kb_version": "1.0.0",
+    "total": 59,
+    "by_category": {
+      "概览": 2,
+      "安装": 4,
+      "功能": 47,
+      "参考": 2,
+      "开发": 2,
+      "工具": 2
+    }
+  },
+  "entries": [
+    {
+      "id": "what-is-cs",
+      "title": "什么是 Community Shaders",
+      "category": "00-overview",
+      "category_label": "概览",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "概览",
+        "入门",
+        "框架"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders",
+      "summary": "Community Shaders 是开源、模块化的 Skyrim 图形增强框架，提供先进光照、材质与视觉特效。",
+      "path": "00-overview/what-is-cs.md"
+    },
+    {
+      "id": "architecture",
+      "title": "架构与缓存系统",
+      "category": "00-overview",
+      "category_label": "概览",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "架构",
+        "缓存",
+        "性能",
+        "引擎"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders#cache-system",
+      "summary": "CS 通过运行时着色器缓存与磁盘缓存替换原版着色器；理解其机制有助于排错与开发。",
+      "path": "00-overview/architecture.md"
+    },
+    {
+      "id": "enb-migration",
+      "title": "ENB 迁移指南",
+      "category": "01-installation",
+      "category_label": "安装",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "ENB",
+        "迁移",
+        "Effects11",
+        "兼容"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/ENB-Migration-Guide",
+      "summary": "从 ENB 模组列表迁移到以 CS 为核心的配置：移除 ENB 二进制、替换特性、重装相关 MOD。",
+      "path": "01-installation/enb-migration.md"
+    },
+    {
+      "id": "vanilla-setup",
+      "title": "Vanilla 设置指南",
+      "category": "01-installation",
+      "category_label": "安装",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "画质",
+        "设置",
+        "照明",
+        "推荐"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/vanilla-setup-guide",
+      "summary": "在已稳定安装 CS 的基础上，如何搭配照明、粒子补丁与 PBR 纹理让画面最佳。",
+      "path": "01-installation/vanilla-setup.md"
+    },
+    {
+      "id": "installation-guide",
+      "title": "安装指南",
+      "category": "01-installation",
+      "category_label": "安装",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "安装",
+        "入门",
+        "步骤",
+        "MO2",
+        "Vortex"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/installation-guide",
+      "summary": "在纯净 Skyrim 上安装 Community Shaders 的完整步骤、前置条件与更新方法。",
+      "path": "01-installation/installation-guide.md"
+    },
+    {
+      "id": "requirements",
+      "title": "系统与环境需求",
+      "category": "01-installation",
+      "category_label": "安装",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "需求",
+        "前置",
+        "兼容性",
+        "安装"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/installation-guide#requirements",
+      "summary": "支持的游戏版本、GPU/系统要求，以及必须安装的前置 MOD 清单。",
+      "path": "01-installation/requirements.md"
+    },
+    {
+      "id": "advanced-skin",
+      "title": "Advanced Skin 进阶皮肤",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "TBA",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "皮肤",
+        "角色"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "以多种技术增强角色皮肤渲染。[TBA]",
+      "path": "02-features/additional/advanced-skin.md"
+    },
+    {
+      "id": "cs-editor",
+      "title": "CS Editor 编辑器",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "开发工具",
+        "天气"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "实时天气与 imagespace 编辑器，服务所有 MOD 制作需求。",
+      "path": "02-features/core/cs-editor.md"
+    },
+    {
+      "id": "cloud-shadows",
+      "title": "Cloud Shadows 云影",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "阴影",
+        "户外",
+        "天气"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/cloud-shadows",
+      "summary": "动态云层阴影投射到广阔地形上。",
+      "path": "02-features/core/cloud-shadows.md"
+    },
+    {
+      "id": "dynamic-cubemaps",
+      "title": "Dynamic Cubemaps 动态立方体贴图",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "反射",
+        "环境"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/dynamic-cubemaps",
+      "summary": "实时反射映射，增强环境反射效果（1.0+ 已并入核心）。",
+      "path": "02-features/core/dynamic-cubemaps.md"
+    },
+    {
+      "id": "effects-11",
+      "title": "Effects 11 后处理",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "ENB",
+        "后处理",
+        "预设"
+      ],
+      "source": "https://mod.pub/skyrim-se/415-effects-11",
+      "summary": "通过 FX11 框架支持未加密 ENB 预设。",
+      "path": "02-features/additional/effects-11.md"
+    },
+    {
+      "id": "exponential-height-fog",
+      "title": "Exponential Height Fog 指数高度雾",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "雾",
+        "天气"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/180146",
+      "summary": "随高度增加密度、更真实的雾效。",
+      "path": "02-features/additional/exponential-height-fog.md"
+    },
+    {
+      "id": "extended-materials",
+      "title": "Extended Materials 扩展材质",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "材质",
+        "视差"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/extended-materials",
+      "summary": "地形与物体视差（parallax）及其它高级效果，需支持纹理与网格修补。",
+      "path": "02-features/core/extended-materials.md"
+    },
+    {
+      "id": "extended-translucency",
+      "title": "Extended Translucency 扩展半透明",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "半透明",
+        "材质"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/extended-translucency",
+      "summary": "增强的半透明材质渲染（1.4.7+ 已并入核心）。",
+      "path": "02-features/core/extended-translucency.md"
+    },
+    {
+      "id": "grass-collision",
+      "title": "Grass Collision 草体碰撞",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "草地",
+        "物理"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-collision",
+      "summary": "真实草体交互与碰撞检测（1.5+ 已并入核心）。",
+      "path": "02-features/core/grass-collision.md"
+    },
+    {
+      "id": "grass-lighting",
+      "title": "Grass Lighting 草体光照",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "草地",
+        "光照"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-lighting",
+      "summary": "改进植被光照计算，部分功能需支持的草 MOD（1.5+ 已并入核心）。",
+      "path": "02-features/core/grass-lighting.md"
+    },
+    {
+      "id": "grass-optimizations",
+      "title": "Grass Optimizations 草优化",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "草地",
+        "性能"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/188628",
+      "summary": "围绕 GPU 驱动剔除与实例化重写草渲染。",
+      "path": "02-features/additional/grass-optimizations.md"
+    },
+    {
+      "id": "hdr-display",
+      "title": "HDR Display HDR 显示",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "HDR",
+        "显示"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/179371",
+      "summary": "对支持的显示器输出原生 HDR。",
+      "path": "02-features/additional/hdr-display.md"
+    },
+    {
+      "id": "hair-specular",
+      "title": "Hair Specular 毛发高光",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "毛发",
+        "高光"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/149011",
+      "summary": "带真实高光的增强毛发渲染。",
+      "path": "02-features/additional/hair-specular.md"
+    },
+    {
+      "id": "horizon-fix",
+      "title": "Horizon Fix 地平线修复",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "地平线",
+        "天空"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/184607",
+      "summary": "改善地平线外观。",
+      "path": "02-features/additional/horizon-fix.md"
+    },
+    {
+      "id": "image-based-lighting",
+      "title": "Image Based Lighting 基于图像光照",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "光照",
+        "IBL"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "用立方体贴图球谐推导的物理化 IBL 替换游戏环境光。",
+      "path": "02-features/core/image-based-lighting.md"
+    },
+    {
+      "id": "interior-sun",
+      "title": "Interior Sun 室内阳光",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "室内",
+        "阴影",
+        "光照"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "室内随昼夜变化的进阶阴影投射，需支持的照明 MOD。",
+      "path": "02-features/core/interior-sun.md"
+    },
+    {
+      "id": "inverse-square-lighting",
+      "title": "Inverse Square Lighting 平方反比光照",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "光照",
+        "物理"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/inverse-square-lighting",
+      "summary": "物理精确的光照衰减计算，需支持的照明 MOD（1.4.7+ 已并入核心）。",
+      "path": "02-features/core/inverse-square-lighting.md"
+    },
+    {
+      "id": "lod-blending",
+      "title": "LOD Blending LOD 混合",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "LOD",
+        "光照"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "对 LOD 物体与地形的光照特性做精细控制。",
+      "path": "02-features/core/lod-blending.md"
+    },
+    {
+      "id": "light-limit-fix",
+      "title": "Light Limit Fix 光源上限修复",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "光照",
+        "性能",
+        "引擎修复"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/light-limit-fix",
+      "summary": "移除引擎对动态光源数量的限制，视野内可超过 4 个光源（1.4+ 已并入核心）。",
+      "path": "02-features/core/light-limit-fix.md"
+    },
+    {
+      "id": "linear-lighting",
+      "title": "Linear Lighting 线性光照",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "TBA",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "光照",
+        "色彩空间"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "内部色彩空间转换以提升光照计算精度。[TBA]",
+      "path": "02-features/additional/linear-lighting.md"
+    },
+    {
+      "id": "nrd",
+      "title": "NRD 实时降噪",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "降噪",
+        "屏幕空间"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "集成 NVIDIA 实时降噪器，供 SSGI、SSR 等使用。",
+      "path": "02-features/core/nrd.md"
+    },
+    {
+      "id": "order-independent-transparency",
+      "title": "Order Independent Transparency 顺序无关透明",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "透明",
+        "渲染"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/187431",
+      "summary": "正确混合重叠的透明表面。",
+      "path": "02-features/additional/order-independent-transparency.md"
+    },
+    {
+      "id": "performance-overlay",
+      "title": "Performance Overlay 性能浮层",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "性能",
+        "监测"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/performance-overlay",
+      "summary": "实时监测帧率、绘制调用与性能指标。",
+      "path": "02-features/core/performance-overlay.md"
+    },
+    {
+      "id": "post-processing",
+      "title": "Post Processing 后处理",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "TBA",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "后处理",
+        "ENB替代"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "进阶图像特效，Effects 11 的继任者。[TBA]",
+      "path": "02-features/additional/post-processing.md"
+    },
+    {
+      "id": "remote-control",
+      "title": "Remote Control 远程控制",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "开发工具"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "向外部 devbench 暴露开发者工具，支持 AI 辅助开发。",
+      "path": "02-features/core/remote-control.md"
+    },
+    {
+      "id": "renderdoc",
+      "title": "RenderDoc 捕获",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "开发工具",
+        "调试"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/faq#renderdoc",
+      "summary": "内置 RenderDoc 截图捕获，便于开发调试（1.4.6+）。",
+      "path": "02-features/core/renderdoc.md"
+    },
+    {
+      "id": "ssgi",
+      "title": "SSGI 屏幕空间全局光照",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "全局光照",
+        "屏幕空间",
+        "性能"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/130375",
+      "summary": "实时间接光照模拟（间接光反弹），开销较高。",
+      "path": "02-features/additional/ssgi.md"
+    },
+    {
+      "id": "scene-manager",
+      "title": "Scene Manager 场景管理器",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "配置",
+        "场景"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "按室内/室外、昼夜、天气、地点套用选定 CS 设置。",
+      "path": "02-features/core/scene-manager.md"
+    },
+    {
+      "id": "screen-space-reflections",
+      "title": "Screen Space Reflections 屏幕空间反射",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "TBA",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "反射",
+        "屏幕空间"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "层级化屏幕空间镜面反射。[TBA]",
+      "path": "02-features/additional/screen-space-reflections.md"
+    },
+    {
+      "id": "screen-space-shadows",
+      "title": "Screen Space Shadows 屏幕空间阴影",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "阴影",
+        "屏幕空间"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/screen-space-shadows",
+      "summary": "屏幕空间增强阴影渲染（1.5+ 已并入核心）。",
+      "path": "02-features/core/screen-space-shadows.md"
+    },
+    {
+      "id": "screenshot",
+      "title": "Screenshot 截图",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "截图",
+        "HDR"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "不卡顿地捕获带 HDR 能力的截图。",
+      "path": "02-features/core/screenshot.md"
+    },
+    {
+      "id": "sky-sync",
+      "title": "Sky Sync 天空同步",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "天空",
+        "天体"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/sky-sync",
+      "summary": "真实日月沿天空运动（1.7+ 已并入核心）。",
+      "path": "02-features/core/sky-sync.md"
+    },
+    {
+      "id": "skylighting",
+      "title": "Skylighting 天光遮蔽",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "环境光遮蔽",
+        "户外"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/139352",
+      "summary": "模拟大规模世界空间环境光遮蔽（AO）。",
+      "path": "02-features/additional/skylighting.md"
+    },
+    {
+      "id": "snow-deformation",
+      "title": "Snow Deformation 积雪形变",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "TBA",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "雪",
+        "物理"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "角色踩过积雪可被压陷并留下持久痕迹。[TBA]",
+      "path": "02-features/additional/snow-deformation.md"
+    },
+    {
+      "id": "subsurface-scattering",
+      "title": "Subsurface Scattering 次表面散射",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "皮肤",
+        "散射",
+        "材质"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/subsurface-scattering",
+      "summary": "真实光线穿透半透明材质（如皮肤）（1.5+ 已并入核心）。",
+      "path": "02-features/core/subsurface-scattering.md"
+    },
+    {
+      "id": "terrain-blending",
+      "title": "Terrain Blending 地形混合",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "地形",
+        "混合"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/157076",
+      "summary": "将地形混合进地形网格，消除接缝。",
+      "path": "02-features/additional/terrain-blending.md"
+    },
+    {
+      "id": "terrain-helper",
+      "title": "Terrain Helper 地形辅助",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "地形",
+        "纹理"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/143149",
+      "summary": "为非 PBR 地形 MOD 增加额外纹理层以优化贴图。",
+      "path": "02-features/additional/terrain-helper.md"
+    },
+    {
+      "id": "terrain-shadows",
+      "title": "Terrain Shadows 地形阴影",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "地形",
+        "阴影"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/terrain-shadows",
+      "summary": "无限距离粗糙地形阴影，游戏内与世界地图均生效（1.4.7+ 已并入核心）。",
+      "path": "02-features/core/terrain-shadows.md"
+    },
+    {
+      "id": "terrain-variation",
+      "title": "Terrain Variation 地形变化",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "地形",
+        "平铺"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/148123",
+      "summary": "在不损失质量的前提下打破原版地形平铺问题。",
+      "path": "02-features/additional/terrain-variation.md"
+    },
+    {
+      "id": "true-pbr",
+      "title": "True PBR 物理渲染",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "PBR",
+        "材质",
+        "纹理"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/true-pbr-home",
+      "summary": "支持物理基础渲染，需支持的纹理与网格修补。",
+      "path": "02-features/core/true-pbr.md"
+    },
+    {
+      "id": "unified-water",
+      "title": "Unified Water 统一水体",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "水",
+        "LOD"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "将真实水体瓦片延伸到 LOD，消除水 LOD 接缝并改善着色。",
+      "path": "02-features/core/unified-water.md"
+    },
+    {
+      "id": "upscaling",
+      "title": "Upscaling 超分与帧生成",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "超分",
+        "帧生成",
+        "DLSS",
+        "FSR",
+        "性能"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/156952",
+      "summary": "DLSS 4.5/FSR 3.1 超分与 FSR 3.1 帧生成。",
+      "path": "02-features/additional/upscaling.md"
+    },
+    {
+      "id": "vanilla-fresnel",
+      "title": "Vanilla Fresnel 原版菲涅尔",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "反射",
+        "材质"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "为非 PBR 材质添加真实环境反射。",
+      "path": "02-features/core/vanilla-fresnel.md"
+    },
+    {
+      "id": "volumetric-lighting",
+      "title": "Volumetric Lighting 体积光照",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "体积光",
+        "光照"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "动态体积光照效果。",
+      "path": "02-features/core/volumetric-lighting.md"
+    },
+    {
+      "id": "volumetric-shadows",
+      "title": "Volumetric Shadows 体积阴影",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "阴影",
+        "粒子"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
+      "summary": "降采样 VSM 阴影贴图，供粒子、贴花等使用。",
+      "path": "02-features/core/volumetric-shadows.md"
+    },
+    {
+      "id": "water-effects",
+      "title": "Water Effects 水特效",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "core",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "水",
+        "焦散",
+        "视差"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/water-effects",
+      "summary": "水的视差与焦散，视差需支持的水 MOD（1.4.7+ 已并入核心）。",
+      "path": "02-features/core/water-effects.md"
+    },
+    {
+      "id": "wetness-effects",
+      "title": "Wetness Effects 湿润特效",
+      "category": "02-features",
+      "category_label": "功能",
+      "kind": "additional",
+      "status": "released",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "湿润",
+        "雨",
+        "天气"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/112739",
+      "summary": "动态表面湿润与降雨交互、自定义雨涟漪。",
+      "path": "02-features/additional/wetness-effects.md"
+    },
+    {
+      "id": "incompatible-mods",
+      "title": "不兼容 MOD 清单",
+      "category": "03-reference",
+      "category_label": "参考",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "兼容",
+        "ENB",
+        "排错",
+        "警告"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/faq#what-mods-are-not-compatible-with-cs",
+      "summary": "与 CS 冲突或需调整的 MOD 汇总，分为完全不兼容与需微调两类。",
+      "path": "03-reference/incompatible-mods.md"
+    },
+    {
+      "id": "faq",
+      "title": "常见问题解答 (FAQ)",
+      "category": "03-reference",
+      "category_label": "参考",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "FAQ",
+        "排错",
+        "兼容",
+        "配置",
+        "错误",
+        "性能"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/faq",
+      "summary": "覆盖已知问题、安装、兼容性、配置、开发、错误、性能与通用排查的全部 Q&A。",
+      "path": "03-reference/faq.md"
+    },
+    {
+      "id": "pbr-for-artists",
+      "title": "True PBR 美术师与开发者指南",
+      "category": "04-development",
+      "category_label": "开发",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "PBR",
+        "纹理",
+        "网格",
+        "开发",
+        "美术"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/true-pbr-home",
+      "summary": "面向纹理作者与开发者的 True PBR 完整指南：网格标记、纹理槽位、特殊渲染技法与 MATO。",
+      "path": "04-development/pbr-for-artists.md"
+    },
+    {
+      "id": "contributing",
+      "title": "参与贡献",
+      "category": "04-development",
+      "category_label": "开发",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "贡献",
+        "开发",
+        "社区",
+        "GitHub",
+        "Discord"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders#contributing",
+      "summary": "如何参与 Community Shaders 的代码、文档、测试与着色器贡献。",
+      "path": "04-development/contributing.md"
+    },
+    {
+      "id": "light-placer",
+      "title": "Light Placer（光照放置器）",
+      "category": "05-tools",
+      "category_label": "工具",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "工具",
+        "光照",
+        "JSON",
+        "ENB替代"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/light-placer-home",
+      "summary": "通过 JSON 将可配置的真实光源附加到物体与角色，是 ENB Light 的社区替代。",
+      "path": "05-tools/light-placer.md"
+    },
+    {
+      "id": "pgpatcher",
+      "title": "PGPatcher（Parallax / PBR 修补器）",
+      "category": "05-tools",
+      "category_label": "工具",
+      "kind": "",
+      "status": "",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "工具",
+        "PBR",
+        "视差",
+        "网格修补",
+        "纹理"
+      ],
+      "source": "https://modding.wiki/en/skyrim/developers/community-shaders/pgpatcher-home",
+      "summary": "独立工具，修补纹理 MOD 的加载顺序（视差 / 复杂材质 / PBR），是 True PBR 工作流核心。",
+      "path": "05-tools/pgpatcher.md"
+    }
+  ]
+}

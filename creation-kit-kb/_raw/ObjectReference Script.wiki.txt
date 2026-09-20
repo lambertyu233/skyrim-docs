@@ -1,0 +1,590 @@
+'''Extends:''' [[Form Script]]
+
+Script for the manipulation of object instances.
+<br/>If you are adding a script to an object that is going to be a reference in the world (like a button for example) your script will need to extend this script.
+
+== Definition ==
+<syntaxhighlight lang="papyrus">
+ScriptName ObjectReference extends Form
+</syntaxhighlight>
+
+== Properties ==
+*float X [read-only]: The current X position of the reference.
+*float Y [read-only]: The current Y position of the reference.
+*float Z [read-only]: The current Z position of the reference.
+These properties are meant to be used when calling [[SetMotionType - ObjectReference|SetMotionType]]:
+*int Motion_Dynamic		[read-only]: 1
+*int Motion_SphereInertia	[read-only]: 2
+*int Motion_BoxInertia		[read-only]: 3
+*int Motion_Keyframed		[read-only]: 4
+*int Motion_Fixed		[read-only]: 5
+*int Motion_ThinBoxInertia	[read-only]: 6
+*int Motion_Character		[read-only]: 7
+
+== Global Functions ==
+None
+
+== Member Functions ==
+
+:'''[[Activate - ObjectReference|Activate]](ObjectReference ''akActivator'')'''
+:*Have the passed in reference activate this object.
+
+:'''[[AddInventoryEventFilter - ObjectReference|AddInventoryEventFilter]](Form ''akFilter'')'''
+:*Adds an inventory event filter to this reference.
+
+:'''[[AddItem - ObjectReference|AddItem]](Form ''akItemToAdd'', Int ''aiCount'', Bool ''abSilent'')'''
+:*Adds the passed in item to this object's inventory.
+
+:'''[[AddKeyIfNeeded - ObjectReference|AddKeyIfNeeded]](ObjectReference ''ObjectWithNeededKey'')'''
+:*Adds the key to ObjectWithNeededKey if this object's inventory does not contain it already.
+
+:'''[[AddToMap - ObjectReference|AddToMap]](Bool ''abAllowFastTravel'')'''
+:*Adds this map marker to the map, optionally making it available for fast travel.
+
+:'''[[ApplyHavokImpulse - ObjectReference|ApplyHavokImpulse]](Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afMagnitude'')'''
+:*Apply a Havok impulse force to this object.
+
+:'''[[BlockActivation - ObjectReference|BlockActivation]](Bool ''abBlocked'')'''
+:*Blocks normal activation processing for this reference.
+
+:'''Int [[CalculateEncounterLevel - ObjectReference|CalculateEncounterLevel]](Int ''aiDifficulty'')'''
+:*Calculate this object's encounter level, using the specified difficulty.
+
+:'''Bool [[CanFastTravelToMarker - ObjectReference|CanFastTravelToMarker]]()'''
+:*Can the player fast travel to this map marker?
+
+:'''[[ClearDestruction - ObjectReference|ClearDestruction]]()'''
+:*Clears all effects of destruction from this object.
+
+:'''Int [[CountLinkedRefChain - ObjectReference|CountLinkedRefChain]](Keyword ''apKeyword'', Int ''maxExpectedLinkedRefs'')'''
+:*Counts the number of linked refs that are in a linked Ref chain	
+
+:'''[[CreateDetectionEvent - ObjectReference|CreateDetectionEvent]](Actor ''akOwner'', Int ''aiSoundLevel'')'''
+:*Create a detection event at this reference, with the specified owner.
+
+:'''[[DamageObject - ObjectReference|DamageObject]](Float ''afDamage'')'''
+:*Damages this object and advances the destruction stage.
+
+:'''[[Delete - ObjectReference|Delete]]()'''
+:*Deletes this object.
+
+:'''[[DeleteWhenAble - ObjectReference|DeleteWhenAble]]()'''
+:*Waits until this reference is out of the loaded area and then deletes it
+
+:'''[[Disable - ObjectReference|Disable]](Bool ''abFadeOut'')'''
+:*Disables this object.
+
+:'''[[DisableLinkChain - ObjectReference|DisableLinkChain]](Keyword ''apKeyword'', Bool ''abFadeOut'')'''
+:*Disables all of the references that are linked, in a chain, to this one.
+
+:'''[[DisableNoWait - ObjectReference|DisableNoWait]](Bool ''abFadeOut'')'''
+:*Disables this object and does not wait for the object to be disable or faded out.
+
+:'''[[DropObject - ObjectReference|DropObject]](Form ''akObject'', Int ''aiCount'')'''
+:*Drops the specified object from this object's inventory.
+
+:'''[[Enable - ObjectReference|Enable]](Bool ''abFadeIn'')'''
+:*Enables this object.
+
+:'''[[EnableFastTravel - ObjectReference|EnableFastTravel]](Bool ''abEnable'')'''
+:*Enables or disables fast travel to this map marker.
+
+:'''[[EnableLinkChain - ObjectReference|EnableLinkChain]](Keyword ''apKeyword'')'''
+:*Enables all of the references that are linked, in a chain, to this one.
+
+:'''[[EnableNoWait - ObjectReference|EnableNoWait]](Bool ''abFadeIn'')'''
+:*Enables this object and does not wait for the object to be enabled or faded in.
+
+:'''[[ForceAddRagdollToWorld - ObjectReference|ForceAddRagdollToWorld]]()'''
+:*Forcibly adds the ragdoll of a reference to the world
+
+:'''[[ForceRemoveRagdollFromWorld - ObjectReference|ForceRemoveRagdollFromWorld]]()'''
+:*Forcibly removes the ragdoll of a reference from the world
+
+:'''ActorBase [[GetActorOwner - ObjectReference|GetActorOwner]]()'''
+:*Obtains the actor base that owns this object.
+
+:'''Float [[GetAngleX - ObjectReference|GetAngleX]]()'''
+:*Obtains this object's rotation around the x axis.
+
+:'''Float [[GetAngleY - ObjectReference|GetAngleY]]()'''
+:*Obtains this object's rotation around the y axis.
+
+:'''Float [[GetAngleZ - ObjectReference|GetAngleZ]]()'''
+:*Obtains this object's rotation around the z axis.
+
+:'''Bool [[GetAnimationVariableBool - ObjectReference|GetAnimationVariableBool]](String ''asVariableName'')'''
+:*Fetches the value of a variable on the reference's animation graph (bool version).
+
+:'''Float [[GetAnimationVariableFloat - ObjectReference|GetAnimationVariableFloat]](String ''asVariableName'')'''
+:*Fetches the value of a variable on the reference's animation graph (float version).
+
+:'''Int [[GetAnimationVariableInt - ObjectReference|GetAnimationVariableInt]](String ''asVariableName'')'''
+:*Fetches the value of a variable on the reference's animation graph (int version).
+
+:'''Form [[GetBaseObject - ObjectReference|GetBaseObject]]()'''
+:*Obtains this reference's base object.
+
+:'''Int [[GetCurrentDestructionStage - ObjectReference|GetCurrentDestructionStage]]()'''
+:*Gets the object's current stage of destruction.
+
+:'''Location [[GetCurrentLocation - ObjectReference|GetCurrentLocation]]()'''
+:*Obtains this reference's current location.
+
+:'''Scene [[GetCurrentScene - ObjectReference|GetCurrentScene]]()'''
+:*Obtains the scene that this reference is currently participating in, if any.
+
+:'''Float [[GetDistance - ObjectReference|GetDistance]](ObjectReference ''akOther'')'''
+:*Calculates the distance between this object and the passed in one.
+
+:'''Location [[GetEditorLocation - ObjectReference|GetEditorLocation]]()'''
+:*Obtains this reference's editor location.
+
+:'''Faction [[GetFactionOwner - ObjectReference|GetFactionOwner]]()'''
+:*Gets the faction that owns this reference.
+
+:'''Float [[GetHeadingAngle - ObjectReference|GetHeadingAngle]](ObjectReference ''akOther'')'''
+:*Gets the angle between this object's heading, and the direction the other object is in.
+
+:'''Float [[GetHeight - ObjectReference|GetHeight]]()'''
+:*Gets the height of this object
+
+:'''Int [[GetItemCount - ObjectReference|GetItemCount]](Form ''akItem'')'''
+:*Returns how many of the specified item is in this object's inventory.
+
+:'''Float [[GetItemHealthPercent - ObjectReference|GetItemHealthPercent]]()'''
+:*Returns the item health percent of this object (1.0 == 100%).
+
+:'''Key [[GetKey - ObjectReference|GetKey]]()'''
+:*Obtains the key that unlocks this object (if any).
+
+:'''Float [[GetLength - ObjectReference|GetLength]]()'''
+:*Obtains the length of this object.
+
+:'''ObjectReference [[GetLinkedRef - ObjectReference|GetLinkedRef]](Keyword ''apKeyword'')'''
+:*Returns our linked reference for the given Keyword, if any.
+
+:'''Int [[GetLockLevel - ObjectReference|GetLockLevel]]()'''
+:*Obtains the level of the lock on this object.
+
+:'''Float [[GetMass - ObjectReference|GetMass]]()'''
+:*Obtains this object's mass in Havok.
+
+:'''ObjectReference [[GetNthLinkedRef - ObjectReference|GetNthLinkedRef]](Int ''aiLinkedRef'')'''
+:*Obtains the nth linked ref from this object.
+
+:'''Int [[GetOpenState - ObjectReference|GetOpenState]]()'''
+:*Obtains this object's current "open state".
+
+:'''Cell [[GetParentCell - ObjectReference|GetParentCell]]()'''
+:*Obtains the cell this object is currently in.
+
+:'''Float [[GetPositionX - ObjectReference|GetPositionX]]()'''
+:*Returns this object's current X position.
+
+:'''Float [[GetPositionY - ObjectReference|GetPositionY]]()'''
+:*Returns this object's current Y position.
+
+:'''Float [[GetPositionZ - ObjectReference|GetPositionZ]]()'''
+:*Returns this object's current Z position.
+
+:'''Float [[GetScale - ObjectReference|GetScale]]()'''
+:*Get this object's current scale.
+
+:'''Int [[GetTriggerObjectCount - ObjectReference|GetTriggerObjectCount]]()'''
+:*Returns the number of objects inside this trigger volume.
+
+:'''VoiceType [[GetVoiceType - ObjectReference|GetVoiceType]]()'''
+:*Obtains the [[VoiceType Script|VoiceType]] for this actor or talking activator.
+
+:'''Float [[GetWidth - ObjectReference|GetWidth]]()'''
+:*Get the current width of the object.
+
+:'''Worldspace [[GetWorldSpace - ObjectReference|GetWorldSpace]]()'''
+:*Returns the worldspace this reference is in.
+
+:'''Bool [[HasEffectKeyword - ObjectReference|HasEffectKeyword]](Keyword ''akKeyword'')'''
+:*Returns if this reference has an active effect coming from a magic effect with the specified keyword attached
+
+:'''Bool [[HasNode - ObjectReference|HasNode]](String ''asNodeName'')'''
+:*Returns if this reference has the specified name node in its 3D.
+
+:'''Bool [[HasRefType - ObjectReference|HasRefType]](LocationRefType ''akRefType'')'''
+:*Returns if this reference has the specified [[LocationRefType Script|LocationRefType]] attached.
+
+:'''[[IgnoreFriendlyHits - ObjectReference|IgnoreFriendlyHits]](Bool ''abIgnore'')'''
+:*Flags this reference as ignoring (or not ignoring) friendly hits
+
+:'''[[InterruptCast - ObjectReference|InterruptCast]]()'''
+:*Interrupts any spellcasting this object may be doing.
+
+:'''Bool [[IsActivateChild - ObjectReference|IsActivateChild]](ObjectReference ''akChild'')'''
+:*Returns whether the passed in reference is an activate child of this reference.
+
+:'''Bool [[IsActivationBlocked - ObjectReference|IsActivationBlocked]]()'''
+:*Returns whether normal activation processing is currently blocked on this reference or not.
+
+:'''Bool [[Is3DLoaded - ObjectReference|Is3DLoaded]]()'''
+:*Checks to see if this reference's 3D data is currently loaded or not.
+
+:'''Bool [[IsDeleted - ObjectReference|IsDeleted]]()'''
+:*Checks to see if this object is currently flagged for delete. 
+
+:'''Bool [[IsDisabled - ObjectReference|IsDisabled]]()'''
+:*Is this object currently disabled?
+
+:'''Bool [[IsEnabled - ObjectReference|IsEnabled]]()'''
+:*Is this object currently enabled?
+
+:'''Bool [[IsFurnitureInUse - ObjectReference|IsFurnitureInUse]](Bool ''abIgnoreReserved'')'''
+:*Is any furniture marker on this object in use?
+
+:'''Bool [[IsFurnitureMarkerInUse - ObjectReference|IsFurnitureMarkerInUse]](Int ''aiMarker'', Bool ''abIgnoreReserved'')'''
+:*Is the specified furniture marker on this object in use?
+
+:'''Bool [[IsIgnoringFriendlyHits - ObjectReference|IsIgnoringFriendlyHits]]()'''
+:*Is this object ignoring friendly hits?
+
+:'''Bool [[IsInDialogueWithPlayer - ObjectReference|IsInDialogueWithPlayer]]()'''
+:*Is this actor or talking activator currently talking to the player?
+
+:'''Bool [[IsInInterior - ObjectReference|IsInInterior]]()'''
+:*Returns true if the object is in an interior cell.
+
+:'''Bool [[IsInLocation - ObjectReference|IsInLocation]](Location ''akLocation'')'''
+:*Returns true if the object is currently in that location or a child of that location.
+
+:'''Bool [[IsLocked - ObjectReference|IsLocked]]()'''
+:*Is the lock on this object locked?
+
+:'''Bool [[IsMapMarkerVisible - ObjectReference|IsMapMarkerVisible]]()'''
+:*Is this map marker visible to the player?
+
+:'''Bool [[IsNearPlayer - ObjectReference|IsNearPlayer]]()'''
+:*A quick-and-dirty function to tell if this object is safe to enable or disable
+
+:'''[[KnockAreaEffect - ObjectReference|KnockAreaEffect]](Float ''afMagnitude'', Float ''afRadius'')'''
+:*Executes a knock effect to an area
+
+:'''[[Lock - ObjectReference|Lock]](Bool ''abLock'', Bool ''abAsOwner'')'''
+:*Locks or unlocks this object.
+
+:'''[[MoveTo - ObjectReference|MoveTo]](ObjectReference ''akTarget'', Float ''afXOffset'', Float ''afYOffset'', Float ''afZOffset'', Bool ''abMatchRotation'')'''
+:*Moves this object to the same location as the passed-in reference, offset by the specified amount.
+
+:'''Bool [[MoveToIfUnloaded - ObjectReference|MoveToIfUnloaded]](ObjectReference ''akTarget'', Float ''afXOffset'', Float ''afYOffset'', Float ''afZOffset'')'''
+:*Moves this object to the same location as the passed-in reference, offset by the specified amount, IF this object is not currently loaded.
+
+:'''[[MoveToInteractionLocation - ObjectReference|MoveToInteractionLocation]](ObjectReference ''akTarget'')'''
+:*Moves this object to the specified object's interaction location.
+
+:'''[[MoveToMyEditorLocation - ObjectReference|MoveToMyEditorLocation]]()'''
+:*Moves this object to its own editor location.
+
+:'''[[MoveToNode - ObjectReference|MoveToNode]](ObjectReference ''akTarget'', String ''asNodeName'')'''
+:*Moves this object to the position (and rotation) of the specified node on the specified object's 3D
+
+:'''Actor [[PlaceActorAtMe - ObjectReference|PlaceActorAtMe]](ActorBase ''akActorToPlace'', Int ''aiLevelMod'', EncounterZone ''akZone'')'''
+:*Create an actor at this object's location.
+
+:'''ObjectReference [[PlaceAtMe - ObjectReference|PlaceAtMe]](Form ''akFormToPlace'', Int ''aiCount'')'''
+:*Places x copies of the passed in form at this object's current position, returning the last one created.
+
+:'''Bool [[PlayAnimation - ObjectReference|PlayAnimation]](String ''asAnimation'')'''
+:*Plays the specified animation on this object, returning immediately.
+
+:'''Bool [[PlayAnimationAndWait - ObjectReference|PlayAnimationAndWait]](String ''asAnimation'', String ''asEventName'')'''
+:*Plays the specified animation on this object and waits for the specified event before returning. (latent)
+
+:'''Bool [[PlayGamebryoAnimation - ObjectReference|PlayGamebryoAnimation]](String ''asAnimation'', Bool ''abStartOver'', Float ''afEaseInTime'')'''
+:*Plays a legacy nif file based animation
+
+:'''Bool [[PlayImpactEffect - ObjectReference|PlayImpactEffect]](ImpactDataSet ''akImpactEffect'', String ''asNodeName'', Float ''afPickDirX'', Float ''afPickDirY'', Float ''afPickDirZ'', Float ''afPickLength'', Bool ''abApplyNodeRotation'', Bool ''abUseNodeLocalRotation'')'''
+:*Plays an impact effect.
+
+:'''Bool [[PlaySyncedAnimationAndWaitSS - ObjectReference|PlaySyncedAnimationAndWaitSS]](String ''asAnimation1'', String ''asEvent1'', ObjectReference ''akObj2'', String ''asAnimation2'', String ''asEvent2'')'''
+:*Plays two animations simultaneously, waiting for events from both.
+
+:'''Bool [[PlaySyncedAnimationSS - ObjectReference|PlaySyncedAnimationSS]](String ''asAnimation1'', ObjectReference ''akObj2'', String ''asAnimation2'')'''
+:*Plays two animations simultaneously.
+
+:'''[[PlayTerrainEffect - ObjectReference |PlayTerrainEffect]](String ''asEffectModelName'', String ''asAttachBoneName'')'''
+:*Plays a terrain effect.
+
+:'''[[ProcessTrapHit - ObjectReference|ProcessTrapHit]](ObjectReference ''akTrap'', Float ''afDamage'', Float ''afPushback'', Float ''afXVel'', Float ''afYVel'', Float ''afZVel'', Float ''afXPos'', Float ''afYPos'', Float ''afZPos'', Int ''aeMaterial'', Float ''afStagger'')'''
+:*Tells this object to handle the specified trap object hitting it.
+
+:'''[[PushActorAway - ObjectReference|PushActorAway]](Actor ''akActorToPush'', Int ''aiKnockbackDamage'')'''
+:*Pushes the other actor away from this object as if hit by the specified amount of knockback damage.
+
+:'''Bool [[RampRumble - ObjectReference|RampRumble]](Float ''power'', Float ''duration'', Float ''falloff'')'''
+:*Shakes cam/controller based on distance from player
+
+:'''[[RemoveAllInventoryEventFilters - ObjectReference|RemoveAllInventoryEventFilters]]()'''
+:*Remove all inventory event filters on this reference.
+
+:'''[[RemoveAllItems - ObjectReference|RemoveAllItems]](ObjectReference ''akTransferTo'', Bool ''abKeepOwnership'', Bool ''abSilent'')'''
+:*Removes all items from this container, optionall transferring them to another one.
+
+:'''[[RemoveInventoryEventFilter - ObjectReference|RemoveInventoryEventFilter]](Form ''akFilter'')'''
+:*Remove a specific inventory event filter.
+
+:'''[[RemoveItem - ObjectReference|RemoveItem]](Form ''akItemToRemove'', Int ''aiCount'', Bool ''abSilent'', ObjectReference ''akOtherContainer'')'''
+:*Removes the passed in item from this object's inventory.
+
+:'''[[Reset - ObjectReference|Reset]](ObjectReference ''akTarget'')'''
+:*Resets this object reference, optionally placing the object at the new target.
+
+:'''[[Say - ObjectReference|Say]](Topic ''akTopicToSay'', Actor ''akActorToSpeakAs'', Bool ''abSpeakInPlayersHead'')'''
+:*Causes this reference to speak a topic as if it were the specified actor.
+
+:'''[[SendStealAlarm - ObjectReference|SendStealAlarm]](Actor ''akThief'')'''
+:*Sends a steal alarm as if this reference had just been stolen by the actor.
+
+:'''[[SetActorCause - ObjectReference|SetActorCause]](Actor ''akActor'')'''
+:*Sets this actor as this object's actor cause.
+
+:'''[[SetActorOwner - ObjectReference|SetActorOwner]](ActorBase ''akActorBase'')'''
+:*Sets this actor base as this object's owner.
+
+:'''[[SetAngle - ObjectReference|SetAngle]](Float ''afXAngle'', Float ''afYAngle'', Float ''afZAngle'')'''
+:*Sets this object's rotation. Angles are in degrees.
+
+:'''[[SetAnimationVariableBool - ObjectReference|SetAnimationVariableBool]](String ''asVariableName'', Bool ''abNewValue'')'''
+:*Sets the value of a variable on the reference's animation graph (bool version).
+
+:'''[[SetAnimationVariableFloat - ObjectReference|SetAnimationVariableFloat]](String ''asVariableName'', Float ''afNewValue'')'''
+:*Sets the value of a variable on the reference's animation graph (float version).
+
+:'''[[SetAnimationVariableInt - ObjectReference|SetAnimationVariableInt]](String ''asVariableName'', Int ''aiNewValue'')'''
+:*Sets the value of a variable on the reference's animation graph (int version).
+
+:'''[[SetDestroyed - ObjectReference|SetDestroyed]](Bool ''abDestroyed'')'''
+:*Sets or clears this object's destroyed flag.
+
+:'''[[SetFactionOwner - ObjectReference|SetFactionOwner]](Faction ''akFaction'')'''
+:*Sets this faction as this object's owner.
+
+:'''[[SetLockLevel - ObjectReference|SetLockLevel]](Int ''aiLockLevel'')'''
+:*Sets the lock level on this object.
+
+:'''[[SetMotionType - ObjectReference|SetMotionType]](Int ''aiMotionType'', Bool ''abAllowActivate'')'''
+:*Sets the havok motion type on this object.
+
+:'''[[SetNoFavorAllowed - ObjectReference|SetNoFavorAllowed]](Bool ''abNoFavor'')'''
+:*Sets or clears this object's ability to be not used by a teammate for a favor 
+
+:'''[[SetOpen - ObjectReference|SetOpen]](Bool ''abOpen'')'''
+:*Opens or closes this object.
+
+:'''[[SetPosition - ObjectReference|SetPosition]](Float ''afX'', Float ''afY'', Float ''afZ'')'''
+:*Sets this object's position.
+
+:'''[[SetScale - ObjectReference|SetScale]](Float ''afScale'')'''
+:*Set the current scale of the object
+
+:'''[[SplineTranslateTo - ObjectReference|SplineTranslateTo]](Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afAngleX'', Float ''afAngleY'', Float ''afAngleZ'', Float ''afSplineCurve'', Float ''afSpeed'')'''
+:*Makes the object translate to the given pos/orient on a spline.
+
+:'''[[SplineTranslateToRef - ObjectReference|SplineTranslateToRef]](ObjectReference ''arTarget'', Float ''afTangentMagnitude'', Float ''afSpeed'', Float ''afMaxRotationSpeed'')'''
+:*Makes the reference translate to the target ref position/orient on a spline at the given speed
+
+:'''[[SplineTranslateToRefNode - ObjectReference|SplineTranslateToRefNode]](ObjectReference ''arTarget'', String ''arNodeName'', Float ''afTangentMagnitude'', Float ''afSpeed'', Float ''afMaxRotationSpeed'')'''
+:*Makes the reference translate to the target node's position/orient on a spline at the given speed
+
+:'''[[StopTranslation - ObjectReference|StopTranslation]]()'''
+:*Stops any translation on the object.
+
+:'''[[TetherToHorse - ObjectReference|TetherToHorse]](ObjectReference ''akHorse'')'''
+:*Tether a prisoner cart to the given horse.
+
+:'''[[TranslateTo - ObjectReference|TranslateTo]](Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afAngleX'', Float ''afAngleY'', Float ''afAngleZ'', Float ''afSpeed'', Float ''afMaxRotationSpeed'')'''
+:*Makes the object translate to the given pos/orient.
+
+:'''[[TranslateToRef - ObjectReference|TranslateToRef]](ObjectReference ''arTarget'', Float ''afSpeed'', Float ''afMaxRotationSpeed'')'''
+:*Makes the reference translate to the target ref position/orient at the given speed
+
+:'''Bool [[WaitForAnimationEvent - ObjectReference|WaitForAnimationEvent]](String ''asEventName'')'''
+:*Waits for the animation graph to send the specified event.
+
+
+== SKSE Member Functions ==
+
+:'''Form[] [[GetContainerForms - ObjectReference|GetContainerForms]]()'''
+:* (Container only) Returns an array of the forms in a container. (Actor ObjectReferences are containers)
+
+:'''Int [[GetNumItems - ObjectReference|GetNumItems]]()'''
+:* (Container only) Returns the number of forms in the container. (Actor ObjectReferences are containers)
+
+:'''Form [[GetNthForm - ObjectReference|GetNthForm]](Int ''index'')'''
+:* (Container only) Returns the specified form from the container. (Actor ObjectReferences are containers)
+
+:'''Float [[GetTotalItemWeight - ObjectReference|GetTotalItemWeight]]()'''
+:* (Container only - perhaps Player only) Returns the total weight of all items held in the container.
+
+:'''Float [[GetTotalArmorWeight - ObjectReference|GetTotalArmorWeight]]()'''
+:* (Container only - perhaps Player only) Returns the total weight of the armor in the container.
+
+:'''Bool [[IsHarvested - ObjectReference|IsHarvested]]()'''
+:* (Flora and Tree only) Returns whether the flora has been harvested or not.
+
+:'''[[SetHarvested - ObjectReference|SetHarvested]](Bool ''harvested'')'''
+:*Sets whether the Reference has been harvested.
+
+:'''[[SetItemHealthPercent - ObjectReference|SetItemHealthPercent]](Float ''health'')'''
+:* Set the item's tempering. 1.0 is no tempering, 1.6 appears to be legendary. Values below 1.0 do nothing.
+
+:''' [[SetItemMaxCharge - ObjectReference|SetItemMaxCharge]](Float ''maxCharge'')'''
+:*Sets the maximum charge of the item.(Only works on player enchants)
+
+:'''Float [[GetItemMaxCharge - ObjectReference|GetItemMaxCharge]]()'''
+:* Gets the maximum charge of the item.
+
+:'''Float [[GetItemCharge - ObjectReference|GetItemCharge]]()'''
+:* Gets the current charge of the item.
+
+:'''[[SetItemCharge - ObjectReference|SetItemCharge]](Float ''charge'')'''
+:*Sets the item's charge to the specified amount.
+
+:'''[[ResetInventory - ObjectReference|ResetInventory]]()'''
+:*Resets the References inventory.
+
+:'''Bool [[IsOffLimits - ObjectReference|IsOffLimits]]()'''
+:*
+
+:'''String [[GetDisplayName - ObjectReference|GetDisplayName]]()'''
+:*Returns the name of the reference (This is the name that is displayed)
+
+:'''Bool [[SetDisplayName - ObjectReference|SetDisplayName]](String ''name'', Bool ''force'')'''
+:*Sets the reference's display name.
+
+:'''ObjectReference [[GetEnableParent - ObjectReference|GetEnableParent]]()'''
+:*Returns the enable parent of the object.
+
+:'''Enchantment [[GetEnchantment- ObjectReference|GetEnchantment]]()'''
+:*Returns the player-made enchantment of the object (if there is one)
+
+:'''[[SetEnchantment - ObjectReference|SetEnchantment]](Enchantment ''source'', Float ''maxCharge'')'''
+:*Changes an item's player-made enchantment to another.
+
+:'''[[CreateEnchantment - ObjectReference|CreateEnchantment]](Float ''maxCharge'', MagicEffect[] ''effects'', Float[] ''magnitudes'', Int[] ''areas'', Int[] ''durations'')'''
+:*Creates a new Enchantment on the item with the specified parameters.
+
+:'''Int [[GetNumReferenceAliases - ObjectReference|GetNumReferenceAliases]]()'''
+:*Returns the number of reference aliases holding this reference.
+
+:'''ReferenceAlias [[GetNthReferenceAlias - ObjectReference|GetNthReferenceAlias]](Int ''n'')'''
+:*Returns the nth Reference alias holding this reference.
+
+== Events ==
+
+:'''[[OnActivate - ObjectReference|OnActivate]](ObjectReference ''akActionRef'')'''
+:*Event received when this object is activated.
+
+:'''[[OnAttachedToCell - ObjectReference|OnAttachedToCell]]()'''
+:*Event received when this reference moves from a detached cell to an attached one.
+
+:'''[[OnCellAttach - ObjectReference|OnCellAttach]]()'''
+:*Event received when this reference's parent cell attaches.
+
+:'''[[OnCellDetach - ObjectReference|OnCellDetach]]()'''
+:*Event received when this reference's parent cell detaches.
+
+:'''[[OnCellLoad - ObjectReference|OnCellLoad]]()'''
+:*Event received when everything in the cell that holds this reference has loaded.
+
+:'''[[OnClose - ObjectReference|OnClose]](ObjectReference ''akActionRef'')'''
+:*Event received when this object is finished closing.
+
+:'''[[OnContainerChanged - ObjectReference|OnContainerChanged]](ObjectReference ''akNewContainer'', ObjectReference ''akOldContainer'')'''
+:*Event received when an object moves into/out of/between containers.
+
+:'''[[OnDestructionStageChanged - ObjectReference|OnDestructionStageChanged]](Int ''aiOldStage'', Int ''aiCurrentStage'')'''
+:*Event received when this object's destruction stage has worsened.
+
+:'''[[OnDetachedFromCell - ObjectReference|OnDetachedFromCell]]()'''
+:*Event received when this object moves from an attached cell to a detached cell.
+
+:'''[[OnEquipped - ObjectReference|OnEquipped]](Actor ''akActor'')'''
+:*Event received when this object is equipped by an actor.
+
+:'''[[OnGrab - ObjectReference|OnGrab]]()'''
+:*Event received when this object is grabbed (z-keyed) by the player.
+
+:'''[[OnHit - ObjectReference|OnHit]](ObjectReference ''akAggressor'', Form ''akSource'', Projectile ''akProjectile'', Bool ''abPowerAttack'', Bool ''abSneakAttack'', Bool ''abBashAttack'', Bool ''abHitBlocked'')'''
+:*Event received when this object is hit with a weapon or projectile.
+
+:'''[[OnItemAdded - ObjectReference|OnItemAdded]](Form ''akBaseItem'', Int ''aiItemCount'', ObjectReference ''akItemReference'', ObjectReference ''akSourceContainer'')'''
+:*Event received when an item is inserted into this object's container.
+
+:'''[[OnItemRemoved - ObjectReference|OnItemRemoved]](Form ''akBaseItem'', Int ''aiItemCount'', ObjectReference ''akItemReference'', ObjectReference ''akDestContainer'')'''
+:*Event received when an item is removed from this object's container.
+
+:'''[[OnLoad - ObjectReference|OnLoad]]()'''
+:*Event received when this object's 3d is loaded and ready.
+
+:'''[[OnLockStateChanged - ObjectReference|OnLockStateChanged]]()'''
+:*Event received when the lock on this object changes its state.
+
+:'''[[OnMagicEffectApply - ObjectReference|OnMagicEffectApply]](ObjectReference ''akCaster'', MagicEffect ''akEffect'')'''
+:*Event received when a magic effect is attempting to be applied to this reference.
+
+:'''[[OnOpen - ObjectReference|OnOpen]](ObjectReference ''akActionRef'')'''
+:*Event received when this object is fully opened.
+
+:'''[[OnRead - ObjectReference|OnRead]]()'''
+:*Event received when this object is read. (Only applies to books)
+
+:'''[[OnRelease - ObjectReference|OnRelease]]()'''
+:*Event received when this object is released by the player (stopped z-keying).
+
+:'''[[OnReset - ObjectReference|OnReset]]()'''
+:*Event received when this object is reset.
+
+:'''[[OnSell - ObjectReference|OnSell]](Actor ''akSeller'')'''
+:*Event received when this object is sold by someone.
+
+:'''[[OnSpellCast - ObjectReference|OnSpellCast]](Form ''akSpell'')'''
+:*Event received when this object casts a spell.
+
+:'''[[OnTrapHit - ObjectReference|OnTrapHit]](ObjectReference ''akTarget'', Float ''afXVel'', Float ''afYVel'', Float ''afZVel'', Float ''afXPos'', Float ''afYPos'', Float ''afZPos'', Int ''aeMaterial'', Bool ''abInitialHit'', Int ''aeMotionType'')'''
+:*Event received when this trap object hits a target.
+
+:'''[[OnTrapHitStart - ObjectReference|OnTrapHitStart]](ObjectReference ''akTarget'', Float ''afXVel'', Float ''afYVel'', Float ''afZVel'', Float ''afXPos'', Float ''afYPos'', Float ''afZPos'', Int ''aeMaterial'', Bool ''abInitialHit'', Int ''aeMotionType'')'''
+:*Event received when this trap object starts colliding with a target.
+
+:'''[[OnTrapHitStop - ObjectReference|OnTrapHitStop]](ObjectReference ''akTarget'')'''
+:*Event received when this trap object stops colliding with a target.
+
+:'''[[OnTranslationAlmostComplete - ObjectReference|OnTranslationAlmostComplete]]()'''
+:*Event received when a translation request is almost complete.
+
+:'''[[OnTranslationComplete - ObjectReference|OnTranslationComplete]]()'''
+:*Event received when a translation request is complete.
+
+:'''[[OnTranslationFailed - ObjectReference|OnTranslationFailed]]()'''
+:*Event received when a translation request has failed.
+
+:'''[[OnTrigger - ObjectReference|OnTrigger]](ObjectReference ''akActionRef'')'''
+:*Event received when this object is triggered.
+
+:'''[[OnTriggerEnter - ObjectReference|OnTriggerEnter]](ObjectReference ''akActionRef'')'''
+:*Event received when this object's volume is entered.
+
+:'''[[OnTriggerLeave - ObjectReference|OnTriggerLeave]](ObjectReference ''akActionRef'')'''
+:*Event received when this object's volume is left.
+
+:'''[[OnUnequipped - ObjectReference|OnUnequipped]](Actor ''akActor'')'''
+:*Event received when this object is unequipped by an actor.
+
+:'''[[OnUnload - ObjectReference|OnUnload]]()'''
+:*Event received when this object's 3d has been unloaded.
+
+:'''[[OnWardHit - ObjectReference|OnWardHit]](ObjectReference ''akCaster'', Spell ''akSpell'', Int ''aiStatus'')'''
+:*Event called when the object reference is using a ward that is hit by a spell.
+
+
+[[Category:Scripting]]
+[[Category:Papyrus]]
+[[Category:Script Objects]]
+[[Category:SKSE]]

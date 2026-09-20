@@ -1,0 +1,440 @@
+'''Extends:''' None
+
+Collection of game-specific global functions
+
+
+== Definition ==
+<syntaxhighlight lang="papyrus">
+ScriptName Game Hidden
+</syntaxhighlight>
+
+
+== Global Functions ==
+
+:'''[[AddAchievement - Game|AddAchievement]](Int ''aiAchievementID'')'''
+:*Adds the specified achievement/trophy to the player's gamer profile.
+
+:'''[[AddPerkPoints - Game|AddPerkPoints]](Int ''aiPerkPoints'')'''
+:*Adds the given number of perk points to the player. Clamped at 255.
+
+:'''[[AdvanceSkill - Game|AdvanceSkill]](String ''asSkillName'', Float ''afMagnitude'')'''
+:*Advance the given skill on the player by the provided amount of skill usage
+
+:'''Bool [[AddHavokBallAndSocketConstraint - Game|AddHavokBallAndSocketConstraint]](ObjectReference ''arRefA'', String ''arRefANode'', ObjectReference ''arRefB'', String ''arRefBNode'', Float ''afRefALocalOffsetX'', Float ''afRefALocalOffsetY'', Float ''afRefALocalOffsetZ'', Float ''afRefBLocalOffsetX'', Float ''afRefBLocalOffsetY'', Float ''afRefBLocalOffsetZ'')'''
+:*Adds a ball-and-socket constraint between two rigid bodies, identified by their ref and node names
+
+:'''Int [[CalculateFavorCost - Game|CalculateFavorCost]](Int ''aiFavorPrice'')'''
+:*Calculates how many points the player would have to pay for a favor of the specified price.
+
+:'''[[ClearPrison - Game|ClearPrison]]()'''
+:*Clears all Prison variables on the PlayerCharacter so the game will know he is out of prison.
+
+:'''[[ClearTempEffects - Game|ClearTempEffects]]()'''
+:*Clears all temp effects (such as terrain effects) in the game.
+
+:'''[[DisablePlayerControls - Game|DisablePlayerControls]](Bool ''abMovement'', Bool ''abFighting'', Bool ''abCamSwitch'', Bool ''abLooking'', Bool ''abSneaking'', Bool ''abMenu'', Bool ''abActivate'', Bool ''abJournalTabs'', Int ''aiDisablePOVType'')'''
+:*Disables the specified player controls.
+
+:'''[[EnableFastTravel - Game|EnableFastTravel]](Bool ''abEnable'')'''
+:*Enables or disables the player's ability to fast travel.
+
+:'''[[EnablePlayerControls - Game|EnablePlayerControls]](Bool ''abMovement'', Bool ''abFighting'', Bool ''abCamSwitch'', Bool ''abLooking'', Bool ''abSneaking'', Bool ''abMenu'', Bool ''abActivate'', Bool ''abJournalTabs'', Int ''aiDisablePOVType'')'''
+:*Enables the specified player controls.
+
+:'''[[FadeOutGame - Game|FadeOutGame]](Bool ''abFadingOut'', Bool ''abBlackFade'', Float ''afSecsBeforeFade'', Float ''afFadeDuration'')'''
+:*Fades the game in and out with the specified parameters.
+
+:'''[[FastTravel - Game|FastTravel]](ObjectReference ''akDestination'')'''
+:*Fast-travels the player to the specified object's location.
+
+:'''Actor [[FindClosestActor - Game|FindClosestActor]](Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afRadius'')'''
+:*Finds the closest actor within a given radius of a location
+
+:'''Actor [[FindClosestActorFromRef - Game|FindClosestActorFromRef]](ObjectReference ''arCenter'', Float ''afRadius'')'''
+:*Finds the closest actor within a given radius of a reference
+
+:'''ObjectReference [[FindClosestReferenceOfAnyTypeInList - Game|FindClosestReferenceOfAnyTypeInList]](FormList ''arBaseObjects'', Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afRadius'')'''
+:*Finds the closest reference of any of the base objects in the list within a given radius of a location
+
+:'''ObjectReference [[FindClosestReferenceOfAnyTypeInListFromRef - Game|FindClosestReferenceOfAnyTypeInListFromRef]](FormList ''arBaseObjects'', ObjectReference ''arCenter'', Float ''afRadius'')'''
+:*Finds the closest reference of any of the base objects in the list within a given radius of a reference
+
+:'''ObjectReference [[FindClosestReferenceOfType - Game|FindClosestReferenceOfType]](Form ''arBaseObject'', Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afRadius'')'''
+:*Finds the closest reference of a given base object within a given radius of a location
+
+:'''ObjectReference [[FindClosestReferenceOfTypeFromRef - Game|FindClosestReferenceOfTypeFromRef]](Form ''arBaseObject'', ObjectReference ''arCenter'', Float ''afRadius'')'''
+:*Finds the closest reference of a given base object within a given radius of a reference
+
+:'''Actor [[FindRandomActor - Game|FindRandomActor]](Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afRadius'')'''
+:*Finds a random actor within a given radius of a location
+
+:'''Actor [[FindRandomActorFromRef - Game|FindRandomActorFromRef]](ObjectReference ''arCenter'', Float ''afRadius'')'''
+:*Finds a random actor within a given radius of a reference
+
+:'''ObjectReference [[FindRandomReferenceOfAnyTypeInList - Game|FindRandomReferenceOfAnyTypeInList]](FormList ''arBaseObjects'', Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afRadius'')'''
+:*Finds a random reference of any of the base objects in the list within a given radius of a location
+
+:'''ObjectReference [[FindRandomReferenceOfAnyTypeInListFromRef - Game|FindRandomReferenceOfAnyTypeInListFromRef]](FormList ''arBaseObjects'', ObjectReference ''arCenter'', Float ''afRadius'')'''
+:*Finds a random reference of any of the base objects in the list within a given radius of a reference
+
+:'''ObjectReference [[FindRandomReferenceOfType - Game|FindRandomReferenceOfType]](Form ''arBaseObject'', Float ''afX'', Float ''afY'', Float ''afZ'', Float ''afRadius'')'''
+:*Finds a random reference of a given base object within a given radius of a location
+
+:'''ObjectReference [[FindRandomReferenceOfTypeFromRef - Game|FindRandomReferenceOfTypeFromRef]](Form ''arBaseObject'', ObjectReference ''arCenter'', Float ''afRadius'')'''
+:*Finds a random reference of a given base object within a given radius of a reference
+
+:'''[[ForceFirstPerson - Game|ForceFirstPerson]]()'''
+:*Forces the player camera into 1st-person.
+
+:'''[[ForceThirdPerson - Game|ForceThirdPerson]]()'''
+:*Forces the player camera into 3rd-person.
+
+:'''Form [[GetForm - Game|GetForm]](Int ''aiFormID'')'''
+:*Obtains a [[Form Script|Form]] from the game by its form ID number.
+
+:'''Form [[GetFormFromFile - Game|GetFormFromFile]](Int ''aiFormID'', String ''asFilename'')'''
+:*Obtains the form specified by its form ID number which originated in the specified file.
+
+:'''Float [[GetGameSettingFloat - Game|GetGameSettingFloat]](String ''asGameSetting'')'''
+:*Obtains the value of a float game setting.
+
+:'''Float [[GetGameSettingInt - Game|GetGameSettingInt]](String ''asGameSetting'')'''
+:*Obtains the value of an int game setting.
+
+:'''Float [[GetGameSettingString - Game|GetGameSettingString]](String ''asGameSetting'')'''
+:*Obtains the value of a string game setting.
+
+:'''Actor [[GetPlayer - Game|GetPlayer]]()'''
+:*Obtains the [[Actor Script|Actor]] that represents the player.
+
+:'''ObjectReference [[GetPlayerGrabbedRef - Game|GetPlayerGrabbedRef]]()'''
+:*Obtains the [[ObjectReference Script|ObjectReference]] the player is currently grabbing.
+
+:'''Actor [[GetPlayersLastRiddenHorse - Game|GetPlayersLastRiddenHorse]]()'''
+:*Gets this actors last ridden horse if it is the player. Returns None if player has not ridden a horse is not the player.
+
+:'''Float [[GetRealHoursPassed - Game|GetRealHoursPassed]]()'''
+:*Returns the number of real-life hours that have passed playing the game.
+
+:'''Float [[GetSunPositionX - Game|GetSunPositionX]]()'''
+:*Gets the X position of the sun.
+
+:'''Float [[GetSunPositionY - Game|GetSunPositionY]]()'''
+:*Gets the Y position of the sun.
+
+:'''Float [[GetSunPositionZ - Game|GetSunPositionZ]]()'''
+:*Gets the Z position of the sun.
+
+:'''[[HideTitleSequenceMenu - Game|HideTitleSequenceMenu]]()'''
+:*Hides the title sequence menu.
+
+:'''[[IncrementSkill - Game|IncrementSkill]](String ''asSkillName'')'''
+:*Advances the provided Skill by the one point (for the player only).
+
+:'''[[IncrementSkillBy - Game|IncrementSkillBy]](String ''asSkillName'', Int ''aiCount'')'''
+:*Advances the provided Skill by the given number of points (for the player only).
+
+:'''[[IncrementStat - Game|IncrementStat]](String ''asStatName'', Int ''aiModAmount'')'''
+:*Modifies the specified MiscStat by the given amount
+
+:'''Bool [[IsActivateControlsEnabled - Game|IsActivateControlsEnabled]]()'''
+:*Are the activation controls enabled?
+
+:'''Bool [[IsCamSwitchControlsEnabled - Game|IsCamSwitchControlsEnabled]]()'''
+:*Are the camera switch controls enabled?
+
+:'''Bool [[IsFastTravelEnabled - Game|IsFastTravelEnabled]]()'''
+:*Is fast travel enabled?
+
+:'''Bool [[IsFastTravelControlsEnabled - Game|IsFastTravelControlsEnabled]]()'''
+:*Are fast travel controls enabled?
+
+:'''Bool [[IsFightingControlsEnabled - Game|IsFightingControlsEnabled]]()'''
+:*Are the fighting controls enabled?
+
+:'''Bool [[IsJournalControlsEnabled - Game|IsJournalControlsEnabled]]()'''
+:*Are the journal menu controls enabled?
+
+:'''Bool [[IsLookingControlsEnabled - Game|IsLookingControlsEnabled]]()'''
+:*Are the looking controls enabled?
+
+:'''Bool [[IsMenuControlsEnabled - Game|IsMenuControlsEnabled]]()'''
+:*Are the menu controls enabled?
+
+:'''Bool [[IsMovementControlsEnabled - Game|IsMovementControlsEnabled]]()'''
+:*Are the movement controls enabled?
+
+:'''Bool [[IsPlayerSungazing - Game|IsPlayerSungazing]]()'''
+:*Checks to the see if the player is looking directly at the sun.
+
+:'''Bool [[IsSneakingControlsEnabled - Game|IsSneakingControlsEnabled]]()'''
+:*Are the sneaking controls enabled?
+
+:'''Bool [[IsWordUnlocked - Game|IsWordUnlocked]](WordOfPower ''akWord'')'''
+:*Is the word of power unlocked on the player?
+
+:'''[[PlayBink - Game|PlayBink]](String ''asFileName'', Bool ''abInterruptible'', Bool ''abMuteAudio'', Bool ''abMuteMusic'', Bool ''abLetterbox'')'''
+:*Plays a bink video
+
+:'''[[PrecacheCharGen - Game|PrecacheCharGen]]()'''
+:*Precaches all the data used by character gen to avoid hitches with file I/O.
+
+:'''[[PrecacheCharGenClear - Game|PrecacheCharGenClear]]()'''
+:*Clears all the previously cached data used by character gen.
+
+:'''Int [[QueryStat - Game|QueryStat]](String ''asStat'')'''
+:*Queries the given stat and returns its value.
+
+:'''[[QuitToMainMenu - Game|QuitToMainMenu]]()'''
+:*Forces the game back to the main menu.
+
+:'''Bool [[RemoveHavokConstraints - Game|RemoveHavokConstraints]](ObjectReference ''arFirstRef'', String ''arFirstRefNodeName'', ObjectReference ''arSecondRef'', String ''arSecondRefNodeName'')'''
+:*Removes any constraint between two rigid bodies
+
+:'''[[RequestAutoSave - Game|RequestAutoSave]]()'''
+:*Requests for an auto-save to be made.
+
+:'''[[RequestModel - Game|RequestModel]](String ''asModelName'')'''
+:*Requests the specified model.
+
+:'''[[RequestSave - Game|RequestSave]]()'''
+:*Requests for a normal save to be made.
+
+:'''[[SendWereWolfTransformation - Game|SendWereWolfTransformation]]()'''
+:*Finds an actor in high who can detect the player to call werewolf crime on the player
+
+:'''[[ServeTime - Game|ServeTime]]()'''
+:*Has the player serve their jail time.
+
+:'''[[SetAllowFlyingMountLandingRequests - Game|SetAllowFlyingMountLandingRequests]](Bool ''abAllow'')'''
+:*Allow or disallow the player requests to have a flying mount land.
+
+:'''[[SetBeastForm - Game|SetBeastForm]](Bool ''abEntering'')'''
+:*Flags the player as being in/out of "beast form".
+
+:'''[[SetCameraTarget - Game|SetCameraTarget]](Actor ''arTarget'')'''
+:*Sets the camera target actor
+
+:'''[[SetHudCartMode - Game|SetHudCartMode]](Bool ''abSetCartMode'')'''
+:*Flags the HUD as being in "cart mode" or not.
+
+:'''[[SetInChargen - Game|SetInChargen]](Bool ''abDisableSaving'', Bool ''abDisableWaiting'', Bool ''abShowControlsDisabledMessage'')'''
+:*Enable/disable various functionality which we want in chargen.
+
+:'''[[SetPlayerAIDriven - Game|SetPlayerAIDriven]](Bool ''abAIDriven'')'''
+:*Enables or disables the AI driven flag on the player.
+
+:'''[[SetPlayerReportCrime - Game|SetPlayerReportCrime]](Bool ''abReportCrime'')'''
+:*Set the state of the player as an actor who commits crimes
+
+:'''[[SetSittingRotation - Game|SetSittingRotation]](Float ''afValue'')'''
+:*Set the player's sitting camera offset rotation.
+
+:'''[[SetSunGazeImageSpaceModifier - Game|SetSunGazeImageSpaceModifier]](ImageSpaceModifier ''apImod'')'''
+:*Will cause the specified ImageSpace Modifier to be triggered when the player begins looking at the sun
+
+:'''[[ShakeCamera - Game|ShakeCamera]](ObjectReference ''akSource'', Float ''afStrength'')'''
+:*Shakes the camera from the specified location with the specified strength.
+
+:'''[[ShakeController - Game|ShakeController]](Float ''afLeftStrength'', Float ''afRightStrength'', Float ''afDuration'')'''
+:*Shakes the controller for the specified amount of time.
+
+:'''[[ShowFirstPersonGeometry - Game|ShowFirstPersonGeometry]](Bool ''abShow'')'''
+:*Shows or hides the first-person geometry
+
+:'''[[ShowLimitedRaceMenu - Game|ShowLimitedRaceMenu]]()'''
+:*Shows the race/sex change menu, but without the ability to change race or sex.
+
+:'''[[ShowRaceMenu - Game|ShowRaceMenu]]()'''
+:*Shows the race/sex change menu.
+
+:'''[[ShowTitleSequenceMenu - Game|ShowTitleSequenceMenu]]()'''
+:*Shows the title sequence menu.
+
+:'''[[ShowTrainingMenu - Game|ShowTrainingMenu]](Actor ''aActor'')'''
+:*Shows the training menu provided by actor parameter.
+
+:'''[[StartTitleSequence - Game|StartTitleSequence]](String ''asSequenceName'')'''
+:*Plays the specified sequence in the title menu.
+
+:'''[[TeachWord - Game|TeachWord]](WordOfPower ''akWord'')'''
+:*Teaches the specified [[WordOfPower Script|WordOfPower]] to the player
+
+:'''[[TriggerScreenBlood - Game|TriggerScreenBlood]](Int ''aiValue'')'''
+:*Trigger on-screen blood splatter.
+
+:'''[[UnlockWord - Game|UnlockWord]](WordOfPower ''akWord'')'''
+:*Unlocks the specified [[WordOfPower Script|WordOfPower]] so the player can use it
+
+:'''Bool [[UsingGamepad - Game|UsingGamepad]]()'''
+:*Returns whether the player is using a gamepad or not.
+
+
+== SKSE Global Functions ==
+
+:'''Int [[GetPerkPoints - Game|GetPerkPoints]]()'''
+:*Returns the number of perk points available to the player.
+
+:'''[[SetPerkPoints - Game|SetPerkPoints]](Int ''perkPoints'')'''
+:*Sets the number of perk points available to the player.
+
+:'''[[ModPerkPoints - Game|ModPerkPoints]](Int ''perkPoints'')'''
+:*Changes the number of perk points available to the player by the specified amount.
+
+:'''Int [[GetModCount - Game|GetModCount]]()'''
+:*Returns the number of mods currently active.
+
+:'''Int [[GetModByName - Game|GetModByName]](String ''name'')'''
+:*Returns the index of the specified mod.
+
+:'''String [[GetModName - Game|GetModName]](Int ''modIndex'')'''
+:*Returns the mods name at the specified index.
+
+:'''String [[GetModAuthor - Game|GetModAuthor]](Int ''modIndex'')'''
+:*Returns the specified mod's author.
+
+:'''String [[GetModDescription - Game|GetModDescription]](Int ''modIndex'')'''
+:*Returns the specified mod's description.
+
+:'''Int [[GetModDependencyCount - Game|GetModDependencyCount]](Int ''modIndex'')'''
+:*Returns the dependency count of the specified mod.
+
+:'''Int [[GetNthModDependency - Game|GetNthModDependency]](Int ''modIndex'', Int ''n'')'''
+:*Returns the mod index of the specified Dependency.
+
+:'''Bool [[IsPluginInstalled - Game|IsPluginInstalled]](String ''name'')'''
+:*Returns if the named mod is found in the load order.
+
+:'''Int [[GetLightModCount - Game|GetLightModCount]]()'''
+:*Returns the number of light mods currently active.
+
+:'''Int [[GetLightModByName - Game|GetLightModByName]](String ''name'')'''
+:*Returns the index of the specified light mod.
+
+:'''String [[GetLightModName - Game|GetLightModName]](Int ''modIndex'')'''
+:*Returns the light mod's name at the specified index.
+
+:'''String [[GetLightModAuthor - Game|GetLightModAuthor]](Int ''modIndex'')'''
+:*Returns the specified light mod's author.
+
+:'''String [[GetLightModDescription - Game|GetLightModDescription]](Int ''modIndex'')'''
+:*Returns the specified light mod's description.
+
+:'''Int [[GetLightModDependencyCount - Game|GetLightModDependencyCount]](Int ''modIndex'')'''
+:*Returns the dependency count of the specified light mod.
+
+:'''Int [[GetNthLightModDependency - Game|GetNthLightModDependency]](Int ''modIndex'', Int ''n'')'''
+:*Returns the mod index of the specified Dependency.
+
+:'''[[SetGameSettingFloat - Game|SetGameSettingFloat]](String ''setting'', Float ''value'')'''
+:*Changes the value of float Game Settings.
+
+:'''[[SetGameSettingInt - Game|SetGameSettingInt]](String ''setting'', Int ''value'')'''
+:*Changes the value of integer Game Settings.
+
+:'''[[SetGameSettingBool - Game|SetGameSettingBool]](String ''setting'', Bool ''value'')'''
+:*Changes the value of boolean Game Settings.
+
+:'''[[SetGameSettingString - Game|SetGameSettingString]](String ''setting'', String ''value'')'''
+:*Changes the value of string Game Settings.
+
+:'''[[SaveGame - Game|SaveGame]](String ''name'')'''
+:*Saves the game with the specified name.
+
+:'''[[LoadGame - Game|LoadGame]](String ''name'')'''
+:*Loads the save with the specified name.
+
+:'''Int [[GetNumTintMasks - Game|GetNumTintMasks]]()'''
+:*Returns the total number of tints for the player.
+
+:'''Int [[GetNthTintMaskColor - Game|GetNthTintMaskColor]](Int ''n'')'''
+:*Returns the color of the Nth tint mask.
+
+:'''Int [[GetNthTintMaskType - Game|GetNthTintMaskType]](Int ''n'')'''
+:*Returns the type of the Nth tint mask.
+
+:'''Int [[SetNthTintMaskColor - Game|SetNthTintMaskColor]](Int ''n'', Int ''color'')'''
+:*Sets the color of the Nth tint mask.
+
+:'''String [[GetNthTintMaskTexturePath - Game|GetNthTintMaskTexturePath]](Int ''n'')'''
+:*Returns the texture path of the Nth tint mask.
+
+:'''[[SetNthTintMaskTexturePath - Game|SetNthTintMaskTexturePath]](String ''path'', Int ''n'')'''
+:*Sets the texturepath of the Nth tint mask.
+
+:'''Int [[GetNumTintsByType - Game|GetNumTintsByType]](Int ''type'')'''
+:*Returns how many indexes there are for this type.
+
+:'''Int [[GetTintMaskColor - Game|GetTintMaskColor]](Int ''type'', Int ''index'')'''
+:*Returns the color for the particular tintMask type and index.
+
+:'''[[SetTintMaskColor - Game|SetTintMaskColor]](Int ''color'', Int ''type'', Int ''index'')'''
+:*Sets the tintMask color for the particular type and index.
+
+:'''String [[GetTintMaskTexturePath - Game|GetTintMaskTexturePath]](Int ''type'', Int ''index'')'''
+:*Returns the tintMask texture for the particular type and index.
+
+:'''[[SetTintMaskTexturePath - Game|SetTintMaskTexturePath]](String ''path'', Int ''type'', Int ''index'')'''
+:*Sets the tintMask texture for the particular type and index.
+
+:'''[[UpdateTintMaskColors - Game|UpdateTintMaskColors]]()'''
+:*Updates Tint Mask colors without updating the entire model.
+
+:'''[[UpdateHairColor - Game|UpdateHairColor]]()'''
+:*Instantly updates the player's hair color.
+
+:'''Int [[GetCameraState - Game|GetCameraState]]()'''
+:*Returns the character's current camera state.
+
+:'''[[SetMiscStat - Game|SetMiscStat]](String ''name'', Int ''value'')'''
+:*Sets the Misc Stat to the specified value.
+
+:'''[[SetPlayersLastRiddenHorse - Game|SetPlayersLastRiddenHorse]](Actor ''horse'')'''
+:*Sets the players last ridden horse, None will clear the last ridden horse.
+
+:'''Int [[GetSkillLegendaryLevel - Game|GetSkillLegendaryLevel]](String ''actorValue'')'''
+:*Returns the legendary level for the skill. -1 indicates that the skill cannot have a legendary level. ''This is marked as deprecated in SKSE's Game.psc.''
+
+:'''[[SetSkillLegendaryLevel - Game|SetSkillLegendaryLevel]](String ''actorValue'', Int ''level'')'''
+:*Sets the legendary level for the skill. ''This is marked as deprecated in SKSE's Game.psc.''
+
+:'''Float [[GetPlayerExperience - Game|GetPlayerExperience]]()'''
+:*Returns the players experience for this level (not total experience).
+
+:'''[[SetPlayerExperience - Game|SetPlayerExperience]](Float ''exp'')'''
+:*Sets the player's experience to the specified amount (This will not trigger a level up notification)
+
+:'''Float [[GetExperienceForLevel - Game|GetExperienceForLevel]](Int ''currentLevel'')'''
+:*Calculates the experience required for the player to level-up at the specified level
+
+:'''Bool [[GetPlayerMovementMode - Game|GetPlayerMovementMode]]()'''
+:*Returns true if in run mode, false if in walk mode. (This is only an indication of the control mode not if the player is actually running or walking.)
+
+:'''[[UpdateThirdPerson - Game|UpdateThirdPerson]]()'''
+:*Updates the camera when changing shoulder positions.
+
+:'''[[UnbindObjectHotkey - Game|UnbindObjectHotkey]](Int ''hotkey'')'''
+:*Unbinds a favorited item bound to the specified hotkey. (0-7 reflects keys 1-8)
+
+:'''Form [[GetHotkeyBoundObject - Game|GetHotkeyBoundObject]](Int ''hotkey'')'''
+:*Returns the base form object that is bound to the specified hotkey.
+
+:'''Bool [[IsObjectFavorited - Game|IsObjectFavorited]](Form ''form'')'''
+:*Returns whether the specified base form is favorited by the player.
+
+:'''Form [[GetFormEx - Game|GetFormEx]](Int ''formId'')'''
+:*Performs the same function as [[GetForm - Game|GetForm]] but also works for form IDs greater than 0x80000000.
+
+:'''[[SetPlayerLevel]](Int ''Level'')'''
+:*Sets the player's level.
+
+:'''ObjectReference [[GetCurrentCrosshairRef]]()'''
+:*Returns the current crosshair ref.
+
+:'''ObjectReference [[GetCurrentConsoleRef]]()'''
+:*Returns the currently selected ref in the console.
+[[Category:Scripting]]
+[[Category:Papyrus]]
+[[Category:Script Objects]]
+[[Category:SKSE]]
+[[Category:SKSE Script Objects]]

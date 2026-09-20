@@ -1,0 +1,104 @@
+This article is an introduction to mod files: their uses, differences, and importance both to using and making mods. Understanding how plugin files work is fundamentally important to understanding how to mod the game.
+
+The new Light Master (*.esl) files which are introduced in the Skyrim Special Edition version 1.5.3 are being documented on the [//www.creationkit.com/fallout4/index.php?title=Data_File Fallout 4 Data File page].
+
+== Master Files (*.esm) and Plugins (*.esp) ==
+Master Files (files with .esm - ie, Skyrim.esm) and Plugin files ("TES files" or "mods" for short - files with .esp - eg, SkyrimMod.esp) are the core data files of Skyrim. A master file acts as a database of all of the data for the world, including object data, [[:Category:Dialogue|dialogue]], [[:Category:Settings|gameplay settings]], object placements, AI settings, landscape, [[:Category:Cells|cells]], etc. The Creation Kit is the tool we use to view and edit master files and plugins.
+
+Master files and plugins are largely identical in format, but have some important distinctions in practice.
+* A master file is autonomous; it relies on no information other than itself. The Creation Kit will not create master files.
+* A plug-in (ESP) file relies on information from a Master ESM file. Plug-ins CANNOT refer to information in another plug-in. They can only refer to data from a master file (though they can refer to ''multiple'' master files).
+
+Note that not all game data is contained in the master and plugin files. Textures, meshes, sounds, videos, etc. are all part of the full game, and are stored separately in Archives (.bsa files) or as loose files.
+{{NewFeature|Skyrim uses the new [[Papyrus]] script engine. A side effect of this is that scripts are now saved externally as separate source and compiled files, and are no longer included directly in the plugin file.}}
+
+== Dependencies ==
+Master files, plugins and savegames are usually dependent on other master files or plugins (the exception being the original master file that shipped with the game - that master file has no dependencies, and runs on its own). Typically, a Skyrim mod will be dependent on the original Skyrim master file, in addition to the Update master file. The masters of a given mod or savegame is simply the list of "parent" plugin files that the mod or savegame depends on. The master files of a mod can be seen in the Creation Kit details view.
+
+{{WarningBox|As scripts are stored externally, the engine no longer effectively removes scripts from a save if a plugin file is removed. '''Clean Saves no longer exist''', and therefore a mod cannot be completely removed from a save. The only way to ensure a removed plugin does not cause any issues in the future is to revert to a save from before the plugin was added - [[Save File Notes (Papyrus)]].}}
+
+Masters lists are important because they help identify where objects in a mod or a savegame come from. I.e. when a savegame remembers an object, it essentially remembers it as something like "the 2,034th object defined in my fourth master". If the master list were somehow to be erased, then the savegame would lose the ability to match the object in the player's inventory with original object defined in the mod. 
+
+In regular gameplay, it's not really necessary to know about masters, but modders need to understand them, since gameplay debugging often requires working with FormIDs. 
+
+== FormIDs ==
+FormIDs are hexadecimal (numbers with the base of 16, instead of 10 like in standard decimal numbers), and are the way the game internally encodes information like "the 2,034th object defined by my fourth master". The first two digits of the FormID is the mod index, which tells the game which plugin file that the object in question comes from. 
+
+The mod index is defined by your load order, where Skyrim.esm is always 00 and Update.esm is always 01, however every other mod index can vary, depending on its location in your load order. For example, if two people have MyAwesomeMod.esp, it could have the index of 03 in one install and 0D in another, depending on its location in your load order. An index of FF is a special index reserved for objects created from within the game, that are specific to that save. References created using [[PlaceAtMe]], arrows fired from a bow, ash piles etc. will all have a mod index of FF, and are unique to that save game.
+
+It's also important to note that in terms of FormIDs, [[Base Object]]s and any [[Object Reference]]s will have unique FormIDs. That means that while a base object may have one FormID, every instance of it in the world will also have a separate, unique FormID. If you create a new base object for your mod, that and any references will have the mod index of your plugin. However if you create a new reference of a vanilla base object (for example, you add a new XMarker to a location), then the base object will retain its mod index of 00 (in addition to any existing reference). Only your newly placed reference will have the mod index of your plugin. You can also mark objects and references from other plugins as '''modified''', without creating a new FormID. More information on that is in the next section.
+
+As FF is the last mod index (255 in decimal) reserved for save generated references, and 00 and 01 are always reserved for Skyrim.esm and Update.esm, that gives a total of 252 plugin files that can be loaded by the game in addition to the core files.
+
+== Records and Overrides ==
+As mentioned before, a mod file (master file or plugin) is basically a database of all the objects in the gameworld. To be more specific, the mod file is a collection of '''records'''. The records in a given mod are mixture of new records, and modifications of existing records (i.e. of records defined by the mod's masters). E.g. "Cool Swords.esp" might introduce three new swords, as well as modify two existing swords defined by Skyrim.esm. Each of these swords is represented by a single weapon record (so 3+2 = 5 records in total). 
+
+The important thing about records is that each record is a single indivisible object as far as Creation Kit and the game engine are concerned. Think of the game world as a table with stacks of playing cards. You can add a ''new'' card, or you can ''override an existing card'' by putting a new card on top of it. So, in the example above, the three new swords form three new stacks, and the two modified swords go on top of existing stacks overriding the original cards/swords/records.
+
+Now, suppose that there's a second mod "Heavy Swords" which adds two new swords and redefines four swords from Skyrim to be more "heavy". Suppose that of these four overridden swords, one conflicts with an override done by "Cool Swords" -- i.e. they both try to change the same sword.
+
+Again, this is just like the card game. The two new swords form two new stacks, and the four redefined swords go on top of existing cards, overriding them. But in this case, one of those cards goes on top of the card added by Cool Swords-- thus overriding ''its'' changes as well as as original Skyrim.esm sword/card. Note in particular, that the changes are ''not'' merged. Each newly added card/record completely replaces the card/record under it.
+
+== Load Order ==
+The card game above is why load order is important. Load order determines the order in which mods lay their cards down on the table. Skyrim goes first, followed by the Update master file, then the next mod in load order, up to the last mod. Whenever two mods conflict (i.e. modify the same FormID), then the later loading mod will win.
+
+As far as the order is concerned, master files (.esm) always load before plugins (.esp) Then within each groups, files are ordered as defined in the plugins text file. You can re-order mod files manually through the launcher or a mod manager, or through a utility such as [http://code.google.com/p/better-oblivion-sorting-software/ BOSS].
+
+So the following load rules exist:
+* Plugins always trump master files
+* Newer plugins trump older plugins
+* Newer master files trump older master files
+
+== Summary ==
+Remember that the game engine is effectively playing a game of stacked cards. And when you create a mod, you're simply creating a hand of cards that will be played in that game. From that ending table, with its various stacks of cards, arises the gameworld that the player enters and lives in.
+
+==Active Files==
+When working in the Creation Kit, you can load multiple plugins, but you need to set one to be 'Active'. When you save, your changes will be written to the active plugin. Note that the mod index of the FormID listed in the Creation Kit is not the same as in game.
+
+Some notes on Active files:
+* You can only make a plug-in (esp) file active. You cannot save changes to a master file.  
+* The active file is always loaded last in the editor, regardless of its file date. This guarantees that all the info and changes in the active file can be viewed without being overwritten by another plug-in.  
+* If you do not set an Active plugin, you will be prompted to create a new one when you save. This then becomes the active file.
+
+== Removing Master File Dependencies From Plugins ==
+
+Before removing an unwanted master from a plugin, make sure all dependencies have actually been removed. To remove an unused master file from a plugin, follow these steps:
+
+# Launch the Creation Kit
+# Navigate to File->Data
+# Select any required plugins as normal
+# Select the plugin from the list and notice the list of parent masters on right
+# Select the master file to remove on the right and press Ctrl+Delete
+# If you receive an error regarding the ID, select "Yes"
+# Click "OK"
+# After the plugin is finished loading, save the changes
+
+== Changing the Order of Master Files in the Master File List for a Plugin ==
+
+If the master files a plug-in requires are in a different order than what its master list calls for, then problems can result.  The game can often compensate and still run the mods, but not always.  Some possible problems:
+*In Wrye Bash, mods with this problem will display a orange box rather than a green one.  
+*In-game, content may be overridden that was not intended to be, and the wrong mod may win a mod conflict.  
+*For mod-builders, Wrye Bash will act in a rather erratic fashion and emit error message after error message to the point of slowing down and hindering work and even freezing up the program.  
+*In some cases, Skyrim can fail to start, just like if there was a missing master.
+
+To reorder the master list on a mod that is being built, a procedure like this one may be followed:
+
+# Make a backup of the mod that is about to be edited.
+# Launch the Creation Kit and Wrye Bash.
+# Navigate to File->Data.
+# Select any required plugins as normal.
+# Select the plugin from the list and read the list of parent masters on right.
+# Look at the master file or files that are in the wrong order and that you wish to temporarily remove for the purposes of rearranging.  Write them down or image capture them so that you will remember what was there and know how to rebuild the list.  Press Ctrl+Delete on one of the masters.
+# If an error regarding the ID is received, select "Yes."
+# Click "OK."
+# Repeat until all the incorrectly ordered masters have been removed.
+# Do not load up the mod or save or anything like that at this point.  Close the "Data" window to purge the soon-to-be-outdated data it displays. 
+# Go to Wrye Bash.
+# Select the mod that is being edited and right click on it.
+# Select "Add Master."
+# Choose a master and add it.  If there are more masters to add, select "Add Master" again and repeat.
+# When the master list is complete with all masters present and in the desired order, exit Wrye Bash and reopen it to refresh the data.  Verify that the orange boxes are gone and that the master list is right.  Make sure the load order has not been changed by Wrye Bash.
+# Open File->Data in the CK.  Examine the master list of the file to be sure it is right.
+# Esmify .esp masters in Wrye Bash if required and load up the plugin in the CK to inspect for damage or warpage.   
+
+[[Category:Editor Reference]]

@@ -1,0 +1,13 @@
+The Creation Kit is the editor used to create content for [https://elderscrolls.bethesda.net/en/skyrim The Elder Scrolls V: Skyrim]. It's free to anyone with a PC copy of Skyrim and a Steam account.
+
+The current version of the Creation Kit is 1.9.32.0.
+
+==Installing==
+The Creation Kit can be found in your Steam Library, in the '''Tools''' section, or by clicking [steam://run/202480 this link].
+
+==See Also==
+*[[Introducing the Skyrim Workshop]]
+
+[[Category:Tools]]
+[[Category:Data File Editors]]
+{{Languages}}

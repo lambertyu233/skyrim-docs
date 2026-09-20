@@ -1,0 +1,57 @@
+{
+  "name": "Community Shaders 资料库",
+  "description": "基于 modding.wiki 官方文档整理的 Community Shaders 可维护资料库，分层组织、便于增删改查与版本化协作。",
+  "version": "1.0.0",
+  "generated_at": "2026-09-20",
+  "maintainers": ["社区协作"],
+  "sources": [
+    {
+      "name": "Modding.wiki - Community Shaders",
+      "url": "https://modding.wiki/en/skyrim/developers/community-shaders"
+    },
+    {
+      "name": "GitHub - skyrim-community-shaders",
+      "url": "https://github.com/community-shaders/skyrim-community-shaders"
+    },
+    {
+      "name": "Nexus Mods - Community Shaders",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/86492"
+    }
+  ],
+  "license_note": "原始文档版权归 Community Shaders 社区所有；本资料库为结构化整理，遵循上游 GPL-3.0 精神，仅供学习与协作维护。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind", "status"],
+      "fields": {
+        "id": "唯一标识（小写连字符），用于索引与链接",
+        "title": "中文标题",
+        "category": "分类目录名（如 02-features），索引以此过滤",
+        "kind": "仅功能条目使用：core / additional",
+        "status": "released / TBA",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "官方来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    { "key": "00-overview", "label": "概览", "desc": "定位、架构、缓存系统" },
+    { "key": "01-installation", "label": "安装", "desc": "需求、安装、Vanilla 设置、ENB 迁移" },
+    { "key": "02-features", "label": "功能", "desc": "核心特性与附加特性（每特性一文件）" },
+    { "key": "03-reference", "label": "参考", "desc": "不兼容 MOD、FAQ" },
+    { "key": "04-development", "label": "开发", "desc": "PBR 美术师指南、贡献" },
+    { "key": "05-tools", "label": "工具", "desc": "Light Placer、PGPatcher" }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/gen_features.py": "由 FEATURES 列表生成功能条目",
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html"
+  }
+}

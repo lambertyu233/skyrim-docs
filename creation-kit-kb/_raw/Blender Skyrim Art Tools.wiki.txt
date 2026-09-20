@@ -1,0 +1,55 @@
+'''Blender Skyrim Art Tools''' are [https://en.wikipedia.org/wiki/Python_(programming_language) Python] script [[Blender]] Add-ons included with the [[Creation Kit]] 1.6.1378.1. These are used for exporting <code>FBX</code> from Blender 3.6 with the correct information for [[Asset Watcher]] to convert the [[Model File]] into <code>NIF</code> format.
+
+== Location ==
+<code>Steam\steamapps\common\Skyrim Special Edition\Tools\ArtTools\Blender</code>
+
+{{ProTip|Easily find the Skyrim Special Edition game directory by opening your Steam library > '''Right Click''' > '''Elder Scrolls V: Skyrim Special Edition''' > '''Manage''' > '''Browse Local Files'''.}}
+
+== Installation ==
+Official Installation instructions are included in the download of the Creation Kit version 1.6.1378.1 or higher. Look for '''Exporting Blender Art Assets for Skyrim.PDF''' in the ''Tools'' folder. The instructions, if not read completely first, may seem a bit out of order where adding the data folder for loading textures for your materials is concerned.
+
+# Open [[Blender]]
+# Navigate to '''Edit''' > '''Preferences''' > '''Add-ons'''
+# Select '''Install...'''
+# Navigate to <code>Steam\steamapps\common\Skyrim Special Edition\Tools\ArtTools\Blender</code>
+# Select '''bgs_skyrim_tools.zip''' then click '''Install Add-on'''
+# Navigate back to '''Preferences''' > '''Add-ons''' and select '''Install...''' again
+# Select '''io_scene_bsfbx_skyrim.zip''' then click '''Install Add-on'''
+# Search BGS in the Add-on list and check both Add-ons' check boxes to enable them
+# Select '''BGS Skyrim: BGS Art Tools [Skyrim]''' > click '''Expand'''
+# Under ''Preferences'', set the '''Skyrim Data Path''' to where you have '''unpacked Skyrim - Textures.bsa'''.
+# Set up the Render Engine to '''Cycles'''
+# Set up Asset Watcher and your Project Watch folders for your models
+
+{{ProTip|As long as the unpacked texture files are located in a Data folder, they may be unpacked anywhere on your computer to ensure your game data folder does not have extra files that could accidentally be packaged with your mod.}}
+
+== Collision ==
+
+{{WarningBox|Ensure you are rendering in '''Cycles'''. Otherwise files and collision will not export properly. Instructions for set up are included in the ''Tools'' folder.}}
+
+=== Collision Types and Computational Costs ===
+
+Computational cost varies with Spheres being more performant and using less memory than others.
+
+* '''Sphere:''' Requires fewest in-game calculations and therefore considered the "cheapest". Calculated by radius.
+* '''Capsule:''' Requires second fewest in-game calculations. Calculated by radius and half-height.
+* '''Box:''' Requires third fewest in-game calculations. Calculated by length, width, and height.
+* '''Convex Hull:''' Negatively impacts game performance. Use multiple primitive meshes as child colliders instead.
+* '''Concave Mesh:''' "Outrageously expensive". Negatively impacts game performance. Avoid using concave mesh. Use multiple primitive meshes as child colliders instead.
+
+{{ProTip|For a Quick Preview to see what your collision looks like without having to open the Creation Kit, drag and drop the mesh onto ''CreationKit.exe'' then press '''F4''' when the Preview Window pops up.}}
+
+
+== Notes ==
+* Creation Kit 1.6.1378.1 requires Skyrim Special Edition version 1.6.1170.0.8 and above.
+* Official Export Documentation is included with Creation Kit version 1.6.1378.1. See '''Exporting Blender Art Assets for Skyrim.PDF''' in the Tools folder of the Skyrim Special Edition install directory.
+* Blender 4.0 support is in beta.
+
+
+== See Also ==
+* [[Blender]]
+* [[Asset Watcher]]
+
+
+
+[[Category:Editor Reference]]

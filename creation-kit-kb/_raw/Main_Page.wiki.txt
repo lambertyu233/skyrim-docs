@@ -1,0 +1,24 @@
+__NOTOC__ __NOEDITSECTION__
+[[Image:CreationKitSplash.png|right]]
+
+Welcome to the '''[[Creation Kit]]''' Wiki. This Wiki is a community-run site that is a living help file where you'll find everything you need to use the Creation Kit and make mods for The Elder Scrolls V: Skyrim. This Wiki is publicly editable... all you need to do is create an [[Special:Userlogin|account]] to start contributing. There are currently [[Special:Statistics|{{NUMBEROFARTICLES}}]] [[Special:Allpages|articles]] and we continue to grow. Check out the [[Help: Welcome to the Wiki|Welcome to the Wiki]] guide for a quick introduction to what this wiki is about and to learn how you can help.
+
+==Not sure where to begin?==
+Most content in this wiki will fall into one of five main categories below. Choose the hub that looks most appropriate to your needs, and be sure to check out the [https://discord.gg/Bethesda Bethesda] and [https://discord.gg/BethesdaStudios Bethesda Studios] chat servers on Discord, the [http://forums.bethsoft.com/index.php?/forum/13-the-elder-scrolls/ official forums], and the [http://www.youtube.com/user/BethesdaSoftworks Bethesda YouTube channel] for more help. For information on the integration of Creation Kit with Steam Workshop, [[Introducing_the_Skyrim_Workshop|click here]].
+
+; [[:Category:Tutorials|Tutorials]] : New? Start here! The tutorials area will give you a solid footing if you're getting started with the Creation Kit, whether you're an experienced modder or just starting out.
+; [[:Category:Game Systems|Game Systems]] : Curious about working with specific game systems, or just want a look  under the hood?  Explore these articles to get an understanding of topics such as quests, AI behaviors, and more.
+; [[:Category:Editor Reference|Editor Reference]] : What's this button do?  The Creation Kit reference section is your handbook for understanding the various functions and tools for working main editing interface.
+; [[:Category:Papyrus|Scripting Reference]] : The Creation Kit ships with our all-new scripting language, Papyrus.  Papyrus is a powerful and complex tool.  Get started with our tutorials, then use this area to look up the various functions and events you'll need to author the most robust experiences you can imagine.
+; [[:Category:SKSE_Plugin_Development|SKSE Plugin Development]] : The Skyrim Script Extender (SKSE) allows using C++ to create plugins that have direct access to the engine. This is for advanced modders.
+
+
+{{SteamTip|How do I install and launch the Creation Kit?|2=The Creation Kit is free to anyone with a PC copy of Skyrim Special Edition or Skyrim Legendary Edition and a Steam account. Don't have one yet?
+* [https://store.steampowered.com/app/489830/ <span style="color:white;">Click here to purchase Skyrim Special Edition on Steam</span>]
+** The Creation Kit for Special Edition can be found on [https://store.steampowered.com/app/1946180/Skyrim_Special_Edition_Creation_Kit/ <span style="color:white;">Steam</span>].
+* [https://store.steampowered.com/app/72850/ <span style="color:white;">Click here to purchase Skyrim Legendary Edition on Steam</span>]<br>
+** The Creation Kit for Legendary Edition can be found in your Steam Library, in the '''Tools''' section, or by clicking [steam://run/202480 <span style="color:white;">this link</span>].
+
+For more information on Skyrim and the Steam Workshop, [[Introducing_the_Skyrim_Workshop|<span style="color:white;">click here</span>]].}}
+
+{{Languages|Main_Page}}

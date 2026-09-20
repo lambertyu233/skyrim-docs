@@ -1,0 +1,435 @@
+The [[Creation Kit Keyboard Mapping]] is used when working in the [[Render Window]].
+
+Keyboard mapping for [[:Category:Navmesh|Navmesh]] editing can be found in the [[Navmesh Cheat Sheet]].
+
+{{WarningBox|Unlike previous toolkits, the Creation Kit does not allow user-defined hotkey mapping. The option to do so in the window no longer exists.}}
+
+== Alphabetical ==
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Anchor the camera||SHIFT+F||Anchors camera based on current selection
+|-
+| Clear selection||D||Clears current selection (deselect)
+|-
+| Copy selection||CTRL+C||Copies current selection
+|-
+| Create a multibound reference||CTRL+B||Creates a multibound box encasing the currently selected object
+|-
+| Cut selection||CTRL+X||Cuts current selection (CTRL+V pastes what was cut)
+|-
+| Cycle camera view||Y||Cycles through the different camera views
+|-
+| Cycle the visibility of selected objects||1||Cycles the currently selected object between normal, transparent, hidden
+|-
+| Delete selection||DELETE||Deletes current selection
+|-
+| Drop camera||ALT+Z||Drops the camera to the bottom of the currently selected object
+|-
+| Drop selection to ground||F||Drops current selection to nearest collision
+|-
+| Duplicate selection||CTRL+D||Duplicates selection and automatically selects the duplication
+|-
+| Edit landscape||H||Opens the landscaping editor
+|-
+| Edit navmesh||CTRL+E||Toggles [[:Category:Navmesh|Navmesh]] editing mode on/off
+|-
+| Enter rotation manipulation mode||W||Toggles the Rotation Gizmo on/off
+|-
+| Enter scale manipulation mode||2||Toggles the Scale Gizmo on/off
+|-
+| Enter selection manipulation mode||R||Hides all currently visible Gizmos
+|-
+| Enter translation manipulation mode||E||Toggles the Translation Gizmo on/off
+|-
+| Export FaceGen data||Ctrl+F4||Builds temporary .tga (unnecessary) and permanent .dds (to distribute) of FaceGen data for all selected NPCs
+|-
+| Export selection as .FBX file||F2||Exports the currently selected object(s) in the render window to an FBX file
+|-
+| Freeze the camera||3||Freezes camera and shows view frustrum
+|-
+| Link/break planes/rooms||ALT+L||Links/Breaks Link between two Occlusion Planes or two Room Markers
+|-
+| Load selected object's parent cell||CTRL+L||Centers on the currently selected object and force loads its cell
+|-
+| Move clipboard references||CTRL+M||Moves current selection, does not create a copy or duplication (same FormID)
+|-
+| Object palette||SHIFT+O||Opens Object Palette window
+|-
+| Paste clipboard contents||CTRL+V||Pastes clipboard contents
+|-
+| Paste clipboard contents in place||CTRL+SHIFT+V||Pastes clipboard contents in place
+|-
+| Picking preferences||/||Opens the Picking Preferences dialog
+|-
+| Place camera above selection||T||Top-down view of selection
+|-
+| Raise selection||ALT+G||Raises selection 3 units (on the z axis)
+|-
+| Redo||CTRL+Y||Redo last action
+|-
+| Refresh||F5||Reloads the current cell
+|-
+| Reset rotation||CTRL+K||Resets current selection rotation to 0,0,0
+|-
+| Resnap references||SHIFT+K||Snaps current selection to current grid snap reference
+|-
+| Save||CTRL+S||Saves plugin
+|-
+| Scale a light's fade distance||S||Dragging will increase/decrease a light's area of effect
+|-
+| Scale a light's field of view||ALT+S||Dragging will increase/decrease a non-omni light's field of view (spotlight focus)
+|-
+| Scale a light's depth bias||ALT+B||Dragging will increase/decrease a shadow light's depth bias
+|-
+| Scale a light's intensity||CTRL+ALT+S||Dragging will increase/decrease the intensity (brightness) of a light
+|-
+| Scale a reference||S||Hold down "S" and move mouse to scale reference.
+|-
+| Search and replace||CTRL+F||Opens the Search and Replace window
+|-
+| Show land borders||B||Toggle exterior cell boundaries on/off
+|-
+| Show scene graph||F10||Opens Scene Graph window
+|-
+| Swap editor water||CTRL+W||Not supported
+|-
+| Toggle batch dialog||-||Opens the Batch Dialog window
+|-
+| Toggle bright lights||A||Toggles lights on/off
+|-
+| Toggle cell window loads||ALT+A||Toggles whether new exterior cells will automatically load whilst changing cell
+|-
+| Toggle collision geometry||F4||Toggles collision geometry on/off
+|-
+| Toggle debug geometry||4||Toggles debug geometry mode on/off (useful for checking Room Markers and Portals
+|-
+| Toggle flycam||`||Not Supported
+|-
+| Toggle fog||CTRL+5||Toggles fog on/off
+|-
+| Toggle gizmo orientation||G||Toggles gizmo orientation between world and local
+|-
+| Toggle grass||8||Toggles grass on/off
+|-
+| Toggle grid||=||Not Supported
+|-
+| Toggle havok||ALT+H||Toggles havok simulation on/off
+|-
+| Toggle land culling||SHIFT+L||Toggles Land Culling on/off
+|-
+| Toggle light markers||CTRL+I||Toggles light markers on/off
+|-
+| Toggle light radius||L||Toggles light markers radii on/off
+|-
+| Toggle location snap||Q||Toggles Grid Snap on/off
+|-
+| Toggle markers||M||Toggles markers on/off
+|-
+| Toggle non-land culling||SHIFT+C||Hides all references (useful to check Room Markers and Portals)
+|-
+| Toggle occlusion planes||U||Toggles Occlusion Planes on/off
+|-
+| Toggle orthographic perspective||0 (zero)||Toggles Orthographic Perspective on/off
+|-
+| Toggle picking against trees||CTRL+T||Toggles picking trees on/off (useful when working in areas with a lot of trees)
+|-
+| Toggle portal mode||CTRL+P||Toggles Portal Mode on/off (when on, only portals can be selected)
+|-
+| Toggle reference snap||SHIFT+Q||Brings up a crosshair and when a reference is selected, all other references will snap to that reference's orientation
+|-
+| Toggle rotation snap||CTRL+Q||Toggles Grid Rotate Snap on/off
+|-
+| Toggle selection culling||CTRL+SHIFT+C||Hides/Unhides current selection
+|-
+| Toggle shadows||5||Toggles shadows on/off
+|-
+| Toggle sky||6||Toggles Sky on/off
+|-
+| Toggle sound markers||CTRL+N||Toggles Sound Markers on/off
+|-
+| Toggle trees||ALT+T||Toggles Trees on/off
+|-
+| Toggle visibility of enable state children||CTRL+1||Toggles culling of the selected reference's enable state children
+|-
+| Toggle visibility of enable state opposite children||SHIFT+1||Toggles culling of the selected reference's enable state opposite children
+|-
+| Toggle water culling||SHIFT+W||Toggles water on/off
+|-
+| Toggle wireframe||7||Toggles wireframe on/off
+|-
+| Undo||CTRL+Z||Undo last action
+|-
+| Unhide all hidden objects||ALT+1||Unhides all hidden references
+|-
+| Zoom in and out||V||Hold "V" and move mouse to fine tune camera forward/backward transform
+|}
+<br style="clear: both"/>
+
+== By Feature ==
+
+=== Cell Editing ===
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Create a multibound reference||CTRL+B||Creates a multibound box encasing the currently selected object
+|-
+| Edit landscape||H||Opens the landscaping editor
+|-
+| Edit navmesh||CTRL+E||Toggles [[:Category:Navmesh|Navmesh]] editing mode on/off
+|-
+| Link/break planes/rooms||ALT+L||Links/Breaks Link between two Occlusion Planes or two Room Markers
+|-
+| Load selected object's parent cell||CTRL+L||Centers on the currently selected object and force loads its cell
+|-
+| Search and replace||CTRL+F||Opens the Search and Replace window
+|-
+| Toggle havok||ALT+H||Toggles havok simulation on/off
+|-
+| Toggle picking against trees||CTRL+T||Toggles picking trees on/off (useful when working in areas with a lot of trees)
+|-
+| Toggle portal mode||CTRL+P||Toggles Portal Mode on/off (when on, only portals can be selected)
+|-
+|}
+<br style="clear: both"/>
+
+=== Clipboard ===
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Copy selection||CTRL+C||Copies current selection
+|-
+| Cut selection||CTRL+X||Cuts current selection (CTRL+V pastes what was cut)
+|-
+| Paste clipboard contents||CTRL+V||Pastes clipboard contents
+|-
+| Paste clipboard contents in place||CTRL+SHIFT+V||Pastes clipboard contents in place
+|}
+<br style="clear: both"/>
+
+=== Deprecated ===
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Swap editor water||CTRL+W||Not supported
+|-
+| Toggle flycam||`||Not Supported
+|-
+| Toggle grid||=||Not Supported
+|-
+|}
+<br style="clear: both"/>
+
+=== Editor ===
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Export selection as .FBX file||F2||Exports the currently selected object(s) in the render window to an FBX file
+|-
+| Export FaceGen data||Ctrl+F4||Builds temporary .tga (unnecessary) and permanent .dds (to distribute) of FaceGen data for all selected NPCs
+|-
+| Object palette||SHIFT+O||Opens Object Palette window
+|-
+| Picking preferences||/||Opens the Picking Preferences dialog
+|-
+| Save||CTRL+S||Saves plugin
+|-
+| Show scene graph||F10||Opens Scene Graph window
+|-
+| Toggle batch dialog||-||Opens the Batch Dialog window
+|-
+| Toggle cell window loads||ALT+A||Toggles whether new exterior cells will automatically load whilst changing cell
+|-
+| Redo||CTRL+Y||Redo last action
+|-
+| Refresh||F5||Reloads the current cell
+|-
+| Undo||CTRL+Z||Undo last action
+|-
+|}
+<br style="clear: both"/>
+
+=== Lighting ===
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Scale fade distance||S||Dragging will increase/decrease a light's area of effect
+|-
+| Scale field of view||ALT+S||Dragging will increase/decrease a non-omni light's field of view (spotlight focus)
+|-
+| Scale depth bias||ALT+B||Dragging will increase/decrease a shadow light's depth bias
+|-
+| Scale light intensity||CTRL+ALT+S||Dragging will increase/decrease the intensity (brightness) of a light
+|-
+| Toggle fog||CTRL+5||Toggles fog on/off
+|-
+| Toggle light markers||CTRL+I||Toggles light markers on/off
+|-
+| Toggle light radius||L||Toggles light markers radii on/off
+|-
+| Toggle shadows||5||Toggles shadows on/off
+|-
+| Toggle sky||6||Toggles Sky on/off
+|-
+|}
+<br style="clear: both"/>
+
+=== Render Window ===
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Anchor the camera||SHIFT+F||Anchors camera based on current selection
+|-
+| Cycle camera view||Y||Cycles through the different camera views
+|-
+| Cycle the visibility of selected objects||1||Cycles the currently selected object between normal, transparent, hidden
+|-
+| Drop camera||ALT+Z||Lowers the camera to the bottom of the currently selected object
+|-
+| Freeze the camera||3||Freezes camera and shows view frustrum
+|-
+| Place camera above selection||T||Top-down view of selection
+|-
+| Show land borders||B||Toggle exterior cell boundaries on/off
+|-
+| Toggle bright lights||A||Toggles lights on/off (light bulb icon on toolbar)
+|-
+| Toggle collision geometry||F4||Toggles collision geometry on/off
+|-
+| Toggle debug geometry||4||Toggles debug geometry mode on/off (useful for checking Room Markers and Portals
+|-
+| Toggle fog||CTRL+5||Toggles fog on/off
+|-
+| Toggle grass||8||Toggles grass on/off
+|-
+| Toggle land culling||SHIFT+L||Toggles Land Culling on/off
+|-
+| Toggle light markers||CTRL+I||Toggles light markers on/off
+|-
+| Toggle light radius||L||Toggles light markers radii on/off
+|-
+| Toggle markers||M||Toggles markers on/off
+|-
+| Toggle non-land culling||SHIFT+C||Hides all references (useful to check Room Markers and Portals)
+|-
+| Toggle occlusion planes||U||Toggles Occlusion Planes on/off
+|-
+| Toggle orthographic perspective||0 (zero)||Toggles Orthographic Perspective on/off
+|-
+| Toggle selection culling||CTRL+SHIFT+C||Hides/Unhides current selection
+|-
+| Toggle sound markers||CTRL+N||Toggles Sound Markers on/off|-
+|-
+| Toggle shadows||5||Toggles shadows on/off
+|-
+| Toggle sky||6||Toggles Sky on/off
+|-
+| Toggle trees||ALT+T||Toggles Trees on/off
+|-
+| Toggle visibility of enable state children||CTRL+1||Toggles culling of the selected reference's enable state children
+|-
+| Toggle visibility of enable state opposite children||SHIFT+1||Toggles culling of the selected reference's enable state opposite children
+|-
+| Toggle water culling||SHIFT+W||Toggles water on/off
+|-
+| Toggle wireframe||7||Toggles wireframe on/off
+|-
+| Unhide all hidden objects||ALT+1||Unhides all hidden references
+|-
+| Zoom in and out||V||Hold "V" and move mouse to fine tune camera forward/backward transform
+|-
+|}
+<br style="clear: both"/>
+
+=== Selection ===
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Clear selection||D||Clears current selection (deselect)
+|-
+| Cycle the visibility of selected objects||1||Cycles the currently selected object between normal, transparent, hidden
+|-
+| Delete selection||DELETE||Deletes current selection
+|-
+| Duplicate selection||CTRL+D||Duplicates selection and automatically selects the duplication
+|-
+| Toggle selection culling||CTRL+SHIFT+C||Hides/Unhides current selection
+|-
+|}
+<br style="clear: both"/>
+
+=== Transformation ===
+
+{|border="1" cellpadding="5" cellspacing="0" align="left"
+|-
+! style="background:#efefef;" colspan=1  | Function
+! style="background:#efefef;" | Key
+! style="background:#efefef;" colspan=1  | Notes
+|-
+| Drop selection to ground||F||Drops current selection to nearest collision
+|-
+| Enter rotation manipulation mode||W||Toggles the Rotation Gizmo on/off
+|-
+| Enter scale manipulation mode||2||Toggles the Scale Gizmo on/off
+|-
+| Enter selection manipulation mode||R||Hides all currently visible Gizmos
+|-
+| Enter translation manipulation mode||E||Toggles the Translation Gizmo on/off
+|-
+| Move along Z axis||Z||Hold Z and move mouse to transform on Z axis (up/down)
+|-
+| Move along X axis||X||Hold X and move mouse to transform on X axis (east/west)
+|-
+| Move along Y axis||C||Hold C and move mouse to transform on Y axis (north/south)
+|-
+| Move clipboard references||CTRL+M||Moves current selection, does not create a copy or duplication (same FormID)
+|-
+| Raise selection||ALT+G||Raises selection 3 units (on the z axis)
+|-
+| Reset rotation||CTRL+K||Resets current selection rotation to 0,0,0
+|-
+| Resnap references||SHIFT+K||Snaps current selection to current grid snap reference
+|-
+| Scale a reference||S||Hold down "S" and move mouse to scale reference.
+|-
+| Toggle gizmo orientation||G||Toggles gizmo orientation between world and local
+|-
+| Toggle location snap||Q||Toggles Grid Snap on/off
+|-
+|}
+<br style="clear: both"/>
+
+[[Category:Keyboard Mappings]]
+[[Category:Editor Reference ]]

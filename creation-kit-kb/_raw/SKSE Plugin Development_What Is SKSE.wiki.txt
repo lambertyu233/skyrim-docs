@@ -1,0 +1,40 @@
+{{AI Content|name=Claude Opus 4.8|verified=1}}
+
+If you are new to this, the single most useful thing to learn first is that the word "SKSE" can mean at least four different things, and almost every point of confusion comes from them being used interchangeably. This page attempts to separate them, and shows how they fit together.
+
+== "SKSE" can mean four things ==
+
+{| class="wikitable"
+! # !! Name !! Description !! Where?
+|-
+| 1 || '''The runtime'''  || Code in the form of a [[dll-mechanics|DLL]] [[dll-injection|injected]] into the game at startup that [[hooking|hooks]] the engine. It is responsible for extending the functionality of papyrus scripts, loading plugins, injecting code into the game, and provides the API that plugins use. || injected by the skse64_loader.exe ([https://github.com/ianpatt/skse64/blob/4c1b425415c15f4655c73abb4682023baeb99d48/skse64_loader_common/Inject.cpp#L89 <code>Inject.cpp</code>]), brought up by [https://github.com/ianpatt/skse64/blob/4c1b425415c15f4655c73abb4682023baeb99d48/skse64/skse64.cpp#L142-L179 <code>SKSE64_Initialize</code>]
+|-
+| 2 || '''The plugin [[Plugin_ABI|ABI]]''' || The frozen connection point every plugin must match. It's a fixed set of entry points it exports (like <code>SKSEPlugin_Load</code>) and one plain-C struct the runtime hands back. It doesn't change shape, so a plugin built long after the runtime still fits. || [https://github.com/ianpatt/skse64/blob/4c1b425415c15f4655c73abb4682023baeb99d48/skse64/PluginAPI.h <code>PluginAPI.h</code>]
+|-
+| 3 || '''An SDK''' || The library you [[compilation-and-linking|compile against]] to build a plugin || [https://github.com/ianpatt/skse64 SKSE's own source] '''OR''' one of the forks of CommonLibSSE (e.g. [https://github.com/powerof3/CommonLibSSE Po3], [https://github.com/alandtse/CommonLibSSE-NG NG])
+|-
+| 4 || '''The Papyrus surface''' || SKSE adds additional functionality to existing vanilla papyrus scripts. For example, adding additional functions on the Actor script. This allows script authors to do more, without having to dive into C++ or SKSE modding themselves.|| [https://github.com/ianpatt/skse64/blob/4c1b425415c15f4655c73abb4682023baeb99d48/skse64/PapyrusSKSE.cpp#L42-L64 registered into the VM by SKSE], modified scripts [https://github.com/ianpatt/skse64/tree/4c1b425415c15f4655c73abb4682023baeb99d48/scripts/modified here]
+|}
+
+When you read "SKSE" or "Requires SKSE", the author could mean any one of these.
+
+== The hourglass ==
+
+SKSE has a runtime half (present in the running game) and a build-time half (what a developer compiles against). The two halves meet at one seam: the '''plugin ABI'''
+
+== Which SDK should a developer use? ==
+
+
+<blockquote>
+'''Please note that this information is in flux. Forks are abandoned or shift owners. The information here could be outdated by the time you read it. Please verify that the project you build against is actively maintained.'''
+</blockquote>
+
+
+There are two ways to build an SKSE plugin, and for most developers CommonLibSSE, not SKSE's own source.
+
+* '''SKSE's own source''': The runtime, but also usable directly as an SDK. Building against it is lower-level and tends to be less ergonomic for any user not already familiar with reverse engineering techniques.
+* '''CommonLibSSE''': A separately-authored library that most plugin developers build against for its easier C++ API. It looks and behaves more like how a developer might interact with a game. It targets the same plugin ABI at the waist, so a CommonLibSSE plugin loads under the same SKSE runtime. At compile time, commonlibsse it is a separate codebase: it re-derives the game's types itself and even redeclares the plugin-ABI structs, so its headers and SKSE's own cannot be included alongside each other. You build against only one.
+
+CommonlibSSE ''''NG'''' also provides functionality which allows it to handle different versions/patches of Skyrim. Since some users opt to downgrade for compatibility reasons, it may be advisable to use this fork to maximize compatibility of your own mod.
+
+[[Category:SKSE Plugin Development]]

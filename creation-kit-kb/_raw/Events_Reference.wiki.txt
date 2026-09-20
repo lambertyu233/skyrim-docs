@@ -1,0 +1,70 @@
+Events are special [[Function Reference|functions]] that the game will call when something happens. Note that simply defining an event won't make the game call it, you must follow the name and argument list of an event that the game [[Events|already sends you]].
+
+== Event Definition ==
+ <event> ::= <event header>
+             [<function block>
+             'endEvent']
+
+Function headers must always be followed by a standard [[Function Reference#Function Block|function block]] and "EndEvent", unless they are native (which are handled by the game).
+
+=== Event Header ===
+ <event header> ::= 'Event' <identifier> '(' [<parameters>] ')' ['Native'] <flags>*
+
+The event header is identical to the [[Function Reference#Function Header|function header]], but does not allow for return types or allow for the "Global" flag.
+
+===Parameters===
+The parameters are identical to the [[Function Reference#Parameters|function parameter list]], but should match the data that the game will send to the event.
+
+=== Examples ===
+<syntaxhighlight lang="papyrus">
+; A simple activate event handler 
+Event OnActivate(ObjectReference akActivator)
+  PlayAnimation("CoolStuff")
+endEvent
+</syntaxhighlight>
+
+== Special Variables ==
+Event special variables are identical to a non-global [[Function Reference#Special Variables|function's]].
+
+== Calling Events ==
+Calling events is identical to calling a [[Function Reference#Calling Functions|function]].
+
+==A note about events==
+Events are not like the old block types. When you make an event in your script that extends ObjectReference or ReferenceAlias you are essentially creating a new version of that event, and you need to declare it with the same number of parameters. Those parameters are then used inside the script.
+
+You should pretty much just copy and paste the events straight from the wiki, unless you desire to change the name of the parameters for some reason.
+
+For example:
+<syntaxhighlight lang="papyrus">
+ Event OnHit(ObjectReference akAggressor, Form akWeapon, Projectile akProjectile)
+ 
+ EndEvent
+</syntaxhighlight>
+You might be tempted to try something like this:
+
+<syntaxhighlight lang="papyrus">
+Event OnHit(Game.GetPlayer())
+ 	;do something
+EndEvent
+</syntaxhighlight>
+'''However, that does NOT work.'''
+
+Instead what you need to do is something like this:
+<syntaxhighlight lang="papyrus">
+ Event OnHit(ObjectReference akAggressor, Form akWeapon, Projectile akProjectile)
+ 	if akAggressor != game.getPlayer()
+ 		return
+ 	endif
+	;do something
+ EndEvent
+</syntaxhighlight>
+
+== See Also ==
+*[[Events]]
+*[[Function Reference]]
+
+
+{{Languages|Events_Reference}}
+[[Category:Scripting]]
+[[Category:Papyrus]]
+[[Category:Papyrus Language Reference]]

@@ -1,0 +1,50 @@
+==Automatically Created==
+; Templates
+*{{SkyrimFolder|low.ini}}
+*{{SkyrimFolder|medium.ini}}
+*{{SkyrimFolder|high.ini}}
+*{{SkyrimFolder|VeryHigh.ini}}
+*{{SkyrimFolder|Skyrim_default.ini}}
+
+; Used by the game
+*{{MySkyrimFolder|Skyrim.ini}}
+*{{MySkyrimFolder|SkyrimPrefs.ini}}
+
+; Used by the editor
+*{{SkyrimFolder|SkyrimEditor.ini}}
+*{{SkyrimFolder|SkyrimEditorPrefs.ini}}
+
+==User Defined==
+Changes to automatically created INI files are reverted by Steam when validating the local game cache. User defined INI files can be used to prevent this. Settings defined in a user defined INI file override settings in a regular INI file.
+; Used by the game
+*{{MySkyrimFolder|SkyrimCustom.ini}} overrides <tt>Skyrim.ini</tt>
+
+; Used by the editor
+*{{SkyrimFolder|SkyrimEditorCustom.ini}} overrides <tt>SkyrimEditor.ini</tt>
+
+==Mod Defined==
+Mods can define INI files to override settings from <tt>Skyrim.ini</tt>. Mod defined INI files should have the same name as the plugin file and are only applied if the plugin is loaded by the game.
+
+Mod defined INI files are automatically uploaded to [[Steam Workshop]].
+
+===Example===
+; Files
+ Skyrim\Data\screenshots.esp
+ Skyrim\Data\screenshots.ini
+
+; Contents of <tt>screenhots.ini</tt>
+ [Display]
+ bAllowScreenshot=1
+
+
+==See Also==
+*[[INI Settings (Papyrus)]]
+
+; Papyrus functions
+*[[SetINIBool - Utility]]
+*[[SetINIFloat - Utility]]
+*[[SetINIInt - Utility]]
+*[[SetINIString - Utility]]
+
+{{Languages|INI files}}
+[[Category:Editor Reference]]

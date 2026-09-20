@@ -1,0 +1,309 @@
+Functions are units of work that are larger than a single expression, and may take various parameters and return a value to their caller.
+
+[[List of Papyrus Functions]]
+
+== Function Definition ==
+ <function> ::= <function header>
+                [<function block>
+                'endFunction']
+
+Function headers must always be followed by a block and an "EndFunction" [[Keyword Reference|keyword]], unless they are native functions (which are exposed by the game).
+
+=== Function Header ===
+ <function header> ::= [<type>] 'Function' <identifier> '(' [<parameters>] ')' ('global' | 'native')* <flags>*
+
+A function header starts (optionally) with the return type of the function, and is then followed by the name of the function, its parameters (if any), and any modifiers and flags.
+
+The [[Identifier Reference|identifier]] used to name the function cannot conflict with any other function in the current script. If the identifier matches a function in the parent script, then the return type and parameters must match the parent script's version of the function - and the function will override the parent's function.
+
+The "Global" flag indicates a function that does not actually run on an in-game object, and has no "Self" variable. 
+ 
+The "Native" flag indicates a function that does not have a function body, because the function is implemented by the game itself. If you add the native flag to a function the game does not expose, the compiler won't complain, but the game will error at you. The same flag cannot be specified more than once.
+<br><br>
+::{|style="border-collapse: separate; border-spacing: 0; border-width: 1px; border-style: solid; border-color: #000; padding: 0"
+|-
+|style="border-style: solid; border-width: 0"|[[Image:InDepth.jpg|48px]]
+|style="border-style: solid; border-width: 0"|
+<br>
+The "self" variable is a natural consequence of object oriented programming. Object oriented programming relies on the concept of an abstract ''class'' and an ''instance'' of that class (An instance may also be called an ''object''.)
+
+The relationship between a class and an instance is similar to the difference between a blueprint of a car and the actual car that is made from that blueprint. A single blueprint may be the basis for many cars. The blueprint is an abstraction. You cannot interact act with it. For example, you can't turn on the radio of the car in the blueprint. It's a piece of paper. In order to turn on the radio, you need to interact with the actual car. The blueprint is the class, and the car is the object. The way you find out which object is being acted upon by a function is to refer to the self. For example, ''self.TurnOn(theRadio)'' will turn on the radio of the car that calls that function, and only that one car.
+
+All functions are actually resolved by the compiler to use the '''this/self''' pointer. If a script changes an integer variable '''someInt''' to 5, what it looks like to us is: '''someInt = 5'''. Internally, that variable is labeled with, and considered a component of, the object that calls it, which could be written as '''self.someInt = 5'''
+
+A simple example: imagine a function invoked on an object that takes a parameter that points to another object of the same class: '''car1.Ram(car2)''' (which should ram your car into another car). Obviously, the car cannot ram itself. By using the "Self" variable, we can ensure that car2 is not equal to Self and prevent damaging or unnecessary code from executing:
+<br>
+<syntaxhighlight lang="papyrus">
+;The function is called on one car like this.
+Car1.Ram(car2)
+
+;Then we write the function:
+function Ram(object someVehicle)
+
+;if someVehicle is the same as the car that the function was initially called on,
+;kill the function and do not proceed to ram it.
+ if(someVehicle == self)
+    return
+ else
+    self.Moveto(someVehicle)
+ endIf
+endFunction
+</syntaxhighlight>
+<br>
+Another example is a script that is trying to release an object it no longer needs so that the reference no longer consumes memory. However due to the its complexities, the script may accidentally end up referencing the same object. A reference to an object that was expected to be released is called a dangling pointer, and it can cause crashes or other problems as the application progresses. By comparing newObject to Self (''if(newObject != Self)''), we can be sure that when the old object is released it will be properly replaced by newObject.
+|}
+
+=== Parameters ===
+ <parameters> ::= <parameter> (',' <parameter>)*
+ <parameter>  ::= <type> <identifier> ['=' <constant>]
+
+The parameter list is a comma-separated list of types and identifiers that indicate the various parameters that a function takes. Each parameter may be optionally followed by an equals sign and a constant, which indicates that the parameter has a default value. If a parameter has a default value, every parameter after it must also have a default value.
+
+Parameters are essentially [[Variable Reference|variables]] the function has access to that the caller gives initial values to.
+
+=== Function Block ===
+ <function block> ::= <statement>*
+
+The function block contains zero or more [[Statement Reference|statements]]. This performs the actual work of the function.
+
+=== Examples ===
+<syntaxhighlight lang="papyrus">
+; A simple function that adds the two values together and returns the result
+; Global, because it doesn't need a self variable
+int Function AddTwo(int a, int b) global
+  return a + b
+endFunction
+</syntaxhighlight>
+<br>
+<syntaxhighlight lang="papyrus">
+; A function that increments a value on this script by the specified amount.
+; The amount has a default value of 1 (so the caller doesn't have to pass it)
+Function IncrementValue(int howMuch = 1)
+  myValue += howMuch
+endFunction
+</syntaxhighlight>
+
+== Special Variables ==
+There are two special variables in a function, but only in a non-global one. "Self" refers to the instance of the script that the function is running on, and is useful if you want to pass yourself as a parameter to another function somewhere else.
+
+"Parent" is only used to call a parent script's version of a function, in the case where you extend the parent.
+
+=== Examples ===
+<syntaxhighlight lang="papyrus">
+; Pass our self off to another function
+SomeObject.OtherFunction(self)
+</syntaxhighlight>
+<br>
+<syntaxhighlight lang="papyrus">
+; Call the parent's version of DoStuff, ignoring our local definition
+Parent.DoStuff()
+</syntaxhighlight>
+
+== Calling Functions ==
+Global function:
+ [<identifier> '.'] <identifier> '(' [<parameters>] ')'
+Non-global function:
+ [<expression> '.'] <identifier> '(' [<parameters>] ')'
+
+Calling a function simply involves using the function's [[Identifier Reference|identifier]], followed by parenthesis, and any parameters that the function takes. The return value of the function is the result of the function call and can be assigned to a variable, or used to call another function or property.
+
+If you are calling a global function and the function's owning script isn't the current script or isn't [[Script File Structure#Imports|imported]], then you must prefix it with the name of the script the function resides in.
+
+If you are calling a non-global function and it isn't on yourself, then you must prefix it with the object you want to call it on.
+
+=== Parameters ===
+ <parameters> ::= <parameter> (',' <parameter>)*
+ <parameter>  ::= [<identifier> '='] <expression>
+
+The parameter list is a comma-separated list of expressions in the same order as the parameters are listed in the function definition. If a parameter is optional, it does not have to be passed (the default value is inserted by the compiler into the call location). You may specify parameters out of order by prefixing the expression with the identifier of the parameter (matching the name of the parameter in the definition) followed by an equals sign.
+
+=== Examples ===
+<syntaxhighlight lang="papyrus">
+; Call the function: MyFunction(int a, int b) and get the result and put it in x
+x = MyFunction(1, 2)
+</syntaxhighlight>
+<br>
+<syntaxhighlight lang="papyrus">
+; Call the function DefaultFunction(float a, float b, float c = 0.0, float d = 1.0) on MyObject,
+; but only pass in the first three parameters
+MyObject.DefaultFunction(4.0, 2.0, 1.0)
+</syntaxhighlight>
+<br>
+<syntaxhighlight lang="papyrus">
+; Call the function DefaultFunction(float a, float b, float c = 0.0, float d = 1.0), but specify
+; argument d out of order because we want c to keep the default it has
+DefaultFunction(5.0, 2.4, d = 2.0)
+</syntaxhighlight>
+<br>
+<syntaxhighlight lang="papyrus">
+; Call the global function MyGlobal() in the Utility script
+Utility.MyGlobal()
+</syntaxhighlight>
+
+<br>
+== Accessing Functions From Other Scripts ==
+
+There are several methods for accessing one script's functions (or properties, states, etc...) from another script. For the sake of the following examples, let us assume we are working on ScriptA, but we need to access a function that is in ScriptB.
+
+=== Method One: Setting up the Target Script as a Filled Property ===
+
+Declare the script that you want to access (ScriptB) ''as a property within'' the script you are trying to access it from (ScriptA).
+*This method is best when you only need access to a script that has a single instance (like a script attached to a specific Quest or ReferenceAlias). This is because you will have to choose the ''specific instance'' of the script you want to access when you fill the property in the CK.
+
+<br>'''Example:'''
+<syntaxhighlight lang="papyrus">
+myRefAliasScript property refScript auto      ;fill this property with your quest in the CK editor
+
+;...
+refScript.myRefAliasScriptFunction01()
+refScript.myRefAliasScriptFunction02()        ;access two functions that are in the reference alias script
+</syntaxhighlight>
+
+
+=== Method Two: Access the Target Script by Creating a Variable On-the-fly ===
+
+Declare a variable that has the type of the target script (ScriptB) that you want to access. Then set that variable to equal the instance of ScriptB that needs to be accessed. This method is best for times when:
+*(1) There are more than one instances of ScriptB that need to be differentiated (ScriptB is attached to several different Actors, for example)
+*(2) ScriptB does not exist before run-time, so a property cannot be filled with it (ScriptB is attached to an ObjectReference that doesn't exist until ScriptA PlaceAtMe()'s it into existence, for example)
+
+<br>'''Example One:'''<br>
+''Access the script functions on a created ObjectReference:''
+<syntaxhighlight lang="papyrus">
+ObjectReference Pony1 = PlayerRef.PlaceAtMe(myCustomPony)   ;create two ponies. Let us assume that myCustomPony is a base Actor that has 'PonyScript.psc' attached to it.
+ObjectReference Pony2 = PlayerRef.PlaceAtMe(myCustomPony)
+PonyScript Pony1Script = Pony1 as PonyScript                ;declare two variables, each pointing to the INSTANCE of PonyScript attached to one particular pony
+PonyScript Pony2Script = Pony2 as PonyScript                
+Pony1Script.groomPony()                                     ;groom pony one, using the groomPony() function in (its instance of) PonyScript
+Pony2Script.killPony()                                      ;kill pony two, using the killPony() function in (its instance of) PonyScript
+</syntaxhighlight>
+
+<br>Note: sometimes you will have to cast the object with ScriptB attached to it before declaring the variable will work. Let us say that Pony1 was an Actor instead of an ObjectReference, for instance. Since PonyScript extends ObjectReference, we first need to cast Pony1 ''as an ObjectReference'' before we can cast it ''as a PonyScript'', otherwise the compiler will throw out errors:
+
+<syntaxhighlight lang="papyrus">
+Actor Pony1 = somePony
+PonyScript Pony1Script = (Pony1 as ObjectReference) as PonyScript
+</syntaxhighlight><br><br>
+
+'''Example Two:'''<br>
+''Find an Actor's linked reference, and conditionally access the script functions on that reference:''
+<syntaxhighlight lang="papyrus">
+ObjectReference possibleTable1 = Actor1.GetLinkedRef()
+if (possibleTable1 as Furniture) == magicTable                         ;is the actor linked to a magicTable?
+  magicTableScript TableScript1 = possibleTable1 as magicTableScript
+  TableScript1.explode()                                               ;if so, use the magicTable's script function to make the magicTable explode!
+endif
+</syntaxhighlight>
+<br><br>
+== Notes ==
+* The nomenclature of Bethesda's functions' arguments is consistent, prefixing argument names such that their nature is easily determined. The naming convention is as follows, each prefix denoting the corresponding qualities:
+
+: a : Argument :: b : Bool :: f : Float :: i : Int :: p : Pointer :: s : String :: k : Form/Alias :: u : Unsigned
+
+: auiCount, for instance, is an unsigned integer argument while asFileName is a string argument. Note that 'p' and 'k', for Papyrus' purposes, are interchangeable and that Papyrus does not actually have pointers.
+
+== Notes on using Parent ==
+A quirk of using the special '''parent''' variable that might not be immediately obvious is the behavior when functions are called when the same function is present in some scripts in the hierarchy, but not others, and the parent version is called within the function.
+
+Consider the following 4 scripts:
+
+<syntaxhighlight lang="papyrus">
+ScriptName ScriptA extends ObjectReference
+
+function foo()
+    debug.trace("Calling foo on ScriptA")
+endFunction
+
+
+ScriptName ScriptB extends ScriptA
+
+function foo()
+    debug.trace("Calling foo on ScriptB")
+    parent.foo()
+endFunction
+
+
+ScriptName ScriptC extends ScriptB
+
+; ScriptC doesn't have function foo() declared!
+
+
+ScriptName ScriptD extends ScriptC
+
+function foo()
+    debug.trace("Calling foo on ScriptD")
+    parent.foo()
+endFunction
+
+</syntaxhighlight>
+
+Suppose we call '''ScriptD.foo()'''. We might expect the output to be,
+
+ [01/01/2016 - 11:36:28AM] Calling foo on ScriptD
+ [01/01/2016 - 11:36:28AM] Calling foo on ScriptB
+ [01/01/2016 - 11:36:28AM] Calling foo on ScriptA
+
+However, this is <b>not</b> what will happen. Instead, we see the following:
+
+ [01/01/2016 - 11:36:28AM] Calling foo on ScriptD
+ [01/01/2016 - 11:36:28AM] Calling foo on ScriptB
+ [01/01/2016 - 11:36:28AM] Calling foo on ScriptB
+ [01/01/2016 - 11:36:28AM] Calling foo on ScriptA
+
+It appears that '''foo()''' on ScriptB is called <b>twice!</b> The reason for this is because '''parent''' attempts to call the function "as" a script <b>exactly one level higher</b> in the inheritance hierarchy, and does not "skip" a level in the hierarchy when the function isn't found. As we know, if a function isn't found on a child script, parents in the hierarchy are checked for that function instead. If the function is found on another script higher in the hierarchy, it is called, but "as" the '''direct hierarchical parent''', not as the script on which the function is found!
+
+In this case, since ScriptC doesn't define '''foo()''', it looks at its parent in the hierarchy and calls ScriptB's version of '''foo()''', but "as" ScriptC. Since ScriptB's '''foo()''' calls '''parent.foo()''', it moves up the hierarchy one level higher and calls the same function again, only "as" ScriptB this time. This leads to the same function being called twice.
+
+So, the execution order of the above is actually:
+
+<syntaxhighlight lang="papyrus">
+ScriptD.foo()
+    parent.foo()
+ScriptC.foo() ; ScriptC couldn't find foo(), so it calls ScriptB.foo()'s version instead.
+    parent.foo()
+ScriptB.foo() ; Now we actually are calling foo() as ScriptB
+    parent.foo()
+ScriptA.foo()
+</syntaxhighlight>
+
+
+As a final example, if you had scripts in the following hierarchy...
+
+<syntaxhighlight lang="papyrus">
+ScriptName Script1 extends ObjectReference
+function foo()
+    debug.trace("Calling foo on Script1")
+    parent.foo()
+endFunction
+
+; The following intermediary scripts don't define foo().
+ScriptName Script2 extends Script1
+ScriptName Script3 extends Script2
+ScriptName Script4 extends Script3
+ScriptName Script5 extends Script4
+ScriptName Script6 extends Script5
+ScriptName Script7 extends Script6
+ScriptName Script8 extends Script7
+ScriptName Script9 extends Script8
+
+ScriptName Script10 extends Script9
+function foo()
+    debug.trace("Calling foo on Script10")
+    parent.foo()
+endFunction
+</syntaxhighlight>
+
+...'''foo()''' would be called 10 times; Script10's version once, and Script1's version 9 times.
+
+
+== Bugs ==
+* In typed functions, the compiler does not properly check all code paths for returns with values. If the function exits without providing a return value, the result is indeterminate and causes unexplained failures throughout related scripts (possibly due to stack corruption).
+
+= See Also =
+*[[:Category:Events|Events]]
+*[[Events Reference]]
+*[[Flag_Reference#Function_Flags|Function Flags]]
+
+[[Category:Scripting]]
+[[Category:Papyrus]]
+[[Category:Papyrus Language Reference]]
+{{Languages}}

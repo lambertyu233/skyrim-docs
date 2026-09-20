@@ -1,0 +1,182 @@
+[[Category:Tutorials]]
+[[Category:Cheat Sheets]]
+[[Category:Keyboard Mappings]]
+{| class="wikitable" align="left" width="50%" style="margin-right:0;margin-top:0;margin-left:1em"
+|style="background-color:lightgray;" colspan=3 align="center"|'''Menu Shortcuts'''
+|-
+|Save
+|align="center"|'''Ctrl+S'''
+|Save the active plugin.
+|-
+|Undo
+|align="center"|'''Ctrl+Z'''
+|Undo the last action in the current window or field.
+|-
+|Redo
+|align="center"|'''Ctrl+Y'''
+|Redo the last Undone action.
+|-
+|Cut
+|align="center"|'''Ctrl+X'''
+|Cut the current selection.
+|-
+|Copy
+|align="center"|'''Ctrl+C'''
+|Copy the current selection.
+|-
+|Paste
+|align="center"|'''Ctrl+V'''
+|Paste the copied item.
+|-
+|Paste in Place
+|align="center"|'''Ctrl+Shift+V'''
+|Paste the copied item with no offset.
+|-
+|Move
+|align="center"|'''Ctrl+M'''
+|In the Render Window, move the copied item instead of creating a new reference.
+|-
+|Move in Place
+|align="center"|'''Ctrl+Shift+M'''
+|In the Render Window, move the copied item instead of creating a new reference. Maintains the same coordinates.
+|-
+|Duplicate
+|align="center"|'''Ctrl+D'''
+|In the Render Window, duplicate the selected item.
+|-
+|Find
+|align="center"|'''Ctrl+F'''
+|Open the Find/Replace Window.
+|-
+|Find Next
+|align="center"|'''F3'''
+|Find the next item in the current search.
+|-
+|Find Prev
+|align="center"|'''F2'''
+|Find the previous item in the current search.
+|-
+|style="background-color:lightgray;" colspan=3 align="center"|'''Camera Controls'''
+|-
+|Pan 
+|align="center"|'''MMB+Mouse<br>Space'''
+|Hold the middle mouse button and use the mouse to pan the camera (or hold the spacebar)
+|-
+|Orbit
+|align="center"|'''Shift+Mouse'''
+|Hold shift and use the mouse to orbit around a selection
+|-
+|Zoom
+|align="center"|'''Scroll Wheel''' or '''V+Mouse'''
+|The Scroll wheel will zoom in/out from the selection
+|-
+|Focus Camera
+|align="center"|'''Shift+F'''
+|Snap Camera position to selection bounds
+|-
+|Top View
+|align="center"|'''T'''
+|Force a top-down view
+|-
+|Cycle Views
+|align="center"|'''C'''
+|Cycle through pre-set camera angles
+|-
+|Orthographic Projection
+|align="center"|'''0'''<br>(zero)
+|Toggle between Orthographic/Perspective projection ''(advanced users only)''
+|-
+|style="background-color:lightgray;" colspan="3" align="center"|'''Object Manipulation'''
+|-
+|Movement
+|align="center"|'''Left-Click+Drag'''
+|Click and hold to drag to move the selection on the horizontal XY axis
+|-
+|Rotation
+|align="center"|'''Right-Click+Drag'''
+|Click and hold RMB to rotate the selection
+|-
+|Axis Constraint
+|align="center"|'''Z/X/C'''
+|Hold Z, X, or C  to constrain movement or rotation to the Z, X, or Y axis.
+|-
+|Grid Snap
+|align="center"|'''Q'''
+|Toggle snap-to-grid for movement and rotation
+|-
+|Scale
+|align="center"|'''S'''
+|Hold S and left-click drag to scale the selection. Uniform scaling only.
+|-
+|Drop to Ground
+|align="center"|'''F'''
+|Drops the selected object to the nearest surface.
+|-
+|De-Select
+|align="center"|'''D'''
+|Removes all objects from current selection
+|-
+|style="background-color:lightgray;" colspan="3" align="center"|'''Gizmo Helpers'''
+|-
+|Move Gizmo
+|align="center"|'''E'''
+|Enables gizmo w/Handles for XYZ axes and bi-axis planes
+|-
+|Rotate Gizmo
+|align="center"|'''W'''
+|Enables gizmo w/Handles for XYZ rotation
+|-
+|Scale Gizmo
+|align="center"|'''2'''
+|Enables scaling Gizmo w/XYZ handles for non-uniform scaling of primitives
+|-
+|style="background-color:lightgray;" colspan="3" align="center"|'''Visibility Toggles'''
+|-
+|Refresh
+|align="center"|'''F5'''
+|Refreshes the current cell and unhides all hidden objects.
+|-
+|Unhide All
+|align="center"|'''Alt-1'''
+|Unhides all hidden objects.
+|-
+|Toggle Hidden
+|align="center"|'''1'''
+|Makes the current selection visible/translucent/invisible in the editor.
+|-
+|Toggle Markers
+|align="center"|'''M'''
+|Toggles Markers on/off.
+|-
+|Toggle Light Radius
+|align="center"|'''L'''
+|Toggles Light Radius on/off.
+|-
+|Toggle Bright Light
+|align="center"|'''A'''
+|Toggles the default light on/off.
+|-
+|Toggle Sky
+|align="center"|'''Y'''
+|Toggles the sky and sky lighting on/off.
+|-
+|Toggle Wireframe
+|align="center"|'''7 / W'''
+|Toggles Wireframe on/off. Render view / Preview window
+|-
+|Toggle Collision Geometry
+|align="center"|'''F4'''
+|Toggles collision geometry on/off.
+|-
+|Toggle Toggle Water
+|align="center"|'''Shift+W'''
+|Toggles Water on/off.
+|-
+|Toggle Cell Borders
+|align="center"|'''B'''
+|In the Exterior, toggles Cell Borders on/off.
+|-
+|Toggle Grass
+|align="center"|'''8'''
+|Toggles Animated Grass on/off.
+|}

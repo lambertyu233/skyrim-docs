@@ -1,0 +1,130 @@
+[[Category: TES5Edit]]
+[[Category: Tutorials]]
+
+== Introduction ==
+
+This tutorial is designed to teach modders and mod users how to use TES5Edit to clean mods. Cleaning mods is critical to the development of compatibility in the modding community and for creating a stable modded game environment, but TES5Edit is not a simple utility and care must be taken not to damage the mods in the process. This tutorial should help explain everything that you need to know to clean mods correctly.
+
+== Preparing to Clean ==
+
+Before you launch TES5Edit, be sure to have the ESP you want to clean already placed in the Data folder. Here, I want to clean <code>Sharlikran_Map_Markers_Expanded.esp</code>, so I'll copy the plugin to the Data folder:
+
+[[Image:Selected Mod Before Cleaning.jpg|800px|Selected Mod Before Cleaning]]
+
+== The Cleaning Process ==
+
+=== Loading the Mod ===
+
+Ok, now launch TES5Edit. 
+
+The first window that opens asks you which mods to load:
+
+[[Image:TES5EditPluginList.jpg|250px|TES5Edit Plugin List]]
+
+In order to use this tool to clean, you should load '''only''' the mod you are cleaning and any other mods that the mod you are cleaning depends upon. Generally, this means you will only tick the specific mod you are cleaning, as most of the time any dependencies are listed inside the mod, and TES5Edit knows to load them too. However, this is not always the case, especially for mods like landscape patches, so it's always best to double-check that all the plugins you expect have been loaded.
+
+So, to proceed, first deselect all the mods already checked (defined by the mods you have currently active). In order to do so quickly, right click on the window and then choose “Select None” 
+
+[[Image:TES5EditPluginListSelectNone.jpg|250px|Select None Popup]]
+
+Then search the list for the mod you want to clean and tick the checkbox beside its name, and click the OK button. 
+
+[[Image:TES5EditPluginSelected.jpg|250px|Selecting The Mod]]
+
+After that, let the program load the stuff it needs, and when it's done, it will say so. So don't bother it until it shows "Background Loader: finished" on the Message tab.
+
+[[Image:TES5EditAfterLloading.jpg|800px|Loading Finished]]
+
+In the picture we can see the original mod content, yet untouched and unfiltered: 
+
+[[Image:TES5EditBeforeCleaning.jpg|800px|Before Cleaning]]
+
+=== Cleaning the Mod ===
+
+Right click on the left pane of the TES5Edit window, and in the popup menu choose "Apply Filter For Cleaning": 
+
+[[Image:TES5EditApplyFilterForCleaning.jpg|800px|Apply Filter For Cleaning]]
+
+The program will apply the correct filter options for cleaning, and when the filtering is finished, go to the left pane (the tree) and select the mod (in our case: Update.esm), right click on it and choose 'Remove "Identical to Master" records.' 
+
+[[Image:TES5EditRemoveIdenticalToMaster.jpg|800px|Identical To Master]]
+
+Then a warning popup will appear. Just wait a few seconds, the "Yes" button will be enabled, and you can click it:
+
+[[Image:TES5EditWarningAreYouSure.jpg|400px|Warning You Are Sure]]
+
+Don't hate it! That warning is meant to prevent you accidentally changing something in a mod you didn't want to touch. 
+
+Ok, we're approaching the end of the process. 
+
+After you click "Yes, I’m absolutely sure" (because you are, right? Never lie to a program!), the removing process will be executed. After it finishes, you will notice that the modified mod turned to 'bold' as a signal that it has been modified. 
+
+And on the other side, on the message pane, a dump of what's being removed is printed: 
+
+[[Image:TES5EditCleaningLogWhatGotRemoved.jpg|800px|Cleaning Log]]
+
+You can open the image in a new tab to see it in full size if the text is too small for you.
+
+On the tree pane, to the left, the mod’s content shows the records modified in a bold font: 
+
+[[Image:TES5EditModifiedContent.jpg|800px|Modified Content In The Right Pane]]
+
+As you can check for yourself, the records shown are the same that were shown when first filtering.  Notice the removal of the Placed NPCs when they aren't needed because they were identical.
+
+[[Image:TES5EditUndeleteDisableReferences.jpg|800px|Undelete and Disable References]]
+
+Right click again on the plugin you are cleaning (again in our case: Update.esm) and select “Undelete and Disable References.” Again, check the Messages tab to see what was changed. Make a note of the number of "Identical to Master" records that were removed and the number of "undeleted and disabled references" for later when reporting the plugin to the LOOT team.
+
+=== Saving Your Changes ===
+
+Ok, understand this point which is very important: the modified mod is yet unsaved and it will not be saved until you want to. If you change your mind now, you will be allowed to exit the program (just click on the top-right corner of the window as you would do normally,) and then answer to the window that appears: 
+
+[[Image:TES5EditSaveSelectionWindow.jpg|250px|Save Selection Window]]
+
+In that window, you can uncheck all the mods you want (in our case it’s just only one) to preserve them untouched and they won’t be modified at all.
+
+On the other hand, you can call the save window yourself by pressing the key combination 'Ctrl+S' (the standard save shortcut), and if you want to save them, now you can leave the checks ticked. 
+
+At this point, notice the message tab:
+
+<pre>
+[00:00] Saving: Dawnguard.esm.save.2012_10_28_04_36_43
+[00:00] [Dawnguard.esm] Setting Persistent: [REFR:000CCE05] (places CounterLeanMarker [FURN:0006CF36] in GRUP Cell Temporary Children of WarehouseFurniture "Warehouse Furniture" [CELL:000CCDAA])
+[00:00] [Dawnguard.esm] Setting Persistent: [REFR:000CCE09] (places WallLeanMarker [FURN:00052FF5] in GRUP Cell Temporary Children of WarehouseFurniture "Warehouse Furniture" [CELL:000CCDAA])
+[00:02] Done saving.
+</pre>
+
+The program doesn't actually touch the original mod when saving, it always generates a new file. The name is chosen to allow a distinct file to be generated each save, and so the program does, for every change you do, you can save and you will get a distinct file and the previous one will be left untouched. 
+
+That way, in case something goes wrong.  Maybe you deleted a group record forgetting that within it was some important edit.  As soon as you notice it you can roll back to the previous save file, or open it as a new mod and copy the editions back.  Thus, it is important to stress this point: save often, and only do edits in chunks and save every one separately.  In that way, you can go back to any point you wish.
+
+Another thing to notice is that the original mod (in this screen shot Dawnguard.esm) is left untouched until you exit the program:
+
+[[Image:TES5EditSaveFileLocation.jpg|800px|Save File Location]]
+
+At which point the program will rename the old original file as a 'backup' file and place that in the folder TES5Edit Backups, and the new 'save' file as the original mod.
+
+When we’re done and after we exit the tool:
+
+[[Image:TES5EditBackUpFileLocation.jpg|800px|Back Up File Location]]
+
+the roles reverted, so you now can play test it directly after closing the program.
+
+And that's automated cleaning done!
+
+== Additional TES5Edit Resources ==
+
+* [[TES5Edit|TES5Edit]]
+* [[TES5Edit_Cleaning_Guide_-_TES5Edit|TES5Edit Cleaning Guide]]
+* [[Fixing_Navmesh_Deletion_Tutorial|Fixing Navmesh Deletion Tutorial]]
+* [[Skyrim_Dirty_Plugins_List|Skyrim Dirty Plugins List]]
+* [[TES5Edit_Scripting_Functions|TES5Edit Scripting Functions]]
+* [https://bethesda.net/community/topic/57570/relz-sseedit/ Official Elderscrolls TES5Edit forum topic]
+
+== Closing Remarks & Credits ==
+
+This guide has been adapted from the [https://cs.uesp.net/wiki/TES4Edit/Mod_cleaning_tutorial_with_TES4Edit TES4Edit/Mod cleaning tutorial with TES4Edit]. Many thanks go to the various authors of and contributors to that article, including but not limited to: Brumbek, Aellis, Kalevala, Leeus, DragoonWraith.
+
+Thanks also go to ElminsterEU, Sharlikran, and Zilav for their work in getting TES5Edit released.
+
+{{Languages}}

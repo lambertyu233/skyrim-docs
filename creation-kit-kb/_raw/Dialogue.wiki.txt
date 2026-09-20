@@ -1,0 +1,41 @@
+==Overview==
+[[:Category:Dialogue|Dialogue]] is any text that is spoken in the game. In the Creation Kit, all dialogue is organized into [[:Category:Quests|Quests]]. Some Quests exist solely for the purpose of containing dialogue (such as DialogueWhiterun), while others include both quest and dialogue content. Note that a [[:Category:Quest|Quest]] must be running in order for any of its Dialogue to be used.
+
+
+Nine of the tabs in the [[Quest|Quest Form ]] allow you to create, view, and modify dialogue. They are:
+* '''[[Dialogue Views Tab]]:''' Displays [[Player Dialogue]] in a graph view for easy editing. This is the primary way to create and edit dialogue.
+* '''[[Player Dialogue Tab]]:''' Displays [[Player Dialogue]] in a [[Branch]]/[[Topic]]/[[Topic Info|Info]] view.
+* '''Favor Dialogue:''' Not used.
+* '''[[Scenes Tab]]:''' Allows you to edit [[Scenes]], which can include a combination of [[:Category:Packages|Actions]] and Dialogue.
+* '''[[Combat Tab]]:''' [[Topic|Topics]] related to Combat Events (Attack lines, Flee lines, Taunts).
+* '''[[Favors Tab]]:''' Topics related to Follower Command Events.
+* '''[[Detection Tab]]:''' Topics related to Detection Events and transitions (Alerts, Search lines).
+* '''Service Tab:''' Not used.
+* '''[[Misc Tab]]:''' Other Topics, including Hellos, Goodbyes, and [[SharedInfo|SharedInfos]].
+
+
+All of these tabs share the same underlying concepts (like [[Dialogue Branch|Branches]], [[Topic|Topics]], and [[Topic Info|Infos]]), and many share a similar interface. In general, dialogue is organized into:
+* [[Dialogue Branch|Branches]], which contain collections of [[Topic|Topics]]. Branches represent a 'thread' of the conversation, giving the dialogue system a place to start and a chain of [[Topic|Topics]] to follow from there.
+* [[Topic|Topics]], which are stacks of [[Topic Info|Infos]]. Much of the time, they contain exactly one [[Topic Info|Info]], but they can have more. The first [[Topic Info|Info]] whose conditions are satisfied will be used.
+* [[Topic Info|Infos]], which represent one or more lines of dialogue to be spoken.
+
+
+For an introduction to the Dialogue System, see [[Bethesda_Tutorial_Dialogue|Bethesda Tutorial: Dialogue]].
+
+
+'''Why isn't my dialogue displaying?'''
+* As noted in the intro, the quest containing the dialogue must be running before the dialogue will display.
+* If your quest is start game enabled, ensure you've [[TES5Edit Documentation#Creating Start-Game Enabled Quest (SEQ) Files|generated an SEQ file]].
+* If you have [[Quest Alias Tab|aliases]], make sure they are filled or marked as optional.
+* Double check your [[Topic Info| Topic Info Conditions]] or any conditions specified on the [[Quest Data Tab]].
+*[[:Category:Actor|Actors]] without a name cannot be spoken to.
+
+'''Under the hood'''
+
+Disassembly of the game executable suggests that, when fetching an NPC's dialogue, the game iterates over all Quests, then their Topics, and then their Topic Infos in order to check the conditions on them. There is no sign of this laborious process being optimized in any way. Even the Quest Dialogue Conditions on the [[Quest Data Tab]] are checked over and over again on each Topic Info rather than being used to skip the quest altogether.
+
+{{Languages|:Category:Dialogue}}
+<br>
+[[Category:Game Systems]]
+[[Category:Quests]]
+[[Category:Character]]

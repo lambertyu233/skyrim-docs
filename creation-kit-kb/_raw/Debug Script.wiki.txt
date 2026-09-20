@@ -1,0 +1,105 @@
+Collection of debug-related global functions
+
+== Definition ==
+<syntaxhighlight lang="papyrus">
+ScriptName Debug
+</syntaxhighlight>
+
+== Properties ==
+None
+
+
+== Global Functions ==
+
+:'''[[CenterOnCell - Debug|CenterOnCell]](String ''asCellName'')'''
+:*Teleports the player to the specified cell.
+
+:'''Float [[CenterOnCellAndWait - Debug|CenterOnCellAndWait]](String ''asCellName'')'''
+:*Teleports the player to the specified cell and doesn't return until he gets there.
+
+:'''Float [[PlayerMoveToAndWait - Debug|PlayerMoveToAndWait]](String ''asDestRef'')'''
+:*Teleports the player to the specified reference and doesn't return until he gets there.
+
+:'''[[CloseUserLog - Debug|CloseUserLog]](String ''asLogName'')'''
+:*Closes the specified user log
+
+:'''[[DumpAliasData - Debug|DumpAliasData]](Quest ''akQuest'')'''
+:*Dumps all alias fill information to the alias dump log.
+
+:'''String [[GetConfigName - Debug|GetConfigName]]()'''
+:*Obtains the build configuration name
+
+:'''String [[GetPlatformName - Debug|GetPlatformName]]()'''
+:*Obtains the current platform name
+
+:'''String [[GetVersionNumber - Debug|GetVersionNumber]]()'''
+:*Obtains the current version number
+
+:'''[[MessageBox - Debug|MessageBox]](String ''asMessageBoxText'')'''
+:*Displays an OK message box with the specified text
+
+:'''[[Notification - Debug|Notification]](String ''asNotificationText'')'''
+:*Displays an in-game notification message (on the top-left corner)
+
+:'''Bool [[OpenUserLog - Debug|OpenUserLog]](String ''asLogName'')'''
+:*Opens the specified user log (fails if already open)
+
+:'''[[QuitGame - Debug|QuitGame]]()'''
+:*Quits the game
+
+:'''[[SetFootIK - Debug|SetFootIK]](Bool ''abFootIK'')'''
+:*Turns foot IK on and off
+
+:'''[[SetGodMode - Debug|SetGodMode]](Bool ''abGodMode'')'''
+:*Turns god mode on and off
+
+:'''[[SendAnimationEvent - Debug|SendAnimationEvent]](ObjectReference ''arRef'', String ''asEventName'')'''
+:*Sends an animation event to the specified reference.
+
+:'''[[StartScriptProfiling - Debug|StartScriptProfiling]](String ''asScriptName'')'''
+:*Starts profiling a specific Papyrus script
+
+:'''[[StartStackProfiling - Debug|StartStackProfiling]]()'''
+:*Starts profiling the calling stack
+
+:'''[[StopScriptProfiling - Debug|StopScriptProfiling]](String ''asScriptName'')'''
+:*Stops profiling a specific Papyrus script
+
+:'''[[StopStackProfiling - Debug|StopStackProfiling]]()'''
+:*Stops profiling the calling stack
+
+:'''[[ToggleAI - Debug|ToggleAI]]()'''
+:*Turns AI on and off.
+
+:'''[[ToggleCollisions - Debug|ToggleCollisions]]()'''
+:*Turns collision on and off.
+
+:'''[[ToggleMenus - Debug|ToggleMenus]]()'''
+:*Toggles menus on and off.
+
+:'''[[Trace - Debug|Trace]](String ''asTextToPrint'', Int ''aiSeverity'')'''
+:*Outputs the string to the Papyrus log and debug text page
+
+:'''[[TraceAndBox - Debug|TraceAndBox]](String ''asTextToPrint'', Int ''aiSeverity'')'''
+:*Outputs the string to the log and puts up a message box
+
+:'''[[TraceConditional - Debug|TraceConditional]](String ''TextToPrint'', Bool ''ShowTrace'')'''
+:*Outputs the string to the Papyrus log, but only if the condition is true
+
+:'''[[TraceStack - Debug|TraceStack]](String ''asTextToPrint'', Int ''aiSeverity'')'''
+:*Outputs the string to the Papyrus log and debug text page, along with a full call stack
+
+:'''Bool [[TraceUser - Debug|TraceUser]](String ''asUserLog'', String ''asTextToPrint'', Int ''aiSeverity'')'''
+:*Outputs the string to the specified user log (and debug text page)
+
+
+== Member Functions ==
+None
+
+
+== Events ==
+None
+
+[[Category:Scripting]]
+[[Category:Papyrus]]
+[[Category:Script Objects]]
