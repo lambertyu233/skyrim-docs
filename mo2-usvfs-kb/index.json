@@ -1,0 +1,854 @@
+{
+  "generated": "2026-09-20",
+  "total": 43,
+  "by_category": {
+    "00-overview": 2,
+    "01-mechanism": 5,
+    "02-features": 2,
+    "03-architecture": 5,
+    "04-debugging": 1,
+    "05-usage": 26,
+    "06-reference": 2
+  },
+  "entries": [
+    {
+      "id": "usvfs-role",
+      "title": "USVFS 在 MO2 中的角色",
+      "category": "00-overview",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "概览",
+        "USVFS",
+        "VFS",
+        "架构"
+      ],
+      "source": "https://github.com/ModOrganizer2/usvfs",
+      "summary": "USVFS（用户态虚拟文件系统）是 MO2 的核心组件，用 API hooking 把\"别处\"的文件呈现给指定进程。",
+      "kind": "concept",
+      "content": "<p><strong>USVFS（User Space Virtual File System，用户态虚拟文件系统）</strong> 是 MO2 的心脏。官方定义：</p>\n<blockquote>USVFS 让 Windows 程序创建<strong>只对一组选定进程可见</strong>的文件/目录链接；它靠 <strong>API hooking</strong> 骗过文件访问函数，使它们\"发现/打开\"其实位于别处的文件。</blockquote>\n<h2>它在 MO2 里做什么</h2>\n<ol><li><strong>不改动游戏目录</strong>：mod 实际在 <code>mods\\</code> 各自的文件夹里，USVFS 在游戏/工具进程启动的那一刻，把合并后的视图\"塞\"进该进程的眼中。</li><li><strong>进程级可见</strong>：链接只对 MO2 启动的游戏/工具进程可见；其它程序（包括资源管理器）看到的仍是真实目录。</li><li><strong>优先级叠加</strong>：多个 mod 文件夹 + Overwrite + 游戏原文件，按优先级叠加成一份统一的虚拟 Data 目录。</li><li><strong>会话级生命周期</strong>：MO2 关闭或进程结束，虚拟链接随之消失，不留下任何残留。</li></ol>\n<h2>与 MO2 其它子系统的关系</h2>\n<ul><li><strong>DirectoryRefresher</strong>：在 mod 变动时后台多线程重建虚拟目录树（见 <a href=\"03-architecture/directory-refresher.md\" target=\"_blank\" rel=\"noopener\">DirectoryRefresher</a>）。</li><li><strong>UsvfsConnector</strong>：启动游戏时把\"虚拟路径 → 真实路径\"的映射表交给 usvfs（见 <a href=\"03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a>）。</li><li><strong>VFS 节点类</strong>：DirectoryEntry / FileEntry / FilesOrigin 等描述虚拟目录树（见 <a href=\"03-architecture/vfs-node-classes.md\" target=\"_blank\" rel=\"noopener\">VFS 节点类</a>）。</li></ul>\n<blockquote>USVFS 自身仍是\"进行中（alpha）\"状态，但作为 MO2 核心组件接受了大量真实世界测试。当前许可为 GPLv3。</blockquote>",
+      "_file": "00-overview/usvfs-role.md",
+      "_chars": 1134
+    },
+    {
+      "id": "what-is-mo2",
+      "title": "什么是 Mod Organizer 2",
+      "category": "00-overview",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "概览",
+        "入门",
+        "MO2",
+        "虚拟文件系统"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "MO2 是开源 mod 管理工具，靠虚拟文件系统（VFS）在运行时合并 mod，保持游戏真实目录干净。",
+      "kind": "concept",
+      "content": "<p><strong>Mod Organizer 2（MO2）</strong> 是一个开源的 PC 游戏 mod 管理工具，目标是让 mod 的安装与管理对初学者与老手都一样简单、干净。它最关键的革命性设计是：<strong>mod 不写入游戏目录，而是在运行时通过一个\"虚拟文件系统（VFS）\"合并呈现给游戏进程</strong>。</p>\n<h2>关键定位</h2>\n<ul><li><strong>开源</strong>：代码开放，社区持续维护（Tannin 开创，后由社区接手为 MO2）。</li><li><strong>虚拟部署</strong>：mod 各自独立存放，运行时统一\"叠加\"成游戏看到的 Data 目录；关闭 MO2 后游戏目录原样如初。</li><li><strong>mod 隔离</strong>：游戏目录始终保持干净，启用/禁用 mod 不会互相破坏。</li><li><strong>Profile（档案）</strong>：可为同一游戏保存多套不同的 mod 组合与加载顺序，无缝切换。</li><li><strong>冲突解决</strong>：多个 mod 提供同名文件时，按优先级决定\"谁胜出\"。</li><li>另外还提供 <strong>BSA 解包（Bethesda 游戏）、Nexus 集成、BAIN/FOMOD 安装器、存档查看器、归档失效（archive invalidation）、可定制分类</strong> 等。</li></ul>\n<h2>为什么需要 VFS</h2>\n<p>传统方案（如直接覆盖游戏文件，或是 NTFS 符号链接/连接点）要么污染游戏目录、要么需要管理员权限、要么全局可见。MO2 的 VFS（由 <strong>USVFS</strong> 实现）解决了这些痛点——它才是 MO2 的\"心脏\"。</p>\n<blockquote>想理解 VFS 本身的工作原理，见 <a href=\"usvfs-role.md\" target=\"<em>blank\" rel=\"noopener\">USVFS 在 MO2 中的角色</a> 与 <a href=\"01-mechanism/api-hooking.md\" target=\"</em>blank\" rel=\"noopener\">核心机制：API Hooking</a>。</blockquote>",
+      "_file": "00-overview/what-is-mo2.md",
+      "_chars": 1014
+    },
+    {
+      "id": "session-scoped-links",
+      "title": "会话级、免管理员、跨文件系统的链接",
+      "category": "01-mechanism",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "机制",
+        "会话",
+        "权限",
+        "跨文件系统"
+      ],
+      "source": "https://github.com/ModOrganizer2/usvfs",
+      "summary": "虚拟链接在会话结束时消失，无需管理员权限，且不依赖具体文件系统（FAT32/只读/网络盘均可）。",
+      "kind": "concept",
+      "content": "<p>USVFS 的链接相比 NTFS 符号链接，有三项关键便利：</p>\n<h2>1. 会话级生命周期</h2>\n<ul><li>链接在\"会话结束\"时自动消失（MO2 关闭或进程退出）。</li><li><strong>不需要写权限到链接目标目录</strong>，也<strong>不需要管理员权限</strong>（安装与使用都不需要）。</li><li>这对\"不想动系统、不想提权\"的普通玩家极其友好。</li></ul>\n<h2>2. 跨文件系统</h2>\n<ul><li>NTFS 符号链接被锁死在 NTFS 上；USVFS 的链接<strong>与文件系统无关</strong>。</li><li>因此你可以在 <strong>FAT32 驱动器、只读介质、甚至网络盘</strong>上建立\"链接\"。</li></ul>\n<h2>3. 不需要先创建真实的链接对象</h2>\n<p>NTFS 符号链接是文件系统中真实存在的对象（需要创建/删除权限与目标写权限）。USVFS 纯在进程内重定向，<strong>不落任何真实链接对象</strong>，所以没有这些限制。</p>\n<blockquote>代价与边界见 <a href=\"02-features/usvfs-drawbacks.md\" target=\"_blank\" rel=\"noopener\">USVFS 的代价与风险</a>。</blockquote>",
+      "_file": "01-mechanism/session-scoped-links.md",
+      "_chars": 695
+    },
+    {
+      "id": "overlay-links",
+      "title": "多目录叠加（Overlay）",
+      "category": "01-mechanism",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "机制",
+        "overlay",
+        "叠加",
+        "优先级"
+      ],
+      "source": "https://github.com/ModOrganizer2/usvfs",
+      "summary": "USVFS 可把多个目录叠加到同一个目标上，按优先级决定哪个\"赢\"，这正是 mod 合并的原理。",
+      "kind": "concept",
+      "content": "<p>USVFS 能把<strong>多个目录叠加（overlay）到同一个目标目录上</strong>——这正是 MO2\"把几十个 mod 合并成一份 Data\"的实现基础。</p>\n<h2>叠加如何工作</h2>\n<ul><li>游戏真实 <code>Data\\</code>、各个 mod 的 <code>mods\\ModA\\...</code>、<code>mods\\ModB\\...</code>、以及 <code>overwrite\\</code>，都被\"铺\"在同一棵虚拟目录树上。</li><li>当进程请求 <code>Data\\Textures\\rock.dds</code> 时，usvfs 在所有叠加层中查找该文件，按<strong>优先级</strong>返回最上面那一份。</li><li>排在最前（优先级最高）的来源即为\"赢家\"，被进程读取；其它来源对该路径\"隐藏\"。</li></ul>\n<h2>这与冲突解决是同一件事</h2>\n<p>叠加 + 优先级 = MO2 的<strong>冲突解决</strong>规则。优先级由 mod 列表顺序、profile、BSA 等因素决定（见 <a href=\"05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a> 与 <a href=\"03-architecture/fileentry-priority.md\" target=\"</em>blank\" rel=\"noopener\">FileEntry 优先级冲突</a>）。</p>\n<blockquote>启动游戏时，这份\"虚拟路径→真实来源\"的映射由 <a href=\"03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 交给 usvfs。</blockquote>",
+      "_file": "01-mechanism/overlay-links.md",
+      "_chars": 835
+    },
+    {
+      "id": "api-hooking",
+      "title": "核心机制：API Hooking",
+      "category": "01-mechanism",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "机制",
+        "hooking",
+        "重定向",
+        "Win32"
+      ],
+      "source": "https://github.com/ModOrganizer2/usvfs",
+      "summary": "USVFS 通过 hook 文件访问类 Win32 API，拦截进程发起的路径请求并重写为真实路径。",
+      "kind": "concept",
+      "content": "<p>USVFS 的本质是 <strong>API hooking（应用程序接口挂钩）</strong>：在目标进程里\"替换/拦截\"它用来访问文件系统的 Win32 函数，从而把一次\"打开 A\"的请求，悄悄改到\"打开 B\"。</p>\n<h2>它是怎么骗过文件访问函数的</h2>\n<ol><li>当 MO2 启动游戏（或工具）时，usvfs 被注入该进程。</li><li>进程调用 <code>CreateFileW</code>、<code>GetFileAttributesW</code>、<code>FindFirstFileW</code> 等文件 API 时，会先经过 usvfs 的 <strong>hook</strong>（所有 hook 函数统一命名为 <code>hook_&lt;原函数名&gt;</code>，见 <a href=\"04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a>）。</li><li>hook 检查请求的路径是否落在被管理的虚拟目录里：<ul><li>命中 → 把路径<strong>重定向</strong>到该文件真实所在的 mod 文件夹，再调用底层原生函数。</li><li>未命中 → 原样放行。</li></ul></li><li>进程完全不知道自己打开的是 <code>mods\\ModA\\...</code> 而不是 <code>Data\\...</code>，对它而言一切正常。</li></ol>\n<h2>为什么叫\"用户态\"</h2>\n<p>重定向发生在<strong>进程自己的地址空间内</strong>，不依赖任何文件系统/内核特性。这正是它能做到\"只对指定进程可见\"\"跨文件系统\"\"无需管理员\"的根本原因。</p>\n<blockquote>直观感受：打开 usvfs 调试日志，你会看到每一行都打印进程请求的<strong>原始路径</strong>和被 usvfs <strong>重定向后的真实路径</strong>——这是理解\"重定向\"最直观的材料。</blockquote>",
+      "_file": "01-mechanism/api-hooking.md",
+      "_chars": 929
+    },
+    {
+      "id": "virtual-delete",
+      "title": "虚拟删除（让文件\"消失\"或\"被替换\"）",
+      "category": "01-mechanism",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "机制",
+        "虚拟删除",
+        "隐藏"
+      ],
+      "source": "https://github.com/ModOrganizer2/usvfs",
+      "summary": "USVFS 可以\"虚拟地\"取消链接，使某文件对进程不可见，或用一个文件替换另一个真实文件。",
+      "kind": "concept",
+      "content": "<p>USVFS 还能\"虚拟地\"<strong>取消链接（unlink）</strong>一个文件：</p>\n<ul><li>让某个真实存在的文件在进程眼里<strong>完全消失</strong>（像被删了一样，但磁盘上毫发无损）。</li><li>或用一个（来自某 mod 的）文件<strong>替换</strong>另一个真实文件，而无需改动磁盘。</li></ul>\n<h2>典型用途</h2>\n<ul><li><strong>屏蔽文件</strong>：想禁用游戏/某 mod 里的某个文件，但又不真删——在虚拟层把它\"藏\"起来即可。</li><li><strong>覆盖而不修改</strong>：用高优先级 mod 的文件\"盖住\"低优先级或原版文件，原版文件物理上仍在。</li></ul>\n<blockquote>注意：被\"虚拟删除\"的文件并非真的删除，MO2 关闭后它依旧存在。这与 <a href=\"05-usage/overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a> 的\"工具产出物\"是相反方向的概念（一个是隐藏，一个是暴露工具写出的新文件）。</blockquote>",
+      "_file": "01-mechanism/virtual-delete.md",
+      "_chars": 628
+    },
+    {
+      "id": "process-local-links",
+      "title": "进程级可见的虚拟链接",
+      "category": "01-mechanism",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "机制",
+        "进程可见",
+        "隔离"
+      ],
+      "source": "https://github.com/ModOrganizer2/usvfs",
+      "summary": "USVFS 创建的链接只对调用者选定的进程可见，其它程序（含资源管理器）看到的是真实目录。",
+      "kind": "concept",
+      "content": "<p>与 NTFS 符号链接\"对全系统所有程序可见\"不同，USVFS 的链接<strong>只对一组被选中的进程可见</strong>。</p>\n<h2>这意味着什么</h2>\n<ul><li>只有<strong>通过 MO2 启动</strong>的游戏/Tool（如 xEdit、LOOT、BodySlide）才会\"看到\"虚拟合并后的 Data 目录。</li><li>直接双击游戏 exe、或用资源管理器打开游戏目录，看到的仍是<strong>未经修改的真实目录</strong>——mod 文件物理上并不在那里。</li><li>因此多个程序可以各自拥有不同的\"视图\"，互不干扰。</li></ul>\n<h2>对比 NTFS 符号链接</h2>\n<table><thead><tr><th style=\"text-align:left\">维度</th><th style=\"text-align:left\">USVFS</th><th style=\"text-align:left\">NTFS 符号链接/连接点</th></tr></thead><tbody><tr><td style=\"text-align:left\">可见范围</td><td style=\"text-align:left\">仅选定进程</td><td style=\"text-align:left\">所有进程（全局）</td></tr><tr><td style=\"text-align:left\">是否改动真实目录</td><td style=\"text-align:left\">否</td><td style=\"text-align:left\">是（创建了真实链接对象）</td></tr></tbody></table>\n<blockquote>这是 mod 隔离与\"游戏目录保持干净\"能够成立的基础，详见 <a href=\"05-usage/mod-isolation.md\" target=\"_blank\" rel=\"noopener\">mod 隔离</a>。</blockquote>",
+      "_file": "01-mechanism/process-local-links.md",
+      "_chars": 707
+    },
+    {
+      "id": "vs-ntfs-symlink",
+      "title": "USVFS vs NTFS 符号链接",
+      "category": "02-features",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "特性",
+        "对比",
+        "NTFS",
+        "符号链接"
+      ],
+      "source": "https://github.com/ModOrganizer2/usvfs",
+      "summary": "逐项对比 USVFS 与 NTFS 符号链接在可见性、权限、生命周期、文件系统、overlay、虚拟删除上的差异。",
+      "kind": "reference",
+      "content": "<p>下面基于 USVFS 的\"最终目标\"整理（来自官方 README 的 Comparison to symbolic links）。与 NTFS 符号链接相比：</p>\n<table><thead><tr><th style=\"text-align:left\">特性</th><th style=\"text-align:left\">USVFS</th><th style=\"text-align:left\">NTFS 符号链接 / 连接点</th></tr></thead><tbody><tr><td style=\"text-align:left\">可见范围</td><td style=\"text-align:left\">只对调用者选定的进程可见</td><td style=\"text-align:left\">对所有应用程序可见</td></tr><tr><td style=\"text-align:left\">生命周期</td><td style=\"text-align:left\">会话结束时消失</td><td style=\"text-align:left\">持久存在于文件系统</td></tr><tr><td style=\"text-align:left\">目标写权限</td><td style=\"text-align:left\">不需要</td><td style=\"text-align:left\">需要</td></tr><tr><td style=\"text-align:left\">管理员权限</td><td style=\"text-align:left\">安装与使用都不需要</td><td style=\"text-align:left\">创建某些链接需要</td></tr><tr><td style=\"text-align:left\">文件系统依赖</td><td style=\"text-align:left\">跨文件系统（FAT32/只读/网络盘均可）</td><td style=\"text-align:left\">限 NTFS</td></tr><tr><td style=\"text-align:left\">多目录叠加</td><td style=\"text-align:left\">支持（overlay 到同一目标）</td><td style=\"text-align:left\">不支持</td></tr><tr><td style=\"text-align:left\">虚拟删除/替换</td><td style=\"text-align:left\">支持（让文件不可见或被替换）</td><td style=\"text-align:left\">不支持</td></tr></tbody></table>\n<h2>一句话总结</h2>\n<p>NTFS 符号链接是<strong>文件系统级的、全局的、持久的、需要权限的</strong>；USVFS 是<strong>进程级的、会话级的、免权限的、与文件系统无关的、可叠加可隐藏的</strong>。</p>\n<blockquote>USVFS 不是要\"取代\"符号链接，而是用一套更适合 mod 管理的范式，规避了符号链接在权限、可见性、清理上的麻烦。其代价见 <a href=\"usvfs-drawbacks.md\" target=\"_blank\" rel=\"noopener\">USVFS 的代价与风险</a>。</blockquote>",
+      "_file": "02-features/vs-ntfs-symlink.md",
+      "_chars": 876
+    },
+    {
+      "id": "usvfs-drawbacks",
+      "title": "USVFS 的代价与风险",
+      "category": "02-features",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "特性",
+        "风险",
+        "性能",
+        "杀软",
+        "调试"
+      ],
+      "source": "https://github.com/ModOrganizer2/usvfs",
+      "summary": "USVFS 带来内存/CPU 开销、初始化时机限制、新 bug 源，以及易触发杀软误报。",
+      "kind": "reference",
+      "content": "<p>USVFS 强大，但也有明确代价（来自官方 README）：</p>\n<ul><li><strong>性能开销</strong>：每个被 hook 的文件调用都会经过 usvfs，必然带来一定的内存与 CPU 开销（理想情况下很小，但并非零）。</li><li><strong>初始化时机</strong>：usvfs 仅在<strong>每个进程初始化阶段</strong>才激活。若某依赖 DLL 在 usvfs 就位前就被加载，它可能错过重定向。</li><li><strong>新的 bug 源</strong>：注入式 hook 会引入一类\"难以诊断\"的问题，可能让受影响进程出现诡异故障。</li><li><strong>杀软误报</strong>：所用技术与部分恶意软件相似，<strong>容易被杀软/反恶意软件拦截或干扰</strong>（且常常毫无提示）。需要把整个 MO2 安装目录加入排除项，必要时甚至要卸载某些顽固杀软。</li></ul>\n<blockquote>实际排错与缓解见 <a href=\"06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS/USVFS 常见排错</a>，以及杀软清单与 HVCI 章节。</blockquote>",
+      "_file": "02-features/usvfs-drawbacks.md",
+      "_chars": 668
+    },
+    {
+      "id": "bsa-priority-resolution",
+      "title": "BSA 归档的优先级解析",
+      "category": "03-architecture",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "架构",
+        "BSA",
+        "优先级",
+        "归档"
+      ],
+      "source": "https://deepwiki.com/ModOrganizer2/modorganizer",
+      "summary": "BSA 归档内容会被拉进虚拟目录，与 loose file 一起参与优先级判定，决定冲突谁胜。",
+      "kind": "reference",
+      "content": "<p>BSA（Bethesda Archive）是 Bethesda 游戏把资源打包成的归档文件。USVFS 不会忽略它们——<strong>BSA 的内容也会被拉进虚拟目录，参与优先级判定</strong>。</p>\n<h2>机制要点</h2>\n<ul><li>MO2 解析每个启用 mod 的 BSA，把其中的文件路径\"展开\"进虚拟目录树，作为该 mod 的贡献来源。</li><li>这样，BSA 里的 <code>Textures\\rock.dds</code> 和某个 loose file 的 <code>Textures\\rock.dds</code> 就是<strong>同一路径的两个来源</strong>，照常按优先级排序。</li><li>BSA 本身也有优先级顺序（通常与其所属 mod 的优先级一致，并受\"存档失效/archive invalidation\"与 BSA 加载顺序影响）。</li></ul>\n<h2>实际影响</h2>\n<ul><li>想用 loose file 覆盖某 BSA 内的资源？只要让该 loose file 所在 mod 优先级更高即可。</li><li>反之，高优先级 mod 的 BSA 会盖过低优先级 mod 的 loose file——这正是 STEP 指南里\"BSA Priorities\"要讲清楚的坑。</li></ul>\n<blockquote>使用层面的冲突处理见 <a href=\"05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a>；mod 隔离与游戏目录干净见 <a href=\"05-usage/mod-isolation.md\" target=\"</em>blank\" rel=\"noopener\">mod 隔离</a>。</blockquote>",
+      "_file": "03-architecture/bsa-priority-resolution.md",
+      "_chars": 881
+    },
+    {
+      "id": "directory-refresher",
+      "title": "DirectoryRefresher：多线程重建虚拟目录树",
+      "category": "03-architecture",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "架构",
+        "DirectoryRefresher",
+        "多线程",
+        "重建"
+      ],
+      "source": "https://deepwiki.com/ModOrganizer2/modorganizer",
+      "summary": "DirectoryRefresher 是后台服务，mod 变动时在独立线程上重建虚拟文件树，保持 UI 响应。",
+      "kind": "reference",
+      "content": "<p><code>DirectoryRefresher</code> 是 MO2 的一个<strong>后台服务</strong>，负责在 mod 增删改时<strong>重建虚拟文件树</strong>。</p>\n<h2>为什么需要它</h2>\n<ul><li>mod 数量可能成百上千，逐个扫描目录、计算优先级、构建树是磁盘密集型操作。</li><li>放在 UI 线程会卡死界面，所以放到<strong>独立的工作线程</strong>上执行（MO2 整体是多线程架构，UI 与磁盘操作分离）。</li></ul>\n<h2>它做什么</h2>\n<ol><li>扫描各 mod 文件夹与游戏 Data 目录。</li><li>调用 VFS 节点类（<code>DirectoryEntry</code> / <code>FileEntry</code> / <code>FilesOrigin</code>）重建 <code>VirtualFileTree</code>。</li><li>计算好每个文件的来源与优先级，供冲突检测与启动游戏时使用。</li><li>完成后通知 UI 刷新（如左侧 mod 列表的冲突标记）。</li></ol>\n<blockquote>这也是为什么改动 mod 后，MO2 有时会短暂\"刷新中\"——它在后台重建树。相关类见 <a href=\"vfs-node-classes.md\" target=\"_blank\" rel=\"noopener\">VFS 节点类</a>。</blockquote>",
+      "_file": "03-architecture/directory-refresher.md",
+      "_chars": 784
+    },
+    {
+      "id": "fileentry-priority",
+      "title": "FileEntry 多来源优先级冲突",
+      "category": "03-architecture",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "架构",
+        "FileEntry",
+        "优先级",
+        "冲突"
+      ],
+      "source": "https://deepwiki.com/ModOrganizer2/modorganizer",
+      "summary": "同名文件可来自多个 mod；FileEntry 按优先级排序，排在最前的\"赢家\"被进程读取。",
+      "kind": "reference",
+      "content": "<p>当<strong>同一个相对路径</strong>（例如 <code>Textures\\rock.dds</code>）同时存在于多个来源时，就发生了冲突。<code>FileEntry</code> 的处理方式：</p>\n<h2>规则：按优先级排序，第一名获胜</h2>\n<ul><li><code>FileEntry</code> 持有该文件的<strong>所有来源</strong>（来自不同 mod、Overwrite、游戏原文件），每个来源带一个优先级。</li><li>这些来源按优先级排序，<strong>排在第一位的即为\"赢家\"</strong>，被进程实际读取。</li><li>其它来源对该路径\"隐藏\"，但 MO2 仍会在 UI 中标出它们（冲突提示）。</li></ul>\n<h2>优先级由什么决定</h2>\n<ul><li><strong>mod 在列表中的顺序</strong>（越靠下优先级越高，覆盖上面的）。</li><li><strong>profile</strong> 的启用状态与顺序。</li><li><strong>BSA 归档</strong>也有自己的优先级，且可与 loose file 混合参与排序（见 <a href=\"bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 的优先级解析</a>）。</li><li><strong>Overwrite</strong> 目录通常优先级最高，直接\"盖\"住一切。</li></ul>\n<blockquote>这套规则在实际使用层面就是 <a href=\"05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a>。正是叠加 + 优先级（<a href=\"01-mechanism/overlay-links.md\" target=\"</em>blank\" rel=\"noopener\">多目录叠加</a>）让 MO2 既能合并又能解决冲突。</blockquote>",
+      "_file": "03-architecture/fileentry-priority.md",
+      "_chars": 867
+    },
+    {
+      "id": "usvfs-connector",
+      "title": "UsvfsConnector：启动游戏时交付映射表",
+      "category": "03-architecture",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "架构",
+        "UsvfsConnector",
+        "映射",
+        "启动"
+      ],
+      "source": "https://deepwiki.com/ModOrganizer2/modorganizer",
+      "summary": "游戏启动时，UsvfsConnector 把\"虚拟路径→真实路径\"的映射表交给 usvfs 完成注入。",
+      "kind": "reference",
+      "content": "<p>当你通过 MO2 点击\"运行\"时，<strong><code>UsvfsConnector</code></strong> 负责把 MO2 算好的虚拟视图\"交给\" usvfs。</p>\n<h2>它做什么</h2>\n<ul><li>把构建好的虚拟目录树翻译成一份 <strong>映射表</strong>：每条记录是一个\"进程会请求的路径\"→\"真实磁盘上该文件的位置\"。</li><li>例如：<code>Data\\Textures\\rock.dds</code> → <code>C:\\MO2\\mods\\ModA\\Textures\\rock.dds</code>。</li><li>在启动游戏进程的同时，把这份映射交给 usvfs，usvfs 据此注入进程并开始重定向。</li></ul>\n<h2>为什么这一步关键</h2>\n<ul><li>此前所有工作（<a href=\"directory-refresher.md\" target=\"<em>blank\" rel=\"noopener\">DirectoryRefresher 建树</a>、<a href=\"fileentry-priority.md\" target=\"</em>blank\" rel=\"noopener\">FileEntry 定优先级</a>、<a href=\"bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 拉入</a>）都是为了产出这份映射。</li><li>映射一旦交付，进程对自己打开的是\"别处\"的文件<strong>毫无察觉</strong>。</li></ul>\n<blockquote>注入与重定向的实际行为，可用 <a href=\"04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 的日志亲眼看到。</blockquote>",
+      "_file": "03-architecture/usvfs-connector.md",
+      "_chars": 837
+    },
+    {
+      "id": "vfs-node-classes",
+      "title": "VFS 节点类：DirectoryEntry / FileEntry / FilesOrigin",
+      "category": "03-architecture",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "架构",
+        "类",
+        "DirectoryEntry",
+        "FileEntry",
+        "FilesOrigin"
+      ],
+      "source": "https://deepwiki.com/ModOrganizer2/modorganizer",
+      "summary": "虚拟目录树由 DirectoryEntry（目录）、FileEntry（文件，可多来源）、FilesOrigin（来源追踪）等类构成。",
+      "kind": "reference",
+      "content": "<p>MO2 在内存里用一棵树表示虚拟文件系统的\"合并视图\"。DeepWiki 给出的核心类：</p>\n<table><thead><tr><th style=\"text-align:left\">类</th><th style=\"text-align:left\">职责</th><th style=\"text-align:left\">源码路径</th></tr></thead><tbody><tr><td style=\"text-align:left\"><code>DirectoryEntry</code></td><td style=\"text-align:left\">表示一个虚拟目录，内含文件与子目录</td><td style=\"text-align:left\"><code>src/shared/directoryentry.h</code></td></tr><tr><td style=\"text-align:left\"><code>FileEntry</code></td><td style=\"text-align:left\">表示单个文件，<strong>可能同时存在于多个 mod 中</strong></td><td style=\"text-align:left\"><code>src/shared/fileentry.h</code></td></tr><tr><td style=\"text-align:left\"><code>FilesOrigin</code></td><td style=\"text-align:left\">追踪某个文件究竟由哪些 mod 提供</td><td style=\"text-align:left\"><code>src/shared/filesorigin.h</code></td></tr><tr><td style=\"text-align:left\"><code>FileRegister</code></td><td style=\"text-align:left\">集中登记 VFS 中所有文件的注册表</td><td style=\"text-align:left\"><code>src/shared/fileregister.h</code></td></tr><tr><td style=\"text-align:left\"><code>VirtualFileTree</code></td><td style=\"text-align:left\">游戏 Data 目录的合并虚拟表示</td><td style=\"text-align:left\"><code>src/core/virtualfiletree.h</code></td></tr></tbody></table>\n<h2>这些类如何协作</h2>\n<ol><li>每个 mod 是一个\"来源（origin）\"，由 <code>FilesOrigin</code> 记录它贡献了哪些文件。</li><li><code>FileEntry</code> 聚合同名文件的所有来源；最终\"哪个来源胜出\"由优先级决定（见 <a href=\"fileentry-priority.md\" target=\"_blank\" rel=\"noopener\">FileEntry 优先级冲突</a>）。</li><li><code>DirectoryEntry</code> 把文件和子目录组织成树，<code>VirtualFileTree</code> 是整棵树的入口。</li><li><code>FileRegister</code> 让 MO2 能快速按名查找任意文件、列出冲突。</li></ol>\n<blockquote>这棵树由 <a href=\"directory-refresher.md\" target=\"<em>blank\" rel=\"noopener\">DirectoryRefresher</a> 在 mod 变动时重建，再由 <a href=\"usvfs-connector.md\" target=\"</em>blank\" rel=\"noopener\">UsvfsConnector</a> 在启动游戏时翻译成 usvfs 能用的映射。</blockquote>",
+      "_file": "03-architecture/vfs-node-classes.md",
+      "_chars": 1232
+    },
+    {
+      "id": "debugging-usvfs",
+      "title": "调试 usvfs：hook 命名与日志",
+      "category": "04-debugging",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "调试",
+        "hook",
+        "日志",
+        "重定向"
+      ],
+      "source": "https://github.com/ModOrganizer2/modorganizer/wiki/Debugging-usvfs",
+      "summary": "开启 MO2 调试日志后即可看到 usvfs 的 hook 调用、原始路径与重定向后路径；附 spawn_delay 与 Process Monitor 用法。",
+      "kind": "tutorial",
+      "content": "<p>打开 MO2 的<strong>调试日志（debug logs）</strong>，usvfs 也会输出对应日志——这是看\"重定向到底发生了什么\"最直观的途径。</p>\n<h2>日志格式</h2>\n<p>大多形如：</p>\n<pre class=\"code\"><code>timestamp &lt;pid:tid&gt; [L] message [param] [param]...</code></pre>\n<p>示例（来自官方 wiki）：</p>\n<pre class=\"code\"><code>07:52:53.161 &lt;19328:40984&gt; [D] hook_GetFileAttributesW [lpFileName=\\??\\C:\\skyrim\\data\\] [reroute.fileName()=C:\\mo\\overwrite] [res=10] [originalError=0] [fixedError=0]</code></pre>\n<h2>字段含义</h2>\n<table><thead><tr><th style=\"text-align:left\">片段</th><th style=\"text-align:left\">含义</th></tr></thead><tbody><tr><td style=\"text-align:left\"><code>07:52:53.161</code></td><td style=\"text-align:left\">消息的本地时间</td></tr><tr><td style=\"text-align:left\"><code>&lt;19328:40984&gt;</code></td><td style=\"text-align:left\">进程 ID 19328、线程 ID 40984（多个进程在 usvfs 下运行时，pid 很有用）</td></tr><tr><td style=\"text-align:left\"><code>hook_GetFileAttributesW</code></td><td style=\"text-align:left\"><strong>所有 usvfs hook 都以 <code>hook_</code> 开头，并包含原函数名</strong></td></tr><tr><td style=\"text-align:left\"><code>lpFileName=\\??\\C:\\skyrim\\data\\</code></td><td style=\"text-align:left\">进程<strong>原始请求</strong>的路径</td></tr><tr><td style=\"text-align:left\"><code>reroute.fileName()=C:\\mo\\overwrite</code></td><td style=\"text-align:left\">usvfs <strong>重定向后</strong>实际使用的真实路径</td></tr><tr><td style=\"text-align:left\"><code>res=10</code></td><td style=\"text-align:left\">底层 <code>GetFileAttributesW()</code> 的返回值（此处为属性位）</td></tr><tr><td style=\"text-align:left\"><code>originalError=0</code></td><td style=\"text-align:left\">调用后 <code>GetLastError()</code> 的结果</td></tr><tr><td style=\"text-align:left\"><code>fixedError=0</code></td><td style=\"text-align:left\">同上，但部分错误被重映射（如 <code>ERROR_PATH_NOT_FOUND</code> → <code>ERROR_FILE_NOT_FOUND</code>）</td></tr></tbody></table>\n<h2>读懂\"重定向\"</h2>\n<ul><li><code>lpFileName</code> → <code>reroute.fileName()</code> 这一对，就是\"进程以为打开 A，实际打开 B\"的铁证。</li><li>注意：部分调用<strong>若最终未被重定向则不会打印</strong>（例如 <code>DeleteFile()</code> 在未重定向时不打日志），以避免刷屏、但也因此可能掩盖某些问题。</li></ul>\n<h2>辅助调试手段</h2>\n<ul><li><strong>spawn_delay（启动延迟）</strong>：在 MO2 的 INI 中加</li></ul>\n<p>``<code>ini [Settings] spawn_delay = X   # 单位：秒 </code>`` 让 MO2 启动进程后先挂起若干秒，方便你 attach 调试器或重置 Process Monitor。</p>\n<ul><li><strong>Process Monitor</strong>（Sysinternals）：按目标进程加筛选、开启\"Show File System Activity\"，可看到每一次文件系统调用，作为日志的补充。</li><li><strong>Visual Studio</strong>：打开 usvfs 解决方案后可 attach 到 MO2 直接或间接启动的任意进程；配合 <code>spawn_delay</code> 更易下断点。调试会派生子进程时可用 Child Process Debugging Power Tool。</li></ul>\n<blockquote>看到 hook 行为却仍不对？大概率是注入被安全软件挡了，见 <a href=\"06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS/USVFS 常见排错</a>。</blockquote>",
+      "_file": "04-debugging/debugging-usvfs.md",
+      "_chars": 1834
+    },
+    {
+      "id": "bsa-management-usage",
+      "title": "BSA 管理与解包（使用侧）",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "BSA",
+        "解包",
+        "Unmanaged",
+        "Archive Invalidation"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "勾选 Have MO manage archives 后 BSA 被当作 loose file 参与 mod 优先级；真实 Data 中的 BSA 会以 Unmanaged 前缀参与冲突裁决。",
+      "kind": "tutorial",
+      "content": "<blockquote>底层解析见<a href=\"../03-architecture/bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 的优先级解析</a>；这里讲操作与影响。</blockquote>\n<h2>Archives 标签页</h2>\n<ul><li>若某 mod 的资源装在 BSA 里，会在右窗格 <strong>Archives</strong> 标签页、以该 mod 之名下列出。</li><li>右键 BSA → <code>Extract…</code> 可把内容解包到你指定的任意文件夹。</li></ul>\n<h2>Have MO manage archives</h2>\n<p>勾选后（默认行为）：</p>\n<ul><li><strong>所有 BSA 都完全等同于 loose file</strong>：其优先级<strong>只取决于 mod 优先级顺序</strong>，与插件优先级顺序（加载顺序）<strong>无关</strong>。</li><li>在此模式下勾选某个 BSA，<strong>无需 dummy plugin</strong> 即可加载其资源。举例：可以勾选 Skyrim 高清材质包的 BSA 并取消其插件，<strong>省下 3 个插件位</strong>。</li></ul>\n<p>取消勾选后：</p>\n<ul><li>回到游戏内置的\"BSA vs loose file\"规则：BSA 按<strong>插件加载顺序</strong>加载，且<strong>必须通过 dummy plugin</strong> 加载 BSA。</li></ul>\n<h2>Unmanaged mod 与冲突裁决</h2>\n<p>MO 的 BSA 管理让 <strong>mod 优先级更重要</strong>。为了让冲突裁决正确，MO 会把<strong>真实 Data 目录里所有含 BSA 的 mod/DLC</strong> 也列进左窗格，作为 <code>Non-MO</code> mod，并加 <strong><code>Unmanaged:</code></strong> 前缀。</p>\n<ul><li>使用经验：<strong>让这些 Non-MO mod 排到尽可能低的优先级，同时保持冲突裁决正确</strong>。</li><li>一个便捷的判断依据：<strong>观察你的加载顺序</strong>——DLC 以及夹在它们之间的 mod，其顺序一般应与加载顺序大致一致，这样才会用到正确的资源。</li></ul>\n<h3>典型案例</h3>\n<p>Dragonborn DLC 与 Unofficial Skyrim Patch：</p>\n<ul><li>若把 <code>Unofficial Skyrim Patch</code> 放在 Dragonborn DLC（左窗格显示为 <code>Unmanaged:</code>）<strong>之上</strong>，<code>dragonactorscript.pex</code> 会错误地覆盖 Dragonborn 版本，导致<strong>无法吸收龙魂</strong>。</li><li>修复方法：让 <code>Unofficial Skyrim Patch</code> 的优先级<strong>低于</strong> Dragonborn。</li></ul>\n<h2>已知限制</h2>\n<ul><li>若报错 <code>failed to remove limit on archive list!</code>，这类用户<strong>只能以勾选方式加载约 80 个 BSA</strong>。应对办法：解包部分 BSA，或改为加载对应的 ESP——这样游戏会用默认机制加载该 BSA。</li></ul>\n<h2>Archive Invalidation（存档失效）</h2>\n<ul><li>Bethesda 游戏默认让 BSA 覆盖 loose file。若你用了 loose file 想盖过原版 BSA 内容，就需要 Archive Invalidation。</li><li>Skyrim 的替代方案是 <strong>Back-date BSAs</strong>（Settings → <code>Workarounds</code>）：<strong>跑 Skyrim 且未启用 Archive Invalidation 时，必须勾选它</strong>，否则原版 BSA 可能覆盖你的 loose file，出问题后极难排查。</li><li>详见<a href=\"settings-tabs.md\" target=\"<em>blank\" rel=\"noopener\">设置页参考</a>与<a href=\"load-mechanism.md\" target=\"</em>blank\" rel=\"noopener\">加载机制与 Steam App ID</a>。</li></ul>",
+      "_file": "05-usage/bsa-management-usage.md",
+      "_chars": 1845
+    },
+    {
+      "id": "overwrite-dir",
+      "title": "Overwrite 目录与维护",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "Overwrite",
+        "维护",
+        "工具产出"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "工具写出的新文件落入 Overwrite；应定期把其中内容归档进正式 mod，保持 Overwrite 干净。",
+      "kind": "tutorial",
+      "content": "<p><code>Overwrite</code> 是 MO2 里一个特殊的高优先级文件夹：<strong>工具（而非游戏）通过 VFS 写出的新文件，会落到这里</strong>。</p>\n<h2>文件怎么进 Overwrite 的</h2>\n<ul><li>BodySlide 生成的 <code>_cbbe.dds</code>、xEdit 清洗出的 <code>.esp</code>、LOOT 排序结果、FNIS 输出等，经 usvfs 写出时，默认写入 <code>overwrite\\</code>。</li><li>因为 Overwrite 优先级最高，它\"盖\"住一切同名文件——这正是你期望的行为（工具产物立即生效）。</li></ul>\n<h2>为什么要维护一个干净的 Overwrite</h2>\n<ul><li>若不清理，Overwrite 会越积越乱，文件名冲突、难以追溯\"这文件是哪来的\"。</li><li>它应是一个<strong>中转站</strong>，而不是长期仓库。</li></ul>\n<h2>维护流程</h2>\n<ol><li>定期打开 <code>Overwrite</code>，查看里面的文件。</li><li>把属于某个具体 mod 的产出，<strong>移动/归类</strong>到对应的正式 mod 文件夹里（必要时新建一个\"工具输出\"mod）。</li><li>只保留真正需要\"临时覆盖一切\"的文件在 Overwrite 中。</li><li>删除已归档的重复项，避免 Overwrite 与正式 mod 互相打架。</li></ol>\n<blockquote>Overwrite 与 <a href=\"01-mechanism/virtual-delete.md\" target=\"_blank\" rel=\"noopener\">虚拟删除</a> 方向相反：一个是\"暴露工具写出的新文件\"，一个是\"隐藏某文件\"。</blockquote>",
+      "_file": "05-usage/overwrite-dir.md",
+      "_chars": 897
+    },
+    {
+      "id": "profile-switching",
+      "title": "Profile（档案）切换",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "profile",
+        "档案",
+        "切换"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "每个 profile 保存独立的 mod 勾选与加载顺序，可在多套配置间无缝切换。",
+      "kind": "tutorial",
+      "content": "<p>MO2 的 profile（档案）系统让你为同一游戏保存<strong>多套不同的 mod 组合与加载顺序</strong>，互不干扰。</p>\n<h2>profile 包含什么</h2>\n<ul><li>哪些 mod 被<strong>启用/禁用</strong>。</li><li>mod 的<strong>顺序（优先级）</strong>。</li><li>插件（ESP/ESM/ESL）的<strong>加载顺序</strong>。</li><li>各自的 INI/存档关联等。</li></ul>\n<h2>切换时发生了什么</h2>\n<ul><li>切换 profile 只是改变 MO2 接下来要喂给 usvfs 的\"视图定义\"。</li><li>下一次启动游戏/工具时，<a href=\"03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 按新 profile 重建映射——磁盘上的 mod 文件一个都没动。</li></ul>\n<h2>实用提示</h2>\n<ul><li>新建空白 profile 时可选 <code>DefaultGameSettings</code>，用于排查\"是不是 mod 导致的故障\"。</li><li>排错时：先在空 profile 跑通，再逐步加 mod，能快速定位是哪个 mod 惹的祸。</li></ul>\n<blockquote>切换 profile 偶尔会让 MO2 崩溃？先排查安全软件与 <a href=\"06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS 排错</a> 中的\"Windows Event Log 服务\"。</blockquote>",
+      "_file": "05-usage/profile-switching.md",
+      "_chars": 827
+    },
+    {
+      "id": "mod-isolation",
+      "title": "mod 隔离与游戏目录干净",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "隔离",
+        "游戏目录"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "每个 mod 独立存放，游戏目录保持原样；启用/禁用不会互相破坏。",
+      "kind": "concept",
+      "content": "<p>MO2 的官方特性之一就是 <strong>mod isolation（游戏目录保持干净）</strong>。</p>\n<h2>它为什成立</h2>\n<ul><li>每个 mod 是 <code>mods\\</code> 下的独立文件夹，互不叠加在磁盘上。</li><li>真正的\"合并视图\"只存在于被 usvfs 注入的进程的<strong>内存</strong>里（见 <a href=\"01-mechanism/process-local-links.md\" target=\"_blank\" rel=\"noopener\">进程级可见的虚拟链接</a>）。</li><li>因此没有哪个 mod 会\"踩\"到另一个 mod 的文件，游戏原文件也不会被覆盖。</li></ul>\n<h2>带来的能力</h2>\n<ul><li>随便启用/禁用/重排序 mod，磁盘零改动。</li><li>出错时只需调整 MO2 里的勾选与顺序，不必去游戏目录里翻找、删除残留。</li><li>与 Steam/平台\"验证游戏文件完整性\"完全兼容（游戏目录没被动过）。</li></ul>\n<blockquote>工具（如 BodySlide、xEdit）写出的新文件不会进游戏目录，而是进 <a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a>。</blockquote>",
+      "_file": "05-usage/mod-isolation.md",
+      "_chars": 675
+    },
+    {
+      "id": "downloads-and-nexus",
+      "title": "下载管理与 Nexus 集成",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "下载",
+        "Nexus",
+        "meta",
+        "nxmhandler"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "MO 通过 NXM 链接下载并收集 meta（名称/版本/Nexus ID），缺失可 Query Info 补全；nxmhandler 可让多款管理器共存。",
+      "kind": "tutorial",
+      "content": "<h2>下载</h2>\n<ul><li>在 Nexus mod 页面点 <code>Download with Manager</code>（需先按<a href=\"install-and-setup.md\" target=\"_blank\" rel=\"noopener\">安装与首次启动设置</a>完成 NXM 注册），下载会出现在右窗格 <strong>Downloads</strong> 标签页。</li><li>也可手动下载，然后用工具栏 <strong>Archive</strong> 按钮安装。</li><li>手动下载的文件<strong>不会</strong>自动出现在 Downloads 标签页；想让它出现，需手动拷进 MO 的 <code>downloads</code> 文件夹，再按下面的步骤补 meta。</li></ul>\n<h2>meta 信息</h2>\n<ul><li>下载完成后 MO 会收集 meta：mod 名称、版本、Nexus ID。安装时它决定 MO 建议的 mod 名；装好后 Nexus ID 与版本号会写进该 mod 的信息里。</li><li>若没收到 meta，Downloads 里该文件前会出现警告图标。补全方法：<ol><li>右键该下载文件 → <code>Query Info</code>；</li><li>若让你在<strong>两个或更多 Nexus ID</strong> 中选，选正确那个（<strong>通常是数字更大的</strong>）；都不对就取消；</li><li>若让你<strong>输入 Nexus ID</strong>，填正确数字（即 <code>nexusmods.com/mods/&lt;数字&gt;</code> 末尾的数字）；</li><li>若让你<strong>选择正确的文件</strong>，选对；列表里没有就取消。</li></ol></li><li><strong>补全失败的三种常见原因</strong>：<ol><li>作者没给该文件设版本号；</li><li>该 mod 的文件超过 30 个，而 MO 探到的 30 个里没有正确那一个；</li><li>该文件在 Nexus 上不存在。</li></ol></li><li>可直接用文本编辑器（如记事本）编辑 <code>downloads</code> 文件夹里的 <code>&lt;modname&gt;.meta</code>，像普通 ini 一样填。这些信息<strong>不影响 MO 功能</strong>，只用于标明来源；留空 MO 也照常工作。</li><li>注意：若安装时把多个 mod <strong>合并</strong>成一个，之后卸载该 mod 时<strong>只有一个</strong> <code>&lt;modname&gt;.meta</code> 会更新，可能出现在 Downloads 里仍显示\"已安装\"的假象。</li><li>你可能会看到 <code>1 orphaned meta file will be deleted</code> 之类的提示——那是下载期间作占位符的临时文件被清理，属正常。</li></ul>\n<h3>Downloads 中的状态</h3>\n<ul><li><code>Done</code> = 下载完成但未安装；<code>Installed</code> = 已安装；<code>Uninstalled</code> = 已卸载。</li><li>文件可<strong>删除</strong>（移入回收站）或<strong>从视图移除</strong>（仍留在 MO 的 downloads 文件夹）；勾选左下角 <code>Show Hidden</code> 可再次看到被移除的文件。</li><li>通过 MO 下载的 mod 存放在 <code>&lt;ModOrganizer&gt;/downloads</code>。</li></ul>\n<h2>首选下载服务器</h2>\n<ul><li>Settings → <code>Nexus</code> 标签页底部：把左框里的服务器<strong>拖到右框</strong>即设为首选（服务器只在首次下载某个 mod 时才被识别）。</li><li><strong>Premium 用户</strong>可借此把 Premium 服务器排到前面以获得更快速度。</li></ul>\n<h2>Download with Manager 点了没反应？</h2>\n<p>按顺序排查：</p>\n<ul><li>点一下工具栏的 <strong>globe</strong> 按钮。</li><li>Settings → <code>Nexus</code> → 点 <code>Associate with \"Download with manager\" links</code>。</li><li>进入 ModOrganizer 目录运行 <strong>nxmhandler</strong>：若它指向 MO，点 <code>Register Active</code> → 提示处点\"是\" → 关闭；若没指向 MO，在窗口里右键 <code>Add</code>，选所处理的游戏，浏览到对应的 <code>ModOrganizer.exe</code>，OK 后点 <code>Register Active</code> 并确认。</li><li><strong>Google Chrome</strong>（旧版方法）：关闭 Chrome → 打开 <code>%LOCALAPPDATA%/Google/Chrome/User Data/Local State</code> → 搜索 <code>nxm</code> → 删除 <code>\"nxm\": false</code> 那一行（即使是 true 也删）→ 保存 → 下次点击时 Chrome 会弹窗询问，点 <code>Launch</code>。<ul><li>⚠️ 该 Chrome 方法在<strong>较新版本的 Chrome 上已失效</strong>。</li></ul></li><li><strong>Firefox</strong>：在选项的\"应用程序\"里搜索 <code>nxm</code>，指向 ModOrganizer 目录内的 nxmhandler。</li></ul>\n<h2>与其它 mod 管理器共存（多游戏）</h2>\n<p>MO 首次运行会独占 nxm 链接关联，而 MO 只支持部分游戏（而 Nexus Mod Manager 支持更多）。如果你同时用别的管理器管其它游戏，就会冲突。解决办法：</p>\n<ol><li>运行 MO 目录下的 <code>nxmhandler.exe</code>；</li><li>在空白处右键 → <code>Add</code>；</li><li>支持的游戏里选 <code>Other</code>，用文件浏览按钮指向另一个客户端（如 NMM 的 <code>NexusClient.exe</code>），OK；</li><li>到 Nexus 的<a href=\"https://www.nexusmods.com/games/about/games/\" target=\"_blank\" rel=\"noopener\">游戏列表</a>点开目标游戏主页，看 URL 末段即游戏标识（例：Dragon Age 2 是 <code>dragonage2</code>），复制它；</li><li>回到 nxmhandler，<strong>双击</strong> <code>other</code> 改名并粘贴，关闭即可并存。</li><li>需要多个游戏交给同一客户端时，重复上述步骤，用<strong>逗号</strong>分隔多个游戏名。</li></ol>\n<blockquote>注意：nxmhandler 产生的实际设置，<strong>只存在于你第一份 MO 安装的顶层 INI</strong> 里。</blockquote>\n<blockquote>相关：<a href=\"install-mods.md\" target=\"<em>blank\" rel=\"noopener\">安装 mod</a>（装完如何安装/更新）、<a href=\"third-party-executables.md\" target=\"</em>blank\" rel=\"noopener\">第三方程序配置</a>。</blockquote>",
+      "_file": "05-usage/downloads-and-nexus.md",
+      "_chars": 2806
+    },
+    {
+      "id": "usage-faq",
+      "title": "使用类常见问答（mod 管理）",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "FAQ",
+        "排错",
+        "常见问题"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "收集 STEP 指南里高频的实操疑问：什么能/不能作为 mod 安装、MO 是否在正常工作、窗口异常、卸载 MO 等。",
+      "kind": "reference",
+      "content": "<blockquote>关于 VFS/USVFS 层面的疑问见<a href=\"../06-reference/faq.md\" target=\"_blank\" rel=\"noopener\">常见问题（FAQ）</a>。</blockquote>\n<h2>诊断与验证</h2>\n<p><strong>Q：装了个 mod 但它不工作！</strong> A：怎么判断的？<strong>唯一可靠的指标是游戏本身</strong>。Skyrim 启动器<strong>不会</strong>显示 MO 装的 mod；Data 目录里也不会出现新文件。装完后<strong>启动游戏看效果</strong>。若确实无效，检查目录结构——很多 mod 打包不佳，你需要在安装时或安装后移动文件（见 <a href=\"hide-files-and-filetree.md\" target=\"_blank\" rel=\"noopener\">Filetree 面板</a>）。</p>\n<p><strong>Q：怎么知道 MO 在工作？</strong> A：装一个<strong>效果肉眼可见</strong>的 mod。另外确认 <code>modorganizer.log</code> 有被生成。</p>\n<p><strong>Q：怎么看 MO 的虚拟文件系统（VFS）在干活？</strong> A：用 Free Commander（FCXE）或其它合适的文件管理器，<strong>从 MO 内启动</strong>它再去看 <code>&lt;Skyrim&gt;/data</code>。详见<a href=\"tool-recipes.md\" target=\"_blank\" rel=\"noopener\">常用工具配置配方</a>。</p>\n<blockquote>注意：BSA 内的文件<strong>不会</strong>显示成 Data 下的散文件。</blockquote>\n<p><strong>Q：为什么我的 <code>&lt;skyrim&gt;Data</code> 里看不到任何 mod 文件？</strong> A：正常。每个 mod 装在各自的文件夹里（默认 <code>&lt;ModOrganizer&gt;/Mods/</code>）。<code>&lt;skyrim&gt;Data</code> 里只有 Skyrim、Dawnguard、Hearthfire、Dragonborn、高清材质包与 Creation Kit 这些官方文件。MO 创建 VFS，把官方内容与当前 profile 已激活的 mod 在<strong>运行时</strong>合并——这正是 MO 的核心功能，让 <code>&lt;skyrim&gt;Data</code> <strong>保持纯净不被改动</strong>。</p>\n<h2>能 / 不能作为 mod 安装</h2>\n<table><thead><tr><th style=\"text-align:left\">对象</th><th style=\"text-align:left\">结论</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>SKSE 本身</strong></td><td style=\"text-align:left\">❌ 不能（否则 SKSE 脚本不加载）。<strong>SKSE 脚本可以</strong>作为 mod 安装。</td></tr><tr><td style=\"text-align:left\"><strong>ScriptDragon 本身</strong></td><td style=\"text-align:left\">❌ 不能（目前是禁区）。其脚本<strong>也许可以</strong>，前提是放进 data 目录或 <code>&lt;skyrim&gt;/Data/asi</code>。</td></tr><tr><td style=\"text-align:left\"><strong>ENB</strong></td><td style=\"text-align:left\">❌ 不能。但其附加资源（Shaders、Textures 等）<strong>可以</strong>作为 mod 安装。</td></tr><tr><td style=\"text-align:left\"><strong>SweetFX Shader Suite</strong></td><td style=\"text-align:left\">❌ 不能。其附加资源（Shaders、Textures）<strong>可以</strong>。</td></tr><tr><td style=\"text-align:left\"><strong>FXAA Post Process Injector</strong></td><td style=\"text-align:left\">❌ 不能。同理，其附加资源<strong>可以</strong>。</td></tr></tbody></table>\n<h2>安装与校验</h2>\n<p><strong>Q：用 C# 脚本的 FOMOD（如 SkyUI）装不上？</strong> A：需要正确的 <strong>.NET Framework</strong>。</p>\n<p><strong>Q：每次跑 Skyrim，Overwrite 的 <code>meshes/cache</code> 里都会多出 <code>.tri</code> 文件？</strong> A：那是 <strong>RaceMenu 的 CharGen 扩展</strong>生成的缓存。RaceMenu 每次运行都会删除旧的、生成新的，你可以<strong>放心删除</strong>。</p>\n<p><strong>Q：我设了自动解包 BSA，现在想改回来怎么办？</strong> A：点击工具栏 wrench 打开 Settings → 点 <code>Reset Dialogs</code> → 提示处点\"是\"。</p>\n<h2>Nexus 与更新</h2>\n<p><strong>Q：MO 会自动检查 mod 更新吗？</strong> A：<strong>不会</strong>——作者不想给 Nexus 制造无谓流量。但你可以右键 mod 列表 → <code>Check all for update</code>，它会检查所有 mod 的最新版本，并把有更新的标红。</p>\n<p><strong>Q：为什么 MO 仍显示我\"未登录\"？</strong> A：MO <strong>不会自动轮询</strong> Nexus 核对这类信息。你的账号信息会一直保存，<strong>直到你真正使用过它们</strong>为止。执行一次会用到账号的操作后，注意标题栏的变化。</p>\n<p><strong>Q：装了 mod 为什么没打上 endorsement 标记？</strong> A：出于技术原因，负责安装的<a href=\"plugins-extensibility.md\" target=\"_blank\" rel=\"noopener\">插件</a>无法设置该标记。到左窗格右键 → <code>check all for updates</code>，这也会顺带设置 endorsement 标记。</p>\n<p><strong>Q：为什么我无法对某个下载的 mod 执行 \"Query Info\"？</strong> A：取决于具体 mod。<strong>Nexus 一次最多允许 MO 查询 30 个文件</strong>；若该 mod 的下载页超过 30 个文件，正确名字可能不在给出的 30 个答案里，只能自己按命名规则核对调整。也可以考虑请作者清理下载页。</p>\n<p><strong>Q：只用 MO 管部分游戏、其它游戏用 NMM 等管理器？</strong> A：用 MO 目录里的 <code>NXMHandler</code>，见<a href=\"downloads-and-nexus.md\" target=\"_blank\" rel=\"noopener\">下载管理与 Nexus 集成</a>。</p>\n<h2>加载机制</h2>\n<p><strong>Q：该用哪种加载机制？</strong> A：<strong>默认的就好</strong>，除非它出问题。装了脚本扩展又不想用 MO 界面时，可以改成 <code>Script Extender</code> 机制，但<strong>要知道：这样经 MO 装的脚本扩展插件将不工作</strong>，必须手动装进 data 目录；而且<strong>游戏每次更新 SE 都会失效，MO 随之失效</strong>。</p>\n<ul><li><code>Proxy DLL</code> <strong>只作为最后手段</strong>；用它时，<strong>每次游戏更新后都必须至少启动一次 MO</strong>。</li><li>Oblivion 用 <code>Script Extender</code> 机制最好；Skyrim 用 <code>Mod Organizer</code> 机制最好。</li></ul>\n<p><strong>Q：用了 proxy-dll 加载机制后 MO/Skyrim 不工作了，怎么办？</strong> A：见<a href=\"load-mechanism.md\" target=\"_blank\" rel=\"noopener\">加载机制与 Steam App ID</a> 中的修复步骤。</p>\n<h2>杂项</h2>\n<p><strong>Q：能用 PS4 / Xbox / Steam 手柄配 MO 吗？</strong> A：可以，但 <strong>MO 必须以非管理员权限安装</strong>。</p>\n<p><strong>Q：窗口老是自动缩回小尺寸，怎么固定？</strong> A：Settings → <code>Nexus</code>，取消勾选 <code>Use HTTP Proxy (Use System Settings)</code>。</p>\n<p><strong>Q：想卸载 MO，该怎么做？</strong> A：</p>\n<ol><li>在 MO 内进 Settings，把加载机制选为 <code>Mod Organizer</code>；</li><li>关闭 MO，之后不再使用即可；</li><li>确认不需要其中内容（如 mod 归档）后，可以删除 ModOrganizer 目录。<strong>MO 不写注册表、也不写自身目录以外的任何位置</strong>，除此之外无需任何卸载操作。</li></ol>\n<blockquote>注意：<strong>NXM 关联仍然存在</strong>，需要另行处理（见<a href=\"downloads-and-nexus.md\" target=\"_blank\" rel=\"noopener\">下载管理与 Nexus 集成</a>）。</blockquote>\n<blockquote>相关：<a href=\"ui-layout.md\" target=\"<em>blank\" rel=\"noopener\">界面总览</a>、<a href=\"saves-management.md\" target=\"</em>blank\" rel=\"noopener\">存档查看与 Fix Mods</a>、<a href=\"warnings-and-order-problems.md\" target=\"_blank\" rel=\"noopener\">警告面板与潜在 mod 顺序问题</a>。</blockquote>",
+      "_file": "05-usage/usage-faq.md",
+      "_chars": 3293
+    },
+    {
+      "id": "portable-vs-instance",
+      "title": "便携安装 vs 实例安装",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "安装模式",
+        "instance",
+        "portable",
+        "LocalAppData"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "portable 每个游戏一份 MO；instanced 用一份 MO 管多游戏/多套构建，各实例数据存于 %LocalAppData%/ModOrganizer。",
+      "kind": "concept",
+      "content": "<p>MO（含 MO2）可以按两种模式使用：<strong>portable（便携）</strong>与 <strong>instanced（实例）</strong>。</p>\n<h2>便携模式（portable）</h2>\n<ul><li>每个要管理的游戏，都要<strong>单独安装一份 MO</strong>。</li><li>历史最久、最正统的用法。</li><li>没有已知问题；唯一缺点是 MO 程序本身冗余——MO 需要升级、换主题等时要一份份维护，时间久了是个麻烦。</li></ul>\n<h2>实例模式（instanced）</h2>\n<ul><li><strong>一份 MO 安装</strong>即可管理多个游戏，和/或同一游戏的多套 mod 构建。</li><li>每个实例的数据存放在 <code>%LocalAppData%/ModOrganizer</code> 下。</li><li>可以把实例理解为 <strong>profile 系统的扩展</strong>：<ul><li><strong>普通 profile</strong> 允许独立管理游戏配置（INI 文件）、启用的 mod、启用的插件、mod 优先级等，但它们<strong>都属于同一个游戏，且共享同一个 mod 列表</strong>。</li><li>想为同一游戏管理两套完全不同的构建时，这个限制很明显：两套 mod 会被合并进同一份 mod 列表，充斥大量永远不会被启用的\"噪音\"。</li><li><strong>实例</strong>则让<strong>所有东西</strong>都能分区独立，效果等同于便携模式，却不需要多份（冗余的）MO。</li></ul></li><li>点击工具栏上的 instance 按钮即可切换实例。</li></ul>\n<h2>该选哪个</h2>\n<ul><li><strong>STEP 强烈推荐 instanced</strong>。</li><li>需要注意的是：由于两种安装方式并存，第三方工具作者常常只针对自己使用的模式做适配。便携模式存在的时间远长于实例模式，因此<strong>通常与第三方软件的开箱兼容性更好</strong>。</li><li>了解两者的差异，就能轻松规避绝大部分潜在问题。</li></ul>\n<blockquote>相关：<a href=\"install-and-setup.md\" target=\"<em>blank\" rel=\"noopener\">安装与首次启动设置</a>（首次启动时选 New 建实例或选 Portable）、<a href=\"profile-switching.md\" target=\"</em>blank\" rel=\"noopener\">Profile 切换</a>、<a href=\"backup-and-restore.md\" target=\"_blank\" rel=\"noopener\">备份与恢复</a>（重装前要备份 <code>profiles</code> 等目录）。</blockquote>",
+      "_file": "05-usage/portable-vs-instance.md",
+      "_chars": 1207
+    },
+    {
+      "id": "conflict-resolution",
+      "title": "冲突解决与优先级",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "冲突",
+        "优先级",
+        "赢家"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "同名文件冲突时，mod 列表中靠下者（优先级高）覆盖靠上者；BSA 亦参与排序。",
+      "kind": "tutorial",
+      "content": "<p>当多个启用 mod（或 mod 与游戏原文件）提供<strong>同一相对路径</strong>的文件，就产生冲突。MO2 用\"优先级\"裁决谁被读取。</p>\n<h2>核心规则</h2>\n<ul><li>在左侧 mod 列表中，<strong>越靠下优先级越高</strong>，会覆盖（盖住）上面的 mod。</li><li>对该路径，优先级最高的来源即\"赢家\"，被进程读取；其余来源被隐藏（但 MO2 会在 UI 标红提示冲突）。</li><li>这与底层 <a href=\"03-architecture/fileentry-priority.md\" target=\"_blank\" rel=\"noopener\">FileEntry 多来源优先级冲突</a> 是同一套规则——叠加 + 排序。</li></ul>\n<h2>BSA 与 loose file</h2>\n<ul><li>BSA 内容也被拉进虚拟目录（见 <a href=\"03-architecture/bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 的优先级解析</a>），参与同一套排序。</li><li>想用 loose file 盖过某个 BSA 内的资源：让该 loose file 所在 mod 优先级高于 BSA 所属 mod 即可。</li><li>反之高优先级 mod 的 BSA 会压过低优先级 mod 的 loose file——注意\"存档失效（archive invalidation）\"与 BSA 加载顺序的影响。</li></ul>\n<h2>操作步骤</h2>\n<ol><li>在 mod 列表里上下拖动调整顺序（或右键设置优先级）。</li><li>用 MO2 的冲突筛选/高亮确认谁覆盖谁。</li><li>必要时把想\"永久胜出\"的文件放进高优先级 mod，或利用 <a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a>。</li></ol>\n<blockquote>想看 usvfs 实际把请求重定向到了哪个文件？开 <a href=\"04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 日志。</blockquote>",
+      "_file": "05-usage/conflict-resolution.md",
+      "_chars": 1003
+    },
+    {
+      "id": "load-mechanism",
+      "title": "加载机制与 Steam App ID",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "加载机制",
+        "Steam AppID",
+        "proxy dll",
+        "排错"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "默认用 Mod Organizer 加载机制；Script Extender 与 Proxy DLL 各有代价；Steam App ID 决定游戏与工具能否正确启动。",
+      "kind": "reference",
+      "content": "<h2>Load Mechanism（Settings → Workarounds）</h2>\n<p>决定 MO 以何种方式作用于游戏。<strong>若默认机制不出问题，就不要改。</strong></p>\n<table><thead><tr><th style=\"text-align:left\">机制</th><th style=\"text-align:left\">行为与代价</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Mod Organizer</strong>（默认）</td><td style=\"text-align:left\">游戏经 MO 启动时被 hook，加载你的 mod。<strong>推荐默认使用</strong>。Skyrim 用它效果最好。</td></tr><tr><td style=\"text-align:left\"><strong>Script Extender</strong></td><td style=\"text-align:left\">经游戏的脚本扩展加载器把 MO 作为插件加载。代价：<strong>经 MO 安装的脚本扩展插件不会生效</strong>，必须手动装进 Data；且<strong>游戏一更新 SE 就失效，MO 也随之失效</strong>。Oblivion 用它效果最好。</td></tr><tr><td style=\"text-align:left\"><strong>Proxy DLL</strong></td><td style=\"text-align:left\">以 DLL 应用扩展方式加载 MO，属于\"比较大的 hack\"，<strong>应尽最大努力避免</strong>。用它还必须<strong>每次游戏更新后至少启动一次 MO</strong>。</td></tr></tbody></table>\n<h3>Proxy DLL 出问题后的修复</h3>\n<p>现象：用了 proxy-dll 之后 MO/Skyrim 不工作了。按以下步骤<strong>逐条照做</strong>：</p>\n<ol><li>先在 MO 里<strong>停用</strong> proxy-dll 加载，然后关闭 MO。</li><li>看游戏目录里 <code>steam_api.dll</code> 的大小：<ul><li>若约 <strong>116 KB</strong> → 删除 <code>steam_api_orig.dll</code>；</li><li>若约 <strong>11 KB</strong> → 删除 <code>steam_api.dll</code>，然后把 <code>steam_api_orig.dll</code> 改名为 <code>steam_api.dll</code>。</li></ul></li><li>两种情况下你最终都应得到：一个约 116 KB 的 <code>steam_api.dll</code>，且<strong>没有</strong>第二个叫 <code>steam_api*</code> 的文件。</li><li>重新启动 MO，再重新启用 proxy-dll。</li></ol>\n<h2>Steam App ID</h2>\n<ul><li>MO 会按所管游戏<strong>自动填入</strong> Steam App ID：</li></ul>\n<table><thead><tr><th style=\"text-align:left\">游戏</th><th style=\"text-align:left\">App ID</th></tr></thead><tbody><tr><td style=\"text-align:left\">Skyrim</td><td style=\"text-align:left\">72850</td></tr><tr><td style=\"text-align:left\">Fallout NV</td><td style=\"text-align:left\">22380</td></tr><tr><td style=\"text-align:left\">Fallout 3</td><td style=\"text-align:left\">22300</td></tr><tr><td style=\"text-align:left\">Oblivion</td><td style=\"text-align:left\">22330</td></tr></tbody></table>\n<ul><li>只有游戏或某个 Steam 工具启动不正确时才需要调整（<strong>很罕见</strong>）。</li><li>获取正确 App ID 的方法：<ol><li>打开 Steam → <code>Library</code>；</li><li>右键该游戏 → <code>Properties</code>；</li><li><code>General</code> 标签页点 <code>CREATE DESKTOP SHORTCUT</code>，提示处选 OK；</li><li>在桌面上右键该快捷方式 → <code>Properties</code>；</li><li><code>URL</code> 字段形如 <code>steam://rungameid/202480</code>，那个数字就是 Steam App ID（此例为 Creation Kit）。</li></ol></li></ul>\n<h3>补充说明</h3>\n<ul><li><strong>Fallout 3 年度版（GOTY）的 App ID 是 22370</strong>——若你用该版本，这可能解决 Fallout 3 的崩溃问题。</li><li><strong>Skyrim Creation Kit 的 App ID 是 202480</strong>。若没在 <code>Configure Executables</code> 里勾选 <code>Overwrite Steam AppID</code> 并填 202480，<strong>CK 将看不到你的 mod</strong>。</li></ul>\n<blockquote>相关：<a href=\"settings-tabs.md\" target=\"<em>blank\" rel=\"noopener\">设置页参考</a>、<a href=\"third-party-executables.md\" target=\"</em>blank\" rel=\"noopener\">配置第三方程序与快捷方式</a>（Overwrite Steam AppID 字段）、<a href=\"tool-recipes.md\" target=\"_blank\" rel=\"noopener\">常用工具配置配方</a>（SKSE 的加载机制相关注意）。</blockquote>",
+      "_file": "05-usage/load-mechanism.md",
+      "_chars": 1949
+    },
+    {
+      "id": "enable-and-activate",
+      "title": "启用 mod 与激活插件",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "启用",
+        "插件",
+        "加载顺序",
+        "备份"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "左窗格勾选启用 mod（仅对当前 profile 生效）；右窗格 Plugins 勾选激活 ESP/ESM，插件必须在 mod 根目录才会被识别。",
+      "kind": "tutorial",
+      "content": "<p>要真正在游戏里生效，分两步：<strong>先启用 mod，再激活其插件</strong>。</p>\n<h2>启用 mod</h2>\n<ul><li>在左窗格<strong>勾选复选框</strong>。<strong>只对当前 profile 生效</strong>。</li><li>若 <code>Flags</code> 列出现闪电图标，说明它有些文件与其它已启用 mod 冲突——见 <a href=\"conflict-resolution.md\" target=\"_blank\" rel=\"noopener\">冲突解决与优先级</a>。</li><li><strong>批量操作</strong>：Shift 连选一段、或 Ctrl 逐个多选，然后按<strong>空格键</strong>切换这批 mod 的启用状态。</li></ul>\n<h2>激活插件（Plugins 标签页）</h2>\n<ul><li>已启用 mod 中，<strong>位于 mod 根目录</strong>的 ESM/ESP 会出现在右窗格 Plugins 标签页；<strong>放在子文件夹里的插件不会被使用</strong>。</li><li>勾选复选框即激活。</li><li>插件名前有警告图标 = <strong>缺少某个 master</strong>，悬停可看到是哪个。</li><li>悬停任意 ESM/ESP 会显示：来源、作者、描述、Enabled Masters，以及有关联 ini 文件时的<strong>回形针</strong>提示。</li></ul>\n<h3>加载顺序</h3>\n<ul><li><strong>拖放</strong>即可调整顺序（详见 <a href=\"conflict-resolution.md\" target=\"_blank\" rel=\"noopener\">冲突解决与优先级</a> 中的加载顺序部分）。</li><li>右键标签页内有三个选项：<ul><li><code>Enable all</code>：激活全部 ESM/ESP。</li><li><code>Disable all</code>：取消激活全部，<strong>但保留 Skyrim.esm 与 Update.esm</strong>（游戏运行必需）。</li><li><code>Lock load order</code>：把选中的插件<strong>锁定</strong>在该顺序（仅对已激活插件可用）。之后其它插件可以插进它们<strong>之间</strong>，但它们彼此的相对顺序固定。</li></ul></li></ul>\n<h3>备份与恢复插件列表</h3>\n<ul><li><strong>备份</strong>：点 Plugins 标签页右上的 <code>Create Backup</code> 按钮。</li><li><strong>恢复</strong>：点其左侧的 <code>Restore Backup…</code> 按钮。</li><li>恢复后的效果：备份时未激活的插件会被取消勾选；备份之后的所有优先级/加载顺序改动被回退；备份之后新增的插件会被取消勾选、按字母顺序置于列表底部。</li><li><strong>注意：备份插件列表不含 INI 文件、BSA 顺序与 mod 列表</strong>（mod 列表另有备份入口，见 <a href=\"backup-and-restore.md\" target=\"_blank\" rel=\"noopener\">备份与恢复</a>）。</li></ul>\n<h3>Sort 按钮</h3>\n<ul><li>Plugins 标签页左上角的 <code>Sort</code> 按钮使用 LOOT 自动排序插件。</li><li>你在<strong>外部 LOOT 应用</strong>里写过的规则会被沿用，但<strong>不装独立 LOOT 程序就无法写规则</strong>。</li><li>注意：内置 <code>Sort</code> 就是 LOOT，但<strong>缺少报告窗口与元数据编辑功能</strong>——需要这些就用外部 LOOT（见 <a href=\"tool-recipes.md\" target=\"_blank\" rel=\"noopener\">常用工具配置配方</a>）。</li></ul>\n<blockquote>相关：<a href=\"ui-layout.md\" target=\"<em>blank\" rel=\"noopener\">界面总览</a>（右窗格标签页）、<a href=\"bsa-management-usage.md\" target=\"</em>blank\" rel=\"noopener\">BSA 管理与解包</a>（插件与 BSA 的顺序关系）。</blockquote>",
+      "_file": "05-usage/enable-and-activate.md",
+      "_chars": 1578
+    },
+    {
+      "id": "backup-and-restore",
+      "title": "备份与恢复",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "备份",
+        "恢复",
+        "modlist",
+        "插件列表"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "左窗格可备份/恢复 mod 列表，Plugins 页可备份/恢复插件加载顺序；重装前要备份 downloads/mods/profiles 等目录。",
+      "kind": "tutorial",
+      "content": "<h2>备份 mod 列表（左窗格）</h2>\n<ul><li><strong>备份</strong>：点 profile 下拉框右侧的 <code>Create Backup</code>（保存磁盘图标）按钮。</li><li><strong>恢复</strong>：点它左侧的 <code>Restore Backup…</code> 按钮。</li><li>恢复后的效果：<ul><li>备份时<strong>未启用</strong>的 mod 会被取消勾选；</li><li>备份之后的<strong>所有优先级改动被回退</strong>；</li><li>备份之后<strong>新增</strong>的 mod 会被取消勾选，并按字母顺序<strong>置于 mod 列表底部</strong>。</li></ul></li></ul>\n<h2>备份插件列表（右窗格 Plugins 页）</h2>\n<ul><li><strong>备份</strong>：Plugins 标签页右上的 <code>Create Backup</code>。</li><li><strong>恢复</strong>：其左侧的 <code>Restore Backup…</code>。</li><li>详见<a href=\"enable-and-activate.md\" target=\"_blank\" rel=\"noopener\">启用 mod 与激活插件</a>。</li></ul>\n<h2>三者互不包含</h2>\n<table><thead><tr><th style=\"text-align:left\">备份对象</th><th style=\"text-align:left\">入口</th><th style=\"text-align:left\">不包含</th></tr></thead><tbody><tr><td style=\"text-align:left\">mod 列表</td><td style=\"text-align:left\">左窗格 <code>Create Backup</code></td><td style=\"text-align:left\">INI 文件、BSA 顺序、插件（加载顺序）列表</td></tr><tr><td style=\"text-align:left\">插件列表</td><td style=\"text-align:left\">Plugins 页 <code>Create Backup</code></td><td style=\"text-align:left\">INI 文件、BSA 顺序、mod 列表</td></tr></tbody></table>\n<blockquote>所以完整保底要<strong>两边都备份</strong>。</blockquote>\n<h2>备份整个 MO 安装（重装/迁移前）</h2>\n<p>升级或重装前，应备份以下内容：</p>\n<ul><li><strong><code>downloads</code></strong>：所有来自 Nexus 的归档。</li><li><strong><code>mods</code></strong>：左窗格里\"已安装\"的 mod 实体。</li><li><strong><code>profiles</code></strong>：你定义的全部 <strong>profile</strong>，包括其中的存档（如果你选了保存游戏到 profile）。</li><li>若改过分类，还有 <strong><code>categories.dat</code></strong>（见<a href=\"mod-categories.md\" target=\"_blank\" rel=\"noopener\">自定义 mod 分类</a>）。</li></ul>\n<blockquote>若是 instanced 安装，设置本身存放在 <code>%LocalAppData%/ModOrganizer</code>，与 MO 程序目录分开，所以删掉程序目录内容不会丢设置（见<a href=\"portable-vs-instance.md\" target=\"_blank\" rel=\"noopener\">便携安装 vs 实例安装</a>）。</blockquote>\n<blockquote>相关：<a href=\"update-and-uninstall.md\" target=\"<em>blank\" rel=\"noopener\">更新、合并与卸载</a>、<a href=\"saves-management.md\" target=\"</em>blank\" rel=\"noopener\">存档查看与 Fix Mods</a>。</blockquote>",
+      "_file": "05-usage/backup-and-restore.md",
+      "_chars": 1312
+    },
+    {
+      "id": "saves-management",
+      "title": "存档查看与 Fix Mods",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "存档",
+        "Saves",
+        "Fix Mods"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "Saves 标签页显示存档及其缺失插件；右键 Fix Mods… 可把该存档所需的 mod 一键恢复回原配置。",
+      "kind": "tutorial",
+      "content": "<h2>Saves 标签页</h2>\n<ul><li>位置：右窗格 <strong>Saves</strong> 标签页，显示你的存档。</li><li><strong>悬停</strong>某个存档会弹出信息，其中包括<strong>该存档用到、但当前 profile 缺失的 ESP</strong>。<ul><li>提示：界面里 <code>Missing ESPs</code> 这一行<strong>只是表头</strong>，并不是在断言该存档有问题。</li></ul></li><li><strong>右键</strong>存档 → <code>Fix Mods…</code>：列出缺失的 ESP，以及<strong>可能包含这些插件</strong>的 mod（如果有的话）。<ul><li>这是把某个存档对应的整套 mod <strong>恢复回原始配置</strong>的快捷途径——想接着老存档继续玩时非常有用。</li></ul></li></ul>\n<h2>与 profile 的关系</h2>\n<ul><li>存档是跟 profile 走的（若你在创建 profile 时选择了保存游戏）。因此，切换/备份 profile 也就意味着切换/备份了对应的存档集合。</li><li>重装或迁移整个 MO 安装前，别忘了 <code>profiles</code> 目录（见<a href=\"backup-and-restore.md\" target=\"_blank\" rel=\"noopener\">备份与恢复</a>）。</li></ul>\n<blockquote>相关：<a href=\"profile-switching.md\" target=\"<em>blank\" rel=\"noopener\">Profile 切换</a>、<a href=\"enable-and-activate.md\" target=\"</em>blank\" rel=\"noopener\">启用 mod 与激活插件</a>（缺失插件也常表现为\"插件带警告图标 = 缺 master\"）。</blockquote>",
+      "_file": "05-usage/saves-management.md",
+      "_chars": 846
+    },
+    {
+      "id": "install-mods",
+      "title": "安装 mod：四种途径与三大打包格式",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "安装",
+        "FOMOD",
+        "BAIN",
+        "手动安装",
+        "Mod Exists"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "用 Downloads 双击、Archive 按钮、右键 Install Mod 或 Steam Workshop 安装；Simple/BAIN/FOMOD 三格式，都不是则走手动安装。",
+      "kind": "tutorial",
+      "content": "<h2>开始安装的四种方式</h2>\n<ol><li>通过 MO 从 Nexus 下载归档，完成后在右窗格 <strong>Downloads</strong> 标签页<strong>双击该文件</strong>安装。</li><li>点工具栏的 <strong>Archive</strong> 按钮，浏览到归档包，选中并打开。</li><li>在<strong>左窗格右键</strong> → <code>Install Mod…</code>，浏览到归档包并打开。</li><li>通过 <strong>Steam Workshop</strong> 安装（需先经 MO 启动游戏启动器，见下）。</li></ol>\n<h2>Mod Exists 对话框（同名 mod 已存在）</h2>\n<p>当要安装的 mod 与现有 mod 同名（装可选文件或更新时经常出现）会弹出此框：</p>\n<table><thead><tr><th style=\"text-align:left\">按钮</th><th style=\"text-align:left\">何时用</th><th style=\"text-align:left\">行为</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Merge</strong></td><td style=\"text-align:left\">安装 mod 的<strong>可选文件/附加组件</strong></td><td style=\"text-align:left\">把文件<strong>追加</strong>进现有 mod，<strong>覆盖同名文件</strong>。</td></tr><tr><td style=\"text-align:left\"><strong>Replace</strong></td><td style=\"text-align:left\"><strong>把 mod 升级到含全部资源的新版本</strong></td><td style=\"text-align:left\"><strong>先删除</strong> mod 内所有文件，再装入新文件。</td></tr><tr><td style=\"text-align:left\"><strong>Rename</strong></td><td style=\"text-align:left\">想<strong>独立保留</strong>内容，或<strong>并存两个版本</strong></td><td style=\"text-align:left\">以另一个名字安装。</td></tr><tr><td style=\"text-align:left\"><strong>Cancel</strong></td><td style=\"text-align:left\">—</td><td style=\"text-align:left\">终止安装。</td></tr></tbody></table>\n<ul><li>勾选 <strong>Keep Backup</strong> 再配合 Merge 或 Replace，会在安装前<strong>备份 mod</strong>。</li><li>恢复备份的方法：右键 mod → <code>Open in explorer</code> → 删除高亮的 mod 文件夹 → 把紧邻其下、名字带 <code>_backup</code> 后缀的文件夹改名回原 mod 名。</li></ul>\n<h2>命名</h2>\n<ul><li>打开多数归档时，<code>Name</code> 框会显示从下载时收集的 meta 信息解析出的名字；没有 meta 则显示\"文件名去掉附加的 Nexus ID 与版本号\"。</li><li>点下拉箭头可给出建议名（同 Nexus ID 的其它 mod、归档名、带 ID/版本号的归档名、Nexus 上的真实 mod 名）。</li></ul>\n<h2>三大打包格式</h2>\n<ul><li><strong>Simple（简单归档）</strong>：最常见也最省事，弹出 <code>Quick Install</code> 窗口只有三个选择——<code>OK</code> 直接安装、<code>Manual</code> 进手动安装对话框、<code>Cancel</code> 取消。<ul><li>在 Settings → Plugins 里把 <code>Simple Installer</code> 的 <code>enabled</code> 设为 <code>false</code> 可关闭快速安装；把 <code>silent</code> 设为 <code>true</code> 则简单归档<strong>全自动安装</strong>（省一次点击），某些必须手动装的 mod 需临时关掉该设置。</li></ul></li><li><strong>BAIN（Bash Installer）</strong>：打开 BAIN 包安装窗口，按 mod 页面或 readme 说明<strong>勾选所需选项</strong>后点 <code>OK</code>；<code>Package.txt</code> 按钮可打开包内 package.txt（没有则置灰）；<code>Manual</code> 进手动安装。</li><li><strong>FOMOD（Fallout Mod）</strong>：按脚本格式二选一——<strong>XML 脚本</strong>走内置 FOMOD 插件，<strong>C# 脚本</strong>走外部 NCC 插件。按向导提示安装即可。</li><li>不属于以上三类的归档会打开<strong>手动安装对话框</strong>。</li></ul>\n<blockquote>任何一次新装 mod 都会<strong>自动取得最高数值优先级</strong>；启用后就会覆盖冲突的低优先级 mod 文件。另外：<strong>目前不能同时安装多个 mod</strong>。</blockquote>\n<h2>手动安装</h2>\n<ul><li>打开手动安装对话框后，注意左下角：<strong>红字 <code>No game data at top level</code></strong> 表示尚未定位到数据目录；第一次出现会有小教程引导。当它变成<strong>绿字 <code>Looks good</code></strong> 时，才能点 <code>OK</code> 安装。</li><li>大多数情况是\"一个 data 文件夹 + 一个 readme\"：<strong>右键 data 文件夹 → <code>Set data directory</code></strong> 即可；选错了就右键 <code>Unset data directory</code>。</li><li>复杂归档需要自己整理：<ul><li>右键某层级 → <code>Create directory</code> 新建文件夹；</li><li><strong>拖放</strong>移动文件（Ctrl+左键可多选一起拖）；</li><li><strong>取消勾选</strong>某个文件/文件夹即不安装；</li><li>右键 readme → <code>Open</code> 查看内容。</li></ul></li><li>装歪了也不要紧，可在已安装 mod 的 <a href=\"hide-files-and-filetree.md\" target=\"_blank\" rel=\"noopener\">Filetree 面板</a>里继续调整。</li></ul>\n<h2>FOMOD 安装出问题时</h2>\n<ul><li><strong>强制用外部 NCC 插件安装</strong>（内置插件装错文件，或该 FOMOD 的 XML mod 检测脚本只认外部安装器）：<ol><li>点工具栏 wrench 打开 Settings → <code>Plugins</code> 标签页；</li><li>点 <code>FOMOD Installer</code>，把 <code>prefer</code> 的值双击改为 <code>False</code>；</li><li>OK 后重装该 FOMOD。装好后<strong>建议把 <code>prefer</code> 改回 <code>true</code></strong> 恢复默认行为。</li></ol></li><li><strong>用 FOMM 安装</strong>（Fallout 系）：确保 Overwrite 为空 → 经 MO 启动 FOMM → Package Manager → Add Package 选 FOMOD（问是否拷贝选否）→ 按需安装并退出 → 右键 Overwrite → <code>Create Mod</code> 命名即可。<ul><li>需要识别\"已装其它 mod\"的 FOMOD（如根据已装内容改写菜单文件的 HUD 类 mod）<strong>必须在 VFS 激活时安装</strong>，而 MO 安装 mod 时 VFS 未激活，所以要用上面这种绕行办法。</li></ul></li><li><strong>命令行方式被弃用</strong>：自 1.2.17 起必须用 FOMM 的场景已越来越少。</li></ul>\n<h2>Steam Workshop mod 的安装</h2>\n<ol><li>确保 Overwrite 为空。</li><li>在 Steam Workshop 订阅该 mod。</li><li><strong>通过 MO 启动游戏启动器</strong>，等文件下载完后退出启动器。</li><li>右键 Overwrite → <code>Create Mod</code>，命名并确定。</li><li>在 Steam Workshop 退订该 mod，对下一个 mod 重复以上步骤。</li><li>更新 Workshop mod：重复整个流程并移除旧版本。</li></ol>\n<blockquote>相关：<a href=\"enable-and-activate.md\" target=\"<em>blank\" rel=\"noopener\">启用 mod 与激活插件</a>、<a href=\"update-and-uninstall.md\" target=\"</em>blank\" rel=\"noopener\">更新、合并与卸载</a>、<a href=\"plugins-extensibility.md\" target=\"_blank\" rel=\"noopener\">插件体系：安装器</a>。</blockquote>",
+      "_file": "05-usage/install-mods.md",
+      "_chars": 3106
+    },
+    {
+      "id": "install-and-setup",
+      "title": "安装与首次启动设置",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "安装",
+        "首次启动",
+        "NXM",
+        "Nexus"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "安装 MO2、首次启动选择游戏与 instance、关联 NXM 链接；跑游戏前必须先手动启动游戏一次让 MO 建立注册表信息。",
+      "kind": "tutorial",
+      "content": "<h2>安装</h2>\n<ol><li>从 Nexus 登录并下载 MO 的主文件，双击安装。</li><li>安装时可选组件，<strong>推荐勾选 \"Handle Nexus Links\"</strong>。</li><li>建议把 MO 和所有 modding 工具装在 <strong>UAC 受控目录之外</strong>（即不要放进 <code>C:\\Program Files</code> 之类需要提权的路径）。</li><li>若安装程序无法运行，先确认杀毒软件没有拦截该可执行文件——有则加排除后重试。</li></ol>\n<h2>首次启动前的关键前置</h2>\n<blockquote><strong>在第一次运行 MO 之前，必须先至少启动一次游戏本体</strong>，以建立 MO 用来识别游戏及其安装路径所需的注册表设置。 很多游戏需要从 Steam 启动一次，等主菜单加载出来后再退出。</blockquote>\n<h2>首次启动流程</h2>\n<p>首次启动时 MO 会让你选择初始化模式：<strong>portable（便携）或 instanced（实例）</strong>，详见 <a href=\"portable-vs-instance.md\" target=\"_blank\" rel=\"noopener\">便携安装 vs 实例安装</a>（STEP 强烈推荐 instanced）。</p>\n<ol><li>启动 MO。</li><li>在 Choose Instance 窗口选 <strong>New</strong> 新建实例。若想用便携模式，选 <strong>Portable</strong> 并跳到第 4 步。</li><li>在下一个窗口从下拉框选一个实例名，或自己输入（名字随意，不必是所管游戏的名字）。</li><li>选择要管理的游戏。列表里没有就选 <strong>Browse…</strong> 定位到游戏主目录，然后点 OK。</li><li>弹出教程询问时可以选择查看交互式教程，<strong>首次使用者建议看一遍</strong>。</li><li>可能询问是否把 nxm 链接注册给 MO 处理（影响能否在 Nexus 点 \"Download with Manager\" 下载），<strong>一般选 Yes</strong>。</li></ol>\n<h2>首次上手值得改的设置</h2>\n<ul><li><strong>让工具栏图标带文字</strong>：<code>View</code> → <code>Toolbars</code> → <code>Icons and Text</code>，新手上手更快。</li><li><strong>换皮肤</strong>：工具栏 <code>Settings</code> → <code>General</code> → <code>Style</code> 下拉选皮肤，<code>dark.qss</code> 大概是最流行的。</li><li><strong>改路径</strong>：Settings → <code>Paths</code> 标签页，自定义 mod/下载等文件的存放位置（多硬盘用户尤其需要）。</li><li><strong>关联 NexusMods 账号</strong>：Settings → <code>Nexus</code> → 点 <code>Connect to the Nexus</code>，浏览器里登录并 <code>Authorise</code>；成功后按钮变成 <code>Nexus API Key Stored</code>，点 OK 并按提示重启 MO。</li></ul>\n<h2>更新 MO</h2>\n<ul><li>工具栏右上角的更新按钮<strong>变色</strong>即表示有新版本，点击按提示更新；也可在 <code>Help</code> 菜单里找到它。</li><li>若 MO 没能检测到更新，可手动下载最新版并覆盖安装/解压到 MO 现有目录。</li></ul>\n<h3>干净安装式更新（不推荐，仅在常规更新出问题时用）</h3>\n<ol><li>进入 MO 安装目录。</li><li>视安装方式二选一：<ul><li><strong>instanced</strong>：删除 Mod Organizer 文件夹内的<strong>全部内容</strong>（设置保存在 <code>%LocalAppData%/ModOrganizer</code>，不会丢）。</li><li><strong>portable</strong>：删除该文件夹内的全部文件与子文件夹，<strong>但必须保留</strong>：<code>downloads</code>、<code>mods</code>、<code>overwrite</code>、<code>profiles</code>、<code>webcache</code>、<code>categories.dat</code>、<code>ModOrganizer.ini</code>、<code>nxmhandler.ini</code>。</li></ul></li><li>按上面的安装步骤装新版本。</li></ol>\n<blockquote>下一步：了解 <a href=\"portable-vs-instance.md\" target=\"<em>blank\" rel=\"noopener\">便携安装 vs 实例安装</a> 的取舍；装好后按<a href=\"install-mods.md\" target=\"</em>blank\" rel=\"noopener\">安装 mod</a>开始；工具要从 MO 内启动，见<a href=\"third-party-executables.md\" target=\"_blank\" rel=\"noopener\">配置第三方程序</a>。</blockquote>",
+      "_file": "05-usage/install-and-setup.md",
+      "_chars": 1955
+    },
+    {
+      "id": "tool-recipes",
+      "title": "常用工具在 MO2 中的配置配方",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "工具",
+        "LOOT",
+        "xEdit",
+        "Wrye Bash",
+        "FNIS",
+        "SkyProc",
+        "SKSE",
+        "Creation Kit"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "LOOT、xEdit、Wrye Bash、FNIS、SkyProc、SKSE、Creation Kit、BodySlide、SBW、FreeCommander 的配置步骤与注意事项。",
+      "kind": "reference",
+      "content": "<p>以下步骤都从<a href=\"third-party-executables.md\" target=\"_blank\" rel=\"noopener\">配置第三方程序</a>的 <code>Modify Executables</code> 对话框出发（未特别说明即：点齿轮 → 填 Title → 浏览 Binary → Add → Close）。</p>\n<h2>LOOT</h2>\n<ol><li>Title 填 <code>LOOT</code>，Binary 选 <code>LOOT.exe</code>。</li><li>若你用 LOOT 管多个游戏，在 <code>Argument</code> 里加 <code>--game=&lt;name&gt;</code>，其中 <code>&lt;name&gt;</code> 为 <code>Skyrim</code>、<code>FalloutNV</code>、<code>Fallout3</code> 或 <code>Oblivion</code>。</li></ol>\n<blockquote>注意：插件页内置的 <code>Sort</code> 按钮就是 LOOT，但<strong>缺少报告窗口与元数据编辑功能</strong>。</blockquote>\n<h2>xEdit（TES5Edit / TES4Edit / FNVEdit / FO3Edit）</h2>\n<ul><li>Binary 选 <code>xEdit.exe</code>；在 <code>Arguments</code> 里加 <code>-tes5 -edit</code>（<code>tes5</code>=Skyrim、<code>tes4</code>=Oblivion、<code>fo3</code>=Fallout 3、<code>fnv</code>=Fallout NV）。</li><li><strong>取消勾选 <code>Close MO when Started</code></strong>。</li><li>另一种省事做法：把 xEdit 重命名成与游戏对应的名字（如 Skyrim 就叫 TES5Edit）。</li><li>关于保存位置：勾选 <code>Backup Plugins</code> 时文件写回原位置并覆盖，同时在 Overwrite 的 <code>TES5Edit Backups</code> 文件夹里生成备份；<strong>不勾选</strong>时直接覆盖原文件、不生成备份。（这与老版本 MO 行为不同——老版本无论如何都把改动写进 Overwrite。）</li></ul>\n<h2>Wrye Bash</h2>\n<ul><li><strong>独立版</strong>：Binary 选 <code>Wrye Bash.exe</code>（通常在安装目录的 <code>Mopy</code> 文件夹里，一般在游戏目录内）。</li><li><strong>Python 版</strong>：Binary 选 32 位的 <code>pythonw.exe</code>（如 <code>C:/Python27</code>），<code>Start in</code> 指向 Mopy 目录，<code>Arguments</code> 填 <code>\"…/Mopy/Wrye Bash Launcher.pyw\"</code> 的完整路径（在资源管理器里 Shift+右键该文件 → <code>复制为路径</code>）。</li><li>注意事项：<ul><li>从 MO 启动 Wrye Bash 时，它能识别 MO 的插件（esp/esm），但会把它们<strong>当作手动安装</strong>处理。</li><li>关闭 Wrye Bash 的 <strong>Auto-Ghost</strong> 功能，可避免 ESP 文件被从各自文件夹搬到 Data。</li><li>有些版本（如 Fallout 3 的 Wrye Flash）没有独立版，只能用 Python 方案。</li></ul></li></ul>\n<h2>FNIS（Fore's New Idles for Skyrim）</h2>\n<ul><li>Binary 指向 <code>&lt;ModOrganizer&gt;/mods/Fores New Idles in Skyrim - FNIS/tools/GenerateFNIS_for_Users/GenerateFNISforUsers.exe</code>。</li><li><strong>跑完 FNIS 后 Overwrite 里会出现文件</strong>：右键 Overwrite → <code>Create Mod</code>，命名如 <code>FNIS Output</code>，取消勾选改为勾选启用。</li><li>以后每次更新 FNIS 行为，都要打开 Overwrite，把新文件<strong>拖回该 mod</strong>。</li><li>若报 \"This application cannot be started\"，多半是<strong>忘了在左窗格启用该 mod</strong>。</li></ul>\n<h2>SkyProc Patchers（ASIS / Automatic Variants / Reproccer 等）</h2>\n<ul><li>它们是 Java 的 <code>.jar</code>，不是真正的 exe。添加方式：<ol><li>在右窗格 <strong>Data</strong> 标签页找到 <code>SkyProc Patchers</code> 目录，展开到目标程序；</li><li>右键 <code>.jar</code> → <code>Add as executable</code>；命名并完成。</li></ol></li><li>明说事项：<ul><li>需要 <strong>32 位 Java</strong>；可能要求你指定 Java 可执行文件，通常是 <code>Program Files</code> 下 <code>.../Java/jre7/bin/javaw.exe</code>。</li><li>也可以不改可执行列表，直接在 Data 标签页右键该 jar → <code>Open/Execute</code>。</li><li>在 <code>Arguments</code> 末尾加 <code> -noboss</code> 可绕过 BOSS。</li></ul></li><li>排错：<ul><li><strong>报缺 master、esp 排序错</strong>：把该 esp 放到它依赖的 master 之后；再给参数加 <code> -noboss</code>；重跑。替代方案：用 SUM（SkyProc Unified Manager）启动，把 SUM 设置成不跑 BOSS。</li><li><strong>报找不到东西或随机错误</strong>：Java 过期 → 装最新 Windows x86 离线版 JRE。</li><li><strong>报内存相关错误</strong>：用 SUM 在 Other Settings 里分配更多内存；和/或关闭所有 Java 程序后，给 <code>java.exe</code>、<code>javaw.exe</code> 打 <strong>4GB patch</strong>。</li></ul></li></ul>\n<h2>SKSE（Skyrim Script Extender）</h2>\n<ul><li>默认会被自动识别；否则手动把 <code>skse_loader.exe</code> 加为可执行程序，并勾选 <code>Close MO when started</code>。</li><li><strong>SKSE 本身不能作为 mod 安装</strong>（这样 SKSE 脚本不会加载）。但<strong>可以把 SKSE 的脚本、以及 SKSE 插件作为 mod 安装</strong>（前提是<strong>没有</strong>把加载机制改成 Script Extender）。</li><li>排错 \"Couldn't read arguments\"：说明参数写错。在 <code>Modify Executables</code> 里选中 SKSE，删除/修正参数，点 <code>Modify</code> 保存。SKSE 的合法参数包括：<code>-h</code>、<code>-help</code>、<code>-editor</code>、<code>-priority &lt;level&gt;</code>、<code>-altexe &lt;path&gt;</code>、<code>-altdll &lt;path&gt;</code>、<code>-crconly</code>、<code>-waitforclose</code>、<code>-fpslimit &lt;max fps&gt;</code>、<code>-v</code>、<code>-msinfo</code>、<code>-noskiplauncher</code>、<code>-launchsteam</code>、<code>-affinity &lt;mask&gt;</code>、<code>-forcesteamloader</code>。<ul><li>改完后，<strong>在这个错误参数下创建的 SKSE 快捷方式都要删掉重建</strong>。</li></ul></li></ul>\n<h2>Creation Kit（CK）</h2>\n<ul><li>通常自动识别，无需配置。若需手动添加：Binary 选 <code>CreationKit.exe</code>，并<strong>勾选 <code>Overwrite Steam AppID</code> 填 <code>202480</code></strong>，否则 CK 看不到你的 mod。</li><li>通过 MO 用 CK 的已知限制：<ul><li>CK 运行期间，往 mod 目录里新增的文件<strong>要重启 CK 才可见</strong>；</li><li>保存后 esp <strong>会被移进 Overwrite</strong>；</li><li>CK 的脚本编译器是 64 位程序，MO 处理不了——要编译脚本只能把脚本临时放进 Data，或使用 <em>Papyrus Compiler Patch for x64 Systems</em>。</li></ul></li></ul>\n<h2>BodySlide 2 and Outfit Studio</h2>\n<ol><li>装归档时 MO 检测不到游戏数据：选 <code>Set data directory</code> → <code>OK</code> → 提示处选 <code>Ignore</code>。</li><li>左窗格会出现<strong>红 X</strong> 标记：右键 mod → <code>Ignore missing data</code>。</li><li>勾选启用该 mod。</li><li>再按通用步骤把 <code>BodySlide.exe</code> 加为可执行程序（该 mod 内的其它程序同理）。</li></ol>\n<h2>Simple Borderless Window（SBW）</h2>\n<ul><li>Binary 选 Skyrim 目录下的 <code>SBW.exe</code>，<strong>勾选 <code>Close MO when started</code></strong>。</li><li>注意：要让 Skyrim 以窗口模式启动，<strong>每个 profile 的 <code>skyrimprefs.ini</code> 都要把 <code>bFull Screen</code> 改为 0</strong>。</li><li>效果：游戏内看起来仍是全屏，只是没有边框。</li></ul>\n<h2>Free Commander XE（FCXE）</h2>\n<ul><li><strong>必须装 32 位版本</strong>（MO 只支持 32 位程序）。</li><li>用途：从 MO 内启动它，导航到 <code>&lt;Skyrim&gt;/data</code>，即可<strong>看到 MO 暴露给所有 MO 内启动程序的 VFS 视图</strong>——这是验证 MO 是否正常工作最直观的方式（用资源管理器看同一目录只会看到干净的原版文件）。</li><li>⚠️ 注意 FCXE <strong>不是 VFS 的完整还原</strong>：BSA 内的文件仍留在 BSA 里，不会显示成 Data 下的散文件，所以别把它当成 VFS 的真实全貌。</li><li>⚠️ 出于技术原因，<strong>不能用 Windows 资源管理器或基于它的程序</strong>做这件事；Total Commander（TC）等替代文件管理器可用，FCXE 与 TC 均实测正常。</li></ul>\n<blockquote>相关：<a href=\"third-party-executables.md\" target=\"<em>blank\" rel=\"noopener\">配置第三方程序与快捷方式</a>、<a href=\"enable-and-activate.md\" target=\"</em>blank\" rel=\"noopener\">启用 mod 与激活插件</a>、<a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录与维护</a>。</blockquote>",
+      "_file": "05-usage/tool-recipes.md",
+      "_chars": 4422
+    },
+    {
+      "id": "plugins-extensibility",
+      "title": "插件体系：扩展、安装器与工具",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "插件",
+        "安装器",
+        "扩展",
+        "黑名单"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "MO 插件分 extensions / installers / tools 三类，在 Settings → Plugins 里配置开关与参数；有崩溃嫌疑的插件会被列入黑名单。",
+      "kind": "concept",
+      "content": "<p>MO 可通过插件扩展。插件可用 <strong>C++/Qt</strong> 或 <strong>Python</strong> 编写（Python API 目前比 C++ 略受限，且要求用户自行安装 Python）。配置入口：<code>Settings</code> → <code>Plugins</code> 标签页。</p>\n<p>插件分三类：<strong>extensions（扩展）</strong>、<strong>installers（安装器）</strong>、<strong>tools（工具）</strong>。</p>\n<h2>Extensions（扩展）</h2>\n<p>为 MO 增加对新编程语言的支持能力。</p>\n<ul><li><strong>Python Proxy</strong>：让 MO 能运行 Python 插件；也可指定代理使用的 Python 位置。<ul><li><code>enabled</code>（布尔，默认 <code>true</code>）：启用/禁用该插件。</li><li><code>python-dir</code>（文本）：Python 安装根目录，例如 <code>C:/Python27</code>。</li></ul></li></ul>\n<h2>Installers（安装器）</h2>\n<p>让 MO 处理各式各样打包方式的 mod 归档。</p>\n<table><thead><tr><th style=\"text-align:left\">插件</th><th style=\"text-align:left\">作用与参数</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>BAIN Installer</strong></td><td style=\"text-align:left\">安装为 Wrye Bash 包管理器打包的归档。<strong>目前不支持 wizards</strong>。</td></tr><tr><td style=\"text-align:left\"><strong>Bundle Installer</strong></td><td style=\"text-align:left\">处理\"包中包\"（如 <code>.7z</code> 里套一个 FOMOD）的代理安装器。</td></tr><tr><td style=\"text-align:left\"><strong>Fomod Installer</strong></td><td style=\"text-align:left\">安装用 XML 描述安装选项的归档（FOMOD = <em>Fallout Mod</em>，源自 Fallout Mod Manager）。&lt;br&gt;<code>enabled</code>（默认 <code>true</code>）；<code>prefer</code>（默认 <code>true</code>）——设为 <code>true</code> 时接管所有 xml FOMOD；设为 <code>false</code> 则只要外部 NCC 插件还能用就不使用它。</td></tr><tr><td style=\"text-align:left\"><strong>Manual Installer</strong></td><td style=\"text-align:left\">几乎能装任何包，但需要用户交互。通常是最后兜底方案。</td></tr><tr><td style=\"text-align:left\"><strong>Fomod Installer external</strong></td><td style=\"text-align:left\">调用基于 NMM 的外部工具 <strong>NCC</strong> 来装 FOMOD。比内置的慢、集成度差，但<strong>兼容性更好</strong>（NCC 除 xml 外还支持 <strong>C# 脚本</strong>）。&lt;br&gt;⚠️ <strong>当 FOMOD 使用 C# 脚本时，无论设置如何都必定调用这个外部安装器。</strong></td></tr><tr><td style=\"text-align:left\"><strong>Simple Installer</strong></td><td style=\"text-align:left\">一键安装\"简单数据层格式\"的 mod。&lt;br&gt;<code>enabled</code>（默认 <code>true</code>）：关闭后总是弹出手动安装窗口；<code>silent</code>（默认 <code>false</code>）：设为 <code>true</code> 则所有简单归档<strong>自动安装</strong>，跳过 Quick Install 菜单。</td></tr></tbody></table>\n<blockquote>关于 FOMOD 的实战取舍见<a href=\"install-mods.md\" target=\"_blank\" rel=\"noopener\">安装 mod</a>（可临时把 <code>prefer</code> 设为 <code>false</code> 强制走 NCC）。</blockquote>\n<h2>Tools（工具）</h2>\n<p>这类插件行为类似独立工具，但<strong>可能干扰 MO 主程序</strong>（例如请求当前 profile 信息、在虚拟目录里解析文件名）。</p>\n<table><thead><tr><th style=\"text-align:left\">插件</th><th style=\"text-align:left\">作用与参数</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>BSA Extractor</strong></td><td style=\"text-align:left\">安装 mod 时解包其中的 BSA。<code>enabled</code>（默认 <code>false</code>）：启用后，下次安装含 BSA 的 mod 会弹出对话框询问是否解包，并可选\"记住该设置\"。</td></tr><tr><td style=\"text-align:left\"><strong>FNIS Checker</strong></td><td style=\"text-align:left\">提示你该在启动游戏前跑 FNIS。<code>enabled</code>（默认 <code>false</code>）；<code>sensitive</code>（默认 <code>false</code>）——设为 <code>true</code> 会更激进地提示（几乎每次改动 profile 元素都提示）。</td></tr><tr><td style=\"text-align:left\"><strong>INI Editor</strong></td><td style=\"text-align:left\">编辑游戏配置的基础文本编辑器。<code>external</code>（默认 <code>false</code>）决定 ini 是否用外部 Windows 文本编辑器打开；<code>associated</code>（默认 <code>true</code>）决定用\"打开（Open）\"的关联程序，为 <code>false</code> 时用 Windows 的\"编辑（Edit）\"命令（通常仍是记事本，可在注册表里改）。</td></tr><tr><td style=\"text-align:left\"><strong>NMM Import</strong></td><td style=\"text-align:left\">把通过 NMM 安装的 mod 导入 MO。<strong>测试不足</strong>。</td></tr><tr><td style=\"text-align:left\"><strong>Preview Base</strong></td><td style=\"text-align:left\">提供预览各类文件的能力。</td></tr><tr><td style=\"text-align:left\"><strong>Basic Diagnosis Plugin</strong></td><td style=\"text-align:left\">检查与其它插件无关的问题，见下。</td></tr></tbody></table>\n<h3>Basic Diagnosis Plugin 的检查项</h3>\n<table><thead><tr><th style=\"text-align:left\">参数</th><th style=\"text-align:left\">默认</th><th style=\"text-align:left\">含义</th></tr></thead><tbody><tr><td style=\"text-align:left\"><code>check_errorlog</code></td><td style=\"text-align:left\"><code>true</code></td><td style=\"text-align:left\">上次运行某个程序时发生错误则警告。</td></tr><tr><td style=\"text-align:left\"><code>check_overwrite</code></td><td style=\"text-align:left\"><code>true</code></td><td style=\"text-align:left\">Overwrite 目录里有文件则警告（见 <a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a>）。</td></tr><tr><td style=\"text-align:left\"><code>check_font</code></td><td style=\"text-align:left\"><code>true</code></td><td style=\"text-align:left\">字体配置引用了<strong>未安装的字体</strong>时警告。配置文件是 <code>Data/interface/fontconfig.txt</code>；缺字体时字母会显示成方框，通常是字体替换 mod 装坏了。</td></tr><tr><td style=\"text-align:left\"><code>check_conflict</code></td><td style=\"text-align:left\"><code>true</code></td><td style=\"text-align:left\">有与 MO 功能冲突的 mod 被安装时警告（目前只检查 Nitpick，而 MO 已内置该 mod 的修复）。</td></tr><tr><td style=\"text-align:left\"><code>check_missingmasters</code></td><td style=\"text-align:left\"><code>true</code></td><td style=\"text-align:left\">有插件缺 master 时警告。</td></tr><tr><td style=\"text-align:left\"><code>ow_ignore_empty</code></td><td style=\"text-align:left\"><code>false</code></td><td style=\"text-align:left\">检查 Overwrite 时忽略空目录。</td></tr><tr><td style=\"text-align:left\"><code>ow_ignore_log</code></td><td style=\"text-align:left\"><code>false</code></td><td style=\"text-align:left\">检查 Overwrite 时忽略 <code>*.log</code> 文件与空目录。</td></tr></tbody></table>\n<h2>Blacklisted Plugins（插件黑名单）</h2>\n<ul><li>此处列出已被<strong>列入黑名单、禁止启用</strong>的插件。</li><li>当 MO 检测到某插件<strong>可能引起崩溃</strong>时，会把它拉黑。</li><li>在列表里按 <strong>Delete 键</strong>可移除条目。</li></ul>\n<blockquote>相关：<a href=\"install-mods.md\" target=\"<em>blank\" rel=\"noopener\">安装 mod</a>（安装器实际表现）、<a href=\"settings-tabs.md\" target=\"</em>blank\" rel=\"noopener\">设置页参考</a>、<a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录与维护</a>。</blockquote>",
+      "_file": "05-usage/plugins-extensibility.md",
+      "_chars": 3031
+    },
+    {
+      "id": "hide-files-and-filetree",
+      "title": "文件树、隐藏文件与冲突面板",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "文件树",
+        "Filetree",
+        ".mohidden",
+        "冲突"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "Conflicts 页显示谁覆盖谁并可 Hide 文件（加 .mohidden 后缀）；Filetree 页可新建/改名/删除/隐藏/拖动文件。",
+      "kind": "tutorial",
+      "content": "<h2>打开 Mod Information</h2>\n<p><strong>双击</strong>左窗格里的某个 mod，或右键 → <code>Information</code>。各标签页如下。</p>\n<table><thead><tr><th style=\"text-align:left\">标签页</th><th style=\"text-align:left\">作用</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Textfiles</strong></td><td style=\"text-align:left\">显示 mod 内所有文本文件（含 readme）。左侧列表点文件名即可查看，可编辑并用底部 <code>Save</code> 保存。<strong>只显示 ASCII 格式的 <code>*.txt</code></strong>。</td></tr><tr><td style=\"text-align:left\"><strong>INI-Files</strong></td><td style=\"text-align:left\">显示并编辑 mod 内的 ini 文件；也可在左下框右键 → <code>Create Tweak</code> 新建 ini tweak（见 <a href=\"ini-and-tweaks.md\" target=\"_blank\" rel=\"noopener\">游戏 INI 与 ini tweaks</a>）。</td></tr><tr><td style=\"text-align:left\"><strong>Images</strong></td><td style=\"text-align:left\">查看 mod 内的图片。</td></tr><tr><td style=\"text-align:left\"><strong>Optional ESPs</strong></td><td style=\"text-align:left\">把本 mod 的插件移到<strong>非激活的可选位置</strong>——文件还在手边，但不会误启用。注意：放在这里的插件<strong>不会</strong>触发 MO 平时\"该 mod 含多个 ESP\"的提示。</td></tr><tr><td style=\"text-align:left\"><strong>Conflicts</strong></td><td style=\"text-align:left\">所有冲突文件总览（见下）。</td></tr><tr><td style=\"text-align:left\"><strong>Categories</strong></td><td style=\"text-align:left\">修改该 mod 的分类。</td></tr><tr><td style=\"text-align:left\"><strong>Nexus Info</strong></td><td style=\"text-align:left\">显示 Mod ID 对应 Nexus 页面的文本。Mod ID 不对要改，否则版本信息也跟着错；<code>Version</code> 也可在此修正；点蓝色 <code>Visit on Nexus</code> 打开网页。</td></tr><tr><td style=\"text-align:left\"><strong>Notes</strong></td><td style=\"text-align:left\">为 mod 写备注；悬停左窗格的便签图标即可看到。</td></tr><tr><td style=\"text-align:left\"><strong>Filetree</strong></td><td style=\"text-align:left\">显示 mod 内全部文件（含 MO 生成的 <code>meta.ini</code>——<strong>别动它</strong>），见下。</td></tr></tbody></table>\n<h2>Conflicts 面板</h2>\n<p>右侧三个数字，从上到下依次是：</p>\n<ol><li><strong>处于冲突中、且正在覆盖其它 mod</strong> 的文件数；</li><li><strong>处于冲突中、正被其它 mod 覆盖</strong> 的文件数；</li><li><strong>不与任何已启用 mod 冲突</strong> 的文件数。</li></ol>\n<ul><li><strong>上框</strong>：本 mod <strong>覆盖低优先级 mod</strong> 的文件。左侧是文件路径，右侧按<strong>优先级从低到高</strong>列出冲突文件的来源。<ul><li>想让<strong>别的 mod</strong>来提供该文件？把本 mod 的优先级调到那个 mod 之前。</li><li>或者右键某个冲突文件 → <code>Hide</code>，等效于把该文件从本 mod 移除。</li></ul></li><li><strong>下框</strong>：本 mod <strong>被高优先级 mod 覆盖</strong>的文件。左侧是路径，右侧是提供该文件的 mod 名（只有一个）。<strong>此框中无法 Hide 任何文件。</strong></li></ul>\n<h2>Hide 的实质：<code>.mohidden</code></h2>\n<ul><li><code>Hide</code> 实际是给文件<strong>追加 <code>.mohidden</code> 扩展名</strong>，让它不生效。</li><li>恢复：进入 <code>Filetree</code> 标签页，右键该文件 → <code>Unhide</code>。</li><li>这也是高级用法：两个 mod 互相覆盖<strong>不同</strong>文件、而你更想要两者各一部分时，可以用 Hide 精确取舍（详见<a href=\"conflict-resolution.md\" target=\"_blank\" rel=\"noopener\">冲突解决与优先级</a>）。</li></ul>\n<h2>Filetree 面板</h2>\n<ul><li>显示 mod 内<strong>全部文件</strong>，包含 MO 生成的 <code>meta.ini</code>（<strong>勿动</strong>，MO 把 mod 信息存在里面）。</li><li>右键菜单可：<strong>新建文件夹</strong>（<code>New Folder</code>，在所在层级下创建）、<strong>打开文件</strong>（<code>Open</code>）、<strong>重命名</strong>（<code>Rename</code>，也可双击文件改名）、<strong>删除</strong>（<code>Delete</code>）、<strong>隐藏</strong>（<code>Hide</code>）。</li><li>支持<strong>拖放</strong>在 mod 内移动文件/文件夹。</li><li>最适合用来核对\"东西到底装对目录没有\"，尤其是 <strong>FOMOD 装歪</strong>的情况。</li></ul>\n<blockquote>相关：<a href=\"conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a>、<a href=\"../01-mechanism/virtual-delete.md\" target=\"</em>blank\" rel=\"noopener\">虚拟删除</a>、<a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录与维护</a>。</blockquote>",
+      "_file": "05-usage/hide-files-and-filetree.md",
+      "_chars": 2045
+    },
+    {
+      "id": "update-and-uninstall",
+      "title": "更新、合并与卸载 mod",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "更新",
+        "卸载",
+        "合并",
+        "回收站"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "用 Check all for update 查更新，全量替换用 Replace、部分更新用 Merge；卸载分\"仅当前 profile\"与\"全局删除（进回收站）\"。",
+      "kind": "tutorial",
+      "content": "<h2>检查更新</h2>\n<ul><li>在左窗格右键 → <code>Check all for update</code>。它按 Nexus 查各 mod 的新版本与 endorsement 状态，并把筛选视图切到 <code>&lt;Update&gt;</code>。</li><li>检测成败<strong>取决于 meta 信息是否正确</strong>（Nexus ID 与版本号）。有些作者版本号规则很怪，MO 可能识别不了——所以<strong>建议在 Nexus 上 Track 所有已装 mod</strong>，以跟踪中心为准。</li><li>MO <strong>不会</strong>自动轮询更新（作者不想给 Nexus 添无谓流量）；每次更新后版本号变绿/变红即反映结果（见 <a href=\"ui-layout.md\" target=\"_blank\" rel=\"noopener\">界面总览</a>）。</li></ul>\n<h2>更新</h2>\n<ol><li>下载新版本归档。</li><li>安装到<strong>原来同一个 mod</strong>上：<ul><li><strong>全量替换</strong>（新版本包含全部资源）→ 选 <code>Replace</code>；</li><li><strong>只更新部分文件</strong> → 选 <code>Merge</code>。</li></ul></li><li>更新后<strong>务必重新评估文件冲突</strong>，并按需调整优先级（见 <a href=\"conflict-resolution.md\" target=\"_blank\" rel=\"noopener\">冲突解决与优先级</a>）。</li></ol>\n<h2>卸载</h2>\n<ul><li><strong>仅从当前 profile 卸载</strong>：在左窗格<strong>取消勾选</strong>该 mod 即可——这是 profile 级操作，不影响其它 profile。</li><li><strong>从所有 profile 卸载</strong>：左窗格右键 → <code>Remove</code>，mod 文件夹会被<strong>删除到回收站</strong>。<ul><li>误删可从回收站<strong>还原该文件夹</strong>，MO 会重新认得它；但它会被当作<strong>新 mod</strong>处理：未勾选、且排在优先级最末。</li></ul></li></ul>\n<blockquote>相关：<a href=\"install-mods.md\" target=\"<em>blank\" rel=\"noopener\">安装 mod</a>（Merge/Replace 与备份）、<a href=\"enable-and-activate.md\" target=\"</em>blank\" rel=\"noopener\">启用 mod 与激活插件</a>（批量勾选/空格键）、<a href=\"backup-and-restore.md\" target=\"_blank\" rel=\"noopener\">备份与恢复</a>。</blockquote>",
+      "_file": "05-usage/update-and-uninstall.md",
+      "_chars": 1128
+    },
+    {
+      "id": "ini-and-tweaks",
+      "title": "游戏 INI 与 ini tweaks",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "INI",
+        "tweaks",
+        "Configurator",
+        "INI Editor"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "MO 首次启动会复制一份游戏 INI；用 Puzzle 菜单的 Configurator/INI Editor 编辑；可为 mod 建 ini tweak 覆盖任意 ini 设置。",
+      "kind": "tutorial",
+      "content": "<h2>编辑游戏 INI</h2>\n<ul><li>MO <strong>首次启动时会复制一份游戏 INI</strong>。此后你对默认游戏 INI 文件的修改<strong>不会</strong>反映到 MO 里。</li><li>编辑入口：打开 <strong>Puzzle 菜单</strong>（工具栏 tools 按钮）：<ul><li>选 <code>Configurator</code> 启动 GUI 版 INI 编辑器；</li><li>或点 <code>INI Editor</code> 启动文本版编辑器。</li></ul></li><li>INI Editor 是分标签页的文本编辑器，编辑的是<strong>当前 MO profile</strong> 对应的游戏 ini 文件；顶部下拉框可选择 <code>[Display]</code> 之类的节，直接跳到该节。</li></ul>\n<h2>ini tweaks</h2>\n<p><strong>ini tweak</strong> 是\"随 mod 一起生效的 ini 设置\"，用来避免手工反复改 ini。</p>\n<h3>创建 tweak</h3>\n<ol><li><strong>双击</strong>左窗格任意 mod（比如你的补丁 mod）打开信息面板。</li><li>切到 <strong>INI-Files</strong> 标签页。</li><li>在<strong>左下方小框里右键</strong> → <code>Create Tweak</code>。</li><li>输入名字（如 <code>Particle Tweak</code>）→ OK。</li><li>在右侧大框里粘贴你要的设置，例如先写节名 <code>[Particles]</code>，下一行写 <code>iMaxDesired=6000</code>。</li><li>点 <code>Save</code> 保存，关闭信息面板；重新打开该面板，tweak 旁会有一个复选框，<strong>勾选即激活</strong>。</li></ol>\n<ul><li>也可以直接为一个具体 mod 创建它需要的 tweak（例：Skyrim Flora Overhaul 需要 <code>[Grass]</code> 下的 <code>iMaxGrassTypesPerTexure=XX</code>），这样该 mod 启用时 tweak 也随之启用。</li></ul>\n<h3>一个便捷的起步方式（用来存放\"自定义 ini tweaks\"）</h3>\n<ol><li>让 Overwrite 里<strong>有文件</strong>时（没有就先随便跑个会产出的工具，或按旧做法：关闭 MO，在 <code>mods</code> 目录里新建一个空文件夹再启动 MO）；</li><li>右键 Overwrite → <code>Create Mod</code>，命名如 <code>Custom ini Tweaks</code>；</li><li>双击该新 mod 打开信息面板 → INI-Files 标签页 → 按上面的办法创建 tweak。</li></ol>\n<h3>ini tweak 的语义（重要）</h3>\n<p>据 Tannin 原话，ini tweaks <strong>不是去修改</strong> <code>skyrim.ini</code> / <code>skyrimprefs.ini</code>，而是<strong>替代</strong>它们：</p>\n<ul><li>若某设置在 ini tweak 中存在，那么该设置<strong>优先于任何其它 ini</strong>；</li><li>按当时的实现，ini tweak 甚至<strong>应当能覆盖其它 ini 文件的设置</strong>（例如 SKSE 插件的）——不过他本人未验证过。</li></ul>\n<h3>为什么有用</h3>\n<ul><li>把\"随配置变化\"的设置（如 STEP 推荐的各项设置、Darnified UI 需要的 <code>[Fonts]</code> 段）做成 tweak 放进一个 mod。</li><li>这样<strong>切换 profile 时只需启用/禁用该 mod</strong>，不必去手工编辑 ini 本身。</li></ul>\n<blockquote>相关：<a href=\"hide-files-and-filetree.md\" target=\"<em>blank\" rel=\"noopener\">文件树、隐藏文件与冲突面板</a>（INI-Files 标签页）、<a href=\"profile-switching.md\" target=\"</em>blank\" rel=\"noopener\">Profile 切换</a>、<a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录与维护</a>。</blockquote>",
+      "_file": "05-usage/ini-and-tweaks.md",
+      "_chars": 1811
+    },
+    {
+      "id": "ui-layout",
+      "title": "界面总览：工具栏、左窗格与右窗格",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "界面",
+        "工具栏",
+        "左窗格",
+        "右窗格",
+        "图标"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "工具栏六按钮加三状态位；左窗格管 mod 与优先级（含 Flags 图例），右窗格管插件、归档、Data、存档、下载。",
+      "kind": "reference",
+      "content": "<h2>工具栏</h2>\n<p>左上六个按钮（依次为 archive、globe、profile、gear、puzzle、wrench）：</p>\n<table><thead><tr><th style=\"text-align:left\">按钮</th><th style=\"text-align:left\">作用</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>archive（归档）</strong></td><td style=\"text-align:left\">浏览并打开 mod 归档包来安装 mod。<strong>注意：只能安装归档包内的 mod</strong>，非归档形式无法用它安装。</td></tr><tr><td style=\"text-align:left\"><strong>globe（地球）</strong></td><td style=\"text-align:left\">用浏览器打开所管游戏的 Nexus 主页；同时把 MO 设置为可通过 <code>Download with Manager</code> 下载该游戏的 mod。</td></tr><tr><td style=\"text-align:left\"><strong>profile（档案）</strong></td><td style=\"text-align:left\">设置不同的 mod 配置组合，见 <a href=\"profile-switching.md\" target=\"_blank\" rel=\"noopener\">Profile 切换</a>。</td></tr><tr><td style=\"text-align:left\"><strong>gear（齿轮）</strong></td><td style=\"text-align:left\">管理可在 MO 内运行的第三方可执行程序，见 <a href=\"third-party-executables.md\" target=\"_blank\" rel=\"noopener\">配置第三方程序</a>。</td></tr><tr><td style=\"text-align:left\"><strong>tools（工具）</strong></td><td style=\"text-align:left\">打开各类可扩展插件：默认含 INI Editor、NMM Import、Configurator。</td></tr><tr><td style=\"text-align:left\"><strong>settings（设置）</strong></td><td style=\"text-align:left\">配置 MO 的各方面行为，见 <a href=\"settings-tabs.md\" target=\"_blank\" rel=\"noopener\">设置页参考</a>。</td></tr></tbody></table>\n<p>右上还有三个：</p>\n<ul><li><strong>warning 图标</strong>：提示 MO 设置存在<strong>潜在问题</strong>。点击后会在窗口底部日志里显示检测到的问题；<strong>图标灰掉表示一切正常</strong>。</li><li><strong>update 按钮</strong>：更新 MO 到最新版。<strong>变色 = 有更新可点</strong>；灰 = 暂无更新。</li><li><strong>help 菜单</strong>：需要帮助时用它。点击 help 后，把光标指向界面控件，<strong>能解释的控件会变成问号</strong>，左键点击即可阅读说明；还含 MO wiki 链接、<code>Report Issue</code>（跳官方 bug 追踪器）、以及各引导教程入口。</li></ul>\n<h2>左窗格（mod 列表）</h2>\n<ul><li>按当前 profile 显示<strong>全部已安装 mod</strong>、它们的<strong>优先级顺序</strong>与<strong>启用状态</strong>。</li><li>可按名称、标记（flag）、分类、版本号、优先级、安装日期、Nexus ID 排序。</li><li><strong>Ctrl+左键可多选</strong>，再按<strong>空格键</strong>批量切换选中状态。</li></ul>\n<h3>Flags 列图标图例</h3>\n<table><thead><tr><th style=\"text-align:left\">图标</th><th style=\"text-align:left\">含义</th></tr></thead><tbody><tr><td style=\"text-align:left\">闪电 + 绿加号</td><td style=\"text-align:left\">该 mod 会覆盖低优先级 mod 的文件，<strong>且自身文件不会被任何人覆盖</strong>。</td></tr><tr><td style=\"text-align:left\">闪电 + 红减号</td><td style=\"text-align:left\">该 mod 不覆盖任何 mod，但<strong>有文件会被高优先级 mod 覆盖</strong>。</td></tr><tr><td style=\"text-align:left\">闪电 + 绿加号与红减号</td><td style=\"text-align:left\">既覆盖低优先级 mod，也有文件被高优先级 mod 覆盖。</td></tr><tr><td style=\"text-align:left\">闪电（无加减号）</td><td style=\"text-align:left\">该 mod 会被其它 mod 完全覆盖——<strong>装了等于没装</strong>。</td></tr><tr><td style=\"text-align:left\">红 X</td><td style=\"text-align:left\">MO 不认为该 mod 含有效数据（名称变灰且斜体）。右键选 <code>Ignore missing data</code> 可清除该标记（会在 mod 目录里放一个空的 textures 文件夹凑成\"有效\"）。</td></tr><tr><td style=\"text-align:left\">心形问号</td><td style=\"text-align:left\">该 mod 尚未 endorsement。</td></tr><tr><td style=\"text-align:left\">便签</td><td style=\"text-align:left\">你给该 mod 添加过 notes。</td></tr></tbody></table>\n<h3>版本列的颜色</h3>\n<ul><li><strong>绿色</strong> = 已是最新版；<strong>红色</strong> = 有新版可用；<strong>红色且前置警告图标</strong> = 你的版本号数字更高，但与 Nexus 当前版本对不上。</li></ul>\n<h3>优先级列</h3>\n<ul><li>数值越大，资源覆盖优先级越高；同名冲突时<strong>高数值者覆盖低数值者</strong>。</li><li>默认且推荐<strong>按优先级升序排序</strong>，方便直接拖放调整。</li></ul>\n<blockquote>提示：只有在左窗格使用 <code>No groups</code> 分组方式<strong>且</strong> <code>Priorities</code> 列激活时才能拖放排序。<strong>自 1.2.15 起所有分组方式都支持拖放</strong>，若你没看到该功能，请升级 MO。</blockquote>\n<h2>右窗格（标签页）</h2>\n<ul><li><strong>Plugins</strong>：所有已启用 ESM/ESP 的加载顺序管理（见 <a href=\"enable-and-activate.md\" target=\"_blank\" rel=\"noopener\">启用 mod 与激活插件</a>）。</li><li><strong>Archives</strong>：mod 内含 BSA 时在此列出，可解包（见 <a href=\"bsa-management-usage.md\" target=\"_blank\" rel=\"noopener\">BSA 管理与解包</a>）。</li><li><strong>Data</strong>：展示\"通过 MO 启动的程序\"所看到的 Data 目录——File 列是文件名，Mod 列是来源 mod；<strong>来源名显示红色</strong>表示另有激活的 mod 提供了同名文件并正在覆盖它（悬停红名可看冲突文件位置）。勾选底部 <code>Show only conflicts</code> 只看冲突文件。<ul><li>右键菜单：<code>Open/Execute</code>、<code>Add as Executable</code>（把 Data 里的程序快速加进可执行列表）、<code>Hide</code>（加 <code>.mohidden</code> 后缀使其失效）、<code>Write to file</code>（导出整个虚拟 Data 目录及来源清单）、<code>Refresh</code>。</li></ul></li><li><strong>Saves</strong>：存档与缺失插件（见 <a href=\"saves-management.md\" target=\"_blank\" rel=\"noopener\">存档查看与 Fix Mods</a>）。</li><li><strong>Downloads</strong>：所有通过 MO 下载的 mod（见 <a href=\"downloads-and-nexus.md\" target=\"_blank\" rel=\"noopener\">下载管理与 Nexus 集成</a>）。</li></ul>\n<h2>其它相关页面</h2>\n<ul><li><a href=\"filters-and-grouping.md\" target=\"_blank\" rel=\"noopener\">筛选、分组与冲突高亮</a></li><li><a href=\"hide-files-and-filetree.md\" target=\"_blank\" rel=\"noopener\">文件树、隐藏文件与冲突面板</a></li><li><a href=\"mod-categories.md\" target=\"_blank\" rel=\"noopener\">自定义 mod 分类</a></li><li><a href=\"warnings-and-order-problems.md\" target=\"_blank\" rel=\"noopener\">警告面板与潜在 mod 顺序问题</a></li></ul>",
+      "_file": "05-usage/ui-layout.md",
+      "_chars": 2737
+    },
+    {
+      "id": "filters-and-grouping",
+      "title": "筛选、分组与冲突高亮",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "筛选",
+        "分组",
+        "冲突高亮",
+        "Namefilter"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "可按分类或 Nexus ID 分组，Filter 侧栏提供预置与自定义筛选并支持 And/Or 组合；选中 mod 时用红/绿高亮输赢双方。",
+      "kind": "tutorial",
+      "content": "<h2>分组（Grouping）</h2>\n<ul><li>位置：左窗格<strong>底部中间的下拉菜单</strong>。</li><li>目前有两种分组方式：<strong>按分类</strong>（Categories）或<strong>按 Nexus ID</strong>。</li><li>视觉提示：分组激活时，mod 列表会被框在<strong>绿色</strong>框里。选 <code>No Grouping</code> 关闭分组。</li><li>⚠️ <strong>分组开启时无法用拖放改优先级</strong>（自 1.2.15 起已支持在所有分组方式下拖放）。</li></ul>\n<h2>冲突高亮</h2>\n<p>除了 <code>Flags</code> 列的图标（见<a href=\"ui-layout.md\" target=\"_blank\" rel=\"noopener\">界面总览</a>），MO 还会给与<strong>当前选中 mod</strong> 存在冲突的 mod 上色：</p>\n<ul><li><strong>绿色</strong> = \"输\"的一方：这些 mod 有文件不会进游戏。</li><li><strong>红色</strong> = \"赢\"的一方：这些 mod 会替换掉所选 mod 的文件。</li></ul>\n<h2>筛选（Filters）</h2>\n<ul><li>入口：左窗格<strong>左下角的 <code>Filter</code> 按钮</strong>，会从左弹出侧栏。</li><li>用<strong>左键</strong>选择筛选条件；按住 <strong>Ctrl + 左键</strong>可多选。</li><li><strong>取消</strong>某个筛选：右键高亮项 → <code>Deselect filter</code>；或 Ctrl+点击它；或点击侧栏内任意空白处。</li><li><strong>组合逻辑</strong>：侧栏底部的 <code>And</code> / <code>Or</code>。<code>And</code> 只显示<strong>同时满足所有</strong>所选条件的 mod；<code>Or</code> 显示满足<strong>任意一个</strong>条件的 mod。</li><li>视觉提示：筛选激活时，mod 列表会被框在<strong>红色</strong>框里。</li></ul>\n<h3>预置筛选</h3>\n<table><thead><tr><th style=\"text-align:left\">筛选</th><th style=\"text-align:left\">选中什么</th></tr></thead><tbody><tr><td style=\"text-align:left\"><code>&lt;Checked&gt;</code></td><td style=\"text-align:left\">当前 profile 中<strong>已启用</strong>的 mod。</td></tr><tr><td style=\"text-align:left\"><code>&lt;Unchecked&gt;</code></td><td style=\"text-align:left\">当前 profile 中<strong>未启用</strong>的 mod。</td></tr><tr><td style=\"text-align:left\"><code>&lt;Update&gt;</code></td><td style=\"text-align:left\">有可用新版本的 mod（执行 <code>Check all for update</code> 后会自动选中）。</td></tr><tr><td style=\"text-align:left\"><code>&lt;Managed by MO&gt;</code></td><td style=\"text-align:left\">安装进 MO 的 mod。</td></tr><tr><td style=\"text-align:left\"><code>&lt;Managed outside MO&gt;</code></td><td style=\"text-align:left\">非 MO 管理的 mod。</td></tr><tr><td style=\"text-align:left\"><code>&lt;No Category&gt;</code></td><td style=\"text-align:left\">未分配分类的 mod。</td></tr><tr><td style=\"text-align:left\"><code>&lt;Conflicted&gt;</code></td><td style=\"text-align:left\">已启用、且与其它已启用 mod 存在文件冲突的 mod。</td></tr><tr><td style=\"text-align:left\"><code>&lt;Not Endorsed&gt;</code></td><td style=\"text-align:left\">尚未 endorsement 的 mod（含被标记为 <code>Won't Endorse</code> 的）。</td></tr><tr><td style=\"text-align:left\"><strong>Filter Categories</strong></td><td style=\"text-align:left\">在所有 <code>&lt;...&gt;</code> 预置之后，按 Category 列属性筛选，自定义分类也会出现在这里。要新增分类：右键筛选侧栏 → <code>Edit Categories</code>（详见<a href=\"mod-categories.md\" target=\"_blank\" rel=\"noopener\">自定义 mod 分类</a>）。</td></tr></tbody></table>\n<h2>Namefilter</h2>\n<p>在侧栏里直接<strong>输入 mod 名称的片段</strong>即可快速定位。</p>\n<blockquote>相关：<a href=\"ui-layout.md\" target=\"<em>blank\" rel=\"noopener\">界面总览</a>、<a href=\"conflict-resolution.md\" target=\"</em>blank\" rel=\"noopener\">冲突解决与优先级</a>、<a href=\"hide-files-and-filetree.md\" target=\"_blank\" rel=\"noopener\">文件树、隐藏文件与冲突面板</a>。</blockquote>",
+      "_file": "05-usage/filters-and-grouping.md",
+      "_chars": 1665
+    },
+    {
+      "id": "mod-categories",
+      "title": "自定义 mod 分类",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "分类",
+        "categories.dat",
+        "Nexus ID"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "在 Settings → Configure Mod Categories 里增删分类、关联 Nexus 分类 ID、设置父子层级；配置存于 categories.dat。",
+      "kind": "tutorial",
+      "content": "<p>MO 内置的分类很有限，装 mod 时常看到有些有分类、有些没有。可自行补齐。</p>\n<h2>入口</h2>\n<p><code>Settings</code> → <code>General</code> 标签页底部的 <strong><code>Configure Mod Categories</code></strong> 按钮。会打开一个列出所有现有分类的窗口（看不全就把窗口往左右拖宽一点）。</p>\n<h2>基本操作</h2>\n<ul><li><strong>单击</strong>某分类选中它（整行高亮）。</li><li><strong>双击</strong> <code>ID</code>、<code>Name</code>、<code>Nexus IDs</code>、<code>Parent ID</code> 任一项即可进入编辑框。</li><li><strong>右键</strong>任意分类 → 弹出菜单可<strong>添加 / 删除</strong>分类。选 Add entry 会在高亮项<strong>上方</strong>新建一个空白分类，MO 会给它分配新 ID，名字初始为 <code>new</code>。</li><li><code>ID</code> 列显示的编号主要用于参照，一般无需修改；<strong>最左侧无标题列</strong>是分类在列表中的出现次序，可<strong>点击拖动</strong>调整位置。</li><li>其余字段都可双击（或选中后按 F2）编辑。</li></ul>\n<h2>关联 Nexus 分类</h2>\n<ol><li>打开 Nexus 对应游戏的 Categories 页面（在 Nexus 主页把鼠标悬停在 <code>Files</code> 上，选 <code>Categories</code>）。</li><li>悬停某个分类，浏览器里会显示链接预览，<strong>末尾的 <code>CAT=&lt;数字&gt;</code></strong> 就是 Nexus 分类 ID（例：<code>CAT=67</code> 对应 Abodes - Player Homes）。</li><li>回到 MO，选中你的新分类，<strong>双击 <code>Nexus IDs</code> 字段</strong>填入该数字。</li><li><strong>双击 <code>Name</code> 字段</strong>把 <code>new</code> 改成你想要的分类名。</li></ol>\n<h2>建立层级（父子分类）</h2>\n<ul><li>MO 有些分类是嵌套的子分类，做法是填 <strong><code>Parent ID</code></strong>（窗口最右列）。</li><li>例：新建分类 <code>FOOD</code>，MO 分配 ID 为 25；再建一个 <code>ROTTEN</code>，把它的 <code>Parent ID</code> 设为 25，<code>ROTTEN</code> 就成了 <code>FOOD</code> 的子分类。</li><li>删除分类：高亮后右键 → remove。</li></ul>\n<h2>给单个 mod 改分类</h2>\n<p>在左窗格右键任意 mod：</p>\n<ul><li><code>Add/Remove Categories</code>：下拉菜单里增删分类；</li><li><code>Replace Categories</code>：整组替换分类；</li><li><code>Primary Category</code>：设置显示在 Category 列里的主分类。</li></ul>\n<h2>备份分类</h2>\n<p>分类数据存放在 <strong><code>categories.dat</code></strong>。编辑满意后，关掉 MO，到 MO 文件夹复制一份 <code>categories.dat</code> 存好——将来重装 MO 时把它放回主目录，你的分类就回来了。</p>\n<blockquote>相关：<a href=\"filters-and-grouping.md\" target=\"<em>blank\" rel=\"noopener\">筛选、分组与冲突高亮</a>（分类也可用作筛选条件）、<a href=\"backup-and-restore.md\" target=\"</em>blank\" rel=\"noopener\">备份与恢复</a>。</blockquote>",
+      "_file": "05-usage/mod-categories.md",
+      "_chars": 1537
+    },
+    {
+      "id": "warnings-and-order-problems",
+      "title": "警告面板与潜在 mod 顺序问题",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "警告",
+        "mod 顺序",
+        "排错"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "工具栏警告图标提示\"潜在 mod 顺序问题\"，可点 Fix 让 MO 重排；它管资源（贴图/网格）顺序，与 LOOT 管的插件顺序不同。",
+      "kind": "tutorial",
+      "content": "<h2>警告图标</h2>\n<ul><li>工具栏有时会亮起 <strong>warning 图标</strong>，表示左窗格的 mod 顺序存在<strong>潜在问题</strong>。</li><li>点击它 → 显示需要处理的 <code>Problems</code>；选中上方面板里的 <code>Potential Mod order Problem</code>，下方会给出<strong>所需调整的说明</strong>。</li></ul>\n<h2>怎么处理</h2>\n<ul><li>最好的做法通常是直接点 <strong><code>Fix</code></strong>，让 MO 帮你重排这些 mod。</li><li>若你做了大量改动、甚至<strong>整体重装了所有 mod</strong>，可以先<strong>手动排序</strong>再 Fix。</li><li>手动排序的技巧：<strong>从列表底部往上调</strong>，这样在处理高位 mod 时，可能某些冲突已经被顺带解决了。</li></ul>\n<h2>\"潜在\"是什么意思</h2>\n<ul><li>正如对话框标题所说，这些是<strong>潜在</strong>问题。</li><li>通常游戏<strong>仍能跑起来</strong>、未必会 CTD，但<strong>很可能出现贴图/网格（或其它资源）缺失，或至少是错的那一份</strong>。</li><li>这个功能相当于对\"作者页面上关于该 mod 应装在哪个位置、与谁先后顺序\"的提醒做了一次自动复核。</li><li>原理：所有 mod 都被\"装\"进 MO 的<strong>虚拟游戏数据目录</strong>，所以<strong>游戏引擎实际的加载顺序</strong>可以通过在左窗格重排这些 mod 来改变。</li></ul>\n<h2>与 LOOT / Sort 的区别（重要）</h2>\n<table><thead><tr><th style=\"text-align:left\"></th><th style=\"text-align:left\">管什么</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>本警告面板 / 左窗格顺序</strong></td><td style=\"text-align:left\"><strong>资源</strong>（textures / meshes / menus 等）的覆盖关系</td></tr><tr><td style=\"text-align:left\"><strong>Plugins 页的 <code>Sort</code>、LOOT、BOSS</strong></td><td style=\"text-align:left\"><strong>插件</strong>（esp/esm）的加载顺序</td></tr></tbody></table>\n<blockquote>二者性质不同：mod 顺序问题不是 LOOT 或 BOSS 能处理的范畴。</blockquote>\n<blockquote>相关：<a href=\"conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a>、<a href=\"enable-and-activate.md\" target=\"</em>blank\" rel=\"noopener\">启用 mod 与激活插件</a>、<a href=\"ui-layout.md\" target=\"_blank\" rel=\"noopener\">界面总览</a>（warning 图标）。</blockquote>",
+      "_file": "05-usage/warnings-and-order-problems.md",
+      "_chars": 1174
+    },
+    {
+      "id": "settings-tabs",
+      "title": "设置页参考（General / Nexus / Plugins / Workarounds）",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "设置",
+        "Settings",
+        "Workarounds",
+        "Log Level"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "齿轮按钮打开设置：General 管语言/皮肤/日志/路径/分类，Nexus 管账号与服务器，Workarounds 管加载机制等特殊开关。",
+      "kind": "reference",
+      "content": "<p>入口：工具栏 <code>settings</code>（wrench）按钮。</p>\n<h2>General 标签页</h2>\n<ul><li><strong>Language</strong>：界面语言下拉。当前支持英语（美式）、捷克语、荷兰语、法语、德语、日语、韩语、俄语、西班牙语、土耳其语，以及<strong>中文（简体与繁体）</strong>。</li><li><strong>Style</strong>：选择皮肤。<code>dark.qss</code> 大概是最流行的。</li><li><strong>Log Level</strong>：控制写入 <code>ModOrganizer.log</code> 的内容量。<ul><li><code>Debug</code> 最详细、排错最有用；<code>Info</code> 信息较少、遇到 bug 时帮助有限；<code>Error</code> 只记录错误、几乎不提供上下文。</li><li>日志<strong>只在 MO 建立 VFS 的初始化阶段</strong>产生；游戏实际加载阶段的开销可忽略。Tannin 的说法是：性能上\"没有值得一提的 CPU 影响，都是磁盘 I/O；即便 Debug 级别 MO 也不会产生很多日志，实际游戏中几乎没有（MO 的活动主要在启动和加载阶段）\"。</li></ul></li><li><strong>Advanced</strong>：可修改 <code>downloads</code>、<code>mods</code>、<code>webcache</code> 的存放目录。用 SSD 且不想把下载归档放上去时很有用；多份 MO 共用一处已装 mod 时也有用。</li><li><strong>User Interface</strong>：紧凑下载界面 / 下载元信息显示的开关组合。</li><li><strong>Reset Dialogs</strong>：重置所有勾选过\"记住选择（Remember Selection）\"的位置。<ul><li>典型用途：你曾在安装含 BSA 的 mod 时选了\"总是解包\"，现在想恢复询问——用 Reset Dialogs 即可。</li></ul></li><li><strong>Configure Mod Categories</strong>：编辑 mod 分类，见<a href=\"mod-categories.md\" target=\"_blank\" rel=\"noopener\">自定义 mod 分类</a>。</li></ul>\n<h2>Nexus 标签页</h2>\n<ul><li><strong>Login Info</strong>：填 Nexus 账号密码可免去每次输入；勾选可让 MO 自动登录。<strong>以加密形式存于 <code>ModOrganizer.ini</code></strong>。</li><li><strong>Offline Mode</strong>：勾选后 MO 不访问互联网。</li><li><strong>Proxy Settings</strong>：<code>Use HTTP Proxy</code> 让 MO 使用系统代理设置。</li><li><strong>Associate with \"Download with manager\" links</strong>：把 Nexus 上的 Download with Manager 链接关联到你所管游戏对应的 MO。</li><li><strong>Servers</strong>：下载过 mod 后，MO 会记录已知服务器及其连接速度。把左框里的服务器<strong>拖到右框</strong>即设为首选——<strong>Premium 用户</strong>可借此指定 Premium 服务器以获更快速度。</li></ul>\n<h2>Plugins 标签页</h2>\n<ul><li>各插件的具体开关与参数都在这里配置，见<a href=\"plugins-extensibility.md\" target=\"_blank\" rel=\"noopener\">插件体系</a>。</li></ul>\n<h2>Workarounds 标签页</h2>\n<table><thead><tr><th style=\"text-align:left\">项</th><th style=\"text-align:left\">说明</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Steam App ID</strong></td><td style=\"text-align:left\">Steam 用于该游戏的 ID。<strong>除非你确信它错了，否则别动</strong>。详见<a href=\"load-mechanism.md\" target=\"_blank\" rel=\"noopener\">加载机制与 Steam App ID</a>。</td></tr><tr><td style=\"text-align:left\"><strong>Load Mechanism</strong></td><td style=\"text-align:left\">MO 作用于游戏的方式：<code>Mod Organizer</code>（默认）、<code>Script Extender</code>、<code>Proxy DLL</code>。<strong>默认机制不出问题就别改</strong>；<code>Proxy DLL</code> 是个\"大 hack\"，应优先避免。详见<a href=\"load-mechanism.md\" target=\"_blank\" rel=\"noopener\">加载机制与 Steam App ID</a>。</td></tr><tr><td style=\"text-align:left\"><strong>NMM Version</strong></td><td style=\"text-align:left\">MO 作为 user agent 时声称的 NMM 版本。若 Nexus 封禁了某个 NMM 版本，可能需要调高。</td></tr><tr><td style=\"text-align:left\"><strong>Hide inactive ESPs/ESMs</strong></td><td style=\"text-align:left\">隐藏未激活的插件。<strong>当前有 bug，勿用</strong>。</td></tr><tr><td style=\"text-align:left\"><strong>Force-enable game files</strong></td><td style=\"text-align:left\">勾选则强制加载基础游戏文件（如 Skyrim 的 <code>Skyrim.esm</code> 及其相关 BSA）；<strong>取消勾选</strong>可禁用基础文件——在做\"基于该引擎的整体转换 mod\"时可能有用。</td></tr><tr><td style=\"text-align:left\"><strong>Display mods installed outside MO</strong></td><td style=\"text-align:left\">控制是否把真实 Data 目录里的所有\"插件 + BSA\" mod 显示为 Non-MO mod。关闭只会移除装在 Data 里的 mod，不会移除官方 DLC。</td></tr><tr><td style=\"text-align:left\"><strong>Back-date BSAs</strong></td><td style=\"text-align:left\">仅 Skyrim 的 Archive Invalidation 替代方案。<strong>跑 Skyrim 且未启用 Archive Invalidation 时必须勾选</strong>，否则原版 BSA 可能覆盖你的 loose file，非常难排查。见 <a href=\"bsa-management-usage.md\" target=\"_blank\" rel=\"noopener\">BSA 管理与解包</a>。</td></tr></tbody></table>\n<blockquote>相关：<a href=\"ui-layout.md\" target=\"<em>blank\" rel=\"noopener\">界面总览</a>、<a href=\"plugins-extensibility.md\" target=\"</em>blank\" rel=\"noopener\">插件体系</a>、<a href=\"load-mechanism.md\" target=\"<em>blank\" rel=\"noopener\">加载机制与 Steam App ID</a>、<a href=\"downloads-and-nexus.md\" target=\"</em>blank\" rel=\"noopener\">下载管理与 Nexus 集成</a>。</blockquote>",
+      "_file": "05-usage/settings-tabs.md",
+      "_chars": 2654
+    },
+    {
+      "id": "runtime-deploy",
+      "title": "运行时部署 mod（不写入游戏目录）",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "部署",
+        "运行时",
+        "VFS"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "MO2 在游戏进程启动的瞬间用 VFS 合并 mod，磁盘上的游戏目录始终未被修改。",
+      "kind": "tutorial",
+      "content": "<p>MO2 的核心体验是：<strong>mod 从不写进游戏目录</strong>。所有合并都发生在\"运行时\"。</p>\n<h2>流程</h2>\n<ol><li>你把 mod 装进 MO2 的 <code>mods\\</code> 目录（各自独立文件夹）。</li><li>你勾选要启用的 mod，调整顺序决定优先级。</li><li>点\"运行游戏\"——此时 <a href=\"03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 把合并视图交给 usvfs，注入游戏进程。</li><li>游戏进程\"看到\"的 <code>Data\\</code> 是几十个 mod 叠加后的结果；<strong>磁盘上的真实游戏目录一字未改</strong>。</li><li>关闭 MO2 / 退出游戏，虚拟链接消失，游戏目录恢复如初。</li></ol>\n<h2>好处</h2>\n<ul><li>游戏目录始终干净、可验证（Verify integrity 不会报\"被改过\"）。</li><li>启用/禁用 mod 只是改视图，不碰文件，不会破坏其它 mod 或游戏本身。</li><li>同一游戏可同时拥有多套互不相干的配置（profile）。</li></ul>\n<blockquote>这与 <a href=\"mod-isolation.md\" target=\"<em>blank\" rel=\"noopener\">mod 隔离</a> 是一体两面；冲突如何裁决见 <a href=\"conflict-resolution.md\" target=\"</em>blank\" rel=\"noopener\">冲突解决与优先级</a>。</blockquote>",
+      "_file": "05-usage/runtime-deploy.md",
+      "_chars": 789
+    },
+    {
+      "id": "third-party-executables",
+      "title": "配置第三方程序与快捷方式",
+      "category": "05-usage",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "使用",
+        "可执行文件",
+        "工具",
+        "快捷方式",
+        "Steam AppID"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "所有 mod 相关工具都必须从 MO 内启动；用齿轮按钮配置 Binary/Start in/Arguments 等字段，并可创建（profile 专属）快捷方式。",
+      "kind": "tutorial",
+      "content": "<h2>核心原则</h2>\n<ul><li>所有与 mod 打交道的程序（BOSS、Wrye Bash、游戏启动器、SkyEdit、Creation Kit 等），以及你用的各种 <strong>launcher</strong>（如 SKSE、SBW），<strong>都应该从 MO 内部启动</strong>。否则它们看不到 VFS 合并后的视图。</li><li>部分知名工具会被<strong>自动检测</strong>并加入可执行列表；其余需手动添加。</li><li>要从 MO 启动某程序：在右上角的可执行程序下拉框里选中它，点 <code>Run</code>。</li></ul>\n<h2>Modify Executables（点齿轮按钮打开）</h2>\n<table><thead><tr><th style=\"text-align:left\">字段</th><th style=\"text-align:left\">说明</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Title</strong></td><td style=\"text-align:left\">显示在下拉菜单里的名字，随你取。</td></tr><tr><td style=\"text-align:left\"><strong>Binary</strong></td><td style=\"text-align:left\">要运行的可执行文件完整路径。<strong>只有 <code>.exe</code> / <code>.bat</code> 算可执行文件</strong>；<code>.jar</code> / <code>.py</code> 等需要<strong>解释器</strong>（Java、Python），此时把<strong>解释器</strong>设为 Binary。</td></tr><tr><td style=\"text-align:left\"><strong>Start in</strong></td><td style=\"text-align:left\">程序的工作目录，通常可留空。跑 <code>.jar</code> / <code>.py</code> 时可能需要设为该文件所在路径。</td></tr><tr><td style=\"text-align:left\"><strong>Arguments</strong></td><td style=\"text-align:left\">传给二进制文件的命令行参数。Java 应用：Binary 设 <code>java.exe</code>/<code>javaw.exe</code>，参数填 <code>-jar &lt;xxx.jar&gt;</code>；Python 应用：Binary 设 <code>python.exe</code>/<code>pythonw.exe</code>，参数填 <code>&lt;xxx.py&gt;</code>。</td></tr><tr><td style=\"text-align:left\"><strong>Overwrite Steam AppID</strong></td><td style=\"text-align:left\">仅用于<strong>通过 Steam 分发、但不是游戏本身</strong>的程序（已知场景就是 Creation Kit，且会自动配好）。</td></tr><tr><td style=\"text-align:left\"><strong>Close MO when started</strong></td><td style=\"text-align:left\">勾选则启动该程序时关闭 MO。按个人偏好选。</td></tr></tbody></table>\n<h3>通用配置步骤</h3>\n<ol><li>点齿轮按钮打开 <code>Modify Executables</code>。</li><li><code>Title</code> 填入你想叫的名字。</li><li><code>Binary</code> 右侧的省略号按钮（\"Browse filesystem\"）→ 浏览到程序并选中。</li><li>（如需）设置 <code>Start in</code>。</li><li>（如需）填 <code>Arguments</code>。</li><li>（如需）勾选 <code>Overwrite Steam AppID</code> 并填数字 / 勾选 <code>Close MO when started</code>。</li><li>点 <code>Add</code> 加入列表 → 点 <code>Close</code> 关闭。</li></ol>\n<blockquote>若程序文件与可执行文件在同一目录（如 <code>TESV.exe</code> 就在 Skyrim 目录），可跳过 Start in 相关步骤。<strong>多数情况只需要 Title + Binary。</strong></blockquote>\n<h2>自动识别的可执行文件</h2>\n<ul><li>只有装在<strong>默认位置</strong>才会被自动加入，<strong>MO 不会去搜索整个文件系统</strong>。它们都需要位于游戏根目录（<code>&lt;游戏安装目录&gt;/</code>）。</li><li>支持的游戏包括 Skyrim、Oblivion、Fallout 3、Fallout New Vegas。</li><li>BOSS 早期要求装在 Data 下，后来有了自己的目录，因此 MO 当前会看两处：<strong>游戏根目录下的 <code>BOSS</code> 文件夹</strong>与<strong>根目录下的 <code>Data</code> 文件夹</strong>。</li></ul>\n<table><thead><tr><th style=\"text-align:left\">游戏</th><th style=\"text-align:left\">自动识别</th></tr></thead><tbody><tr><td style=\"text-align:left\">Skyrim</td><td style=\"text-align:left\"><code>skse_loader.exe</code>、<code>SBW.exe</code>、<code>TESV.exe</code>、<code>SkyrimLauncher.exe</code>、<code>CreationKit.exe</code>、<code>BOSS/BOSS.exe</code></td></tr><tr><td style=\"text-align:left\">Oblivion</td><td style=\"text-align:left\"><code>obse_loader.exe</code>、<code>oblivion.exe</code>、<code>OblivionModManager.exe</code>、<code>TESConstructionSet.exe</code>、<code>OblivionLauncher.exe</code>、<code>BOSS/BOSS.exe</code> 或 <code>Data/BOSS.exe</code></td></tr><tr><td style=\"text-align:left\">Fallout 3</td><td style=\"text-align:left\"><code>fose_loader.exe</code>、<code>fallout3.exe</code>、<code>fomm/fomm.exe</code>、<code>geck.exe</code>、<code>FalloutLauncher.exe</code>、<code>BOSS/BOSS.exe</code></td></tr><tr><td style=\"text-align:left\">Fallout NV</td><td style=\"text-align:left\"><code>nvse_loader.exe</code>、<code>falloutnv.exe</code>、<code>fomm/fomm.exe</code>、<code>geck.exe</code>、<code>FalloutNVLauncher.exe</code>、<code>BOSS/BOSS.exe</code></td></tr></tbody></table>\n<h2>通用故障排查</h2>\n<table><thead><tr><th style=\"text-align:left\">现象</th><th style=\"text-align:left\">可能原因</th><th style=\"text-align:left\">解决</th></tr></thead><tbody><tr><td style=\"text-align:left\">报 \"This application could not be started. Do you want to view information about this issue?\"</td><td style=\"text-align:left\">该程序以 mod 形式装在 MO 里，但<strong>在左窗格没勾选</strong></td><td style=\"text-align:left\">在左窗格勾选它所在的 mod</td></tr><tr><td style=\"text-align:left\">启动失败：MO 卡住几秒后解锁、什么都没发生</td><td style=\"text-align:left\">同上</td><td style=\"text-align:left\">同上</td></tr><tr><td style=\"text-align:left\">报 \"Elevation required\"</td><td style=\"text-align:left\">该程序需要管理员权限</td><td style=\"text-align:left\">信任该程序就点 <code>Yes</code></td></tr><tr><td style=\"text-align:left\">程序能启动，但<strong>不采用</strong>你填的自定义参数</td><td style=\"text-align:left\">快捷方式是在你添加参数<strong>之前</strong>创建的</td><td style=\"text-align:left\">展开 <code>Shortcut</code> 下拉 → 移除所有快捷方式（手动改过名的需手动删）→ 重新创建</td></tr></tbody></table>\n<h2>快捷方式</h2>\n<p>从可执行程序下拉选中程序 → 点 <code>Shortcut</code> 下拉 → 选择目标即可<strong>切换</strong>（再选一次即移除）：</p>\n<ul><li><code>Desktop</code>：桌面快捷方式。</li><li><code>Start Menu</code>：开始菜单快捷方式。</li><li><code>Toolbar</code>：放在 MO 自己的工具栏上。</li></ul>\n<blockquote>⚠️ 在 <code>Modify Executables</code> 里改动的参数或选项<strong>不会影响此前创建的快捷方式</strong>；要让快捷方式吃上新设置，必须删掉重建。</blockquote>\n<h3>改快捷方式图标</h3>\n<p>默认情况下经 MO 创建的快捷方式显示 MO 的图标。要换成程序自己的图标： 右键快捷方式 → <code>Properties</code> → <code>Change Icon…</code> → <code>Browse…</code> → 定位到程序（或图标文件）→ <code>Open</code> → <code>OK</code> → <code>Apply</code> → <code>OK</code>。</p>\n<h3>Profile 专属快捷方式</h3>\n<p><strong>仅对桌面与开始菜单快捷方式有效</strong>——这样它只会在指定 profile 下运行：</p>\n<ol><li>先按上面的方式创建快捷方式。</li><li>右键快捷方式 → <code>Properties</code>。</li><li><code>Target</code> 字段原本形如 <code>\"&lt;ModOrganizer&gt;/ModOrganizer.exe\" \"&lt;ApplicationFolder&gt;/Application.exe\"</code>。</li><li>在<strong>两个引号字符串之间</strong>插入 <code> -p \"Profile 名\"</code>，替换成你的 profile 名。</li><li>结果应为 <code>\"&lt;ModOrganizer&gt;/ModOrganizer.exe\" -p \"Profile 名\" \"&lt;ApplicationFolder&gt;/Application.exe\"</code>。</li><li>点 <code>Apply</code> → <code>OK</code>；（可选）把快捷方式改名以标明它对应哪个 profile。</li></ol>\n<blockquote>具体工具的配置配方见<a href=\"tool-recipes.md\" target=\"<em>blank\" rel=\"noopener\">常用工具配置配方</a>；加载机制与 Steam AppID 见<a href=\"load-mechanism.md\" target=\"</em>blank\" rel=\"noopener\">加载机制与 Steam App ID</a>。</blockquote>",
+      "_file": "05-usage/third-party-executables.md",
+      "_chars": 3510
+    },
+    {
+      "id": "troubleshooting-vfs",
+      "title": "VFS/USVFS 常见排错",
+      "category": "06-reference",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "参考",
+        "排错",
+        "杀软",
+        "HVCI",
+        "事件日志"
+      ],
+      "source": "https://github.com/ModOrganizer2/modorganizer/wiki/Troubleshooting",
+      "summary": "注入被拦、HVCI/Core Isolation 阻止受保护 exe、Windows 事件日志服务异常、系统日志被清等排查。",
+      "kind": "reference",
+      "content": "<p>usvfs 靠<strong>注入</strong>工作，所以很多\"怪问题\"其实是注入没成功或被干扰。</p>\n<h2>1. 杀软 / 反恶意软件拦截注入</h2>\n<ul><li>usvfs 的 hook 技术与部分恶意软件相似，易被拦截且<strong>常常毫无提示</strong>。</li><li><strong>把整个 MO2 安装目录</strong>（不只是 exe）加入排除/例外项；顽固者可能需彻底卸载。</li><li>已知会干扰的（非穷举）：Acronis（含反勒索模块）、Avast、Bitdefender、Malwarebytes、VIPRE、Windows Defender。</li></ul>\n<h2>2. HVCI / Core Isolation（硬件强制栈保护）阻止受保护 exe</h2>\n<ul><li>Windows 的 <strong>Hardware-enforced Stack Protection（需 Intel CET / AMD Shadow Stack 硬件）</strong> 可能阻止受保护的可执行文件通过 usvfs 运行。</li><li>用户侧解决：Windows 安全中心 → 应用和浏览器控制 → 漏洞利用保护设置 → 程序设置 → 添加该程序 → 找到 exe → 关闭\"硬件强制栈保护\"（Override system settings → Off）。</li><li>开发者侧：用 <code>/CETCOMPAT:NO</code> 编译，或 .NET 项目设 <code>&lt;CETCompat&gt;false&lt;/CETCompat&gt;</code>。</li></ul>\n<h2>3. Windows Event Log 服务异常</h2>\n<ul><li>未知原因下，该服务对正确 hook 像 LOOT/Wrye Bash/xEdit 这类程序<strong>至关重要</strong>。MO2 2.1.4+ 会在运行可执行文件时警告服务异常。</li><li>检查\"Windows Event Log\"服务状态应为\"正在运行\"、启动类型\"自动\"；若拒绝启动，可能是 Windows 日志损坏（超出本 wiki 范围）。</li></ul>\n<h2>4. 清空了 Windows 系统日志</h2>\n<ul><li>系统日志被清（手动或 CCleaner 的\"Windows Event Logs\"）后，必须<strong>重启</strong>（用\"重启\"而非\"关机\"）MO2 才能恢复正常。CCleaner 可关闭该项避免。</li></ul>\n<h2>5. 通用排查顺序</h2>\n<ul><li>在 MO2 之外测试该程序是否正常。</li><li>新建<strong>空白 profile</strong>（选 DefaultGameSettings）测试。</li><li>确认游戏目录/Data 里没有残留 mod。</li><li>确认脚本扩展器（SKSE 等）版本匹配且为最新。</li><li>关闭杀软、完成 Windows 更新、真正\"重启\"电脑。</li></ul>\n<blockquote>想确认 usvfs 到底有没有在重定向，开 <a href=\"04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 看日志。</blockquote>",
+      "_file": "06-reference/troubleshooting-vfs.md",
+      "_chars": 1466
+    },
+    {
+      "id": "faq",
+      "title": "常见问题（FAQ）",
+      "category": "06-reference",
+      "version": "1.0.0",
+      "updated": "2026-09-20",
+      "tags": [
+        "参考",
+        "FAQ",
+        "排错"
+      ],
+      "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
+      "summary": "关于 VFS/USVFS 的高频疑问：mod 不显示、profile 崩溃、与符号链接区别等。",
+      "kind": "reference",
+      "content": "<h2>mod 在游戏里不显示 / LOOT、xEdit、Wrye Bash 看不到？</h2>\n<ul><li>确认你是<strong>通过 MO2 启动</strong>游戏或工具（直接双击 exe 看不到虚拟视图）。</li><li>确认 mod 已勾选启用、且顺序正确（见 <a href=\"05-usage/conflict-resolution.md\" target=\"_blank\" rel=\"noopener\">冲突解决</a>）。</li><li>检查是否被安全软件拦截（见 <a href=\"troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS 排错</a>）。</li></ul>\n<h2>为什么游戏目录里找不到我的 mod 文件？</h2>\n<ul><li>正常。mod 物理上在 <code>mods\\</code>，通过 VFS 只在被注入的进程内\"可见\"（见 <a href=\"01-mechanism/process-local-links.md\" target=\"_blank\" rel=\"noopener\">进程级可见</a>）。资源管理器看到的是真实目录。</li></ul>\n<h2>这和 NTFS 符号链接有什么不同？</h2>\n<ul><li>见 <a href=\"02-features/vs-ntfs-symlink.md\" target=\"_blank\" rel=\"noopener\">USVFS vs NTFS 符号链接</a>：进程级/会话级/免权限/跨文件系统/可叠加可隐藏。</li></ul>\n<h2>切换 profile 时 MO2 崩溃？</h2>\n<ul><li>见排错：禁用杀软、检查 Windows Event Log 服务、重启（而非关机）。</li></ul>\n<h2>会不会有性能影响？</h2>\n<ul><li>会有少量内存/CPU 开销（见 <a href=\"02-features/usvfs-drawbacks.md\" target=\"_blank\" rel=\"noopener\">USVFS 的代价与风险</a>），通常可忽略。</li></ul>\n<h2>关闭 MO2 后 mod 还在吗？</h2>\n<ul><li>虚拟链接随会话消失；mod 文件本身仍在 <code>mods\\</code>，下次启动照常生效。</li></ul>",
+      "_file": "06-reference/faq.md",
+      "_chars": 928
+    }
+  ]
+}

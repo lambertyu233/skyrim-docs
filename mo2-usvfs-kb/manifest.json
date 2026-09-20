@@ -1,0 +1,115 @@
+{
+  "name": "Mod Organizer 2 · USVFS 资料库",
+  "description": "围绕 Mod Organizer 2 虚拟文件系统（USVFS）的机制、特性、源码架构、调试排错与使用运维的可维护知识库。",
+  "source_name": "USVFS / MO2 官方文档 + STEP 指南 + DeepWiki 源码解析",
+  "version": "1.1.0",
+  "generated_at": "2026-09-20",
+  "kb": {
+    "name": "Mod Organizer 2 · USVFS 资料库",
+    "description": "机制、特性、源码架构、调试排错与使用运维（含 STEP 非官方 MO 指南的完整操作知识）",
+    "source_name": "USVFS / MO2 官方文档 + STEP 指南 + DeepWiki 源码解析"
+  },
+  "maintainers": [
+    "社区协作"
+  ],
+  "sources": [
+    {
+      "name": "USVFS GitHub README",
+      "url": "https://github.com/ModOrganizer2/usvfs"
+    },
+    {
+      "name": "MO2 GitHub Wiki - Debugging usvfs",
+      "url": "https://github.com/ModOrganizer2/modorganizer/wiki/Debugging-usvfs"
+    },
+    {
+      "name": "STEP Mod Organizer 参考指南",
+      "url": "https://stepmodifications.org/wiki/Guide:Mod_Organizer"
+    },
+    {
+      "name": "DeepWiki - ModOrganizer2/modorganizer",
+      "url": "https://deepwiki.com/ModOrganizer2/modorganizer"
+    },
+    {
+      "name": "MO2 GitHub Wiki - Troubleshooting",
+      "url": "https://github.com/ModOrganizer2/modorganizer/wiki/Troubleshooting"
+    },
+    {
+      "name": "MO2 Wiki - HVCI/USVFS",
+      "url": "https://github.com/ModOrganizer2/modorganizer/wiki/Disabling-Hardware-enforced-Stack-Protection-to-run-protected-executables-through-USVFS"
+    }
+  ],
+  "license_note": "原始内容版权归 Mod Organizer 2 / USVFS 社区所有（USVFS 当前为 GPLv3）。本资料库仅做结构化整理，便于学习与协作维护，关键数值与表述以官方来源为准。",
+  "schema": {
+    "entry_file": "每个主题一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": [
+        "id",
+        "title",
+        "category",
+        "version",
+        "updated",
+        "tags",
+        "source",
+        "summary"
+      ],
+      "optional": [
+        "kind"
+      ],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 01-mechanism），索引以此过滤",
+        "kind": "concept / reference / tutorial",
+        "version": "条目版本（随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "官方来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    {
+      "dir": "00-overview",
+      "title": "概览",
+      "desc": "MO2 与 USVFS 的定位、角色"
+    },
+    {
+      "dir": "01-mechanism",
+      "title": "核心机制",
+      "desc": "API hooking、进程可见链接、会话级、overlay、虚拟删除、BSA"
+    },
+    {
+      "dir": "02-features",
+      "title": "特性对比",
+      "desc": "USVFS 相对 NTFS 符号链接的特性与代价"
+    },
+    {
+      "dir": "03-architecture",
+      "title": "源码级架构",
+      "desc": "VFS 节点类、DirectoryRefresher、优先级冲突、UsvfsConnector、BSA"
+    },
+    {
+      "dir": "04-debugging",
+      "title": "调试排错",
+      "desc": "hook 命名、usvfs 日志、Process Monitor、调试器"
+    },
+    {
+      "dir": "05-usage",
+      "title": "使用与运维",
+      "desc": "安装与首次启动、便携/实例、界面、安装/更新/卸载、启用与插件、下载与 Nexus、第三方程序与工具配方、分类/筛选/冲突高亮、文件树与隐藏、BSA 与解包、存档、备份恢复、警告与顺序、INI tweaks、设置页、加载机制与 Steam AppID、插件体系、使用类 FAQ"
+    },
+    {
+      "dir": "06-reference",
+      "title": "参考",
+      "desc": "FAQ 与 VFS/USVFS 常见排错"
+    }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html"
+  }
+}
