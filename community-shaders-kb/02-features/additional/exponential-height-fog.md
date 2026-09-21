@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [雾, 天气]
+aliases: [指数高度雾, height fog, EHF, 雾效]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/180146
 summary: 随高度增加密度、更真实的雾效。
 ---

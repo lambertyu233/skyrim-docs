@@ -5,6 +5,7 @@ category: 01-installation
 version: 1.1.0
 updated: 2026-09-21
 tags: [需求, 前置, 兼容性, 安装, 强烈推荐]
+aliases: [CS 前置, CS 需要什么, Vulkan, 系统需求]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/installation-guide#requirements
 summary: 支持的游戏版本、GPU/系统要求，以及必须安装的前置 MOD 清单。
 ---

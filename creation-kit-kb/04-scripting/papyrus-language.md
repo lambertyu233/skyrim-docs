@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, language, variables, properties, states, arrays, functions]
+aliases: [Papyrus 语法, papyrus 语言, 脚本语法, 变量类型]
 source: https://ck.uesp.net/wiki/Papyrus_Introduction
 summary: Papyrus 的面向对象要素——变量/属性、语句、数组、状态、函数、事件、扩展脚本、线程与持久化。
 status: stable

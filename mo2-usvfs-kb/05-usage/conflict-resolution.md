@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 冲突, 优先级, 赢家]
+aliases: [冲突解决, mod 冲突, 谁覆盖谁, conflict resolution, 冲突怎么排]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 同名文件冲突时，mod 列表中靠下者（优先级高）覆盖靠上者；BSA 亦参与排序。
 kind: tutorial

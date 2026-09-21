@@ -6,6 +6,7 @@ kind: guide
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 安装, ini, MO2, overwrite]
+aliases: [OAR 怎么装, OAR 安装教程, oar ini, install oar, OAR 配置]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 用惯用的 mod 管理器正常安装即可，随时装卸；插件生成的 ini 默认落在 MO2 的 overwrite 里，千万别删，否则设置重置。
 ---

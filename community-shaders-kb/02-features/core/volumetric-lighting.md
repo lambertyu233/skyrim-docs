@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [体积光, 光照]
+aliases: [god rays, volumetric lighting, 丁达尔]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 动态体积光照效果。
 ---

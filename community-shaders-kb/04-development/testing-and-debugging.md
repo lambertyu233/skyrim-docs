@@ -5,6 +5,7 @@ category: 04-development
 version: 1.0.0
 updated: 2026-09-21
 tags: [开发, 调试, 测试, ShaderDefines, 性能, 官方]
+aliases: [CS 调试, 测试手法, shader 调试, debug cs]
 source: https://github.com/community-shaders/skyrim-community-shaders/wiki
 summary: 官方 Developer Wiki 的调试手法：A/B 对比测试、TESTCUBEMAP、Shader Defines（含 LLFDEBUG）、灯光编辑器、性能分析与抓帧。
 ---

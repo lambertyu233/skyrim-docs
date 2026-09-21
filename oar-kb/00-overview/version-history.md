@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 版本, 历史, 更新日志, Patreon]
+aliases: [OAR 更新日志, OAR 版本, 新增了什么条件, changelog, oar 0.5.0, 版本变化]
 source: https://bakemono.app/p/patreon/25643772/79535580
 summary: OAR 的机制解释大量只存在于作者 Ersh 的 Patreon 开发日志里；本页把 0.3 → 0.8 → 1.0 → 3.2 的关键节点按时间线整理，并给出各版本新增的条件与函数。
 ---

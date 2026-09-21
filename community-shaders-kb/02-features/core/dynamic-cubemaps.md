@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [反射, 环境, 材质, 水体]
+aliases: [动态立方体贴图, cubemap, 动态反射球, dynamic cubemaps]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/dynamic-cubemaps
 summary: 用「屏幕空间反射捕获」让物体反射真实环境而非假场景，并完整支持 ENB 的 dynamic cubemaps 规范。
 ---

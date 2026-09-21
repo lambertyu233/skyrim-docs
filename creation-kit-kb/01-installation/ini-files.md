@@ -5,6 +5,7 @@ category: 01-installation
 version: 1.0.0
 updated: 2026-09-20
 tags: [ini, config, skyrimeditor, settings]
+aliases: [INI 文件, Skyrim.ini, SkyrimPrefs.ini, ini 配置在哪]
 source: https://ck.uesp.net/wiki/INI_files
 summary: Skyrim 与 Creation Kit 的配置分层为自动生成、用户自定义与 MOD 定义三类 INI，后者可覆盖前者。
 status: stable

@@ -5,6 +5,7 @@ category: 05-tools
 version: 1.0.0
 updated: 2026-09-20
 tags: [工具, PBR, 视差, 网格修补, 纹理]
+aliases: [Parallax 修补, PBR 修补, PGPatcher 怎么用, 视差贴图修补, pgpatcher 报错]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/pgpatcher-home
 summary: 独立工具，修补纹理 MOD 的加载顺序（视差 / 复杂材质 / PBR），是 True PBR 工作流核心。
 ---

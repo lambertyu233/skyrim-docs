@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [补丁器, patcher, 原理, 合并, FSM]
+aliases: [补丁器怎么工作, patcher 原理, 刷补丁流程原理, 读补丁合并输出, behaviour patcher]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: 补丁器读取各个 mod 对行为文件的"编辑说明"，合并成一份最终行为文件——这是三引擎共同的底层范式。
 ---

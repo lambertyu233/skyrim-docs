@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [报错, 排错, A pose, 2006, 1210, 6001, T-pose]
+aliases: [动作引擎报错, 刷补丁失败, 常见故障, troubleshooting, 动作没生效]
 source: https://magicskyrim.net/archives/23507
 summary: 汇总 A-pose/T-pose、动画不生效、Nemesis 报错编号、hkx 不兼容等高频故障的成因与对策。
 ---

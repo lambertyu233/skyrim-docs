@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [半透明, 材质, 织物, 玻璃]
+aliases: [扩展半透明, translucency, 透光, 皮肤透光]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/extended-translucency
 summary: 让薄织物与脏玻璃呈现近乎照片级的半透明观感；侧看更不透明并产生「边缘轮廓」，支持按 nif 网格覆盖材质模型。
 ---

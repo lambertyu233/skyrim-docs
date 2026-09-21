@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, INI, tweaks, Configurator, INI Editor]
+aliases: [ini tweaks, 游戏 INI 编辑, MO2 改 ini, skyrim.ini 编辑]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: MO 首次启动会复制一份游戏 INI；用 Puzzle 菜单的 Configurator/INI Editor 编辑；可为 mod 建 ini tweak 覆盖任意 ini 设置。
 kind: tutorial

@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, BSA, 解包, Unmanaged, Archive Invalidation]
+aliases: [BSA 解包, BSA 管理, 查看 bsa, 解包 bsa]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 勾选 Have MO manage archives 后 BSA 被当作 loose file 参与 mod 优先级；真实 Data 中的 BSA 会以 Unmanaged 前缀参与冲突裁决。
 kind: tutorial

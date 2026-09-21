@@ -6,6 +6,7 @@ kind: tool
 version: 1.0.0
 updated: 2026-09-21
 tags: [Nemesis, 复仇女神, Shikyo Kira, 概览, 开源]
+aliases: [Nemesis 是什么, 第二代动作引擎, nemesis unlimited behavior engine, Nemesis 怎么装, Nemesis 是干嘛的]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/60033
 summary: Nemesis（Project New Reign，作者 Shikyo Kira，2019）开源、向后兼容 FNIS，用模板机制让社区自定义动画类型，但更新不活跃、文档缺失。
 ---

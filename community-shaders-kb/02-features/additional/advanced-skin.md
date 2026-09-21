@@ -7,6 +7,7 @@ status: TBA
 version: 1.0.0
 updated: 2026-09-20
 tags: [皮肤, 角色]
+aliases: [皮肤渲染, advanced skin, 皮肤 shader, 角色皮肤]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 以多种技术增强角色皮肤渲染。[TBA]
 ---

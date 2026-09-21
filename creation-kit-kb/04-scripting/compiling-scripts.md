@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, compiler, compile, psc, pex, flags]
+aliases: [Papyrus 编译, 编译脚本, 脚本编译失败]
 source: https://ck.uesp.net/wiki/Compiling_Papyrus_Scripts
 summary: Papyrus 源码（.psc）经编译器生成字节码（.pex）；可通过 CK 或命令行 PapyrusCompiler 编译。
 status: stable

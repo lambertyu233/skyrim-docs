@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [Pandora, 性能, 架构, 增量序列化, 预加载]
+aliases: [Pandora 为什么快, pandora 架构, Pandora 性能, pandora architecture, 多线程 补丁]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki/Performance-Notes
 summary: 官方 Performance Notes 全文要点：预加载、浅映射、增量(反)序列化、不调用 hkxcmd、克制的并行——解释了 Pandora 为何比前辈快。
 ---

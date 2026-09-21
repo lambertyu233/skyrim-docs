@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, script-object, game, global, native]
+aliases: [Game 脚本, Game 对象, 取玩家, GetPlayer]
 source: https://ck.uesp.net/wiki/Game_Script
 summary: 全局静态（Global）脚本对象，提供存档、时间、天数、玩家控制、工具函数等游戏级 API。
 status: stable

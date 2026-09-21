@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, profile, 档案, 切换]
+aliases: [档案切换, 多套配置, 换存档配置]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 每个 profile 保存独立的 mod 勾选与加载顺序，可在多套配置间无缝切换。
 kind: tutorial

@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 文件树, Filetree, .mohidden, 冲突]
+aliases: [隐藏文件, 冲突面板, 遮蔽单个文件]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: Conflicts 页显示谁覆盖谁并可 Hide 文件（加 .mohidden 后缀）；Filetree 页可新建/改名/删除/隐藏/拖动文件。
 kind: tutorial

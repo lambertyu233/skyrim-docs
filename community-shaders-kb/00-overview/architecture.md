@@ -5,6 +5,7 @@ category: 00-overview
 version: 1.0.0
 updated: 2026-09-20
 tags: [架构, 缓存, 性能, 引擎]
+aliases: [CS 架构, 着色器缓存, shader cache, CS 怎么工作, 缓存系统]
 source: https://modding.wiki/en/skyrim/developers/community-shaders#cache-system
 summary: CS 通过运行时着色器缓存与磁盘缓存替换原版着色器；理解其机制有助于排错与开发。
 ---

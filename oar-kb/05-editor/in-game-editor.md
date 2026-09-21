@@ -6,6 +6,7 @@ kind: guide
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 编辑器, Shift+O, Author, User, 附加设置]
+aliases: [OAR 编辑器, 游戏内编辑器, 三种模式, in-game editor, 怎么改动画条件]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 默认 Shift+O 打开游戏内 UI；Inspect 只读、Author 写 config.json、User 写 user.json；支持按优先级查看替换列表、条件状态图标与当前值、拖放排序、右键复制粘贴。
 ---

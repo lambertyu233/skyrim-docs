@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [开发工具]
+aliases: [远程控制, remote control, 网页调参]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 向外部 devbench 暴露开发者工具，支持 AI 辅助开发。
 ---

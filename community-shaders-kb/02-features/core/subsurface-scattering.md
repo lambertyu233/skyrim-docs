@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [皮肤, 散射, 材质, 角色]
+aliases: [SSS 次表面散射, 次表面散射, subsurface scattering, 皮肤通透]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/subsurface-scattering
 summary: 屏幕空间的次表面散射，用于角色皮肤；着色器与虚幻引擎同款，人类与兽族各有独立 profile。
 ---

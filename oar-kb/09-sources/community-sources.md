@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 来源, 社区, 论坛, 教程]
+aliases: [OAR 社区来源, 论坛在哪, community sources]
 source: https://forums.nexusmods.com/topic/13487504-for-animations-what-is-the-difference-between-fnisnemesis-and-oar/
 summary: 官方没写的部分散在 Nexus 论坛（scorrp10 的经典解释）、巴哈姆特两篇中文教程、LoversLab 的条件嵌套踩坑帖、整合文档里；本页按可信度分级列出。
 ---

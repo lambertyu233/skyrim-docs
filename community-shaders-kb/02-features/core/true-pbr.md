@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [PBR, 材质, 纹理]
+aliases: [物理渲染, true pbr, PBR 材质]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/true-pbr-home
 summary: 支持物理基础渲染，需支持的纹理与网格修补。
 ---

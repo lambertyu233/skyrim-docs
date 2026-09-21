@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, functions, native, global, self, reference]
+aliases: [函数参考, Papyrus 函数, 函数用法]
 source: https://ck.uesp.net/wiki/Function_Reference
 summary: 函数是可复用的工作单元，含定义、参数、返回值；支持 global/native 修饰，通过 Self 作用于实例。
 status: stable

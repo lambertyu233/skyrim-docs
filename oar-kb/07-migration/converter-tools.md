@@ -6,6 +6,7 @@ kind: tool
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, DAR, 工具, 转换, dar2oar, mapping table]
+aliases: [DAR 转 OAR, 转换工具, converter, 批量转换, 自动转换]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/93359
 summary: 三个转换工具（单人转换 / 批量 fork / Rust 重写的 dar2oar）；作者明确说工具存在的意义是"好管理"而不是"兼容"——OAR 本身完全向后兼容 DAR。
 ---

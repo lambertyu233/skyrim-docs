@@ -5,6 +5,7 @@ category: 00-overview
 version: 1.1.0
 updated: 2026-09-21
 tags: [概览, 入门, 框架, ENB]
+aliases: [CS 是什么, Community Shaders 是什么, community shaders, 画质模组]
 source: https://modding.wiki/en/skyrim/developers/community-shaders
 summary: Community Shaders 是开源、模块化的 Skyrim 图形增强框架，提供先进光照、材质与视觉特效。
 ---

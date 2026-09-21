@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 安装, FOMOD, BAIN, 手动安装, Mod Exists]
+aliases: [怎么装 mod, 安装 mod, 打 mod 流程, mod 打包格式]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 用 Downloads 双击、Archive 按钮、右键 Install Mod 或 Steam Workshop 安装；Simple/BAIN/FOMOD 三格式，都不是则走手动安装。
 kind: tutorial

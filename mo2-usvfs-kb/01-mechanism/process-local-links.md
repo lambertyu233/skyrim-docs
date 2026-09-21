@@ -5,6 +5,7 @@ category: 01-mechanism
 version: 1.0.0
 updated: 2026-09-20
 tags: [机制, 进程可见, 隔离]
+aliases: [进程级链接, 只对该进程可见, process local, 进程隔离]
 source: https://github.com/ModOrganizer2/usvfs
 summary: USVFS 创建的链接只对调用者选定的进程可见，其它程序（含资源管理器）看到的是真实目录。
 kind: concept

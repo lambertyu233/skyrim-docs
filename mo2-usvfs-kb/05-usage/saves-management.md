@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 存档, Saves, Fix Mods]
+aliases: [存档管理, 存档查看, MO2 存档在哪, 存档坏了怎么办, Fix Mods 是干嘛的]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: Saves 标签页显示存档及其缺失插件；右键 Fix Mods… 可把该存档所需的 mod 一键恢复回原配置。
 kind: tutorial

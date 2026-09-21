@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 设置, Settings, Workarounds, Log Level]
+aliases: [MO2 设置, settings tabs, General Nexus Plugins, 设置页]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 齿轮按钮打开设置：General 管语言/皮肤/日志/路径/分类，Nexus 管账号与服务器，Workarounds 管加载机制等特殊开关。
 kind: reference

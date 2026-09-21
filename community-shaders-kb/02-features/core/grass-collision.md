@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [草地, 物理, 角色]
+aliases: [草体碰撞, 草被踩, grass collision, 草丛互动]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-collision
 summary: 给草体加上角色碰撞，玩家与 NPC 走过时草会被推开、压弯（1.5.0+ 并入核心）。
 ---

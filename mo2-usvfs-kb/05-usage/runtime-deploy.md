@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 部署, 运行时, VFS]
+aliases: [运行时部署, 不写入游戏目录, runtime deploy, 部署方式]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: MO2 在游戏进程启动的瞬间用 VFS 合并 mod，磁盘上的游戏目录始终未被修改。
 kind: tutorial

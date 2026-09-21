@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 加载机制, Steam AppID, proxy dll, 排错]
+aliases: [启动机制, App ID, MO2 怎么启动游戏]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 默认用 Mod Organizer 加载机制；Script Extender 与 Proxy DLL 各有代价；Steam App ID 决定游戏与工具能否正确启动。
 kind: reference

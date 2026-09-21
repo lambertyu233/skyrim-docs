@@ -5,6 +5,7 @@ category: 02-features
 version: 1.0.0
 updated: 2026-09-20
 tags: [hotkeys, keyboard, render-window, shortcuts]
+aliases: [CK 快捷键, 渲染窗口快捷键, keyboard mapping, 热键]
 source: https://ck.uesp.net/wiki/Creation_Kit_Keyboard_Mapping
 summary: 渲染窗口常用快捷键速查；注意 CK 不允许自定义热键映射。
 status: stable

@@ -5,6 +5,7 @@ category: 03-reference
 version: 1.1.0
 updated: 2026-09-21
 tags: [兼容, ENB, 排错, 警告, 照明, 天气]
+aliases: [不兼容 mod, CS 冲突, 哪些 mod 不能用, incompatible]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/faq#what-mods-are-not-compatible-with-cs
 summary: 与 CS 冲突或需调整的 MOD 汇总，分为完全不兼容与需微调两类。
 ---

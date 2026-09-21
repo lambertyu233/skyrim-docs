@@ -6,6 +6,7 @@ kind: tutorial
 version: 1.0.0
 updated: 2026-09-21
 tags: [Pandora, 排错, Engine.log, 实例恢复, 中文教程]
+aliases: [Pandora 报错, pandora 失败, Pandora 排错, pandora crash]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/blob/main/README.md
 summary: Pandora 官方 Troubleshooting 全文要点 + 中文社区经验，覆盖崩溃、无位移、0 动画、FNIS mod 读不到等故障。
 ---

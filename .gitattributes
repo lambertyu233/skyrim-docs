@@ -1,0 +1,20 @@
+# 本项目所有文本一律用 LF。
+# 原因：check_links.py 会校验「换行一致：全部为 LF」，条目正文也按 LF 维护。
+# 本机 core.autocrlf=true 会在检出时把 LF 转成 CRLF，导致：
+#   ① 同一条目在不同机器上字节不同；② check_links.py 在新克隆里直接报错。
+# 这里显式声明 eol=lf，优先级高于 core.autocrlf。
+* text=auto eol=lf
+
+# 二进制文件不要做任何换行/编码转换
+*.hkx  binary
+*.bsa  binary
+*.ba2  binary
+*.dds  binary
+*.nif  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.zip  binary
+*.7z   binary

@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [水, 焦散, 视差, 纹理]
+aliases: [水特效, water effects, 水面效果, 水波]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/water-effects
 summary: 模拟水下焦散并为水面加入为水专门设计的简化视差；视差需支持位移图的水 MOD。
 ---

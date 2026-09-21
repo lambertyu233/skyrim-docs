@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [阴影, 户外, 天气, 体积光]
+aliases: [云影, 云阴影, cloud shadows]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/cloud-shadows
 summary: 让云层对世界投射真实阴影的定制技术；与太阳对齐、使用真实云系统而非滚动贴图，且不增加额外 draw call。
 ---

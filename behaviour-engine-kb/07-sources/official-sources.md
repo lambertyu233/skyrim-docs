@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [来源, 官方, 文档, Pandora, Nemesis, FNIS]
+aliases: [官方文档在哪, 动作引擎官方源, official sources, wiki 链接]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: 本领域最值得先读的官方/半官方文档清单，按"讲原理→官方页面→安装排错"三类排序，附地址与看点。
 ---

@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, script-object, objectreference, native]
+aliases: [对象引用, 物件脚本, reference 对象]
 source: https://ck.uesp.net/wiki/ObjectReference_Script
 summary: 游戏世界中所有可放置对象的基类，提供激活、启停、移动、物品、约束等最常用原生函数。
 status: stable

@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [室内, 阴影, 光照]
+aliases: [室内阳光, interior sun, 室内透光]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 室内随昼夜变化的进阶阴影投射，需支持的照明 MOD。
 ---

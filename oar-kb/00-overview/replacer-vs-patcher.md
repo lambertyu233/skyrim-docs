@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, FNIS, Nemesis, Pandora, 分工, 生态]
+aliases: [OAR 要刷 FNIS 吗, 替换器和补丁器, oar nemesis 关系, 需要刷动作吗, replacer patcher]
 source: https://forums.nexusmods.com/topic/13487504-for-animations-what-is-the-difference-between-fnisnemesis-and-oar/
 summary: 补丁器给游戏的动画数据库"新增命令"，OAR 只对"已有命令"按条件改播别的文件；两者互补，走 OAR 路线的替换型动画天然不需要刷补丁器。
 ---
@@ -52,7 +53,7 @@ summary: 补丁器给游戏的动画数据库"新增命令"，OAR 只对"已有�
 | 换掉 hkx 文件、增删 OAR 子模块 | **要重启** | 仍不用 |
 | 加**全新**动画（poser、舞蹈这类要新命令的） | 要重启 | **必须跑** |
 
-> 来源（生效方式）：本工作区 `OAR/oar改了动作要刷动作吗.md`，与本库的官方口径一致。
+> 来源（生效方式）：本工作区 `oar-kb/00-overview/replacer-vs-patcher.md`，与本库的官方口径一致。
 
 ## 一个高频误判
 

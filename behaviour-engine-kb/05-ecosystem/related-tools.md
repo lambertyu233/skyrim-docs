@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [hkxcmd, HKX2, Haviour, BehaviorTool, MCO, SCAR, 工具链]
+aliases: [hkx 工具, 行为编辑器, hkx 怎么看, 动作工具链, hkx editor, 战斗框架]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: 整理与动作引擎配套的 hkx 解包/编辑工具、行为编辑器、位移注释工具与常见战斗框架，标注各自用途与出处。
 ---

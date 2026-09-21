@@ -5,6 +5,7 @@ category: 04-debugging
 version: 1.0.0
 updated: 2026-09-20
 tags: [调试, hook, 日志, 重定向]
+aliases: [调试 USVFS, usvfs 日志, hook 命名, VFS 调试]
 source: https://github.com/ModOrganizer2/modorganizer/wiki/Debugging-usvfs
 summary: 开启 MO2 调试日志后即可看到 usvfs 的 hook 调用、原始路径与重定向后路径；附 spawn_delay 与 Process Monitor 用法。
 kind: tutorial

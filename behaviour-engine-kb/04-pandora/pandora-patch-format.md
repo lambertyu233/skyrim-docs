@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [Pandora, 补丁格式, xml, 作者, 文件定位, AnimData]
+aliases: [写 pandora 补丁, pandora patch, Pandora 作者文档, patch format]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/blob/main/README.md
 summary: Pandora 作者向补丁格式速查：单一 xml patch、四类编辑操作、文件定位规则、AnimData/AnimSetData 与图注入。
 ---

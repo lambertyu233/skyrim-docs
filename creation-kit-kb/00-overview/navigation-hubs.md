@@ -5,6 +5,7 @@ category: 00-overview
 version: 1.0.0
 updated: 2026-09-20
 tags: [navigation, overview, hubs, categories]
+aliases: [CK 内容分类, 五大板块, 导航]
 source: https://ck.uesp.net/wiki/Main_Page
 summary: 官方将 Wiki 内容划分为五大枢纽，按读者意图组织——教程、游戏系统、编辑器参考、Papyrus 脚本、SKSE 插件开发。
 status: stable

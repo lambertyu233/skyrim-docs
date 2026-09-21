@@ -7,6 +7,7 @@ status: TBA
 version: 1.0.0
 updated: 2026-09-20
 tags: [雪, 物理]
+aliases: [积雪形变, 踩雪, snow deformation, 雪地脚印]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 角色踩过积雪可被压陷并留下持久痕迹。[TBA]
 ---

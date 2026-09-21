@@ -6,6 +6,7 @@ kind: tool
 version: 1.0.0
 updated: 2026-09-21
 tags: [Pandora, 潘多拉, 概览, 开源, 生物支持]
+aliases: [Pandora 是什么, 第三代动作引擎, Pandora Behaviour Engine]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/133232
 summary: Pandora Behaviour Engine+ 是活跃开发中的第三代引擎，兼容 FNIS/Nemesis 补丁格式，全生物支持、跨平台、强容错，是 Nemesis 的推荐替代。
 ---

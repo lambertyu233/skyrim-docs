@@ -5,6 +5,7 @@ category: 03-game-systems
 version: 1.0.0
 updated: 2026-09-20
 tags: [dialogue, topic, response, conversation, conditions]
+aliases: [对话系统, 做对话, 配音对话]
 source: https://ck.uesp.net/wiki/Dialogue
 summary: 对话由主题（Topic）、回应（Response）与条件（Condition）构成，可绑定脚本片段驱动剧情。
 status: stable

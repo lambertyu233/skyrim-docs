@@ -5,6 +5,7 @@ category: 06-tutorials
 version: 1.0.0
 updated: 2026-09-20
 tags: [tutorial, interface, beginner, render-window, getting-started]
+aliases: [CK 界面教程, 界面入门, 怎么做第一个 mod]
 source: https://ck.uesp.net/wiki/Bethesda_Tutorial_Creation_Kit_Interface
 summary: 官方新手教程——认识 CK 主界面、对象窗口、单元格视图与渲染窗口，完成第一次放置物体。
 status: stable

@@ -5,6 +5,7 @@ category: 01-mechanism
 version: 1.0.0
 updated: 2026-09-20
 tags: [机制, 虚拟删除, 隐藏]
+aliases: [让文件消失, 屏蔽文件, virtual delete, 隐藏原版文件]
 source: https://github.com/ModOrganizer2/usvfs
 summary: USVFS 可以"虚拟地"取消链接，使某文件对进程不可见，或用一个文件替换另一个真实文件。
 kind: concept

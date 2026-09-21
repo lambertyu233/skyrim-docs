@@ -7,6 +7,7 @@ status: TBA
 version: 1.0.0
 updated: 2026-09-20
 tags: [反射, 屏幕空间]
+aliases: [SSR, 屏幕空间反射, screen space reflections]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 层级化屏幕空间镜面反射。[TBA]
 ---

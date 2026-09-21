@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [水, LOD]
+aliases: [统一水体, unified water, 水面渲染, 水反光]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 将真实水体瓦片延伸到 LOD，消除水 LOD 接缝并改善着色。
 ---

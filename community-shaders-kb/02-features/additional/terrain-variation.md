@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [地形, 平铺]
+aliases: [地形变化, terrain variation, 地形细节]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/148123
 summary: 在不损失质量的前提下打破原版地形平铺问题。
 ---

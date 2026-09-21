@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [光照, IBL]
+aliases: [基于图像光照, image based lighting, ibl 怎么用, 环境贴图光照, image based light]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 用立方体贴图球谐推导的物理化 IBL 替换游戏环境光。
 ---

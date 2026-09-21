@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, Math Plugin, MathStatement, 插件, 示例]
+aliases: [数学条件, 表达式条件, 公式条件]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92607
 summary: 作者自己把本来内置的数学表达式条件拆成独立插件，主要作为"如何用 OAR API 写复杂条件"的示例；提供 MathStatement 条件，用 exprtk 求值。
 ---

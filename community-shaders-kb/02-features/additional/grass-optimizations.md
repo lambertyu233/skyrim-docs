@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [草地, 性能]
+aliases: [草优化, 草性能, grass optimization, 草耗性能]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/188628
 summary: 围绕 GPU 驱动剔除与实例化重写草渲染。
 ---

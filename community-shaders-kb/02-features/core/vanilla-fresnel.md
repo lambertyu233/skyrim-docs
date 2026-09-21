@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [反射, 材质]
+aliases: [菲涅尔, fresnel, vanilla fresnel, 边缘反光]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 为非 PBR 材质添加真实环境反射。
 ---

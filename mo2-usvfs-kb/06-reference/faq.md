@@ -5,6 +5,7 @@ category: 06-reference
 version: 1.0.0
 updated: 2026-09-20
 tags: [参考, FAQ, 排错]
+aliases: [MO2 常见问题, MO2 FAQ, mod organizer faq]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 关于 VFS/USVFS 的高频疑问：mod 不显示、profile 崩溃、与符号链接区别等。
 kind: reference

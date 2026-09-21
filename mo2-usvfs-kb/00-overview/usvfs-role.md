@@ -5,6 +5,7 @@ category: 00-overview
 version: 1.0.0
 updated: 2026-09-20
 tags: [概览, USVFS, VFS, 架构]
+aliases: [USVFS 是什么, USVFS 作用, 虚拟文件系统, VFS 干嘛的]
 source: https://github.com/ModOrganizer2/usvfs
 summary: USVFS（用户态虚拟文件系统）是 MO2 的核心组件，用 API hooking 把"别处"的文件呈现给指定进程。
 kind: concept

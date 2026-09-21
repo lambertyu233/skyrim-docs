@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, script-object, actor, native]
+aliases: [Actor 脚本, 脚本对象 Actor, actor 引用, GetActorReference]
 source: https://ck.uesp.net/wiki/Actor_Script
 summary: 代表游戏中可活动角色（NPC / 生物）的脚本基类，提供属性、装备、战斗、法术等原生函数。
 status: stable

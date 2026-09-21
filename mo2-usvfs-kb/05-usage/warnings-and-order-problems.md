@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 警告, mod 顺序, 排错]
+aliases: [警告面板, mod 顺序问题, warnings, 顺序警告]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 工具栏警告图标提示"潜在 mod 顺序问题"，可点 Fix 让 MO 重排；它管资源（贴图/网格）顺序，与 LOOT 管的插件顺序不同。
 kind: tutorial

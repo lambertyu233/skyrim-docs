@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, FAQ, 排错, 常见问题]
+aliases: [MO2 使用问答, 使用类 FAQ, 常见操作问题]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 收集 STEP 指南里高频的实操疑问：什么能/不能作为 mod 安装、MO 是否在正常工作、窗口异常、卸载 MO 等。
 kind: reference

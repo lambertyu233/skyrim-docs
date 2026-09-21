@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [hkx, fore, 一手来源, behavior, animations, 骨骼]
+aliases: [行为文件 vs 动画文件, 两种 hkx, hkx 区别, 动画文件不是行为文件, hkx types]
 source: https://forums.nexusmods.com/topic/747532-dawnguard-dlc-crossbow-questions/
 summary: "hkx 只是包格式"——fore 本人 2012 年的一手澄清：behavior 目录下的 hkx 不是动画文件，连骨骼也压在里面。这是"hkx 有两种"说法的源头。
 ---

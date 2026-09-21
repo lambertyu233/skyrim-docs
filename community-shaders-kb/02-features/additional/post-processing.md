@@ -7,6 +7,7 @@ status: TBA
 version: 1.0.0
 updated: 2026-09-20
 tags: [后处理, ENB替代]
+aliases: [post processing, 泛光, bloom, 色调映射]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 进阶图像特效，Effects 11 的继任者。[TBA]
 ---

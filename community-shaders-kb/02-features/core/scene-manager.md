@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [配置, 场景]
+aliases: [场景管理器, scene manager, 场景控制]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 按室内/室外、昼夜、天气、地点套用选定 CS 设置。
 ---

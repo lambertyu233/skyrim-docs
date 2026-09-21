@@ -5,6 +5,7 @@ category: 05-tools
 version: 1.0.0
 updated: 2026-09-20
 tags: [skse, cpp, plugin, plugin-abi, engine]
+aliases: [SKSE 插件开发, 写 SKSE 插件, SKSE plugin, C++ 插件]
 source: https://ck.uesp.net/wiki/SKSE_Plugin_Development/What_Is_SKSE
 summary: SKSE（Skyrim Script Extender）用 C++ 扩展引擎能力；插件开发涉及 ABI、调用 Papyrus 函数与跨版本兼容。
 status: stable

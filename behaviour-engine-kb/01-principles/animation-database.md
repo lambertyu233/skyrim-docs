@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [动画数据库, 事件名, scorrp10, 原理, animation-event]
+aliases: [动画数据库在哪, 事件名从哪来, animation database, 行为文件写什么, hkx 里的动画列表]
 source: https://forums.nexusmods.com/topic/13497416-open-animation-replacer-a-pose/
 summary: 游戏内部有一张"动画字符串 → hkx 文件"的数据库表，新增动画就是往这张表里加新条目——这是动作引擎的核心工作对象。
 ---

@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 隔离, 游戏目录]
+aliases: [mod 隔离, 游戏目录干净, isolation, 为什么不污染游戏]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 每个 mod 独立存放，游戏目录保持原样；启用/禁用不会互相破坏。
 kind: concept

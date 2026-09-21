@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 插件, 安装器, 扩展, 黑名单]
+aliases: [MO2 插件, 扩展开发, installer 插件, plugins]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: MO 插件分 extensions / installers / tools 三类，在 Settings → Plugins 里配置开关与参数；有崩溃嫌疑的插件会被列入黑名单。
 kind: concept

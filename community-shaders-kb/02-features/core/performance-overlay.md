@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [性能, 监测]
+aliases: [性能浮层, performance overlay, 帧数显示, 性能显示]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/performance-overlay
 summary: 实时监测帧率、绘制调用与性能指标。
 ---

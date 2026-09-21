@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, config.json, user.json, priority, 优先级, 冲突]
+aliases: [config.json 怎么写, OAR 优先级, 多个 mod 谁生效, 优先级怎么算]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: replacer mod 级 config.json 只存名字与描述，submod 级存优先级与条件；User 模式生成 user.json 覆盖除名字/描述外的一切；优先级数字越大越优先，同优先级会让编辑器报警告。
 ---
@@ -37,7 +38,7 @@ summary: replacer mod 级 config.json 只存名字与描述，submod 级存优�
 
 字段名、值的格式（什么时候用 `{}`、什么时候用数组）全都一目了然，比查文档快且准。
 
-> 来源：本工作区实测记录 `OAR/OAR-补充文档.md`。
+> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
 
 ## 优先级：数字越大越优先
 
@@ -49,7 +50,7 @@ summary: replacer mod 级 config.json 只存名字与描述，submod 级存优�
 
 同名动画被多个 submod 命中时 → **取优先级最高的那个**。
 
-> 来源：本工作区实测记录 `OAR/OAR-补充文档.md`；官方描述提到 DAR 侧"priority is not defined by the folder names"（即 DAR 是文件夹名定优先级）。
+> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）；官方描述提到 DAR 侧"priority is not defined by the folder names"（即 DAR 是文件夹名定优先级）。
 
 ## 什么时候会"顶掉"别人
 
@@ -69,7 +70,7 @@ find "…/mods" -iname "bow_idledrawn.hkx" -printf "%10s  %p\n"
 - **想让自己的改动赢** → 保持高优先级；
 - **只想在别人没覆盖的状态下生效**（例如只想管潜行、不想影响站姿）→ 应该**收窄条件**，而不是靠优先级硬顶。
 
-> 来源：本工作区实测记录 `OAR/OAR-补充文档.md`。
+> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
 
 ## 冲突排查的正确姿势
 

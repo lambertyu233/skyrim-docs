@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [光照, 物理, xEdit, LightPlacer, 开发]
+aliases: [平方反比, inverse square, 光照衰减, 光衰减]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/inverse-square-lighting
 summary: 用「光源有尺寸」+「衰减截断值」把光照衰减换成平方反比，性能几乎无代价；附带实时灯光编辑器，并给出 xEdit 与 Light Placer 两种配置法。
 ---

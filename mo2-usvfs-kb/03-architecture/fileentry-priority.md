@@ -5,6 +5,7 @@ category: 03-architecture
 version: 1.0.0
 updated: 2026-09-20
 tags: [架构, FileEntry, 优先级, 冲突]
+aliases: [FileEntry 优先级, 多来源冲突, 同文件多来源]
 source: https://deepwiki.com/ModOrganizer2/modorganizer
 summary: 同名文件可来自多个 mod；FileEntry 按优先级排序，排在最前的"赢家"被进程读取。
 kind: reference

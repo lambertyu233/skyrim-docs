@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 界面, 工具栏, 左窗格, 右窗格, 图标]
+aliases: [MO2 界面, 工具栏 左窗格 右窗格, ui layout, 界面总览]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 工具栏六按钮加三状态位；左窗格管 mod 与优先级（含 Flags 图例），右窗格管插件、归档、Data、存档、下载。
 kind: reference

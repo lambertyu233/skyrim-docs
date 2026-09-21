@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, IED, Simple Dual Sheath, 插件, 拔收武器]
+aliases: [IED Conditions, Immersive Equipment Displays, 装备显示联动]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/98308
 summary: SlavicPotato 做的 SKSE64 插件，让 OAR 能读到 Immersive Equipment Displays 与 Simple Dual Sheath 的数据；主用途是"按装备挂在哪里播不同的拔/收武器动画"。
 ---

@@ -5,6 +5,7 @@ category: 02-features
 version: 1.0.0
 updated: 2026-09-20
 tags: [archive, bsa, packaging, tool]
+aliases: [BSA 打包, Archive.exe, 打包 bsa, archive 工具]
 source: https://ck.uesp.net/wiki/Archive.exe
 summary: Archive.exe 是 CK 自动归档之外的 BSA 打包替代工具，位于游戏安装目录，建议以 .bsa 替代松散文件。
 status: stable

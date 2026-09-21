@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-# Build index.json + index.html by scanning all entry frontmatter.
-# Run: python scripts/build_index.py
+# 通用：扫描全部条目 frontmatter → index.json + 离线浏览器 index.html（两栏布局 + 内联全文）。
+# 用法：把本文件放到资料库的 scripts/ 下，运行 `python scripts/build_index.py`
+# 说明：标题/副标题从 manifest.json 的 kb.name / kb.description 注入；分类中文名从 manifest 的 categories 读取。
 import os, re, json, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,6 +32,18 @@ def parse_frontmatter(text):
             inner = v[1:-1].strip()
             arr = [x.strip().strip('"').strip("'") for x in inner.split(",") if x.strip()]
             fm[k] = arr
+        elif v.startswith("[") and "]" not in v:
+            # YAML 数组折行：从本行起累积，直到出现 ']'
+            buf = [v]
+            while "]" not in buf[-1]:
+                nxt = f.readline()
+                if not nxt:
+                    break
+                buf.append(nxt.strip())
+            inner = " ".join(buf)
+            inner = inner[1:inner.rindex("]")]
+            arr = [x.strip().strip('"').strip("'") for x in inner.split(",") if x.strip()]
+            fm[k] = arr
         else:
             fm[k] = v.strip('"').strip("'")
     return fm
@@ -43,7 +56,6 @@ def _esc_html(s):
 def _inline(text):
     """行内元素：代码、链接、删除线、粗体、斜体。"""
     text = _esc_html(text)
-    # 行内代码先占位，避免内部被粗体/斜体规则破坏
     stash = []
     def _code(m):
         stash.append(m.group(1))
@@ -101,7 +113,6 @@ def md_to_html(md):
         if not stripped:
             i += 1
             continue
-        # 代码块（围栏）
         m = re.match(r"^```(\w*)\s*$", line)
         if m:
             i += 1
@@ -112,7 +123,6 @@ def md_to_html(md):
             i += 1
             out.append('<pre class="code"><code>%s</code></pre>' % _esc_html("\n".join(code)))
             continue
-        # 引用
         if stripped.startswith(">"):
             quote = []
             while i < n and lines[i].lstrip().startswith(">"):
@@ -120,7 +130,6 @@ def md_to_html(md):
                 i += 1
             out.append("<blockquote>%s</blockquote>" % _inline(" ".join(quote)))
             continue
-        # 表格
         if "|" in line and i + 1 < n and re.match(r"^\s*\|?[\s:\-|]+\|?\s*$", lines[i+1]) and "-" in lines[i+1]:
             header_cells = [c.strip() for c in stripped.strip("|").split("|")]
             aligns = []
@@ -140,7 +149,6 @@ def md_to_html(md):
             )
             out.append('<table><thead><tr>%s</tr></thead><tbody>%s</tbody></table>' % (th, body))
             continue
-        # 列表（有序/无序，支持嵌套）
         if re.match(r"^\s*[-*+]\s+", line) or re.match(r"^\s*\d+\.\s+", line):
             items = []
             base_ordered = None
@@ -171,19 +179,16 @@ def md_to_html(md):
             html_list, _ = _build_list(items, 0, items[0][0])
             out.append(html_list)
             continue
-        # 标题
         hm = re.match(r"^(#{1,6})\s+(.*)$", line)
         if hm:
             lvl = len(hm.group(1))
             out.append("<h%d>%s</h%d>" % (lvl, _inline(hm.group(2).rstrip("#").strip()), lvl))
             i += 1
             continue
-        # 水平线
         if re.match(r"^(---|\*\*\*|___)\s*$", line):
             out.append("<hr>")
             i += 1
             continue
-        # 段落
         para = [line]
         i += 1
         while i < n and lines[i].strip() and not _is_block_start(lines[i]):
@@ -193,16 +198,32 @@ def md_to_html(md):
     return "\n".join(out)
 
 
+def _strip_leading_h1(html):
+    """剥掉正文开头的 # 标题 H1（详情面板已单独显示标题，避免重复）。"""
+    html = html.strip()
+    m = re.match(r"^<h1>(.*?)</h1>\s*", html, re.DOTALL)
+    if m:
+        return html[m.end():].strip()
+    return html
+
+
 def main():
     entries = []
     cats = {}
     cat_labels = {}
-    # 优先用 manifest 的分类标题作为显示名，保证与资料库定义一致
+    title = "资料库"
+    subtitle = "可维护 · 分层 · 版本化 · 协作更新"
+
     manifest_path = os.path.join(ROOT, "manifest.json")
     if os.path.exists(manifest_path):
         try:
             with open(manifest_path, encoding="utf-8") as f:
                 mdata = json.load(f)
+            kb = mdata.get("kb", {})
+            title = kb.get("name", title)
+            src = kb.get("source_name", "")
+            desc = kb.get("description", "")
+            subtitle = (("基于 " + src + " 整理 · " if src else "") + desc) or subtitle
             for c in mdata.get("categories", []):
                 cat_labels[c.get("dir")] = c.get("title", c.get("dir"))
         except Exception:
@@ -211,8 +232,12 @@ def main():
     for dirpath, dirnames, filenames in os.walk(ROOT):
         rel = os.path.relpath(dirpath, ROOT)
         top = rel.split(os.sep)[0]
-        if rel == "." or top in IGNORE_DIRS:
+        if top in IGNORE_DIRS:
             continue
+        # 根目录只放 manifest / index / README 这类文件；条目一律进分类子目录。
+        # 这里用「正好等于库根」来判定，而不是隐式依赖 rel == "." 之后才切 top，
+        # 否则一旦有人把条目写在库根层，会被静默丢掉（构建显示 0 entries 也不报错）。
+        is_root = (rel == ".")
         for fn in filenames:
             if not fn.endswith(".md"):
                 continue
@@ -227,8 +252,11 @@ def main():
             # 抽取 frontmatter 之后的正文，渲染为排版好的 HTML 内联进详情面板
             m = FM_RE.match(text)
             body = text[m.end():].strip() if m else text.strip()
-            fm["content"] = md_to_html(body)
-            category = fm.get("category", top)
+            fm["content"] = _strip_leading_h1(md_to_html(body))
+            category = fm.get("category", "" if is_root else top)
+            if not category:
+                # 根层条目必须自己声明 category，否则分类标签会变空
+                continue
             fm["_file"] = os.path.relpath(full, ROOT).replace("\\", "/")
             fm["_chars"] = len(text)
             entries.append(fm)
@@ -241,17 +269,21 @@ def main():
         "by_category": dict(sorted(cats.items())),
         "entries": entries,
     }
-    with open(os.path.join(ROOT, "index.json"), "w", encoding="utf-8") as f:
+    # newline="" 必须显式传：默认文本模式在 Windows 上会把 "\n" 静默转成 "\r\n"，
+    # 导致同一份产物在不同平台字节不同，且与 check_links.py 的「全部为 LF」断言冲突。
+    with open(os.path.join(ROOT, "index.json"), "w", encoding="utf-8", newline="") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
     html = HTML_TEMPLATE
     html = html.replace("__ENTRIES__", json.dumps(entries, ensure_ascii=False).replace("</", "<\\/"))
     html = html.replace("__CATS__", json.dumps(data["by_category"], ensure_ascii=False))
     html = html.replace("__CAT_LABELS__", json.dumps(cat_labels, ensure_ascii=False))
+    html = html.replace("__TITLE__", title)
+    html = html.replace("__SUBTITLE__", subtitle)
     html = html.replace("__GENERATED__", data["generated"])
     html = html.replace("__TOTAL__", str(len(entries)))
     assert "__ENTRIES__" not in html and "__CATS__" not in html and "__CAT_LABELS__" not in html, "占位符未替换！"
-    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8", newline="") as f:
         f.write(html)
 
     print(f"Built: {len(entries)} entries, categories={data['by_category']}")
@@ -262,7 +294,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creation Kit 资料库</title>
+<title>__TITLE__</title>
 <style>
   :root{
     --bg:#f7f8fa; --panel:#ffffff; --ink:#1f2329; --muted:#6b7280;
@@ -304,15 +336,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-1px)}
   .card h3{margin:0 0 6px;font-size:15px}
   .card .sum{color:var(--muted);font-size:13px;margin:0 0 8px}
+  .card .why{display:inline-block;font-size:11px;color:var(--accent);background:#eff6ff;
+    border:1px solid #bfdbfe;border-radius:20px;padding:1px 8px;margin:0 0 8px}
   .chips{display:flex;gap:6px;flex-wrap:wrap}
   .chip{background:var(--chip);color:#3730a3;font-size:11px;padding:2px 8px;border-radius:20px}
   .chip.muted{background:#f3f4f6;color:var(--muted)}
-  .badge{font-size:11px;padding:2px 8px;border-radius:20px;color:#fff}
-  .b-stable{background:var(--green)} .b-review{background:var(--blue)} .b-draft{background:var(--gray)}
   .detail{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;max-width:880px}
   .detail h2{margin-top:0}
   .back{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;margin-bottom:12px}
-  .detail .sum{font-size:15px;color:var(--ink);background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:14px 0}
   .actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
   .btn{display:inline-block;padding:9px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600}
   .btn-primary{background:var(--accent);color:#fff}
@@ -346,8 +377,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 <header>
-  <h1>Creation Kit 资料库</h1>
-  <p>可维护 · 分层 · 版本化 · 协作更新 — 基于 UESP Creation Kit Wiki (ck.uesp.net/wiki) 整理</p>
+  <h1>__TITLE__</h1>
+  <p>__SUBTITLE__</p>
   <div class="stats" id="stats"></div>
 </header>
 <div class="wrap">
@@ -360,11 +391,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <div id="navbox">
       <button class="navbtn active" data-cat="all" type="button">全部 <span class="cnt" id="allcnt"></span></button>
       <div id="catnav"></div>
-      <div style="font-size:12px;color:var(--muted);margin:14px 0 8px">状态过滤</div>
-      <button class="navbtn" data-status="all" type="button">全部状态</button>
-      <button class="navbtn" data-status="stable" type="button">stable（稳定）</button>
-      <button class="navbtn" data-status="review" type="button">review（审核）</button>
-      <button class="navbtn" data-status="draft" type="button">draft（草稿）</button>
     </div>
   </aside>
   <main>
@@ -383,28 +409,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 const ENTRIES = __ENTRIES__;
 const CATS = __CATS__;
 const CAT_LABELS = __CAT_LABELS__;
-let curCat='all', curStatus='all', curQ='', sortBy='cat';
+let curCat='all', curQ='', sortBy='cat';
 
 function label(cat){ return CAT_LABELS[cat] || cat; }
-function statusBadge(e){
-  if(e.status==='stable') return '<span class="badge b-stable">stable</span>';
-  if(e.status==='review') return '<span class="badge b-review">review</span>';
-  if(e.status==='draft')  return '<span class="badge b-draft">draft</span>';
-  return '';
-}
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function filtered(){
   const q=curQ.toLowerCase();
   return ENTRIES.filter(e=>{
     if(curCat!=='all' && e.category!==curCat) return false;
-    if(curStatus!=='all' && e.status!==curStatus) return false;
     if(q){
-      const hay=(e.title+' '+(e.summary||'')+' '+(e.tags||[]).join(' ')+' '+(e.category||'')+' '+label(e.category)).toLowerCase();
+      const hay=(e.title+' '+(e.summary||'')+' '+(e.tags||[]).join(' ')+' '+
+        (e.aliases||[]).join(' ')+' '+(e.category||'')+' '+label(e.category)).toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
   });
+}
+// 记录每条命中的原因：优先展示比标题更具体的匹配证据（别名 / 标签 / 正文）
+function showWhy(e){
+  const q=curQ.toLowerCase(); if(!q) return '';
+  if((e.aliases||[]).some(a=>a.toLowerCase().includes(q))) return '别名命中';
+  if((e.tags||[]).some(t=>t.toLowerCase().includes(q))) return '标签命中';
+  const t=(e.title||'').toLowerCase();
+  if(t.includes(q)) return '标题命中';
+  if((e.summary||'').toLowerCase().includes(q)) return '摘要命中';
+  return '正文提及';
 }
 function sortEntries(list){
   if(sortBy==='title') return list.sort((a,b)=>(a.title||'').localeCompare(b.title||'','zh'));
@@ -417,8 +447,10 @@ function renderGrid(){
   if(!list.length){view.innerHTML='<div class="empty">没有匹配的条目</div>';return;}
   let html='<div class="grid">';
   for(const e of list){
+    const why=showWhy(e);
     html+='<div class="card" data-id="'+esc(e.id)+'"><h3>'+esc(e.title)+'</h3>'+
-      '<div class="chips" style="margin-bottom:6px">'+statusBadge(e)+
+      (why?'<div><span class="why">'+esc(why)+'</span></div>':'')+
+      '<div class="chips" style="margin-bottom:6px">'+
       '<span class="chip">'+esc(label(e.category))+'</span>'+
       (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+'</div>'+
       '<p class="sum">'+esc(e.summary||'')+'</p>'+
@@ -434,9 +466,12 @@ function showDetail(id){
   const src=e.source?'<a class="btn btn-ghost" href="'+esc(e.source)+'" target="_blank" rel="noopener">官方来源 ↗</a>':'';
   const file=e._file?'<a class="btn btn-primary" href="'+esc(e._file)+'" target="_blank" rel="noopener">打开本地 .md →</a>':'';
   const tags=((e.tags||[]).map(t=>'<span class="chip">'+esc(t)+'</span>').join(''));
+  const als=((e.aliases||[]).length?
+    '<div class="chips" style="margin:6px 0 0">'+
+    (e.aliases||[]).map(a=>'<span class="chip muted">'+esc(a)+'</span>').join('')+'</div>':'');
   view.innerHTML='<button class="back" onclick="renderGrid()">← 返回列表</button>'+
     '<div class="detail"><h2>'+esc(e.title)+'</h2>'+
-    '<div class="chips" style="margin-bottom:4px">'+statusBadge(e)+
+    '<div class="chips" style="margin-bottom:4px">'+
     '<span class="chip">'+esc(label(e.category))+'</span>'+
     (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+
     (e.version?'<span class="chip muted">v'+esc(e.version)+'</span>':'')+
@@ -444,6 +479,7 @@ function showDetail(id){
     '<div class="chips" style="margin:6px 0 10px">'+tags+'</div>'+
     '<div class="article">'+(e.content||'<p>(暂无正文)</p>')+'</div>'+
     '<div class="actions">'+file+src+'</div>'+
+    als+
     '<p class="tip">源文件：'+esc(e._file||'')+'</p></div>';
   document.querySelector('main').scrollTop=0;
 }
@@ -472,12 +508,6 @@ function renderNav(){
   // 只选 [data-cat]（即分类按钮），避开同处 #navbox 内的状态过滤按钮，
   // 否则「全部」按钮会漏绑 → 选中某分类后切不回全部（历史 bug）。
   document.querySelectorAll('#navbox .navbtn[data-cat]').forEach(b=>b.onclick=()=>selectCat(b.dataset.cat,b));
-  document.querySelectorAll('[data-status]').forEach(b=>b.onclick=()=>{
-    curStatus=b.dataset.status;
-    document.querySelectorAll('[data-status]').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    renderGrid();
-  });
 }
 function renderStats(){
   const s=document.getElementById('stats');

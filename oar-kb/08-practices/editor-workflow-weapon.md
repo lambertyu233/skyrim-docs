@@ -6,6 +6,7 @@ kind: tutorial
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 实战, 武器, Legacy, User 模式, IsEquipped, 巴哈姆特]
+aliases: [特定武器绑动作, 不改原 mod, 武器动画绑定, weapon 绑定]
 source: https://m.gamer.com.tw/forum/C.php?bsn=2526&snA=45432
 summary: 巴哈姆特「武器or動作關鍵字替換」教程：用 User 模式 + Legacy 编号定位目标动画，通过 IsEquipped 在原有 OR 内添加武器条件，让某把武器单独用某套动作，全程不动原 mod。
 ---

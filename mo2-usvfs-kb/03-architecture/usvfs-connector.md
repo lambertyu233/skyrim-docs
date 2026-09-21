@@ -5,6 +5,7 @@ category: 03-architecture
 version: 1.0.0
 updated: 2026-09-20
 tags: [架构, UsvfsConnector, 映射, 启动]
+aliases: [映射表, 启动游戏注入, connector]
 source: https://deepwiki.com/ModOrganizer2/modorganizer
 summary: 游戏启动时，UsvfsConnector 把"虚拟路径→真实路径"的映射表交给 usvfs 完成注入。
 kind: reference

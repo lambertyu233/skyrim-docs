@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [FNIS, Nemesis, Pandora, 历史, 脉络]
+aliases: [FNIS 历史, 动作引擎发展史, Nemesis 替代 FNIS, Pandora 由来, timeline, 演进史, fore Shikyo Kira]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: 从 fore 的 FNIS 到 Shikyo Kira 的 Nemesis 再到社区共治的 Pandora，十年三代引擎的演进主线。
 ---

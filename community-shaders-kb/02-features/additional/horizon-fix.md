@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [地平线, 天空]
+aliases: [地平线修复, horizon fix, 地平线接缝, 远景接缝]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/184607
 summary: 改善地平线外观。
 ---

@@ -6,6 +6,7 @@ kind: tutorial
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 实战, 编辑器, User 模式, 动画日志, 巴哈姆特, idle]
+aliases: [高跟鞋 idle, 靠编辑器做条件分流, 条件分流实战, idle 分流]
 source: https://forum.gamer.com.tw/Co.php?bsn=2526&sn=154942
 summary: 巴哈姆特「OAR 的簡單應用 - 以高跟鞋閒置動畫為例」的完整流程：控制台选人 → Shift+O → User 模式 → Add new condition → 看绿勾/红X 实时验证 → Save user config；含 Animation Log 调试与必须保存的坑。
 ---

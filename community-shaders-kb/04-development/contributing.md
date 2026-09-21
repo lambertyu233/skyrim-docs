@@ -5,6 +5,7 @@ category: 04-development
 version: 1.0.0
 updated: 2026-09-20
 tags: [贡献, 开发, 社区, GitHub, Discord]
+aliases: [贡献代码, 怎么参与开发, 提 PR]
 source: https://modding.wiki/en/skyrim/developers/community-shaders#contributing
 summary: 如何参与 Community Shaders 的代码、文档、测试与着色器贡献。
 ---

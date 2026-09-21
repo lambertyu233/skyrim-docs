@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [降噪, 屏幕空间]
+aliases: [实时降噪, noise reduction, nrd 怎么开, 降噪器, nvidia realtime denoiser]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 集成 NVIDIA 实时降噪器，供 SSGI、SSR 等使用。
 ---

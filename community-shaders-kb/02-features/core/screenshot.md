@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [截图, HDR]
+aliases: [游戏内截图, 怎么截图, CS 截图功能, 拍照]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 不卡顿地捕获带 HDR 能力的截图。
 ---

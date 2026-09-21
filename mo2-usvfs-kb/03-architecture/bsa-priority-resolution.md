@@ -5,6 +5,7 @@ category: 03-architecture
 version: 1.0.0
 updated: 2026-09-20
 tags: [架构, BSA, 优先级, 归档]
+aliases: [BSA 优先级, bsa 加载顺序, bsa priority, 归档优先级]
 source: https://deepwiki.com/ModOrganizer2/modorganizer
 summary: BSA 归档内容会被拉进虚拟目录，与 loose file 一起参与优先级判定，决定冲突谁胜。
 kind: reference

@@ -5,6 +5,7 @@ category: 06-tutorials
 version: 1.0.0
 updated: 2026-09-20
 tags: [cheat-sheet, reference, quick, interface, hotkeys]
+aliases: [CK 速查表, 界面速查, cheat sheet, CK 快捷键表]
 source: https://ck.uesp.net/wiki/Creation_Kit_Interface_Cheat_Sheet
 summary: 一页式速查——CK 主界面关键窗口与常用操作的快速对照，便于编辑时随时回看。
 status: stable

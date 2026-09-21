@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, DAR, 兼容性, Legacy, 迁移]
+aliases: [OAR 和 DAR 冲突吗, DAR 还能用吗, Legacy 是什么, oar dar, DAR 转换, 旧 mod 兼容]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: OAR 与 DAR 本体不兼容，但完全向后兼容 DAR 格式的动画 mod——它们会被自动转换，并在编辑器里统一归入名叫 Legacy 的一个 replacer mod 之下。
 ---

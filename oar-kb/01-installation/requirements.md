@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 前置, 需求, 版本支持]
+aliases: [OAR 前置, 需要什么版本, OAR SKSE 版本, 支持 1.6.640 吗]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: OAR 需要 SKSE + Address Library；未开启"跳过预加载动画"实验开关时还需要 Animation Queue Fix，配对动画注释要靠 Paired Animation Improvements。
 ---

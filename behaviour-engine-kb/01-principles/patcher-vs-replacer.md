@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, DAR, 区别, 替换器, patcher, replacer]
+aliases: [补丁器和替换器区别, OAR 和 Nemesis 冲突吗, patcher replacer, DNIS 和 OAR 一起用, 两者能共存吗]
 source: https://forums.nexusmods.com/topic/13497416-open-animation-replacer-a-pose/
 summary: 补丁器（新增动画/命令）与替换器（按条件替换已有动画）是两类互不替代、可叠加的工具，很多人会混淆。
 ---

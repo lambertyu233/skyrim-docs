@@ -6,6 +6,7 @@ kind: tutorial
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 实战, 改造, 六步法, DAR, 优先级]
+aliases: [改造别人动画包, 怎么改 mod 动画, workflow, 替换动画步骤]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 把一个 DAR 格式的动画包改成 OAR 原生结构的完整流程：备份→判 hkx→查事件名→搭目录改名→写 config.json→移走旧 DAR 结构→静态校验；含"按攻击阶段拆分移动接管"的进阶技巧。
 ---

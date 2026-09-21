@@ -5,6 +5,7 @@ category: 00-overview
 version: 1.0.0
 updated: 2026-09-21
 tags: [概览, 对照, ENB, VR, 路线图, 官方]
+aliases: [CS 功能表, CS 和 ENB 对比, 功能对照, roadmap, feature matrix]
 source: https://github.com/community-shaders/skyrim-community-shaders/wiki
 summary: 官方 Developer Wiki 的 CS / ENB / CS VR / ENB VR 全功能对照表，以及官方承认的潜在未来功能依赖图。
 ---

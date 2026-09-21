@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [对比, 表格, FNIS, Nemesis, Pandora, 选型]
+aliases: [FNIS Nemesis Pandora 区别, 用哪个引擎, 引擎选择, 补丁器对比, engine comparison, 三选一]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: Pandora 官方 wiki 首页的三引擎对比表（原表直录 + 逐项解读），是本领域唯一成体系的官方对比文档。
 ---

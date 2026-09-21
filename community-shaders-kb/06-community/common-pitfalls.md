@@ -5,6 +5,7 @@ category: 06-community
 version: 1.0.0
 updated: 2026-09-21
 tags: [社区, 排错, 实战, 性能, 兼容]
+aliases: [CS 踩坑, 常见坑, pitfalls, 新手错误]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/86492
 summary: 把官方文档散落各处的警告、Nexus 发布页与用户回帖里的高频问题，按「现象 → 原因 → 处理」整理成一份实战清单。
 ---

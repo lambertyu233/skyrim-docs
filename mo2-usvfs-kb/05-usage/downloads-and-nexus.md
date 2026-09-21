@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 下载, Nexus, meta, nxmhandler]
+aliases: [下载管理, Nexus 集成, MO2 下载, nexus 怎么连]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: MO 通过 NXM 链接下载并收集 meta（名称/版本/Nexus ID），缺失可 Query Info 补全；nxmhandler 可让多款管理器共存。
 kind: tutorial

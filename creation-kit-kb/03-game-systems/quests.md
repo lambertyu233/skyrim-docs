@@ -5,6 +5,7 @@ category: 03-game-systems
 version: 1.0.0
 updated: 2026-09-20
 tags: [quest, quest-system, stages, objectives, aliases]
+aliases: [任务系统, 做任务, 任务怎么做]
 source: https://ck.uesp.net/wiki/CreationKit:Quests
 summary: 任务是 CK 的核心系统，由阶段（Stage）、目标（Objective）、别名（Alias）与脚本片段（Fragment）构成。
 status: stable

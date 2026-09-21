@@ -5,6 +5,7 @@ category: 01-mechanism
 version: 1.0.0
 updated: 2026-09-20
 tags: [机制, hooking, 重定向, Win32]
+aliases: [API Hook, hook 机制, api hooking, HOOK 原理]
 source: https://github.com/ModOrganizer2/usvfs
 summary: USVFS 通过 hook 文件访问类 Win32 API，拦截进程发起的路径请求并重写为真实路径。
 kind: concept

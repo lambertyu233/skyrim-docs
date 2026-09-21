@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [透明, 渲染]
+aliases: [OIT, 顺序无关透明, 透明排序, order independent transparency]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/187431
 summary: 正确混合重叠的透明表面。
 ---

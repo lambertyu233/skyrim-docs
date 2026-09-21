@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 兼容性, FAQ, MergeMapper, 路径长度]
+aliases: [OAR 兼容性, 和什么冲突, compatibility, OAR 能和其他动作 mod 一起用吗]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: OAR 与 DAR 本体不兼容但与 DAR 格式 mod 完全兼容，内置 MergeMapper 支持；最常见的"没被识别"原因是完整路径超过 260 字符。
 ---

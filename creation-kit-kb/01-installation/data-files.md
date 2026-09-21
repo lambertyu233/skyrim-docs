@@ -5,6 +5,7 @@ category: 01-installation
 version: 1.0.0
 updated: 2026-09-20
 tags: [data, esm, esp, bsa, load-order, plugin]
+aliases: [Data 目录, 插件格式, esp esm esl, 插件类型, 什么是 ESL]
 source: https://ck.uesp.net/wiki/Data_file
 summary: 游戏资源集中在 Data 目录；.esm 为主文件、.esp 为插件、.bsa 为资源归档，加载顺序决定覆盖优先级。
 status: stable

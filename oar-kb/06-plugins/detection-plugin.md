@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, Detection, 插件, DETECTS, DETECTED_BY, 潜行]
+aliases: [Detection Plugin, 检测插件, OAR 扩展条件]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/104806
 summary: Nonameron 用 OAR 插件 API 实现的检测条件扩展，提供 DETECTS / DETECTED_BY 两个容器条件与距离/关系/角度三个子条件；页面示例里的 IsPlayer 实为笔误，OAR 与本体均无此条件。
 ---

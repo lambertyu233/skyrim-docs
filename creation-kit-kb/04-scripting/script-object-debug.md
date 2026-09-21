@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, script-object, debug, global, native]
+aliases: [Debug 脚本, 调试输出, debug notification, 打印日志]
 source: https://ck.uesp.net/wiki/Debug_Script
 summary: 开发与调试用的全局脚本对象，提供日志输出、相机定位、通知与测试辅助函数。
 status: stable

@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [LOD, 光照]
+aliases: [LOD 混合, lod blending, 远景过渡, LOD 接缝]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 对 LOD 物体与地形的光照特性做精细控制。
 ---

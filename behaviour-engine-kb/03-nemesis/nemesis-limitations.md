@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [Nemesis, 局限, 崩溃, 文档, overwrite]
+aliases: [Nemesis 缺点, Nemesis 崩溃, nemesis 5000 限制, Nemesis 文档缺失, nemesis problems]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/60033
 summary: Nemesis 最大的短板是"中级以上无公开文档"，叠加超大 modlist 下崩溃与更新不活跃，促成了 Pandora 的接替。
 ---

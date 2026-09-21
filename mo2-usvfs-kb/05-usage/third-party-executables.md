@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 可执行文件, 工具, 快捷方式, Steam AppID]
+aliases: [第三方程序, 添加 exe, 快捷方式配置, executables, LOOT 怎么加]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 所有 mod 相关工具都必须从 MO 内启动；用齿轮按钮配置 Binary/Start in/Arguments 等字段，并可创建（profile 专属）快捷方式。
 kind: tutorial

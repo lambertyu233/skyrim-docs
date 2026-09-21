@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [阴影, 屏幕空间, 草, 性能]
+aliases: [SSS, 屏幕空间阴影, screen space shadows]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/screen-space-shadows
 summary: 用屏幕空间阴影补齐草、地图、远景与自阴影；是 Bend Studio 方案的定制实现，相对更吃性能。
 ---

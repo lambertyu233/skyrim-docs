@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [Havok, FSM, hkx, 中间件, 原理]
+aliases: [Havok 行为系统, FSM 状态机, hkx 是什么, havok behavior, 有限状态机, 行为树]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: Havok Behavior 是一套用非确定性有限状态机控制动画逻辑的专有中间件，状态机序列化进 .hkx 包文件——这是所有动作引擎的底层对象。
 ---

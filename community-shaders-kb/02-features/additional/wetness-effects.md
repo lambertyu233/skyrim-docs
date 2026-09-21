@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [湿润, 雨, 天气]
+aliases: [湿润效果, 湿身, wetness, 下雨潮湿]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/112739
 summary: 动态表面湿润与降雨交互、自定义雨涟漪。
 ---

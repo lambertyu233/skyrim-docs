@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 筛选, 分组, 冲突高亮, Namefilter]
+aliases: [filters, 按类型分组, 怎么筛 mod, 冲突颜色怎么看, 按 mod 类型过滤]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 可按分类或 Nexus ID 分组，Filter 侧栏提供预置与自定义筛选并支持 And/Or 组合；选中 mod 时用红/绿高亮输赢双方。
 kind: tutorial

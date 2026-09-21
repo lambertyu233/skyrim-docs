@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 入门, 定位, SKSE]
+aliases: [OAR 是什么, OAR 干嘛的, Open Animation Replacer, 替换动画, 它替换什么]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: Open Animation Replacer 是一个 SKSE 框架插件，在游戏请求某个"已有动画"时按可配置条件改播另一个 hkx 文件；它不新增动画命令，因此与 FNIS/Nemesis/Pandora 是互补关系。
 ---

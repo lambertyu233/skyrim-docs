@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 条件, 清单, 速查, 版本]
+aliases: [conditions, conditions list, 条件列表, 条件速查表, 条件全表, AttackState, IsAttacking, 条件枚举]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: OAR 注册的全部条件速查表，按逻辑/装备/身份/战斗/移动/环境/坐骑/目标/数值/场景分组，并标注每个条件的引入版本。已用源码逐条核对完整性。
 ---

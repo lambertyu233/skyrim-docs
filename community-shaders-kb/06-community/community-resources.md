@@ -5,6 +5,7 @@ category: 06-community
 version: 1.0.0
 updated: 2026-09-21
 tags: [社区, 信息源, 支持, 求助, 甄别]
+aliases: [CS 社区, 支持渠道, 哪里问 CS, community resources]
 source: https://modding.wiki/en/skyrim/developers/community-shaders
 summary: 整理 CS 的官方渠道与可信社区来源，并给出识别内容农场 / AI 聚合站的判断方法，避免被二手错误信息误导。
 ---

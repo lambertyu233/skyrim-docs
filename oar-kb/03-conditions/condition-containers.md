@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 条件, 容器, 嵌套, OR, AND, PLAYER, TARGET]
+aliases: [OAR 条件容器, OR AND NOT, 嵌套条件, containers, 条件怎么写多个, TARGET PLAYER 容器]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 容器条件自身不判断数值，而是"换一个求值对象"或"组合子条件"；外层列表本身就是 AND，容器可无限嵌套，子数组的键名为大写 Conditions。
 ---
@@ -98,7 +99,7 @@ IsFemale
 }
 ```
 
-> 来源：本工作区实测记录 `OAR/OAR-补充文档.md`（`Conditions` 大写、`{"value": N}` 包裹、`Left hand` 布尔组件均经实测）。
+> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）（`Conditions` 大写、`{"value": N}` 包裹、`Left hand` 布尔组件均经实测）。
 
 ## 实战建议：为什么"左右手要各写一条 OR"
 

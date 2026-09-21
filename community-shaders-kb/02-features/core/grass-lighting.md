@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [草地, 光照, Complex Grass]
+aliases: [草体光照, 草的光照, grass lighting, 草颜色太亮]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-lighting
 summary: 替换草着色器，加入顶点法线方向性光照、背面次表面散射，并修好 ENB 版 Complex Grass 的 UV 映射。
 ---

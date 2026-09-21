@@ -5,6 +5,7 @@ category: 01-installation
 version: 1.1.0
 updated: 2026-09-21
 tags: [安装, 入门, 步骤, MO2, Vortex, 合集]
+aliases: [CS 怎么装, CS 安装教程, community shaders install, MO2 装 CS]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/installation-guide
 summary: 在纯净 Skyrim 上安装 Community Shaders 的完整步骤、前置条件与更新方法。
 ---

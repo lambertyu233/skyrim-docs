@@ -5,6 +5,7 @@ category: 04-development
 version: 1.0.0
 updated: 2026-09-20
 tags: [PBR, 纹理, 网格, 开发, 美术]
+aliases: [PBR 美术指南, pbr artist, 美术师指南, 做 PBR 材质]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/true-pbr-home
 summary: 面向纹理作者与开发者的 True PBR 完整指南：网格标记、纹理槽位、特殊渲染技法与 MATO。
 ---

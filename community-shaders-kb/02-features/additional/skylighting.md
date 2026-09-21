@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [环境光遮蔽, 户外, 全局光照, 湿润, 性能]
+aliases: [天光, 天空光照, 天光遮蔽, skylight, 天空光]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/139352
 summary: 自研的「大规模环境光遮蔽」——烘焙可见性探针并用球谐存储，从各个方向做遮蔽；与 ENB 的同名方案实现方式完全不同。
 ---

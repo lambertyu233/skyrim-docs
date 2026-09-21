@@ -1,0 +1,14 @@
+# ---- 编辑器 / 系统噪音 ----
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+
+# ---- 工作区临时目录（脚本草稿、一次性探针）----
+.workbuddy/tmp/

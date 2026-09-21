@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [开发工具, 调试]
+aliases: [抓帧, renderdoc 捕获, 渲染调试]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/faq#renderdoc
 summary: 内置 RenderDoc 截图捕获，便于开发调试（1.4.6+）。
 ---

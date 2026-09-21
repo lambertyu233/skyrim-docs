@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, events, onactivate, onhit, ondeath, reference]
+aliases: [事件参考, Papyrus 事件, OnInit OnActivate]
 source: https://ck.uesp.net/wiki/Events_Reference
 summary: 事件是游戏运行时触发、脚本可响应的信号；常见如 OnInit、OnLoad、OnActivate、OnHit、OnDeath。
 status: stable

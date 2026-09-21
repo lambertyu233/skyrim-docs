@@ -5,6 +5,7 @@ category: 06-tutorials
 version: 1.0.0
 updated: 2026-09-20
 tags: [tutorial, quest, papyrus, scripting, beginner, fragment]
+aliases: [任务脚本教程, 基础脚本教程, quest 脚本, 入门脚本]
 source: https://ck.uesp.net/wiki/Bethesda_Tutorial_Basic_Quest_Scripting
 summary: 官方教程——创建一个简单任务，并用 Papyrus 片段（Fragment）驱动阶段推进与目标完成。
 status: stable

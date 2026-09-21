@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, DAR, 替换器, 条件动画, 生态]
+aliases: [OAR 和动作引擎关系, DAR 是什么, OAR DAR 区别, 替换型动画, 需要刷补丁吗]
 source: https://forums.nexusmods.com/topic/13497416-open-animation-replacer-a-pose/
 summary: Open/Dynamic Animation Replacer 是"按条件替换已有动画"的 SKSE 插件，与补丁器互补而非替代；Pandora 官方点名 OAR 接替了 PCEA/Sexy Move。
 ---
@@ -47,7 +48,7 @@ Pandora 官方对比表有一句关键脚注：
 
 ## 与本工作区其他资料的关系
 
-本工作区已有 OAR 的独立教程与补充文档（`OAR/` 目录），讲解**条件写法、目录结构、替换心智模型**。若你要写 OAR 条件或按阶段拆分动画，请结合那份文档；本文只负责"OAR 在生态中的位置"。
+本工作区有 OAR 的独立资料库 `oar-kb/`，讲解**条件写法、目录结构、替换心智模型**。若你要写 OAR 条件或按阶段拆分动画，请转去 `oar-kb/08-practices/`；本文只负责"OAR 在生态中的位置"。
 
 ## 相关
 

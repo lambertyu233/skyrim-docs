@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [天空, 天体, 太阳, 月亮, DynDOLOD]
+aliases: [天空同步, sky sync, 天空盒与光照同步]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/sky-sync
 summary: 把光照、阴影与体积光同步到太阳与月亮的真实位置，并提供更真实的南天弧线日照路径；需生成地形底面网格。
 ---

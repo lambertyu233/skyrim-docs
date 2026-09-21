@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [开发工具, 天气]
+aliases: [CS 编辑器, cs editor, 游戏内调参数]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 实时天气与 imagespace 编辑器，服务所有 MOD 制作需求。
 ---

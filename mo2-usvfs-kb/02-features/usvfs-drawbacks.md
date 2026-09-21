@@ -5,6 +5,7 @@ category: 02-features
 version: 1.0.0
 updated: 2026-09-20
 tags: [特性, 风险, 性能, 杀软, 调试]
+aliases: [VFS 缺点, USVFS 风险, 代价, drawbacks, VFS 有问题吗]
 source: https://github.com/ModOrganizer2/usvfs
 summary: USVFS 带来内存/CPU 开销、初始化时机限制、新 bug 源，以及易触发杀软误报。
 kind: reference

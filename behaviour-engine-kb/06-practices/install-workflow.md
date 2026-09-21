@@ -6,6 +6,7 @@ kind: tutorial
 version: 1.0.0
 updated: 2026-09-21
 tags: [流程, 刷补丁, 标准操作, MO2, Vortex]
+aliases: [怎么刷动作, 刷补丁步骤, generatefnis 流程, install workflow, 更新动作后要做什么]
 source: https://www.nexusmods.com/skyrimspecialedition/articles/12319
 summary: 把三份官方/半官方安装文档抽象成一套"任何时候都适用"的刷补丁标准流程，并标出最容易被忽略的三个坑。
 ---

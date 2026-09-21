@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [地形, 纹理]
+aliases: [地形辅助, terrain helper, 地形工具]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/143149
 summary: 为非 PBR 地形 MOD 增加额外纹理层以优化贴图。
 ---

@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 来源, 警示, 辟谣, CSDN]
+aliases: [CSDN 假教程, AI 编造的 OAR, 不可信来源, unreliable, Data/OAR 是假的, OAR.json 不存在]
 source: https://github.com/ersh1/OpenAnimationReplacer
 summary: CSDN 等站点的 OAR 文章已被逐条验证为编造：不存在的 Data\OAR\ 目录、OAR.json 全局配置、oar list/log 控制台命令、.kf/.nif/.fbx 动画格式、OAR v5.0 与 State Override 功能——全部不实。
 ---
@@ -37,7 +38,7 @@ summary: CSDN 等站点的 OAR 文章已被逐条验证为编造：不存在的 
 | **"OAR 可以插入 Blend Space / State Machine / Transition Rule"** | **不成立**。那是 Unreal 的动画蓝图概念。OAR 做的是**替换文件**，不是编辑行为图结构。 |
 | **"FNIS 生成预编译 `.kf` 序列帧文件"、"NISS"** | **不成立**。FNIS 生成/更新的是 **`.hkx` 行为文件与动画数据库条目**；"NISS" 这个工具名也不存在（应为 Nemesis）。 |
 
-> 判定依据：官方描述页 <https://www.nexusmods.com/skyrimspecialedition/mods/92109>；源码 `github.com/ersh1/OpenAnimationReplacer`（`src/` 中无任何 `.kf` / `oar` 控制台命令 / `OAR.json` 相关实现，且 `src/Parsing.cpp` 就是 `config.json` 的解析器）；本工作区实测记录 `OAR/`。
+> 判定依据：官方描述页 <https://www.nexusmods.com/skyrimspecialedition/mods/92109>；源码 `github.com/ersh1/OpenAnimationReplacer`（`src/` 中无任何 `.kf` / `oar` 控制台命令 / `OAR.json` 相关实现，且 `src/Parsing.cpp` 就是 `config.json` 的解析器）；本工作区实测记录 `oar-kb/08-practices/`。
 
 ## 这些文章的"毒性"为什么大
 

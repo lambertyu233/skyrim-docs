@@ -6,6 +6,7 @@ kind: tutorial
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, DAR, 迁移, 手动, 编辑器]
+aliases: [手动迁移, DAR 改 OAR 原生, migration, 怎么从 DAR 迁过来, config.json 迁移]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 官方推荐做法——在编辑器作者模式下从 Legacy submod 导出配置（或复制到剪贴板），手动搬到结构正确的新文件夹，再顺手用新条件简化。
 ---
@@ -104,7 +105,7 @@ mkdir -p "$MOD/_备份_原DAR结构"
 mv "$MOD/meshes/actors/character/animations/DynamicAnimationReplacer" "$MOD/_备份_原DAR结构/"
 ```
 
-> 来源（这条是本工作区实测的硬结论）：`OAR/OAR-补充文档.md`。
+> 来源（这条是本工作区实测的硬结论）：`oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
 
 ### Step 7 · 重启游戏验证
 

@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [警示, 谣言, AI生成, 核实, 来源可信度]
+aliases: [AI 编造版本号, 假教程, 不可信来源, unreliable sources, AI 生成的假文档, 被 AI 骗]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: 实测发现部分内容农场/AI 生成站会编造不存在的版本号与功能，本文列出已知错误说法与核实方法。
 ---

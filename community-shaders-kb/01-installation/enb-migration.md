@@ -5,6 +5,7 @@ category: 01-installation
 version: 1.0.0
 updated: 2026-09-20
 tags: [ENB, 迁移, Effects11, 兼容]
+aliases: [ENB 换 CS, 从 ENB 迁移, ENB 卸载, enb migration, 转投 CS]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/ENB-Migration-Guide
 summary: 从 ENB 模组列表迁移到以 CS 为核心的配置：移除 ENB 二进制、替换特性、重装相关 MOD。
 ---

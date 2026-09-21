@@ -5,6 +5,7 @@ category: 03-game-systems
 version: 1.0.0
 updated: 2026-09-20
 tags: [ai, packages, behavior, sandbox, ai-package]
+aliases: [AI 包, NPC 行为包, AI package]
 source: https://ck.uesp.net/wiki/Packages
 summary: AI 包是定义 NPC 行为的模板，控制其日程、移动与互动，如 Sandbox、跟随、巡逻等。
 status: stable

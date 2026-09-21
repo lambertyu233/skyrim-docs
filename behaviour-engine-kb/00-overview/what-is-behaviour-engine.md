@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [动作引擎, 行为引擎, behaviour-engine, 入门, 概念]
+aliases: [动作引擎是干嘛的, behaviour engine, animation engine, 为什么要刷动作, 引擎作用]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: 动作引擎（行为引擎）是"按你的 modlist 现场生成一份行为文件"的补丁工具，本文用最直白的方式讲清它的定位。
 ---

@@ -5,6 +5,7 @@ category: 04-scripting
 version: 1.0.0
 updated: 2026-09-20
 tags: [papyrus, scripting, overview, language]
+aliases: [Papyrus 是什么, 脚本概览, 脚本系统]
 source: https://ck.uesp.net/wiki/Papyrus
 summary: Papyrus 是 CK 内置的全新面向对象脚本语言，按经验水平分为入门、老手、专家等不同学习路径。
 status: stable

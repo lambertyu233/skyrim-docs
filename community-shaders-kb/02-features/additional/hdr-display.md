@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [HDR, 显示]
+aliases: [HDR 显示, hdr display, 高动态范围]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/179371
 summary: 对支持的显示器输出原生 HDR。
 ---

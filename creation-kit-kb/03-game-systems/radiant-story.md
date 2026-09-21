@@ -5,6 +5,7 @@ category: 03-game-systems
 version: 1.0.0
 updated: 2026-09-20
 tags: [radiant, story-manager, procedural, quests, encounters]
+aliases: [Radiant Story, 故事管理器, 动态任务]
 source: https://ck.uesp.net/wiki/Bethesda_Tutorial_Story_Manager
 summary: Radiant Story / 故事管理器按条件在运行时动态生成任务与遭遇，实现程序化、可重复的内容。
 status: stable

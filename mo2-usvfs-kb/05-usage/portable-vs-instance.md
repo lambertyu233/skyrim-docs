@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 安装模式, instance, portable, LocalAppData]
+aliases: [便携安装, 实例安装, portable instance, 两种安装方式]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: portable 每个游戏一份 MO；instanced 用一份 MO 管多游戏/多套构建，各实例数据存于 %LocalAppData%/ModOrganizer。
 kind: concept

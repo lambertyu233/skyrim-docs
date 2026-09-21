@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, Overwrite, 维护, 工具产出]
+aliases: [Overwrite 目录, 覆盖目录, overwrite 是什么, overwrite 要不要清]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 工具写出的新文件落入 Overwrite；应定期把其中内容归档进正式 mod，保持 Overwrite 干净。
 kind: tutorial

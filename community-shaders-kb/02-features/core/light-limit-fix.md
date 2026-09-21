@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [光照, 性能, 引擎修复, 粒子光, 调试]
+aliases: [光源上限, light limit fix, 光太多闪烁, 4 光源限制]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/light-limit-fix
 summary: 用聚簇着色（clustered shading，Starfield 同款）真正解除动态光源数量限制，并让 ENB 粒子光以真实光源形式接入；附带 LLFDEBUG 可视化。
 ---

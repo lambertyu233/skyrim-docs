@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 变体, 随机, 顺序, 权重]
+aliases: [OAR 变体, 随机动画, 多个动画随机播, 轮播动画]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 自 1.2.0 起一个替换动画可有多个变体，做法是建 _variants_<动画名> 子文件夹；不用写随机条件，可在编辑器里配权重；2.2.0 起还有顺序模式与"只播一次"。
 ---

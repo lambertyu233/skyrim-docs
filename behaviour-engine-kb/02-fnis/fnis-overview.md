@@ -6,6 +6,7 @@ kind: tool
 version: 1.0.0
 updated: 2026-09-21
 tags: [FNIS, fore, 7.6, 停更, 概览]
+aliases: [FNIS 是什么, 第一代动作引擎, FNIS 7.6]
 source: https://www.nexusmods.com/skyrim/mods/11811
 summary: FNIS 由 fore 于 2012 年开创，最终版本 7.6、2020-02-21 更新，因闭源与停更被现代 mod 生态淘汰。
 ---

@@ -5,6 +5,7 @@ category: 05-tools
 version: 1.0.0
 updated: 2026-09-20
 tags: [工具, 光照, JSON, ENB替代]
+aliases: [Light Placer, 光照放置器, 摆光源, 放灯]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/light-placer-home
 summary: 通过 JSON 将可配置的真实光源附加到物体与角色，是 ENB Light 的社区替代。
 ---

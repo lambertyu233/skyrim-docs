@@ -5,6 +5,7 @@ category: 00-overview
 version: 1.0.0
 updated: 2026-09-20
 tags: [概览, 入门, MO2, 虚拟文件系统]
+aliases: [MO2 是什么, Mod Organizer 2, 模组管理器]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: MO2 是开源 mod 管理工具，靠虚拟文件系统（VFS）在运行时合并 mod，保持游戏真实目录干净。
 kind: concept

@@ -5,6 +5,7 @@ category: 02-features
 version: 1.0.0
 updated: 2026-09-20
 tags: [glossary, terms, form, reference, cell, navmesh]
+aliases: [CK 术语, 术语表, 名词解释]
 source: https://ck.uesp.net/wiki/Glossary
 summary: MOD 开发高频术语速查——Form、Form ID、引用、Cell、Worldspace、Navmesh、Load Order、BSA 等。
 status: stable

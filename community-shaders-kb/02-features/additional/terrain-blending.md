@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [地形, 混合]
+aliases: [地形混合, terrain blending, 地形接缝]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/157076
 summary: 将地形混合进地形网格，消除接缝。
 ---

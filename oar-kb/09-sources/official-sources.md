@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 来源, 官方, 清单]
+aliases: [OAR 官方来源, Nexus 页面, official sources]
 source: https://github.com/ersh1/OpenAnimationReplacer
 summary: OAR 没有 wiki——最权威的一手来源是源码仓库、Nexus 描述页（唯一手册）与作者 Patreon 开发日志；本页给出各自能回答什么问题及核对方式。
 ---

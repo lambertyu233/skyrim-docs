@@ -7,6 +7,7 @@ status: TBA
 version: 1.0.0
 updated: 2026-09-20
 tags: [光照, 色彩空间]
+aliases: [线性光照, linear lighting, 光照线性化]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 内部色彩空间转换以提升光照计算精度。[TBA]
 ---

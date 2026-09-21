@@ -5,6 +5,7 @@ category: 01-installation
 version: 1.0.0
 updated: 2026-09-20
 tags: [install, steam, launch, setup]
+aliases: [CK 怎么装, CK 怎么启动, Creation Kit 安装, ck 打不开]
 source: https://ck.uesp.net/wiki/Creation_Kit
 summary: Creation Kit 免费随 Steam 提供，在「库 → 工具」中安装；经典版应用 202480，特别版 1946180。
 status: stable

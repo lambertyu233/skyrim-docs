@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 安装, 首次启动, NXM, Nexus]
+aliases: [MO2 怎么装, install setup, MO2 安装设置]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 安装 MO2、首次启动选择游戏与 instance、关联 NXM 链接；跑游戏前必须先手动启动游戏一次让 MO 建立注册表信息。
 kind: tutorial

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>上古卷轴5 模改工作区</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --panel:#ffffff; --ink:#1f2329; --muted:#6b7280;
+    --line:#e5e7eb; --accent:#2563eb; --accent2:#0ea5e9; --chip:#eef2ff;
+    --green:#16a34a; --amber:#d97706; --gray:#9ca3af; --blue:#2563eb;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6}
+  header{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:20px 24px}
+  header h1{margin:0;font-size:20px}
+  header p{margin:6px 0 0;opacity:.9;font-size:13px}
+  .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .stat{background:rgba(255,255,255,.15);padding:4px 10px;border-radius:20px;font-size:12px}
+  .wrap{display:flex;min-height:calc(100vh - 116px)}
+  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto;
+        transition:width .16s ease,flex-basis .16s ease}
+  aside.collapsed{width:78px;flex:0 0 78px;padding:14px 10px}
+  aside.collapsed .sidehead{flex-direction:column;gap:8px;align-items:stretch;margin:0}
+  aside.collapsed .sidehead-title{display:none}
+  aside.collapsed .navtoggle{padding:6px 4px;width:100%}
+  .sidehead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .sidehead-title{font-size:12px;color:var(--muted);white-space:nowrap}
+  .navtoggle{background:none;border:1px solid var(--line);border-radius:6px;color:var(--muted);
+             font-size:11px;padding:2px 8px;cursor:pointer;line-height:1.5;white-space:nowrap}
+  .navtoggle:hover{color:var(--accent);border-color:var(--accent)}
+  #navbox.hidden{display:none}
+  main{flex:1;padding:20px 24px;overflow:auto}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  input[type=search]{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px}
+  select{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+  .navbtn{display:block;width:100%;text-align:left;padding:8px 10px;margin-bottom:4px;border:1px solid transparent;
+          background:none;border-radius:8px;cursor:pointer;color:var(--ink);font-size:13px}
+  .navbtn:hover{background:var(--chip)}
+  .navbtn.active{background:var(--accent);color:#fff}
+  .navbtn .cnt{float:right;opacity:.7;font-size:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:.15s}
+  .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-1px)}
+  .card h3{margin:0 0 6px;font-size:15px}
+  .card .sum{color:var(--muted);font-size:13px;margin:0 0 8px}
+  .card .why{display:inline-block;font-size:11px;color:var(--accent);background:#eff6ff;
+    border:1px solid #bfdbfe;border-radius:20px;padding:1px 8px;margin:0 0 8px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{background:var(--chip);color:#3730a3;font-size:11px;padding:2px 8px;border-radius:20px}
+  .chip.muted{background:#f3f4f6;color:var(--muted)}
+  .detail{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;max-width:880px}
+  .detail h2{margin-top:0}
+  .back{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;margin-bottom:12px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+  .btn{display:inline-block;padding:9px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-ghost{border:1px solid var(--line);color:var(--accent)}
+  a{color:var(--accent)}
+  .empty{color:var(--muted);padding:30px;text-align:center}
+  .tip{font-size:12px;color:var(--muted);margin-top:8px}
+  .article{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 22px 18px;
+    font-size:14.5px;line-height:1.8;color:var(--ink);max-width:860px}
+  .article h1,.article h2,.article h3,.article h4{line-height:1.35;margin:1.1em 0 .5em}
+  .article h1{font-size:1.55em;border-bottom:2px solid var(--line);padding-bottom:.3em}
+  .article h2{font-size:1.3em;border-bottom:1px solid var(--line);padding-bottom:.25em}
+  .article h3{font-size:1.12em}
+  .article p{margin:.6em 0}
+  .article ul,.article ol{margin:.5em 0;padding-left:1.6em}
+  .article li{margin:.25em 0}
+  .article a{color:var(--accent);text-decoration:underline}
+  .article code{background:#f1f5f9;border:1px solid var(--line);border-radius:4px;padding:1px 5px;
+    font-family:"SFMono-Regular",Consolas,Menlo,monospace;font-size:.92em;color:#be123c}
+  .article pre.code{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;
+    font-family:"SFMono-Regular",Consolas,Menlo,monospace;font-size:13px;line-height:1.6}
+  .article pre.code code{background:none;border:none;color:inherit;padding:0}
+  .article blockquote{margin:.7em 0;padding:.5em 1em;border-left:4px solid var(--accent);
+    background:#f8fafc;color:#374151;border-radius:0 8px 8px 0}
+  .article table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:13.5px}
+  .article th,.article td{border:1px solid var(--line);padding:7px 10px}
+  .article thead th{background:#f1f5f9;font-weight:600}
+  .article tbody tr:nth-child(even){background:#fafafa}
+  .article hr{border:none;border-top:1px solid var(--line);margin:1.2em 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>上古卷轴5 模改工作区</h1>
+  <p>基于 各子资料库的官方与社区来源 整理 · 五个资料库（OAR / 动作引擎 / Community Shaders / Creation Kit / MO2-USVFS）的统一入口与跨库排错索引。</p>
+  <div class="stats" id="stats"></div>
+</header>
+<div class="wrap">
+  <aside>
+    <div class="sidehead">
+      <span class="sidehead-title">分类过滤</span>
+      <button id="navtoggle" class="navtoggle" type="button" aria-expanded="true"
+              aria-controls="navbox" title="收起/展开分类过滤">‹ 收起</button>
+    </div>
+    <div id="navbox">
+      <button class="navbtn active" data-cat="all" type="button">全部 <span class="cnt" id="allcnt"></span></button>
+      <div id="catnav"></div>
+    </div>
+  </aside>
+  <main>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="搜索标题、摘要、标签、分类…">
+      <select id="sort">
+        <option value="cat">按分类</option>
+        <option value="title">按标题</option>
+        <option value="updated">按更新时间</option>
+      </select>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+<script>
+const ENTRIES = [{"id": "troubleshooting-index", "title": "排错索引：从症状找答案", "category": "01-navigation", "kind": "reference", "version": "1.0.0", "updated": "2026-09-21", "tags": ["排错", "索引", "症状", "导航", "入口"], "aliases": ["排错索引", "症状索引", "症状对照", "问题排查", "从症状找", "故障对照", "troubleshooting", "error", "issue"], "source": "本工作区五库汇总（条目路径见下）", "summary": "全工作区的排错入口——按\"你看到的现象\"组织，每条症状直接给出该读哪个库的哪一条，并标出最容易误判的分叉点。", "content": "<p>本工作区五个资料库按<strong>主题<\/strong>组织（OAR / 动作引擎 / Community Shaders / Creation Kit / MO2）。 但你出问题时手里拿的是<strong>症状<\/strong>，不是主题。这页就是那座桥。<\/p>\n<blockquote>用法：直接搜你的现象（如\"T-Pose\"\"贴图糊\"\"改了没反应\"）。 每条给出<strong>该读的条目路径<\/strong>，以及<strong>最容易被误判的分叉点<\/strong>——后者比前者更值钱。 路径均为相对工作区根目录的形式，例如 <code>oar-kb/05-editor/troubleshooting.md<\/code>。<\/blockquote>\n<hr>\n<h2>一、动画、动作、姿势<\/h2>\n<table><thead><tr><th style=\"text-align:left\">你看到的<\/th><th style=\"text-align:left\">该读<\/th><th style=\"text-align:left\">关键分叉（别搞错方向）<\/th><\/tr><\/thead><tbody><tr><td style=\"text-align:left\"><strong>角色摆大字（T-Pose / A-Pose）<\/strong><\/td><td style=\"text-align:left\"><code>oar-kb/05-editor/troubleshooting.md<\/code>（T-Pose 专项诊断）&lt;br&gt;<code>behaviour-engine-kb/06-practices/troubleshooting-common.md<\/code><\/td><td style=\"text-align:left\"><strong>先分类再动手<\/strong>：开局几秒 = 正常预加载；一直摆且 OAR 的 Replacement Animations 面板为空 = OAR 侧问题；一直摆且行为文件坏了 = 补丁器侧问题。<strong>OAR 的锅不会靠刷 Pandora 解决，反之亦然<\/strong><\/td><\/tr><tr><td style=\"text-align:left\"><strong>换了动画完全没反应<\/strong><\/td><td style=\"text-align:left\"><code>oar-kb/05-editor/troubleshooting.md<\/code>&lt;br&gt;<code>oar-kb/08-practices/animation-key-model.md<\/code><\/td><td style=\"text-align:left\">顺序：①文件名是不是游戏请求的那个（换错文件名是头号原因）②旧 DAR 结构是否还在 <code>meshes\\<\/code> 下③有没有重启游戏<\/td><\/tr><tr><td style=\"text-align:left\"><strong>动画换了，但某个状态掉回原版<\/strong><\/td><td style=\"text-align:left\"><code>oar-kb/08-practices/animation-key-model.md<\/code><\/td><td style=\"text-align:left\">那个状态请求的是<strong>另一个文件名<\/strong>。最常见的就是\"一移动就掉回原版\"——移动是独立的一套事件名<\/td><\/tr><tr><td style=\"text-align:left\"><strong>不该换的状态也被换了<\/strong><\/td><td style=\"text-align:left\"><code>oar-kb/03-conditions/conditions-list.md<\/code>（<code>AttackState<\/code>）&lt;br&gt;<code>oar-kb/05-editor/troubleshooting.md<\/code><\/td><td style=\"text-align:left\">条件太宽。典型修法：用 <code>AttackState<\/code> 而不是 <code>IsAttacking<\/code>（后者在整个攻击过程都为真，不区分阶段）<\/td><\/tr><tr><td style=\"text-align:left\"><strong>拉弓拉一半移动就跳成满弓姿势<\/strong><\/td><td style=\"text-align:left\"><code>oar-kb/03-conditions/conditions-list.md<\/code>&lt;br&gt;<code>oar-kb/08-practices/authoring-workflow.md<\/code>（进阶技巧）<\/td><td style=\"text-align:left\">需按 <code>AttackState<\/code> 阶段拆成多个 submod 并开 <code>interruptible: true<\/code>，靠阶段交接<\/td><\/tr><tr><td style=\"text-align:left\"><strong>有个随机动画在跟我的抢<\/strong><\/td><td style=\"text-align:left\"><code>oar-kb/02-structure/config-and-priority.md<\/code>&lt;br&gt;<code>oar-kb/05-editor/troubleshooting.md<\/code><\/td><td style=\"text-align:left\">比优先级；<strong>同优先级<\/strong>会让编辑器报警告<\/td><\/tr><tr><td style=\"text-align:left\"><strong>改了配置但编辑器里没变<\/strong><\/td><td style=\"text-align:left\"><code>oar-kb/05-editor/in-game-editor.md<\/code><\/td><td style=\"text-align:left\">忘了保存（User 模式看左上角有没有橙色 <code>*<\/code>）<\/td><\/tr><tr><td style=\"text-align:left\"><strong>FNIS/Nemesis 报 hkx 不兼容<\/strong><\/td><td style=\"text-align:left\"><code>behaviour-engine-kb/06-practices/troubleshooting-common.md<\/code>&lt;br&gt;<code>oar-kb/08-practices/animation-key-model.md<\/code><\/td><td style=\"text-align:left\">LE 的 32 位 hkx 丢进了 SE。<strong>判定不能看 hkx 标签头<\/strong>（LE/SE 共用），只能与已知可用的 SSE 文件逐字节比对<\/td><\/tr><\/tbody><\/table>\n<h2>二、MO2 与文件覆盖<\/h2>\n<table><thead><tr><th style=\"text-align:left\">你看到的<\/th><th style=\"text-align:left\">该读<\/th><th style=\"text-align:left\">关键分叉<\/th><\/tr><\/thead><tbody><tr><td style=\"text-align:left\"><strong>文件里有两份，不知道游戏用了哪个<\/strong><\/td><td style=\"text-align:left\"><code>mo2-usvfs-kb/05-usage/conflict-resolution.md<\/code><\/td><td style=\"text-align:left\">mod 列表<strong>越靠下优先级越高<\/strong>。想确认到底读的哪份，开 <code>mo2-usvfs-kb/04-debugging/debugging-usvfs.md<\/code> 的调试日志看 <code>reroute.fileName()<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>游戏目录里找不到我装的 mod 文件<\/strong><\/td><td style=\"text-align:left\"><code>mo2-usvfs-kb/05-usage/usage-faq.md<\/code>&lt;br&gt;<code>mo2-usvfs-kb/01-mechanism/process-local-links.md<\/code><\/td><td style=\"text-align:left\"><strong>这是正常的<\/strong>，不是故障。mod 物理在 <code>mods\\<\/code>，只在被注入的进程内可见<\/td><\/tr><tr><td style=\"text-align:left\"><strong>工具（LOOT/xEdit/BSA Browser）看不到 mod<\/strong><\/td><td style=\"text-align:left\"><code>mo2-usvfs-kb/06-reference/faq.md<\/code><\/td><td style=\"text-align:left\">必须<strong>从 MO2 内启动<\/strong>该工具，直接双击 exe 看不到虚拟视图<\/td><\/tr><tr><td style=\"text-align:left\"><strong>装完 mod 没生效<\/strong><\/td><td style=\"text-align:left\"><code>mo2-usvfs-kb/05-usage/enable-and-activate.md<\/code><\/td><td style=\"text-align:left\">两步：先勾选启用 mod，<strong>再<\/strong>去 Plugins 页激活其 esp/esm。<strong>插件放在子文件夹里不会被识别<\/strong><\/td><\/tr><tr><td style=\"text-align:left\"><strong>MO2 怪问题/注入似乎没生效<\/strong><\/td><td style=\"text-align:left\"><code>mo2-usvfs-kb/06-reference/troubleshooting-vfs.md<\/code><\/td><td style=\"text-align:left\">按顺序查：杀软拦截（常无提示）→ HVCI/Core Isolation → Windows Event Log 服务 → 系统日志被清后需<strong>\"重启\"而非关机<\/strong><\/td><\/tr><tr><td style=\"text-align:left\"><strong>profile 切换时 MO2 崩溃<\/strong><\/td><td style=\"text-align:left\"><code>mo2-usvfs-kb/05-usage/profile-switching.md<\/code>&lt;br&gt;<code>mo2-usvfs-kb/06-reference/troubleshooting-vfs.md<\/code><\/td><td style=\"text-align:left\">先排杀软与 Event Log 服务，别急着重建 profile<\/td><\/tr><tr><td style=\"text-align:left\"><strong>警告图标说 mod 顺序有问题<\/strong><\/td><td style=\"text-align:left\"><code>mo2-usvfs-kb/05-usage/warnings-and-order-problems.md<\/code><\/td><td style=\"text-align:left\"><strong>它管的是资源（贴图/网格）覆盖顺序，不是 esp 加载顺序<\/strong>——后者归 LOOT/Plugins 页的 Sort<\/td><\/tr><\/tbody><\/table>\n<h2>三、画质与着色器<\/h2>\n<table><thead><tr><th style=\"text-align:left\">你看到的<\/th><th style=\"text-align:left\">该读<\/th><\/tr><\/thead><tbody><tr><td style=\"text-align:left\"><strong>装完 CS 后游戏变亮/变暗、光照不对<\/strong><\/td><td style=\"text-align:left\"><code>community-shaders-kb/01-installation/installation-guide.md<\/code>、<code>community-shaders-kb/03-reference/faq.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>从 ENB 迁到 CS 或想两者共存<\/strong><\/td><td style=\"text-align:left\"><code>community-shaders-kb/01-installation/enb-migration.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>某个效果与已有 mod 冲突<\/strong><\/td><td style=\"text-align:left\"><code>community-shaders-kb/03-reference/incompatible-mods.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>不知道某功能该不该开、吃多少性能<\/strong><\/td><td style=\"text-align:left\"><code>community-shaders-kb/00-overview/feature-matrix.md<\/code>、<code>community-shaders-kb/03-reference/faq.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>闪烁 / 阴影异常 / 贴图噪点<\/strong><\/td><td style=\"text-align:left\"><code>community-shaders-kb/06-community/common-pitfalls.md<\/code><\/td><\/tr><\/tbody><\/table>\n<h2>四、Creation Kit 与脚本<\/h2>\n<table><thead><tr><th style=\"text-align:left\">你看到的<\/th><th style=\"text-align:left\">该读<\/th><\/tr><\/thead><tbody><tr><td style=\"text-align:left\"><strong>Papyrus 脚本不编译 / 报编译错<\/strong><\/td><td style=\"text-align:left\"><code>creation-kit-kb/04-scripting/compiling-scripts.md<\/code>、<code>creation-kit-kb/04-scripting/papyrus-language.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>某个事件/函数不知道怎么写<\/strong><\/td><td style=\"text-align:left\"><code>creation-kit-kb/04-scripting/events-reference.md<\/code>、<code>creation-kit-kb/04-scripting/function-reference.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>CK 启动异常 / 找不到 ini<\/strong><\/td><td style=\"text-align:left\"><code>creation-kit-kb/01-installation/ini-files.md<\/code>、<code>creation-kit-kb/01-installation/install-and-launch.md<\/code><\/td><\/tr><\/tbody><\/table>\n<h2>五、动作引擎侧（重刷与补丁）<\/h2>\n<table><thead><tr><th style=\"text-align:left\">你看到的<\/th><th style=\"text-align:left\">该读<\/th><\/tr><\/thead><tbody><tr><td style=\"text-align:left\"><strong>到底该不该重刷 Nemesis/Pandora？<\/strong><\/td><td style=\"text-align:left\"><code>behaviour-engine-kb/01-principles/patcher-vs-replacer.md<\/code>——<strong>OAR 是 Replacer，改动画不需要重刷<\/strong>；新增动画命令才需要 Patcher<\/td><\/tr><tr><td style=\"text-align:left\"><strong>引擎跑出 0 animations added / 无输出<\/strong><\/td><td style=\"text-align:left\"><code>behaviour-engine-kb/06-practices/troubleshooting-common.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>Nemesis 报 2006 / 1210 / 6001<\/strong><\/td><td style=\"text-align:left\"><code>behaviour-engine-kb/06-practices/troubleshooting-common.md<\/code>（含三个编号的对策）<\/td><\/tr><tr><td style=\"text-align:left\"><strong>读档 CTD<\/strong><\/td><td style=\"text-align:left\"><code>behaviour-engine-kb/06-practices/troubleshooting-common.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>FNIS / Nemesis / Pandora 该选哪个<\/strong><\/td><td style=\"text-align:left\"><code>behaviour-engine-kb/06-practices/choosing-engine.md<\/code><\/td><\/tr><tr><td style=\"text-align:left\"><strong>Pandora 输出只有 txt<\/strong><\/td><td style=\"text-align:left\"><code>behaviour-engine-kb/04-pandora/pandora-troubleshooting.md<\/code>（查 .NET 7 Desktop Runtime 与 <code>Engine.log<\/code>）<\/td><\/tr><\/tbody><\/table>\n<hr>\n<h2>通用排查纪律（跨库都适用）<\/h2>\n<ol><li><strong>先读日志，再猜原因<\/strong>。每个子系统都有唯一的权威日志：<ul><li>OAR → <code>Documents\\My Games\\Skyrim Special Edition\\SKSE\\OpenAnimationReplacer.log<\/code><\/li><li>Pandora → <code>Engine.log<\/code><\/li><li>MO2 / usvfs → 开调试日志看 <code>hook_*<\/code> 与 <code>reroute.fileName()<\/code><\/li><li>Community Shaders → 见 <code>community-shaders-kb/04-development/testing-and-debugging.md<\/code><\/li><\/ul><\/li><\/ol>\n<p><strong>没有日志证据的结论只是猜测。<\/strong><\/p>\n<ol><li><strong>区分\"没加载\"和\"加载了但没生效\"<\/strong>。这两类的修法完全不同：前者查文件/路径/冲突，后者查条件/优先级。日志是唯一能区分的手段。<\/li><li><strong>别跨层归因<\/strong>。OAR 的问题不会靠重刷补丁器解决，补丁器的问题也不会靠改 OAR 条件解决；MO2 的覆盖问题更不归 LOOT 管。<\/li><li><strong>一次只改一个变量<\/strong>，改完重启游戏。<\/li><\/ol>\n<blockquote>本页是索引，不是正文。条目内容的权威版本始终在各库原文件；改动请改原条目，不要在此处复制正文。<\/blockquote>", "_file": "troubleshooting-index.md", "_chars": 5397}];
+const CATS = {"01-navigation": 1};
+const CAT_LABELS = {"01-navigation": "跨库导航与排错"};
+let curCat='all', curQ='', sortBy='cat';
+
+function label(cat){ return CAT_LABELS[cat] || cat; }
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function filtered(){
+  const q=curQ.toLowerCase();
+  return ENTRIES.filter(e=>{
+    if(curCat!=='all' && e.category!==curCat) return false;
+    if(q){
+      const hay=(e.title+' '+(e.summary||'')+' '+(e.tags||[]).join(' ')+' '+
+        (e.aliases||[]).join(' ')+' '+(e.category||'')+' '+label(e.category)).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+// 记录每条命中的原因：优先展示比标题更具体的匹配证据（别名 / 标签 / 正文）
+function showWhy(e){
+  const q=curQ.toLowerCase(); if(!q) return '';
+  if((e.aliases||[]).some(a=>a.toLowerCase().includes(q))) return '别名命中';
+  if((e.tags||[]).some(t=>t.toLowerCase().includes(q))) return '标签命中';
+  const t=(e.title||'').toLowerCase();
+  if(t.includes(q)) return '标题命中';
+  if((e.summary||'').toLowerCase().includes(q)) return '摘要命中';
+  return '正文提及';
+}
+function sortEntries(list){
+  if(sortBy==='title') return list.sort((a,b)=>(a.title||'').localeCompare(b.title||'','zh'));
+  if(sortBy==='updated') return list.sort((a,b)=>(b.updated||'').localeCompare(a.updated||''));
+  return list; // cat：本已按 category 预排序
+}
+function renderGrid(){
+  const list=sortEntries(filtered());
+  const view=document.getElementById('view');
+  if(!list.length){view.innerHTML='<div class="empty">没有匹配的条目</div>';return;}
+  let html='<div class="grid">';
+  for(const e of list){
+    const why=showWhy(e);
+    html+='<div class="card" data-id="'+esc(e.id)+'"><h3>'+esc(e.title)+'</h3>'+
+      (why?'<div><span class="why">'+esc(why)+'</span></div>':'')+
+      '<div class="chips" style="margin-bottom:6px">'+
+      '<span class="chip">'+esc(label(e.category))+'</span>'+
+      (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+'</div>'+
+      '<p class="sum">'+esc(e.summary||'')+'</p>'+
+      '<div class="chips">'+((e.tags||[]).slice(0,4).map(t=>'<span class="chip">'+esc(t)+'</span>').join(''))+'</div></div>';
+  }
+  html+='</div>';
+  view.innerHTML=html;
+  view.querySelectorAll('.card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
+}
+function showDetail(id){
+  const e=ENTRIES.find(x=>x.id===id); if(!e) return;
+  const view=document.getElementById('view');
+  const src=e.source?'<a class="btn btn-ghost" href="'+esc(e.source)+'" target="_blank" rel="noopener">官方来源 ↗</a>':'';
+  const file=e._file?'<a class="btn btn-primary" href="'+esc(e._file)+'" target="_blank" rel="noopener">打开本地 .md →</a>':'';
+  const tags=((e.tags||[]).map(t=>'<span class="chip">'+esc(t)+'</span>').join(''));
+  const als=((e.aliases||[]).length?
+    '<div class="chips" style="margin:6px 0 0">'+
+    (e.aliases||[]).map(a=>'<span class="chip muted">'+esc(a)+'</span>').join('')+'</div>':'');
+  view.innerHTML='<button class="back" onclick="renderGrid()">← 返回列表</button>'+
+    '<div class="detail"><h2>'+esc(e.title)+'</h2>'+
+    '<div class="chips" style="margin-bottom:4px">'+
+    '<span class="chip">'+esc(label(e.category))+'</span>'+
+    (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+
+    (e.version?'<span class="chip muted">v'+esc(e.version)+'</span>':'')+
+    (e.updated?'<span class="chip muted">'+esc(e.updated)+'</span>':'')+'</div>'+
+    '<div class="chips" style="margin:6px 0 10px">'+tags+'</div>'+
+    '<div class="article">'+(e.content||'<p>(暂无正文)</p>')+'</div>'+
+    '<div class="actions">'+file+src+'</div>'+
+    als+
+    '<p class="tip">源文件：'+esc(e._file||'')+'</p></div>';
+  document.querySelector('main').scrollTop=0;
+}
+function selectCat(cat,btn){
+  curCat=cat;
+  document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
+  const target=btn||document.querySelector('#navbox .navbtn[data-cat="'+cat+'"]');
+  if(target) target.classList.add('active');
+  renderGrid();
+}
+function setNavCollapsed(collapsed){
+  const box=document.getElementById('navbox'), btn=document.getElementById('navtoggle'), side=document.querySelector('aside');
+  box.classList.toggle('hidden',collapsed);
+  if(side) side.classList.toggle('collapsed',collapsed);
+  btn.textContent=collapsed?'展开 ›':'‹ 收起';
+  btn.setAttribute('aria-expanded',String(!collapsed));
+  try{localStorage.setItem('kb-nav-collapsed',collapsed?'1':'0');}catch(e){}
+}
+function toggleNav(){
+  setNavCollapsed(document.getElementById('navbox').classList.contains('hidden')===false);
+}
+function renderNav(){
+  const nav=document.getElementById('catnav');
+  nav.innerHTML=Object.keys(CATS).map(c=>'<button class="navbtn" data-cat="'+c+'">'+esc(label(c))+' <span class="cnt">'+CATS[c]+'</span></button>').join('');
+  // 注意：侧栏「全部」按钮和分类按钮必须在这里统一绑定。
+  // 只选 [data-cat]（即分类按钮），避开同处 #navbox 内的状态过滤按钮，
+  // 否则「全部」按钮会漏绑 → 选中某分类后切不回全部（历史 bug）。
+  document.querySelectorAll('#navbox .navbtn[data-cat]').forEach(b=>b.onclick=()=>selectCat(b.dataset.cat,b));
+}
+function renderStats(){
+  const s=document.getElementById('stats');
+  const total=ENTRIES.length;
+  document.getElementById('allcnt').textContent=total;
+  let h='<span class="stat">共 '+total+' 条</span>';
+  for(const c in CATS) h+='<span class="stat">'+esc(label(c))+': '+CATS[c]+'</span>';
+  s.innerHTML=h;
+}
+document.getElementById('q').oninput=e=>{curQ=e.target.value;renderGrid();};
+document.getElementById('sort').onchange=e=>{sortBy=e.target.value;renderGrid();};
+document.getElementById('navtoggle').onclick=toggleNav;
+renderStats();renderNav();renderGrid();
+// 恢复上次的收起/展开状态
+(function(){
+  let collapsed=false;
+  try{collapsed=localStorage.getItem('kb-nav-collapsed')==='1';}catch(e){}
+  if(collapsed) setNavCollapsed(true);
+})();
+</script>
+</body>
+</html>

@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 更新, 卸载, 合并, 回收站]
+aliases: [更新 mod, 卸载 mod, 合并 mod, uninstall merge]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 用 Check all for update 查更新，全量替换用 Replace、部分更新用 Merge；卸载分"仅当前 profile"与"全局删除（进回收站）"。
 kind: tutorial

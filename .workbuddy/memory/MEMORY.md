@@ -1,5 +1,38 @@
 # 项目长期记忆（skyrim-docs）
 
+## 【入口必读】知识库怎么被 agent 使用（2026-09-21 建立）
+- 本工作区 = **6 个资料库（198 条目，正文约 707KB）** + 根目录 `AGENTS.md`（**agent 入口契约，先读它**）。
+  `01-navigation` 是**跨库排错索引**：手里是"症状"而非"主题"时先读
+  `01-navigation/troubleshooting-index.md`（含每条症状最易误判的分叉点）。
+- 检索一律走 **`scripts/kb.py`**，不要"通读"：
+  `list` → `toc <kb>` → `find <kw>` / `grep <正则>` → `show <id>`（只给元数据+大纲）→ `read <id>`。
+  用托管 Python 调：`C:/Users/laptopyu/.workbuddy/binaries/python/versions/3.13.12/python.exe scripts/kb.py …`。
+- **禁止读 `index.json` / `index.html`**：它们内联每条正文的渲染 HTML（oar-kb 单库 296KB）。
+  `find` 一次只回 ~1.7KB，差 174 倍。
+- **`aliases` 字段**（**198/198 条已全部补齐**，2026-09-21；每条 3~7 个，≤16 项上限）：
+  `tags` 说"属于什么主题"，`aliases` 说"别人会用什么词来找"。
+  `find` 加权：id 100 > 别名精确 60 > tag 40 > 别名模糊 26 > tag 模糊 22 > 标题 20 > 摘要 8。
+  **写短查询、别写整句、别抄 tags**（tags 已单独计分）。
+  搜索端两条归一化决定该怎么写别名：① **空格不敏感**（`怎么装mod` ≡ `怎么装 mod`，不必写两遍）；
+  ② **中文长串反向包含**（用户敲 `光源太多闪烁`，库里短的 `光太多闪烁` 会反向加分）——
+  所以中文别名要写**更短的核心说法**，长口语整句既切不中又占名额。
+- **新增库后必须跑 `kb.py check`**：它会报出 `AGENTS.md` 漏写的库（漏写 = 整个库对 agent 隐形）。
+- 结论必须带条目路径引用（如 `oar-kb/03-conditions/conditions-list.md`），并区分一手源 / 社区经验 / 本机实测。
+
+## 资料库的目录与脚本纪律（血泪，务必遵守）
+- **条目必须放在带 `NN-` 前缀的分类子目录**。`build_index.py` 跳过**库根层**，
+  条目写在库根 → 输出 `0 entries` **却不报错**。库根只放 manifest/index/README/AGENTS.md。
+- `category` 必须与目录名**严格相等**；写成短名（`features`）只表现为"页面标签变空"，不报错。
+- 五件套脚本（build_index / validate_kb / check_index_ui / check_links / fix_links）在技能与
+  **6 库共 7 份副本**，**指纹全为 1（无分叉）**。规范版在
+  `D:\game\上古卷轴5\.workbuddy\skills\build-maintainable-kb\scripts\`（**已从用户级迁到项目级**）。
+  **改完脚本必须跑 `scripts/sync_scripts.py`**，否则产生"技能一个行为、库另一个行为"的隐性分叉。
+  该脚本按"工作区下含 manifest.json 的一级目录"发现库，**不按 `*-kb` 后缀**（否则 `01-navigation` 会漏掉）。
+- **构建器与校验器的收集规则必须逐条对齐**：本次改了 `build_index.py` 的根层规则却忘了同步
+  `validate_kb.py`，立刻出现"构建收入 1 条、校验数出 0 条"的假报错。
+- **改完模板/脚本的自检三连**：`build_index` → `validate_kb` → `check_index_ui`；
+  动过条目或目录再加 `check_links`；动了脚本再加 `sync_scripts.py --check`。
+
 ## 环境
 - **活动实例 = `D:\game\JIZIYU J5.0`**（mods 约 1627，obito 拉弓动作已装于此）；`E:\game\JIZIYU Y5.0` 是另一个实例（mods 约 1297）。查整合/装 mod 一律以 **D 盘**为准，判据是 OAR 日志里的游戏路径。
 - 已装 `OAR动作框架-Open Animation Replacer`（**v2.3.6**，条件名单与版本新增信息全文写在它的 `meta.ini` 里）。
@@ -20,16 +53,15 @@
 - obito 拉弓动作 mod 的位置：源 `F:\download\BaiduNetdiskDownload\obito定制拉弓动作-倒立拉弓-潜行版`，MO2 已安装副本 `D:\game\JIZIYU J5.0\mods\` 同名。**改动画要同时改这两份**。
 
 ## 本项目产物
-- `OAR\OAR-教程.md`：OAR 通用教程（官方文档整理）。
-- `OAR\OAR-补充文档.md`：**改造实战补充**——替换的心智模型（键=路径+文件名，一个事件=一个文件）、DAR/OAR 目录对照、优先级三来源、条件文本/JSON 双语法、六步改造法、**进阶技巧：用 AttackState 按动作阶段拆分移动接管**、行为文件查事件名、hkx 版本判定、排错对照表、经验清单。
-- `oar-kb\`（**2026-09-21 新建，第五个资料库**）：**Open Animation Replacer 资料库**（33 条目 / 10 分类）。官方口径来自 Nexus 描述页 + **源码** + 作者 Patreon 开发日志；社区经验来自 Nexus 论坛（scorrp10 的两段经典解释）、巴哈姆特两篇中文教程、LoversLab 条件嵌套帖。**本库最重要的三条核实结论**：① OAR **确实没有 wiki**（仓库无 docs/、README 只面向编译者）；② 从 `src/Conditions.h` 抽 `GetName()` 得到 **125 个条件名**，与官方描述页清单**逐条比对无遗漏**；③ **`IsPlayer` 条件不存在**——OAR 本体与 Detection Plugin 源码都没有，Detection 页面示例是**文档笔误**。另有 `09-sources/unreliable-sources.md` 逐条取证 CSDN 的 **12 处编造**（`Data\OAR\`、`OAR.json`、`oar list/log`、`.kf/.nif/.fbx` 当动画、`Ctrl+Shift+R`、`OAR v5.0`、"2019 年测试 v1.3"、State Override 等）。`_raw/` 存了 10 组上游原文。
+- ~~`OAR\OAR-教程.md` / `OAR\OAR-补充文档.md`~~ —— **2026-09-21 该目录已删除**，内容全部并入 `oar-kb\`（教程类进 `01-getting-started\` 与 `02-*`，改造实战方法论含「用 AttackState 按动作阶段拆分移动接管」进 `08-practices\`）。**不要再引用 `OAR\` 路径**；需要原文去 `oar-kb` 找。
+- `oar-kb\`（**2026-09-21 新建，六个资料库之一**）：**Open Animation Replacer 资料库**（33 条目 / 10 分类）。官方口径来自 Nexus 描述页 + **源码** + 作者 Patreon 开发日志；社区经验来自 Nexus 论坛（scorrp10 的两段经典解释）、巴哈姆特两篇中文教程、LoversLab 条件嵌套帖。**本库最重要的三条核实结论**：① OAR **确实没有 wiki**（仓库无 docs/、README 只面向编译者）；② 从 `src/Conditions.h` 抽 `GetName()` 得到 **125 个条件名**，与官方描述页清单**逐条比对无遗漏**；③ **`IsPlayer` 条件不存在**——OAR 本体与 Detection Plugin 源码都没有，Detection 页面示例是**文档笔误**。另有 `09-sources/unreliable-sources.md` 逐条取证 CSDN 的 **12 处编造**（`Data\OAR\`、`OAR.json`、`oar list/log`、`.kf/.nif/.fbx` 当动画、`Ctrl+Shift+R`、`OAR v5.0`、"2019 年测试 v1.3"、State Override 等）。`_raw/` 存了 10 组上游原文。
 - `behaviour-engine-kb\`：**FNIS / Nemesis / Pandora 动作引擎资料库**（28 条目 / 8 分类，见 `index.html` 离线浏览器）。要点：Havok Behavior = 非确定性有限状态机中间件、序列化进 hkx 包；**Patcher（引擎，新增动画命令）vs Replacer（OAR/DAR，按条件替换已有动画）是两类**；FNIS 7.6 闭源停更、Nemesis 中级以上无公开文档、Pandora v4.4.0-beta 全生物支持且兼容两者补丁格式；**Pandora 不是 Nemesis 的 fork**（社区常错）。源存档在 `_raw\`，含 fore 2012 一手帖（hkx 只是包格式，连骨骼也压里面）与 scorrp10 的动画数据库解释。维护：`scripts\build_index.py` + `scripts\validate_kb.py`。
   - `index.html` 已升到 1.0.2：修掉「分类过滤选不了全部」（`全部` 按钮漏绑 onclick 的老 bug）、加了分类过滤收起/展开（localStorage 记忆）、去掉详情页冗余 tip；1.0.2 把脚本对齐到技能 stock 版。
-- **五个资料库（behaviour-engine-kb / community-shaders-kb / creation-kit-kb / mo2-usvfs-kb / oar-kb）的 `build_index.py` + `validate_kb.py` + `check_index_ui.py` 三件套，已全部与技能 stock 版逐字节相同**（规范版在 `~/.workbuddy/skills/build-maintainable-kb/scripts/`）。**2026-09-21 完成全库对齐，不再有任何分叉。**
+- **六个资料库（01-navigation / behaviour-engine-kb / community-shaders-kb / creation-kit-kb / mo2-usvfs-kb / oar-kb）的 `build_index.py` + `validate_kb.py` + `check_index_ui.py` 三件套，已全部与技能 stock 版逐字节相同**（规范版现在在 `D:\game\上古卷轴5\.workbuddy\skills\build-maintainable-kb\scripts\`，**2026-09-21 已从用户级迁到项目级**）。**2026-09-21 完成全库对齐，不再有任何分叉。**
   - `community-shaders-kb` 与 `creation-kit-kb` 都按维护者要求**整体换成 stock 脚本**，各自私有功能（`CATS` 数组、`category_label`/`path` 字段、status 徽章与 `.b-*` 样式、侧栏「状态过滤」、硬编码页头标题）已全部移除；两者的 `manifest.json` 也转成 stock 形状（`kb.{name,description,locale}` + `schema` + `categories[].dir/title/desc` + `version/generated_at/sources/tooling`）。**条目正文与 frontmatter 一字未改**，旧脚本与旧 manifest 备份在各自 `_raw/legacy-*-2026-09-21/`。
   - frontmatter 的 `kind`/`status` 仍作为**数据保留**（照常写进 `index.json`），只是页面不再呈现徽章；`gen_features.py`（生成器）与 `fetch_*.py`（上游抓取）作为遗留工具保留。
   - stock 脚本两个行为要点：页头标题/副标题**从 manifest 注入**（`kb.description` 里别再重复写 `source_name` 那句，否则副标题重复）；正文开头的 `# H1` 会被 `_strip_leading_h1()` 剥掉（详情面板已单独显示标题）。
-- 五库都有完整**五件套**：`build_index.py` + `validate_kb.py`（结构+索引+模板校验）+ `check_index_ui.py`（索引页交互回归，Node + DOM 桩、不需要浏览器）+ `check_links.py`（站内相对链接 lint，附带换行提示）+ `fix_links.py`（修链）。**这 5 个脚本在技能与五库中共 25 份副本、每个脚本指纹数均为 1（逐字节同源）**。改完模板必须重建并跑 validate + check_ui；**动过条目或目录后必须加跑 check_links**。
+- **六库都有完整五件套**：`build_index.py` + `validate_kb.py`（结构+索引+模板校验）+ `check_index_ui.py`（索引页交互回归，Node + DOM 桩、不需要浏览器）+ `check_links.py`（站内相对链接 lint，附带换行提示）+ `fix_links.py`（修链）。**这 5 个脚本在技能与六库中共 35 份副本、每个脚本指纹数均为 1（逐字节同源）**。改完模板必须重建并跑 validate + check_ui；**动过条目或目录后必须加跑 check_links**。
 - **`category` 必须与所在目录名严格相等**（如 `02-features`）。`build_index.py` 是拿 frontmatter 的 `category` 去 `CAT_LABELS` 查中文标签的，写成 `features` 这类短名会**静默**变成空标签。2026-09-21 发现 community-shaders-kb 的 47 个功能条目真的写错了，已修正；同时把 `validate_kb.py` 里「允许省略 `NN-` 前缀」的宽容校验改成严格相等，并新增「每个有条目的目录必须在 `manifest.categories[].dir` 里声明过」的交叉校验。**宽容校验比没有校验更危险。**
 - 改资料库页面一律改 `scripts\build_index.py` 的模板再重建，**不要手改 `index.html`**。
 
@@ -52,7 +84,7 @@
 ## community-shaders-kb 现状（2.1.0，2026-09-21）
 - 分类 7 个：`00-overview` / `01-installation` / `02-features` / `03-reference` / `04-development` / `05-tools` / **`06-community`（本版新增）**。共 64 条目。
 - 已精修 **15 个**功能条目（含工作原理/参数/需求/兼容/贡献者）：cloud-shadows、dynamic-cubemaps、extended-materials、extended-translucency、grass-collision、grass-lighting、inverse-square-lighting、light-limit-fix、screen-space-shadows、sky-sync、subsurface-scattering、terrain-shadows、water-effects、skylighting、upscaling。**其余 32 个仍是摘要级**（官方只给一句话，下轮应从 Nexus 各附加 MOD 页取材）。
-- **脚本五件套**：`build_index.py` / `validate_kb.py` / `check_index_ui.py` / `check_links.py` / `fix_links.py` —— 已于 2026-09-21 **全部进技能 stock 版并推广到四库**（此前的「待办」已完成，无残留分叉）。
+- **脚本五件套**：`build_index.py` / `validate_kb.py` / `check_index_ui.py` / `check_links.py` / `fix_links.py` —— 已于 2026-09-21 **全部进技能 stock 版并推广到全部库**（此前的「待办」已完成，无残留分叉）。
 - `gen_features.py` 已降级为脚手架：**默认跳过已存在文件**，需 `--force` 才重写；**不要误跑**，否则 15 个精修条目会退回模板。它仍用文本模式 `open(path,"w",encoding="utf-8")` 写文件（Windows 上会产出 CRLF），且仍写 `category: features`（2.0.0 修掉的老坑）——**下次动它要一并修**。
 - 全部 md 换行已统一为 **LF**（2.1.0 归一 35 个文件）。
 

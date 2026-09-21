@@ -5,6 +5,7 @@ category: 00-overview
 version: 1.0.0
 updated: 2026-09-20
 tags: [creation-kit, overview, skyrim, editor]
+aliases: [CK 是什么, Creation Kit 是什么, CK, 编辑器工具, 官方编辑器]
 source: https://ck.uesp.net/wiki/Creation_Kit
 summary: Creation Kit 是《上古卷轴 V：天际》的官方内容编辑器，当前版本 1.9.32.0，随 Steam 免费提供。
 status: stable

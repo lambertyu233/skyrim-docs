@@ -5,6 +5,7 @@ category: 06-tutorials
 version: 1.0.0
 updated: 2026-09-20
 tags: [tutorial, steam, workshop, publish, upload, release]
+aliases: [上传创意工坊, Steam Workshop, 发布 mod, workshop 上传]
 source: https://ck.uesp.net/wiki/Uploading_To_Steam_Workshop
 summary: 官方教程——将做好的 MOD 通过 CK 打包并发布到 Steam 创意工坊，含前置检查与限制说明。
 status: stable

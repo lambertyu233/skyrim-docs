@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [AMR, 位移, motion data, 注释, MCO, 生态]
+aliases: [Animation Motion Revolution, 动画运动, 滑步修复, motion revolution]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/50258
 summary: AMR 让每条动画都能携带自定义位移/旋转数据，解决"滑步"问题；Pandora 官方点名它取代了旧的 baked motion data 方案。
 ---

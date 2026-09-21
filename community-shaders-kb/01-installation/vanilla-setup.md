@@ -5,6 +5,7 @@ category: 01-installation
 version: 2.0.0
 updated: 2026-09-21
 tags: [画质, 设置, 照明, 天气, 推荐, PBR, MOD清单]
+aliases: [原版设置, vanilla 配置, 游戏设置怎么调, CS 前置设置]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/vanilla-setup-guide
 summary: 在已稳定安装 CS 的基础上，按官方推荐搭配照明、天气、窗口阴影、粒子补丁与 PBR 纹理，把画面推到最佳。
 ---

@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 函数, OnTrigger, 动画事件, OAR 事件]
+aliases: [OAR 函数, 自定义动画事件, functions, 发事件, SendAnimationEvent]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 函数是 submod 触发的游戏行为，可在动画开始/结束/指定动画事件时运行；OAR 还注册了一个不需要行为补丁的虚拟动画事件 "OAR"，可在点号后带任意载荷。
 ---

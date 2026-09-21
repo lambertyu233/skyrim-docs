@@ -5,6 +5,7 @@ category: 05-tools
 version: 1.0.0
 updated: 2026-09-20
 tags: [tes5edit, xedit, cleaning, itm, udr, mod-cleaning]
+aliases: [清理 mod, 脏数据, 冲突查看]
 source: https://ck.uesp.net/wiki/TES5Edit_Mod_Cleaning_Tutorial
 summary: TES5Edit（xEdit）用于清理插件——移除 ITM、撤销误删记录、清理导航等，提升兼容性与稳定性。
 status: stable

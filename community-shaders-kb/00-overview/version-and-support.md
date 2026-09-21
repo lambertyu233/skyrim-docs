@@ -5,6 +5,7 @@ category: 00-overview
 version: 1.0.0
 updated: 2026-09-21
 tags: [概览, 版本, 支持, VR, Linux, 更新]
+aliases: [CS 支持哪些版本, 1.6.640 支持吗, version support, LTS, 支持策略]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/86492
 summary: 官方构建政策、支持的游戏版本、VR / Linux 现状、功能并入核心的时间线，以及该找谁求助。
 ---

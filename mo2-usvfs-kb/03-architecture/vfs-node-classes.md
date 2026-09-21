@@ -5,6 +5,7 @@ category: 03-architecture
 version: 1.0.0
 updated: 2026-09-20
 tags: [架构, 类, DirectoryEntry, FileEntry, FilesOrigin]
+aliases: [VFS 节点类, DirectoryEntry FileEntry FilesOrigin, vfs node, 类结构]
 source: https://deepwiki.com/ModOrganizer2/modorganizer
 summary: 虚拟目录树由 DirectoryEntry（目录）、FileEntry（文件，可多来源）、FilesOrigin（来源追踪）等类构成。
 kind: reference

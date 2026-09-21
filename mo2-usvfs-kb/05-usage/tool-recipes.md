@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 工具, LOOT, xEdit, Wrye Bash, FNIS, SkyProc, SKSE, Creation Kit]
+aliases: [工具配置配方, LOOT xEdit 配置, tool recipes, 常用工具配置]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: LOOT、xEdit、Wrye Bash、FNIS、SkyProc、SKSE、Creation Kit、BodySlide、SBW、FreeCommander 的配置步骤与注意事项。
 kind: reference

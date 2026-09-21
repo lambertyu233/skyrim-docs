@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [ENB, 后处理, 预设]
+aliases: [Effects 11, 后处理效果, effects shader]
 source: https://mod.pub/skyrim-se/415-effects-11
 summary: 通过 FX11 框架支持未加密 ENB 预设。
 ---

@@ -32,6 +32,18 @@ def parse_frontmatter(text):
             inner = v[1:-1].strip()
             arr = [x.strip().strip('"').strip("'") for x in inner.split(",") if x.strip()]
             fm[k] = arr
+        elif v.startswith("[") and "]" not in v:
+            # YAML 数组折行：从本行起累积，直到出现 ']'
+            buf = [v]
+            while "]" not in buf[-1]:
+                nxt = f.readline()
+                if not nxt:
+                    break
+                buf.append(nxt.strip())
+            inner = " ".join(buf)
+            inner = inner[1:inner.rindex("]")]
+            arr = [x.strip().strip('"').strip("'") for x in inner.split(",") if x.strip()]
+            fm[k] = arr
         else:
             fm[k] = v.strip('"').strip("'")
     return fm
@@ -220,8 +232,12 @@ def main():
     for dirpath, dirnames, filenames in os.walk(ROOT):
         rel = os.path.relpath(dirpath, ROOT)
         top = rel.split(os.sep)[0]
-        if rel == "." or top in IGNORE_DIRS:
+        if top in IGNORE_DIRS:
             continue
+        # 根目录只放 manifest / index / README 这类文件；条目一律进分类子目录。
+        # 这里用「正好等于库根」来判定，而不是隐式依赖 rel == "." 之后才切 top，
+        # 否则一旦有人把条目写在库根层，会被静默丢掉（构建显示 0 entries 也不报错）。
+        is_root = (rel == ".")
         for fn in filenames:
             if not fn.endswith(".md"):
                 continue
@@ -237,7 +253,10 @@ def main():
             m = FM_RE.match(text)
             body = text[m.end():].strip() if m else text.strip()
             fm["content"] = _strip_leading_h1(md_to_html(body))
-            category = fm.get("category", top)
+            category = fm.get("category", "" if is_root else top)
+            if not category:
+                # 根层条目必须自己声明 category，否则分类标签会变空
+                continue
             fm["_file"] = os.path.relpath(full, ROOT).replace("\\", "/")
             fm["_chars"] = len(text)
             entries.append(fm)
@@ -250,7 +269,9 @@ def main():
         "by_category": dict(sorted(cats.items())),
         "entries": entries,
     }
-    with open(os.path.join(ROOT, "index.json"), "w", encoding="utf-8") as f:
+    # newline="" 必须显式传：默认文本模式在 Windows 上会把 "\n" 静默转成 "\r\n"，
+    # 导致同一份产物在不同平台字节不同，且与 check_links.py 的「全部为 LF」断言冲突。
+    with open(os.path.join(ROOT, "index.json"), "w", encoding="utf-8", newline="") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
     html = HTML_TEMPLATE
@@ -262,7 +283,7 @@ def main():
     html = html.replace("__GENERATED__", data["generated"])
     html = html.replace("__TOTAL__", str(len(entries)))
     assert "__ENTRIES__" not in html and "__CATS__" not in html and "__CAT_LABELS__" not in html, "占位符未替换！"
-    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8", newline="") as f:
         f.write(html)
 
     print(f"Built: {len(entries)} entries, categories={data['by_category']}")
@@ -315,6 +336,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-1px)}
   .card h3{margin:0 0 6px;font-size:15px}
   .card .sum{color:var(--muted);font-size:13px;margin:0 0 8px}
+  .card .why{display:inline-block;font-size:11px;color:var(--accent);background:#eff6ff;
+    border:1px solid #bfdbfe;border-radius:20px;padding:1px 8px;margin:0 0 8px}
   .chips{display:flex;gap:6px;flex-wrap:wrap}
   .chip{background:var(--chip);color:#3730a3;font-size:11px;padding:2px 8px;border-radius:20px}
   .chip.muted{background:#f3f4f6;color:var(--muted)}
@@ -396,11 +419,22 @@ function filtered(){
   return ENTRIES.filter(e=>{
     if(curCat!=='all' && e.category!==curCat) return false;
     if(q){
-      const hay=(e.title+' '+(e.summary||'')+' '+(e.tags||[]).join(' ')+' '+(e.category||'')+' '+label(e.category)).toLowerCase();
+      const hay=(e.title+' '+(e.summary||'')+' '+(e.tags||[]).join(' ')+' '+
+        (e.aliases||[]).join(' ')+' '+(e.category||'')+' '+label(e.category)).toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
   });
+}
+// 记录每条命中的原因：优先展示比标题更具体的匹配证据（别名 / 标签 / 正文）
+function showWhy(e){
+  const q=curQ.toLowerCase(); if(!q) return '';
+  if((e.aliases||[]).some(a=>a.toLowerCase().includes(q))) return '别名命中';
+  if((e.tags||[]).some(t=>t.toLowerCase().includes(q))) return '标签命中';
+  const t=(e.title||'').toLowerCase();
+  if(t.includes(q)) return '标题命中';
+  if((e.summary||'').toLowerCase().includes(q)) return '摘要命中';
+  return '正文提及';
 }
 function sortEntries(list){
   if(sortBy==='title') return list.sort((a,b)=>(a.title||'').localeCompare(b.title||'','zh'));
@@ -413,7 +447,9 @@ function renderGrid(){
   if(!list.length){view.innerHTML='<div class="empty">没有匹配的条目</div>';return;}
   let html='<div class="grid">';
   for(const e of list){
+    const why=showWhy(e);
     html+='<div class="card" data-id="'+esc(e.id)+'"><h3>'+esc(e.title)+'</h3>'+
+      (why?'<div><span class="why">'+esc(why)+'</span></div>':'')+
       '<div class="chips" style="margin-bottom:6px">'+
       '<span class="chip">'+esc(label(e.category))+'</span>'+
       (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+'</div>'+
@@ -430,6 +466,9 @@ function showDetail(id){
   const src=e.source?'<a class="btn btn-ghost" href="'+esc(e.source)+'" target="_blank" rel="noopener">官方来源 ↗</a>':'';
   const file=e._file?'<a class="btn btn-primary" href="'+esc(e._file)+'" target="_blank" rel="noopener">打开本地 .md →</a>':'';
   const tags=((e.tags||[]).map(t=>'<span class="chip">'+esc(t)+'</span>').join(''));
+  const als=((e.aliases||[]).length?
+    '<div class="chips" style="margin:6px 0 0">'+
+    (e.aliases||[]).map(a=>'<span class="chip muted">'+esc(a)+'</span>').join('')+'</div>':'');
   view.innerHTML='<button class="back" onclick="renderGrid()">← 返回列表</button>'+
     '<div class="detail"><h2>'+esc(e.title)+'</h2>'+
     '<div class="chips" style="margin-bottom:4px">'+
@@ -440,6 +479,7 @@ function showDetail(id){
     '<div class="chips" style="margin:6px 0 10px">'+tags+'</div>'+
     '<div class="article">'+(e.content||'<p>(暂无正文)</p>')+'</div>'+
     '<div class="actions">'+file+src+'</div>'+
+    als+
     '<p class="tip">源文件：'+esc(e._file||'')+'</p></div>';
   document.querySelector('main').scrollTop=0;
 }

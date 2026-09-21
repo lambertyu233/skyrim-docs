@@ -6,6 +6,7 @@ kind: guide
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 日志, 调试, trace, 排错]
+aliases: [OAR 日志在哪, 怎么看 OAR 日志, debug, 日志排查, OAR log]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 动画日志是屏幕右上角的 overlay，实时显示最近激活/被打断的动画剪辑与来源；关掉 UI 后仍留在屏幕上；3.0.0 起还有 show trace，能列出最终选中动画前的条件求值顺序。
 ---
@@ -88,13 +89,13 @@ C:\Users\<用户名>\Documents\My Games\Skyrim Special Edition\SKSE\OpenAnimatio
 | 有哪些动画会被动态替换 | 搜 `interruptible`——日志会列出"原始动画 → 会替换" |
 | 是不是路径过长导致读不到 | 搜不到任何痕迹时，先按 260 字符上限自查 |
 
-> 来源：本工作区实测记录 `OAR/OAR-补充文档.md`。
+> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
 
 ## 一条经验
 
 > **建议**：改完一次就**跑一次游戏再看日志**，比反复猜快得多。日志是唯一能区分「配置没加载」和「配置加载了但条件没命中」的手段。
 
-> 来源：本工作区实测记录 `OAR/OAR-补充文档.md`。
+> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
 
 ## 相关
 

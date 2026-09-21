@@ -6,6 +6,7 @@ kind: tutorial
 version: 1.0.0
 updated: 2026-09-21
 tags: [Pandora, 安装, MO2, Vortex, 输出文件夹, 教程]
+aliases: [Pandora 怎么装, Pandora 安装教程, pandora install, Pandora MO2, Pandora Vortex]
 source: https://www.nexusmods.com/skyrimspecialedition/articles/12319
 summary: 按官方 README 与 Nexus「Extremely Detailed Pandora Install Guide」整理的 MO2/Vortex 双平台安装步骤，含输出文件夹与 -o 参数要点。
 ---

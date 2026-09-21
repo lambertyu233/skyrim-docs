@@ -1,0 +1,50 @@
+{
+  "kb": {
+    "name": "上古卷轴5 模改工作区",
+    "description": "五个资料库（OAR / 动作引擎 / Community Shaders / Creation Kit / MO2-USVFS）的统一入口与跨库排错索引。",
+    "source_name": "各子资料库的官方与社区来源"
+  },
+  "version": "1.0.0",
+  "generated_at": "2026-09-21",
+  "maintainers": ["社区协作"],
+  "sources": [
+    {
+      "name": "各子资料库 manifest.json 内声明的来源",
+      "url": "见 oar-kb / behaviour-engine-kb / community-shaders-kb / creation-kit-kb / mo2-usvfs-kb 各自 manifest"
+    }
+  ],
+  "license_note": "本目录只放跨库索引类条目；各主题的权威内容始终在其所属子资料库中。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind", "aliases"],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 00-start），索引据此过滤",
+        "kind": "concept / reference / tutorial / tool",
+        "aliases": "检索别名数组（可选）：提问词、俗称、英文写法、常见术语",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "官方来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    { "dir": "01-navigation", "title": "跨库导航与排错", "desc": "从症状出发的排错入口：一条现象直接指向该读的库与条目" }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、别名规范、索引完整性、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接 lint：报告解析不到实际文件的失效链接，并提示非 LF 换行的文件",
+    "scripts/fix_links.py": "按「目标尾部路径在本库反查实际文件」反算正确相对路径，一次性修复链接深度错误"
+  }
+}

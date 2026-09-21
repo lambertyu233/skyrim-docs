@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 备份, 恢复, modlist, 插件列表]
+aliases: [备份 MO2, 恢复存档, backup, 防丢档]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 左窗格可备份/恢复 mod 列表，Plugins 页可备份/恢复插件加载顺序；重装前要备份 downloads/mods/profiles 等目录。
 kind: tutorial

@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [材质, 视差, 复杂材质, 地形]
+aliases: [扩展材质, extended materials, 材质通道]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/extended-materials
 summary: 用 Contact Refinement Parallax Mapping 提供高性价比视差与视差阴影，并支持 Complex Material 规范（环境遮罩、真实金属与镜面反射）。
 ---

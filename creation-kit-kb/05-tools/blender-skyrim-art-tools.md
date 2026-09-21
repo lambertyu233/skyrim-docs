@@ -5,6 +5,7 @@ category: 05-tools
 version: 1.0.0
 updated: 2026-09-20
 tags: [blender, nif, art, mesh, export, modeling]
+aliases: [Blender 天际工具, blender 插件, 美术工具, 做模型]
 source: https://ck.uesp.net/wiki/Blender_Skyrim_Art_Tools
 summary: Blender 天际美术工具是一套 Blender 插件，用于建模并导出 Skyrim 可用的 NIF 网格与碰撞。
 status: stable

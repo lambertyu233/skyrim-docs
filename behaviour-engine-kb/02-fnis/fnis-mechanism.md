@@ -6,6 +6,7 @@ kind: concept
 version: 1.0.0
 updated: 2026-09-21
 tags: [FNIS, AnimList, 生成器, 机制, GenerateFNISforUsers]
+aliases: [FNIS 怎么注册动画, FNIS 生成器, FNIS 原理]
 source: https://www.nexusmods.com/skyrim/mods/11811
 summary: 依赖 FNIS 的 mod 提供 AnimList 文本文件声明要注册的动画，由 GenerateFNISforUsers.exe 汇总生成唯一一组行为文件。
 ---

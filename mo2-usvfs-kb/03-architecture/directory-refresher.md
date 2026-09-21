@@ -5,6 +5,7 @@ category: 03-architecture
 version: 1.0.0
 updated: 2026-09-20
 tags: [架构, DirectoryRefresher, 多线程, 重建]
+aliases: [重建目录树, 多线程刷新, 目录刷新]
 source: https://deepwiki.com/ModOrganizer2/modorganizer
 summary: DirectoryRefresher 是后台服务，mod 变动时在独立线程上重建虚拟文件树，保持 UI 响应。
 kind: reference

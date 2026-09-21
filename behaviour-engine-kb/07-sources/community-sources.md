@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [社区, 论坛, reddit, 反馈, 中文来源]
+aliases: [动作引擎讨论区, 社区来源, 哪里问, community sources]
 source: https://forums.nexusmods.com/topic/13471680-pandora-behaviour-engong-as-a-nemesis-replacement
 summary: 资深玩家与中文社区的一手讨论来源，含 scorrp10 的解释、Pandora 实测对比、中文入门指南与故障整理。
 ---

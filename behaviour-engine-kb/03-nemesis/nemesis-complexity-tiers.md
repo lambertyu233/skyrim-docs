@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [Nemesis, 复杂度, 分级, 文档, 用户责任]
+aliases: [Nemesis 分级, Nemesis basic master, nemesis tier, 复杂度等级, Nemesis 选项怎么选]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/60033
 summary: Nemesis 官方描述页给出的四档复杂度清单（Basic/Intermediate/Expert/Master）及对应的用户责任，是理解框架设计意图的官方文本。
 ---

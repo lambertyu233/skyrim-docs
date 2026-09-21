@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [全局光照, 屏幕空间, 性能]
+aliases: [屏幕空间全局光照, GI, 屏幕空间 GI, 间接光照, ssgi 怎么开]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/130375
 summary: 实时间接光照模拟（间接光反弹），开销较高。
 ---

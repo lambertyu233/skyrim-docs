@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 启用, 插件, 加载顺序, 备份]
+aliases: [启用 mod, 激活插件, 勾选 mod, 激活顺序]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 左窗格勾选启用 mod（仅对当前 profile 生效）；右窗格 Plugins 勾选激活 ESP/ESM，插件必须在 mod 根目录才会被识别。
 kind: tutorial

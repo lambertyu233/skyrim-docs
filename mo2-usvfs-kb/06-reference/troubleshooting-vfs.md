@@ -5,6 +5,7 @@ category: 06-reference
 version: 1.0.0
 updated: 2026-09-20
 tags: [参考, 排错, 杀软, HVCI, 事件日志]
+aliases: [VFS 报错, USVFS 排错, mod 不生效, 游戏起不来 MO2, troubleshooting vfs]
 source: https://github.com/ModOrganizer2/modorganizer/wiki/Troubleshooting
 summary: 注入被拦、HVCI/Core Isolation 阻止受保护 exe、Windows 事件日志服务异常、系统日志被清等排查。
 kind: reference

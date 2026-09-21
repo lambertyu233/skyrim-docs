@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [地形, 阴影, 高度图, xLODGen, 世界地图]
+aliases: [地形阴影, terrain shadows, 山体阴影]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/terrain-shadows
 summary: 无限距离的粗糙地形阴影，游戏内与世界地图都生效；依赖高度图，原版三大世界空间自带，其它需自行生成或用 xLODGen 输出。
 ---

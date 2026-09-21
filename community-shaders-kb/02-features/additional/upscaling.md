@@ -7,6 +7,7 @@ status: released
 version: 1.1.0
 updated: 2026-09-21
 tags: [超分, 帧生成, DLSS, FSR, 性能, 排错]
+aliases: [插帧, XeSS, 帧生成怎么开, 超分辨率, upscale]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/156952
 summary: 原生集成的超分套件（DLSS / FSR 3.1 + FSR 帧生成）。注意：XeSS 不受支持，帧生成仅在 ≥120Hz 生效。
 ---

@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, API, SKSE, 插件开发, 扩展]
+aliases: [OAR 插件开发, SKSE 插件 API, plugin api, 写 OAR 插件]
 source: https://github.com/ersh1/OpenAnimationReplacer/tree/main/src/API
 summary: OAR 把四个域的 API 以可复制头文件形式公布（Animations / Conditions / Functions / UI），按 InterfaceVersion 请求接口；自定义条件必须在其 PostLoad 之前注册。
 ---

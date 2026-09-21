@@ -6,6 +6,7 @@ kind: guide
 version: 1.0.0
 updated: 2026-09-21
 tags: [选型, 决策, FNIS, Nemesis, Pandora, 建议]
+aliases: [我该用哪个引擎, 引擎怎么选, FNIS Nemesis Pandora 选谁, choosing engine, 选型建议]
 source: https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
 summary: 按游戏版本、动画类型、modlist 规模与生物需求给出选型建议，并说明迁移要点。
 ---

@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, 预设, PRESET, 条件复用]
+aliases: [OAR 预设, 条件预设怎么用, 复用条件]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: 自 2.2.0 起可在 replacer mod 内定义条件预设，用 PRESET 条件在各 submod 里引用；预设内容存在 replacer mod 配置里，submod 只保存预设名字。
 ---

@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [OAR, DAR, 条件, 改名, 迁移]
+aliases: [DAR 条件改名, 旧条件对不上, 条件合并, condition renames, DAR 迁移后条件报错]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: OAR 实现了 DAR 的全部条件且能正确读取旧 mod，但部分条件被改名或合并；IsEquippedShout 在 DAR 里其实检查的是 Power，这是 OAR 顺手纠正的历史误解。
 ---
@@ -81,7 +82,7 @@ IsActorBase("Skyrim.esm" | 0x00000007) AND IsSneaking()
 - 取反用 `"negated": true`；
 - 组合条件用 `"condition": "OR"` + 大写 `Conditions` 子数组。
 
-> 来源：本工作区实测记录 `OAR/OAR-补充文档.md`。
+> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
 
 ## 迁移时顺手做的事
 

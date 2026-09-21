@@ -5,6 +5,7 @@ category: 05-usage
 version: 1.0.0
 updated: 2026-09-20
 tags: [使用, 分类, categories.dat, Nexus ID]
+aliases: [自定义分类, mod 分类, categories, 给 mod 分组]
 source: https://stepmodifications.org/wiki/Guide:Mod_Organizer
 summary: 在 Settings → Configure Mod Categories 里增删分类、关联 Nexus 分类 ID、设置父子层级；配置存于 categories.dat。
 kind: tutorial

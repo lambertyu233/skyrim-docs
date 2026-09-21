@@ -5,6 +5,7 @@ category: 01-mechanism
 version: 1.0.0
 updated: 2026-09-20
 tags: [机制, 会话, 权限, 跨文件系统]
+aliases: [会话级链接, 免管理员, session scoped, 不用管理员权限]
 source: https://github.com/ModOrganizer2/usvfs
 summary: 虚拟链接在会话结束时消失，无需管理员权限，且不依赖具体文件系统（FAT32/只读/网络盘均可）。
 kind: concept

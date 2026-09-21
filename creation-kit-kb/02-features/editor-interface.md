@@ -5,6 +5,7 @@ category: 02-features
 version: 1.0.0
 updated: 2026-09-20
 tags: [interface, render-window, cell-view, object-window, editor]
+aliases: [CK 界面, 编辑器界面, editor interface, 窗口布局]
 source: https://ck.uesp.net/wiki/Bethesda_Tutorial_Creation_Kit_Interface
 summary: Creation Kit 由菜单栏、对象窗口、单元格视图、渲染窗口、预览窗口等面板组成，是 MOD 编辑的主工作区。
 status: stable

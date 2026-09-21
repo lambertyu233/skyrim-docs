@@ -6,6 +6,7 @@ kind: reference
 version: 1.0.0
 updated: 2026-09-21
 tags: [FNIS, 兼容性, 冲突, 淘汰, 补丁]
+aliases: [FNIS 为什么淘汰, FNIS 还值得用吗, FNIS 过时了吗, fnis deprecated, FNIS 停更]
 source: https://www.nexusmods.com/skyrim/mods/11811
 summary: FNIS 与"任何其他直接修改行为文件的 mod"天然冲突，必须走补丁集成；闭源与停更使其被现代生态淘汰。
 ---

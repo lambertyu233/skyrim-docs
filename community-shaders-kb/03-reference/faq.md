@@ -5,6 +5,7 @@ category: 03-reference
 version: 1.1.0
 updated: 2026-09-21
 tags: [FAQ, 排错, 兼容, 配置, 错误, 性能, 版本]
+aliases: [CS 常见问题, CS FAQ, community shaders faq, CS 答疑]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/faq
 summary: 覆盖已知问题、安装、兼容性、配置、开发、错误、性能与通用排查的全部 Q&A。
 ---

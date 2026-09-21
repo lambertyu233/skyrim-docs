@@ -5,6 +5,7 @@ category: 01-mechanism
 version: 1.0.0
 updated: 2026-09-20
 tags: [机制, overlay, 叠加, 优先级]
+aliases: [多目录叠加, 覆盖机制, 文件叠加]
 source: https://github.com/ModOrganizer2/usvfs
 summary: USVFS 可把多个目录叠加到同一个目标上，按优先级决定哪个"赢"，这正是 mod 合并的原理。
 kind: concept

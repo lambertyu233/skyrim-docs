@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [阴影, 粒子]
+aliases: [体积阴影, volumetric shadows, 体积光阴影]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home
 summary: 降采样 VSM 阴影贴图，供粒子、贴花等使用。
 ---

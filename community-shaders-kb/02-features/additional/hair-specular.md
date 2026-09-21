@@ -7,6 +7,7 @@ status: released
 version: 1.0.0
 updated: 2026-09-20
 tags: [毛发, 高光]
+aliases: [头发高光, hair specular, 毛发高光, 头发反光]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/149011
 summary: 带真实高光的增强毛发渲染。
 ---

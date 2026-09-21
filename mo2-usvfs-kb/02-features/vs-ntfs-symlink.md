@@ -5,6 +5,7 @@ category: 02-features
 version: 1.0.0
 updated: 2026-09-20
 tags: [特性, 对比, NTFS, 符号链接]
+aliases: [NTFS symlink, USVFS 和软链接, symlink 区别]
 source: https://github.com/ModOrganizer2/usvfs
 summary: 逐项对比 USVFS 与 NTFS 符号链接在可见性、权限、生命周期、文件系统、overlay、虚拟删除上的差异。
 kind: reference
