@@ -14,7 +14,7 @@
 ```
 community-shaders-kb/
 ├── manifest.json          # 资料库元数据 + 条目 schema + 分类定义
-├── index.json             # 自动生成的纯元数据索引（便于程序化增删改查）
+├── index.json             # 自动生成的索引：元数据 + 内联渲染后的正文（便于程序化增删改查与外部工具消费）
 ├── index.html             # 自动生成的离线可搜索/筛选浏览器（双击即用）
 ├── README.md              # 本文件
 ├── CHANGELOG.md           # 版本化变更记录
@@ -25,13 +25,14 @@ community-shaders-kb/
 ├── 03-reference/          # 参考：不兼容 MOD、FAQ
 ├── 04-development/        # 开发：PBR 美术师指南、贡献
 ├── 05-tools/              # 工具：Light Placer、PGPatcher
-└── scripts/               # 生成器：gen_features.py、build_index.py
+├── _raw/                  # 上游原文存档 / 历史备份（索引构建会忽略）
+└── scripts/               # build_index.py + validate_kb.py + check_index_ui.py（gen_features.py 为遗留生成器）
 ```
 
 ## 快速使用
 
-- **浏览**：双击 `index.html`（无需联网，内置全文搜索、分类/状态过滤、排序）。
-- **程序化查询**：读取 `index.json`（含每条的 id/标题/分类/标签/来源/摘要/路径）。
+- **浏览**：双击 `index.html`（无需联网，内置全文搜索、分类过滤、排序）。
+- **程序化查询**：读取 `index.json`（含每条的 id/标题/分类/标签/来源/摘要，以及渲染好的正文 `content` 与相对路径 `_file`）。
 - **看原文**：每个条目 `source` 字段指向官方页面。
 
 ## 如何维护（增删改查）
@@ -58,4 +59,4 @@ community-shaders-kb/
 5. **协作友好**：约定明确，自动化索引降低合并冲突与人工维护成本。
 
 ---
-*资料库版本 1.0.0 · 生成于 2026-09-20 · 内容整理自 Community Shaders 社区官方文档（GPL-3.0）。*
+*资料库版本 2.0.0 · 生成于 2026-09-21 · 内容整理自 Community Shaders 社区官方文档（GPL-3.0）。*

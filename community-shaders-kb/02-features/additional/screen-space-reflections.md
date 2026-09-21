@@ -1,7 +1,7 @@
 ---
 id: screen-space-reflections
 title: Screen Space Reflections 屏幕空间反射
-category: features
+category: 02-features
 kind: additional
 status: TBA
 version: 1.0.0

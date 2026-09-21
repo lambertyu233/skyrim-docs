@@ -1,7 +1,7 @@
 ---
 id: wetness-effects
 title: Wetness Effects 湿润特效
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

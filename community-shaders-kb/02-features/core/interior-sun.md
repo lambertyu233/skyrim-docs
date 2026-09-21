@@ -1,7 +1,7 @@
 ---
 id: interior-sun
 title: Interior Sun 室内阳光
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

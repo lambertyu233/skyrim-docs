@@ -1,7 +1,7 @@
 ---
 id: volumetric-lighting
 title: Volumetric Lighting 体积光照
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

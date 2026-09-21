@@ -1,7 +1,7 @@
 ---
 id: order-independent-transparency
 title: Order Independent Transparency 顺序无关透明
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

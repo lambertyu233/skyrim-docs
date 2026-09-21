@@ -1,7 +1,7 @@
 ---
 id: hdr-display
 title: HDR Display HDR 显示
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

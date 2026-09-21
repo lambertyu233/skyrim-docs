@@ -1,7 +1,7 @@
 ---
 id: screenshot
 title: Screenshot 截图
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

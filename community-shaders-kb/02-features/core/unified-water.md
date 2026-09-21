@@ -1,7 +1,7 @@
 ---
 id: unified-water
 title: Unified Water 统一水体
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

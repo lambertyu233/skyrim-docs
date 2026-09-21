@@ -1,7 +1,7 @@
 ---
 id: remote-control
 title: Remote Control 远程控制
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

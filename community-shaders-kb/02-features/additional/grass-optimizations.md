@@ -1,7 +1,7 @@
 ---
 id: grass-optimizations
 title: Grass Optimizations 草优化
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

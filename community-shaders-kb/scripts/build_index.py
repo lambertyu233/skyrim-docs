@@ -1,57 +1,40 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-build_index.py — 扫描资料库条目，生成可查询索引
+# 通用：扫描全部条目 frontmatter → index.json + 离线浏览器 index.html（两栏布局 + 内联全文）。
+# 用法：把本文件放到资料库的 scripts/ 下，运行 `python scripts/build_index.py`
+# 说明：标题/副标题从 manifest.json 的 kb.name / kb.description 注入；分类中文名从 manifest 的 categories 读取。
+import os, re, json, datetime
 
-输出：
-- index.json : 纯元数据索引（便于程序化增删改查 / 外部工具消费）
-- index.html : 内嵌数据的离线可搜索/筛选浏览器（双击即可用）
-
-运行：managed python build_index.py
-"""
-import os
-import re
-import json
-
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# 目录 -> 分类中文标签
-CATEGORY_LABELS = {
-    "00-overview": "概览",
-    "01-installation": "安装",
-    "02-features": "功能",
-    "03-reference": "参考",
-    "04-development": "开发",
-    "05-tools": "工具",
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+IGNORE_DIRS = {"scripts", "_raw"}
+IGNORE_FILES = {
+    "README.md", "CHANGELOG.md", "CONTRIBUTING.md",
+    "manifest.json", "index.json", "index.html",
 }
-
-# 不纳入索引的文件 / 目录
-IGNORE_DIRS = {"scripts"}
-IGNORE_FILES = {"README.md", "CHANGELOG.md", "CONTRIBUTING.md", "index.md",
-                "manifest.md", "LICENSE.md"}
-
-FRONTMATTER_RE = re.compile(r"^---\s*$(.*?)^---\s*$", re.DOTALL | re.MULTILINE)
+FM_RE = re.compile(r"^---\s*$(.*?)^---\s*$", re.DOTALL | re.MULTILINE)
 
 
 def parse_frontmatter(text):
-    m = FRONTMATTER_RE.match(text)
+    m = FM_RE.match(text)
     if not m:
-        return {}, text
+        return None
     block = m.group(1)
     fm = {}
     for line in block.splitlines():
+        line = line.rstrip()
+        if not line or line.lstrip().startswith("#"):
+            continue
         if ":" not in line:
             continue
-        key, _, val = line.partition(":")
-        key = key.strip()
-        val = val.strip()
-        if val.startswith("[") and val.endswith("]"):
-            inner = val[1:-1].strip()
-            fm[key] = [x.strip() for x in inner.split(",") if x.strip()] if inner else []
+        k, v = line.split(":", 1)
+        k = k.strip()
+        v = v.strip()
+        if v.startswith("[") and v.endswith("]"):
+            inner = v[1:-1].strip()
+            arr = [x.strip().strip('"').strip("'") for x in inner.split(",") if x.strip()]
+            fm[k] = arr
         else:
-            fm[key] = val
-    body = text[m.end():]
-    return fm, body
+            fm[k] = v.strip('"').strip("'")
+    return fm
 
 
 def _esc_html(s):
@@ -118,7 +101,6 @@ def md_to_html(md):
         if not stripped:
             i += 1
             continue
-        # 代码块（围栏）
         m = re.match(r"^```(\w*)\s*$", line)
         if m:
             i += 1
@@ -129,7 +111,6 @@ def md_to_html(md):
             i += 1
             out.append('<pre class="code"><code>%s</code></pre>' % _esc_html("\n".join(code)))
             continue
-        # 引用
         if stripped.startswith(">"):
             quote = []
             while i < n and lines[i].lstrip().startswith(">"):
@@ -137,7 +118,6 @@ def md_to_html(md):
                 i += 1
             out.append("<blockquote>%s</blockquote>" % _inline(" ".join(quote)))
             continue
-        # 表格
         if "|" in line and i + 1 < n and re.match(r"^\s*\|?[\s:\-|]+\|?\s*$", lines[i+1]) and "-" in lines[i+1]:
             header_cells = [c.strip() for c in stripped.strip("|").split("|")]
             aligns = []
@@ -157,7 +137,6 @@ def md_to_html(md):
             )
             out.append('<table><thead><tr>%s</tr></thead><tbody>%s</tbody></table>' % (th, body))
             continue
-        # 列表（有序/无序，支持嵌套）
         if re.match(r"^\s*[-*+]\s+", line) or re.match(r"^\s*\d+\.\s+", line):
             items = []
             base_ordered = None
@@ -188,19 +167,16 @@ def md_to_html(md):
             html_list, _ = _build_list(items, 0, items[0][0])
             out.append(html_list)
             continue
-        # 标题
         hm = re.match(r"^(#{1,6})\s+(.*)$", line)
         if hm:
             lvl = len(hm.group(1))
             out.append("<h%d>%s</h%d>" % (lvl, _inline(hm.group(2).rstrip("#").strip()), lvl))
             i += 1
             continue
-        # 水平线
         if re.match(r"^(---|\*\*\*|___)\s*$", line):
             out.append("<hr>")
             i += 1
             continue
-        # 段落
         para = [line]
         i += 1
         while i < n and lines[i].strip() and not _is_block_start(lines[i]):
@@ -221,89 +197,88 @@ def _strip_leading_h1(html):
 
 def main():
     entries = []
-    for root, dirs, files in os.walk(BASE):
-        dirs[:] = [d for d in dirs if d not in IGNORE_DIRS]
-        for fn in files:
+    cats = {}
+    cat_labels = {}
+    title = "资料库"
+    subtitle = "可维护 · 分层 · 版本化 · 协作更新"
+
+    manifest_path = os.path.join(ROOT, "manifest.json")
+    if os.path.exists(manifest_path):
+        try:
+            with open(manifest_path, encoding="utf-8") as f:
+                mdata = json.load(f)
+            kb = mdata.get("kb", {})
+            title = kb.get("name", title)
+            src = kb.get("source_name", "")
+            desc = kb.get("description", "")
+            subtitle = (("基于 " + src + " 整理 · " if src else "") + desc) or subtitle
+            for c in mdata.get("categories", []):
+                cat_labels[c.get("dir")] = c.get("title", c.get("dir"))
+        except Exception:
+            pass
+
+    for dirpath, dirnames, filenames in os.walk(ROOT):
+        rel = os.path.relpath(dirpath, ROOT)
+        top = rel.split(os.sep)[0]
+        if rel == "." or top in IGNORE_DIRS:
+            continue
+        for fn in filenames:
             if not fn.endswith(".md"):
                 continue
             if fn in IGNORE_FILES:
                 continue
-            full = os.path.join(root, fn)
-            rel = os.path.relpath(full, BASE).replace("\\", "/")
-            top = rel.split("/")[0]
-            if top not in CATEGORY_LABELS:
+            full = os.path.join(dirpath, fn)
+            with open(full, encoding="utf-8") as f:
+                text = f.read()
+            fm = parse_frontmatter(text)
+            if not fm:
                 continue
-            with open(full, encoding="utf-8") as fh:
-                raw = fh.read()
-            fm, body = parse_frontmatter(raw)
-            if not fm.get("id"):
-                fm["id"] = os.path.splitext(fn)[0]
-            entry = {
-                "id": fm.get("id"),
-                "title": fm.get("title", os.path.splitext(fn)[0]),
-                "category": top,
-                "category_label": CATEGORY_LABELS.get(top, top),
-                "kind": fm.get("kind", ""),
-                "status": fm.get("status", ""),
-                "version": fm.get("version", ""),
-                "updated": fm.get("updated", ""),
-                "tags": fm.get("tags", []),
-                "source": fm.get("source", ""),
-                "summary": fm.get("summary", ""),
-                "path": rel,
-            }
-            # 仅 HTML 内嵌用：正文渲染为排版好的 HTML（去掉 frontmatter 与开头重复 H1）
-            entry["content"] = _strip_leading_h1(md_to_html(body))
-            entries.append(entry)
+            # 抽取 frontmatter 之后的正文，渲染为排版好的 HTML 内联进详情面板
+            m = FM_RE.match(text)
+            body = text[m.end():].strip() if m else text.strip()
+            fm["content"] = _strip_leading_h1(md_to_html(body))
+            category = fm.get("category", top)
+            fm["_file"] = os.path.relpath(full, ROOT).replace("\\", "/")
+            fm["_chars"] = len(text)
+            entries.append(fm)
+            cats[category] = cats.get(category, 0) + 1
 
-    # 排序：先按分类顺序，再按标题
-    cat_order = {v: i for i, v in enumerate(CATEGORY_LABELS.keys())}
-    entries.sort(key=lambda e: (cat_order.get(e["category"], 99), e["title"]))
-
-    # 统计
-    stats = {}
-    for e in entries:
-        stats[e["category_label"]] = stats.get(e["category_label"], 0) + 1
-
-    meta = {
-        "generated_at": "2026-09-20",
-        "kb_version": "1.0.0",
+    entries.sort(key=lambda e: (e.get("category", ""), e.get("title", "")))
+    data = {
+        "generated": datetime.date.today().isoformat(),
         "total": len(entries),
-        "by_category": stats,
+        "by_category": dict(sorted(cats.items())),
+        "entries": entries,
     }
+    with open(os.path.join(ROOT, "index.json"), "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
-    # 写入 index.json（元数据索引，不含全文）
-    index_json = {"meta": meta, "entries": [
-        {k: v for k, v in e.items() if k != "content"} for e in entries
-    ]}
-    with open(os.path.join(BASE, "index.json"), "w", encoding="utf-8") as fh:
-        json.dump(index_json, fh, ensure_ascii=False, indent=2)
+    html = HTML_TEMPLATE
+    html = html.replace("__ENTRIES__", json.dumps(entries, ensure_ascii=False).replace("</", "<\\/"))
+    html = html.replace("__CATS__", json.dumps(data["by_category"], ensure_ascii=False))
+    html = html.replace("__CAT_LABELS__", json.dumps(cat_labels, ensure_ascii=False))
+    html = html.replace("__TITLE__", title)
+    html = html.replace("__SUBTITLE__", subtitle)
+    html = html.replace("__GENERATED__", data["generated"])
+    html = html.replace("__TOTAL__", str(len(entries)))
+    assert "__ENTRIES__" not in html and "__CATS__" not in html and "__CAT_LABELS__" not in html, "占位符未替换！"
+    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
+        f.write(html)
 
-    # 写入 index.html（内嵌数据，离线可用）
-    html = render_html(entries, meta)
-    with open(os.path.join(BASE, "index.html"), "w", encoding="utf-8") as fh:
-        fh.write(html)
-
-    print(f"Indexed {len(entries)} entries across {len(stats)} categories.")
-    print("Wrote index.json and index.html")
+    print(f"Built: {len(entries)} entries, categories={data['by_category']}")
 
 
-def render_html(entries, meta):
-    data = json.dumps(entries, ensure_ascii=False).replace("</", "<\\/")
-    cats = json.dumps(
-        [{"key": k, "label": v} for k, v in CATEGORY_LABELS.items()],
-        ensure_ascii=False)
-    return """<!DOCTYPE html>
+HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Community Shaders 资料库</title>
+<title>__TITLE__</title>
 <style>
   :root{
     --bg:#f7f8fa; --panel:#ffffff; --ink:#1f2329; --muted:#6b7280;
     --line:#e5e7eb; --accent:#2563eb; --accent2:#0ea5e9; --chip:#eef2ff;
-    --core:#16a34a; --add:#d97706; --tba:#9ca3af;
+    --green:#16a34a; --amber:#d97706; --gray:#9ca3af; --blue:#2563eb;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
@@ -313,8 +288,19 @@ def render_html(entries, meta):
   header p{margin:6px 0 0;opacity:.9;font-size:13px}
   .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .stat{background:rgba(255,255,255,.15);padding:4px 10px;border-radius:20px;font-size:12px}
-  .wrap{display:flex;min-height:calc(100vh - 110px)}
-  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto}
+  .wrap{display:flex;min-height:calc(100vh - 116px)}
+  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto;
+        transition:width .16s ease,flex-basis .16s ease}
+  aside.collapsed{width:78px;flex:0 0 78px;padding:14px 10px}
+  aside.collapsed .sidehead{flex-direction:column;gap:8px;align-items:stretch;margin:0}
+  aside.collapsed .sidehead-title{display:none}
+  aside.collapsed .navtoggle{padding:6px 4px;width:100%}
+  .sidehead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .sidehead-title{font-size:12px;color:var(--muted);white-space:nowrap}
+  .navtoggle{background:none;border:1px solid var(--line);border-radius:6px;color:var(--muted);
+             font-size:11px;padding:2px 8px;cursor:pointer;line-height:1.5;white-space:nowrap}
+  .navtoggle:hover{color:var(--accent);border-color:var(--accent)}
+  #navbox.hidden{display:none}
   main{flex:1;padding:20px 24px;overflow:auto}
   .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
   input[type=search]{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px}
@@ -323,6 +309,7 @@ def render_html(entries, meta):
           background:none;border-radius:8px;cursor:pointer;color:var(--ink);font-size:13px}
   .navbtn:hover{background:var(--chip)}
   .navbtn.active{background:var(--accent);color:#fff}
+  .navbtn .cnt{float:right;opacity:.7;font-size:12px}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:.15s}
   .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-1px)}
@@ -330,19 +317,21 @@ def render_html(entries, meta):
   .card .sum{color:var(--muted);font-size:13px;margin:0 0 8px}
   .chips{display:flex;gap:6px;flex-wrap:wrap}
   .chip{background:var(--chip);color:#3730a3;font-size:11px;padding:2px 8px;border-radius:20px}
-  .badge{font-size:11px;padding:2px 8px;border-radius:20px;color:#fff}
-  .b-core{background:var(--core)} .b-add{background:var(--add)} .b-tba{background:var(--tba)}
-  .detail{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;max-width:860px}
+  .chip.muted{background:#f3f4f6;color:var(--muted)}
+  .detail{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;max-width:880px}
   .detail h2{margin-top:0}
   .back{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;margin-bottom:12px}
-  pre{white-space:pre-wrap;background:#f3f4f6;padding:12px;border-radius:8px;overflow:auto}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
   .btn{display:inline-block;padding:9px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600}
   .btn-primary{background:var(--accent);color:#fff}
   .btn-ghost{border:1px solid var(--line);color:var(--accent)}
-  .actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+  a{color:var(--accent)}
+  .empty{color:var(--muted);padding:30px;text-align:center}
+  .tip{font-size:12px;color:var(--muted);margin-top:8px}
   .article{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 22px 18px;
     font-size:14.5px;line-height:1.8;color:var(--ink);max-width:860px}
-  .article h2,.article h3,.article h4{line-height:1.35;margin:1.1em 0 .5em}
+  .article h1,.article h2,.article h3,.article h4{line-height:1.35;margin:1.1em 0 .5em}
+  .article h1{font-size:1.55em;border-bottom:2px solid var(--line);padding-bottom:.3em}
   .article h2{font-size:1.3em;border-bottom:1px solid var(--line);padding-bottom:.25em}
   .article h3{font-size:1.12em}
   .article p{margin:.6em 0}
@@ -361,29 +350,29 @@ def render_html(entries, meta):
   .article thead th{background:#f1f5f9;font-weight:600}
   .article tbody tr:nth-child(even){background:#fafafa}
   .article hr{border:none;border-top:1px solid var(--line);margin:1.2em 0}
-  a{color:var(--accent)}
-  .empty{color:var(--muted);padding:30px;text-align:center}
 </style>
 </head>
 <body>
 <header>
-  <h1>Community Shaders 资料库</h1>
-  <p>可维护 · 分层 · 版本化 · 协作更新 — 基于 modding.wiki 官方文档整理</p>
+  <h1>__TITLE__</h1>
+  <p>__SUBTITLE__</p>
   <div class="stats" id="stats"></div>
 </header>
 <div class="wrap">
   <aside>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">分类过滤</div>
-    <button class="navbtn active" data-cat="all">全部</button>
-    <div id="catnav"></div>
-    <div style="font-size:12px;color:var(--muted);margin:14px 0 8px">状态过滤</div>
-    <button class="navbtn" data-status="all">全部状态</button>
-    <button class="navbtn" data-status="released">已发布</button>
-    <button class="navbtn" data-status="TBA">开发中</button>
+    <div class="sidehead">
+      <span class="sidehead-title">分类过滤</span>
+      <button id="navtoggle" class="navtoggle" type="button" aria-expanded="true"
+              aria-controls="navbox" title="收起/展开分类过滤">‹ 收起</button>
+    </div>
+    <div id="navbox">
+      <button class="navbtn active" data-cat="all" type="button">全部 <span class="cnt" id="allcnt"></span></button>
+      <div id="catnav"></div>
+    </div>
   </aside>
   <main>
     <div class="toolbar">
-      <input type="search" id="q" placeholder="搜索标题、摘要、标签、内容…">
+      <input type="search" id="q" placeholder="搜索标题、摘要、标签、分类…">
       <select id="sort">
         <option value="cat">按分类</option>
         <option value="title">按标题</option>
@@ -396,35 +385,27 @@ def render_html(entries, meta):
 <script>
 const ENTRIES = __ENTRIES__;
 const CATS = __CATS__;
-let curCat='all', curStatus='all', curQ='', sortBy='cat';
+const CAT_LABELS = __CAT_LABELS__;
+let curCat='all', curQ='', sortBy='cat';
 
-function statusBadge(e){
-  if(e.kind==='core') return '<span class="badge b-core">核心</span>';
-  if(e.kind==='additional') return '<span class="badge b-add">附加</span>';
-  if(e.status==='TBA') return '<span class="badge b-tba">TBA</span>';
-  return '';
-}
+function label(cat){ return CAT_LABELS[cat] || cat; }
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function filtered(){
   const q=curQ.toLowerCase();
   return ENTRIES.filter(e=>{
     if(curCat!=='all' && e.category!==curCat) return false;
-    if(curStatus!=='all'){
-      if(curStatus==='released' && e.status!=='released' && e.kind!=='core' && e.kind!=='additional') return false;
-      if(curStatus==='TBA' && e.status!=='TBA') return false;
-    }
     if(q){
-      const hay=(e.title+' '+e.summary+' '+(e.tags||[]).join(' ')+' '+e.content).toLowerCase();
+      const hay=(e.title+' '+(e.summary||'')+' '+(e.tags||[]).join(' ')+' '+(e.category||'')+' '+label(e.category)).toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
   });
 }
 function sortEntries(list){
-  if(sortBy==='title') return list.sort((a,b)=>a.title.localeCompare(b.title,'zh'));
+  if(sortBy==='title') return list.sort((a,b)=>(a.title||'').localeCompare(b.title||'','zh'));
   if(sortBy==='updated') return list.sort((a,b)=>(b.updated||'').localeCompare(a.updated||''));
-  return list; // cat
+  return list; // cat：本已按 category 预排序
 }
 function renderGrid(){
   const list=sortEntries(filtered());
@@ -432,9 +413,10 @@ function renderGrid(){
   if(!list.length){view.innerHTML='<div class="empty">没有匹配的条目</div>';return;}
   let html='<div class="grid">';
   for(const e of list){
-    html+='<div class="card" data-id="'+e.id+'"><h3>'+esc(e.title)+'</h3>'+
-      '<div class="chips" style="margin-bottom:6px">'+statusBadge(e)+
-      '<span class="chip">'+esc(e.category_label)+'</span></div>'+
+    html+='<div class="card" data-id="'+esc(e.id)+'"><h3>'+esc(e.title)+'</h3>'+
+      '<div class="chips" style="margin-bottom:6px">'+
+      '<span class="chip">'+esc(label(e.category))+'</span>'+
+      (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+'</div>'+
       '<p class="sum">'+esc(e.summary||'')+'</p>'+
       '<div class="chips">'+((e.tags||[]).slice(0,4).map(t=>'<span class="chip">'+esc(t)+'</span>').join(''))+'</div></div>';
   }
@@ -446,52 +428,69 @@ function showDetail(id){
   const e=ENTRIES.find(x=>x.id===id); if(!e) return;
   const view=document.getElementById('view');
   const src=e.source?'<a class="btn btn-ghost" href="'+esc(e.source)+'" target="_blank" rel="noopener">官方来源 ↗</a>':'';
-  const file=e.path?'<a class="btn btn-primary" href="'+esc(e.path)+'" target="_blank" rel="noopener">打开本地 .md →</a>':'';
+  const file=e._file?'<a class="btn btn-primary" href="'+esc(e._file)+'" target="_blank" rel="noopener">打开本地 .md →</a>':'';
   const tags=((e.tags||[]).map(t=>'<span class="chip">'+esc(t)+'</span>').join(''));
   view.innerHTML='<button class="back" onclick="renderGrid()">← 返回列表</button>'+
     '<div class="detail"><h2>'+esc(e.title)+'</h2>'+
-    '<div class="chips" style="margin-bottom:10px">'+statusBadge(e)+
-    '<span class="chip">'+esc(e.category_label)+'</span>'+
-    (e.version?'<span class="chip">v'+esc(e.version)+'</span>':'')+
-    (e.updated?'<span class="chip">'+esc(e.updated)+'</span>':'')+'</div>'+
+    '<div class="chips" style="margin-bottom:4px">'+
+    '<span class="chip">'+esc(label(e.category))+'</span>'+
+    (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+
+    (e.version?'<span class="chip muted">v'+esc(e.version)+'</span>':'')+
+    (e.updated?'<span class="chip muted">'+esc(e.updated)+'</span>':'')+'</div>'+
     '<div class="chips" style="margin:6px 0 10px">'+tags+'</div>'+
     '<div class="article">'+(e.content||'<p>(暂无正文)</p>')+'</div>'+
     '<div class="actions">'+file+src+'</div>'+
-    '<p style="color:var(--muted);font-size:12px">源文件：'+esc(e.path)+' · 正文已渲染为排版好的文章（标题/列表/表格/代码块正常显示）。</p></div>';
-  view.scrollTop=0;
+    '<p class="tip">源文件：'+esc(e._file||'')+'</p></div>';
+  document.querySelector('main').scrollTop=0;
+}
+function selectCat(cat,btn){
+  curCat=cat;
+  document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
+  const target=btn||document.querySelector('#navbox .navbtn[data-cat="'+cat+'"]');
+  if(target) target.classList.add('active');
+  renderGrid();
+}
+function setNavCollapsed(collapsed){
+  const box=document.getElementById('navbox'), btn=document.getElementById('navtoggle'), side=document.querySelector('aside');
+  box.classList.toggle('hidden',collapsed);
+  if(side) side.classList.toggle('collapsed',collapsed);
+  btn.textContent=collapsed?'展开 ›':'‹ 收起';
+  btn.setAttribute('aria-expanded',String(!collapsed));
+  try{localStorage.setItem('kb-nav-collapsed',collapsed?'1':'0');}catch(e){}
+}
+function toggleNav(){
+  setNavCollapsed(document.getElementById('navbox').classList.contains('hidden')===false);
 }
 function renderNav(){
   const nav=document.getElementById('catnav');
-  nav.innerHTML=CATS.map(c=>'<button class="navbtn" data-cat="'+c.key+'">'+c.label+'</button>').join('');
-  nav.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
-    curCat=b.dataset.cat;
-    document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    renderGrid();
-  });
-  // status buttons
-  document.querySelectorAll('[data-status]').forEach(b=>b.onclick=()=>{
-    curStatus=b.dataset.status;
-    document.querySelectorAll('[data-status]').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    renderGrid();
-  });
+  nav.innerHTML=Object.keys(CATS).map(c=>'<button class="navbtn" data-cat="'+c+'">'+esc(label(c))+' <span class="cnt">'+CATS[c]+'</span></button>').join('');
+  // 注意：侧栏「全部」按钮和分类按钮必须在这里统一绑定。
+  // 只选 [data-cat]（即分类按钮），避开同处 #navbox 内的状态过滤按钮，
+  // 否则「全部」按钮会漏绑 → 选中某分类后切不回全部（历史 bug）。
+  document.querySelectorAll('#navbox .navbtn[data-cat]').forEach(b=>b.onclick=()=>selectCat(b.dataset.cat,b));
 }
 function renderStats(){
   const s=document.getElementById('stats');
-  const counts={};
-  ENTRIES.forEach(e=>counts[e.category_label]=(counts[e.category_label]||0)+1);
-  let h='<span class="stat">共 '+ENTRIES.length+' 条</span>';
-  for(const k in counts) h+='<span class="stat">'+k+': '+counts[k]+'</span>';
+  const total=ENTRIES.length;
+  document.getElementById('allcnt').textContent=total;
+  let h='<span class="stat">共 '+total+' 条</span>';
+  for(const c in CATS) h+='<span class="stat">'+esc(label(c))+': '+CATS[c]+'</span>';
   s.innerHTML=h;
 }
 document.getElementById('q').oninput=e=>{curQ=e.target.value;renderGrid();};
 document.getElementById('sort').onchange=e=>{sortBy=e.target.value;renderGrid();};
+document.getElementById('navtoggle').onclick=toggleNav;
 renderStats();renderNav();renderGrid();
+// 恢复上次的收起/展开状态
+(function(){
+  let collapsed=false;
+  try{collapsed=localStorage.getItem('kb-nav-collapsed')==='1';}catch(e){}
+  if(collapsed) setNavCollapsed(true);
+})();
 </script>
 </body>
 </html>
-""".replace("__ENTRIES__", data).replace("__CATS__", cats)
+"""
 
 
 if __name__ == "__main__":

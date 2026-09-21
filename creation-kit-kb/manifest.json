@@ -1,39 +1,76 @@
 {
   "kb": {
     "name": "Creation Kit 资料库",
-    "slug": "creation-kit-kb",
-    "description": "基于 UESP Creation Kit Wiki (ck.uesp.net/wiki) 整理的可维护、分层、版本化资料库，覆盖 Creation Kit 的概览、安装、编辑器功能、游戏系统、Papyrus 脚本、工具与教程。",
-    "source_base": "https://ck.uesp.net/wiki/",
-    "source_name": "UESP Creation Kit Wiki",
-    "language": "zh-CN",
-    "default_status": "stable",
-    "license_note": "内容整理自 UESP Creation Kit Wiki（社区维护文档），条目保留原始来源链接，遵守其版权与署名精神。"
+    "description": "基于 UESP Creation Kit Wiki 整理的可维护、分层、版本化资料库，覆盖 Creation Kit 的概览、安装、编辑器功能、游戏系统、Papyrus 脚本、工具与教程。",
+    "locale": "zh-CN"
   },
-  "entry_schema": {
-    "id": "小写连字符唯一标识，与文件名一致",
-    "title": "条目中文标题",
-    "category": "必须等于所属分类目录名（如 04-scripting），索引据此过滤",
-    "version": "条目语义版本，如 1.0.0",
-    "updated": "最后更新日期 YYYY-MM-DD",
-    "tags": "字符串数组，用于搜索与过滤",
-    "source": "官方来源页面完整 URL",
-    "summary": "一句话摘要",
-    "status": "可选：stable | draft | review",
-    "kind": "可选：concept | reference | tutorial | tool"
+  "version": "2.0.0",
+  "generated_at": "2026-09-21",
+  "maintainers": ["社区协作"],
+  "sources": [
+    {
+      "name": "UESP Creation Kit Wiki（主站）",
+      "url": "https://ck.uesp.net/wiki/Main_Page"
+    },
+    {
+      "name": "Creation Kit 概述",
+      "url": "https://ck.uesp.net/wiki/Creation_Kit"
+    },
+    {
+      "name": "Papyrus 语言参考",
+      "url": "https://ck.uesp.net/wiki/Papyrus"
+    },
+    {
+      "name": "Papyrus Events Reference",
+      "url": "https://ck.uesp.net/wiki/Events_Reference"
+    },
+    {
+      "name": "Papyrus Function Reference",
+      "url": "https://ck.uesp.net/wiki/Function_Reference"
+    },
+    {
+      "name": "Bethesda 官方教程：Creation Kit 界面",
+      "url": "https://ck.uesp.net/wiki/Bethesda_Tutorial_Creation_Kit_Interface"
+    }
+  ],
+  "license_note": "内容整理自 UESP Creation Kit Wiki（社区维护文档），条目保留原始来源链接，遵守其版权与署名精神。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind", "status"],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 04-scripting）。必须与所在目录同名，索引据此聚合分类与标签",
+        "kind": "concept / reference / tutorial / tool（保留字段，页面不再呈现徽章）",
+        "status": "stable / review / draft（保留字段，页面不再呈现徽章）",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "官方来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
   },
   "categories": [
-    { "dir": "00-overview",       "title": "概览",        "description": "Creation Kit 是什么、版本、导航枢纽与入门路径。" },
-    { "dir": "01-installation",   "title": "安装与配置",  "description": "获取/启动 Creation Kit、INI 文件体系、Data 目录与插件格式。" },
-    { "dir": "02-features",       "title": "编辑器功能",  "description": "编辑器界面、快捷键、术语表、BSA 打包工具等编辑器参考。" },
-    { "dir": "03-game-systems",   "title": "游戏系统",    "description": "任务、对话、AI 包、Radiant Story 等游戏系统参考。" },
-    { "dir": "04-scripting",      "title": "Papyrus 脚本", "description": "Papyrus 语言、编译、事件/函数参考与常用脚本对象。" },
-    { "dir": "05-tools",          "title": "工具链",      "description": "SKSE 插件开发、TES5Edit 清理、Blender 美术工具等。" },
-    { "dir": "06-tutorials",      "title": "教程",        "description": "官方与社区精选教程，按工作流组织的实操指引。" }
+    { "dir": "00-overview",     "title": "概览",        "desc": "Creation Kit 是什么、版本、导航枢纽与入门路径" },
+    { "dir": "01-installation", "title": "安装与配置",  "desc": "获取/启动 Creation Kit、INI 文件体系、Data 目录与插件格式" },
+    { "dir": "02-features",     "title": "编辑器功能",  "desc": "编辑器界面、快捷键、术语表、BSA 打包工具等编辑器参考" },
+    { "dir": "03-game-systems", "title": "游戏系统",    "desc": "任务、对话、AI 包、Radiant Story 等游戏系统参考" },
+    { "dir": "04-scripting",    "title": "Papyrus 脚本", "desc": "Papyrus 语言、编译、事件/函数参考与常用脚本对象" },
+    { "dir": "05-tools",        "title": "工具链",      "desc": "SKSE 插件开发、TES5Edit 清理、Blender 美术工具等" },
+    { "dir": "06-tutorials",    "title": "教程",        "desc": "官方与社区精选教程，按工作流组织的实操指引" }
   ],
-  "build": {
-    "index_script": "scripts/build_index.py",
-    "gen_script": "scripts/gen_features.py",
-    "outputs": ["index.json", "index.html"],
-    "run": "python scripts/build_index.py"
+  "index_files": {
+    "index.json": "完整索引：元数据 + 内联渲染后的正文 HTML（可程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/fetch_ck.py": "从 UESP API 抓取原始 wikitext 到 _raw/（上游同步用）",
+    "scripts/gen_features.py": "由 FEATURES 列表生成 04-scripting 下的脚本对象条目（遗留工具：写出的 frontmatter 含 kind/status，页面已不呈现；新增条目仍可用它生成模板）",
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索"
   }
 }

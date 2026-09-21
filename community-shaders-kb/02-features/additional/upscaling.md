@@ -1,7 +1,7 @@
 ---
 id: upscaling
 title: Upscaling 超分与帧生成
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

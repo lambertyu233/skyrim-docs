@@ -1,7 +1,7 @@
 ---
 id: sky-sync
 title: Sky Sync 天空同步
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

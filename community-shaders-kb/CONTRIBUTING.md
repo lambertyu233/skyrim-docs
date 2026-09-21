@@ -10,9 +10,9 @@
 ---
 id: unique-id            # 小写连字符，唯一，用于索引与链接
 title: 中文标题
-category: 02-features    # 必须是分类目录名（索引据此过滤）
-kind: core               # 仅功能条目：core / additional
-status: released         # released / TBA
+category: 02-features    # 必须与所在目录名**严格相同**（写 features 会导致页面分类标签变空）
+kind: core               # 【保留字段】仅功能条目：core / additional；页面已不呈现徽章
+status: released         # 【保留字段】released / TBA；页面已不呈现徽章
 version: 1.0.0           # 语义化；内容变更时递增
 updated: 2026-09-20      # YYYY-MM-DD
 tags: [光照, 性能]        # 便于检索
@@ -45,7 +45,7 @@ summary: 一句话摘要
 
 ## 5. 查（Query）
 
-- 人工：双击 `index.html` 使用搜索 / 分类 / 状态过滤。
+- 人工：双击 `index.html` 使用搜索 / 分类过滤。
 - 程序化：读取 `index.json`（每条含 id、标题、分类、标签、来源、摘要、路径）。
 
 ## 6. 提交前必做

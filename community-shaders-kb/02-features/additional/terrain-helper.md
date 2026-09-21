@@ -1,7 +1,7 @@
 ---
 id: terrain-helper
 title: Terrain Helper 地形辅助
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

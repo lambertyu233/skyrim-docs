@@ -1,7 +1,7 @@
 ---
 id: horizon-fix
 title: Horizon Fix 地平线修复
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

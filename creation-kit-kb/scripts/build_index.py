@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-# Build index.json + index.html by scanning all entry frontmatter.
-# Run: python scripts/build_index.py
+# 通用：扫描全部条目 frontmatter → index.json + 离线浏览器 index.html（两栏布局 + 内联全文）。
+# 用法：把本文件放到资料库的 scripts/ 下，运行 `python scripts/build_index.py`
+# 说明：标题/副标题从 manifest.json 的 kb.name / kb.description 注入；分类中文名从 manifest 的 categories 读取。
 import os, re, json, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,7 +44,6 @@ def _esc_html(s):
 def _inline(text):
     """行内元素：代码、链接、删除线、粗体、斜体。"""
     text = _esc_html(text)
-    # 行内代码先占位，避免内部被粗体/斜体规则破坏
     stash = []
     def _code(m):
         stash.append(m.group(1))
@@ -101,7 +101,6 @@ def md_to_html(md):
         if not stripped:
             i += 1
             continue
-        # 代码块（围栏）
         m = re.match(r"^```(\w*)\s*$", line)
         if m:
             i += 1
@@ -112,7 +111,6 @@ def md_to_html(md):
             i += 1
             out.append('<pre class="code"><code>%s</code></pre>' % _esc_html("\n".join(code)))
             continue
-        # 引用
         if stripped.startswith(">"):
             quote = []
             while i < n and lines[i].lstrip().startswith(">"):
@@ -120,7 +118,6 @@ def md_to_html(md):
                 i += 1
             out.append("<blockquote>%s</blockquote>" % _inline(" ".join(quote)))
             continue
-        # 表格
         if "|" in line and i + 1 < n and re.match(r"^\s*\|?[\s:\-|]+\|?\s*$", lines[i+1]) and "-" in lines[i+1]:
             header_cells = [c.strip() for c in stripped.strip("|").split("|")]
             aligns = []
@@ -140,7 +137,6 @@ def md_to_html(md):
             )
             out.append('<table><thead><tr>%s</tr></thead><tbody>%s</tbody></table>' % (th, body))
             continue
-        # 列表（有序/无序，支持嵌套）
         if re.match(r"^\s*[-*+]\s+", line) or re.match(r"^\s*\d+\.\s+", line):
             items = []
             base_ordered = None
@@ -171,19 +167,16 @@ def md_to_html(md):
             html_list, _ = _build_list(items, 0, items[0][0])
             out.append(html_list)
             continue
-        # 标题
         hm = re.match(r"^(#{1,6})\s+(.*)$", line)
         if hm:
             lvl = len(hm.group(1))
             out.append("<h%d>%s</h%d>" % (lvl, _inline(hm.group(2).rstrip("#").strip()), lvl))
             i += 1
             continue
-        # 水平线
         if re.match(r"^(---|\*\*\*|___)\s*$", line):
             out.append("<hr>")
             i += 1
             continue
-        # 段落
         para = [line]
         i += 1
         while i < n and lines[i].strip() and not _is_block_start(lines[i]):
@@ -193,16 +186,32 @@ def md_to_html(md):
     return "\n".join(out)
 
 
+def _strip_leading_h1(html):
+    """剥掉正文开头的 # 标题 H1（详情面板已单独显示标题，避免重复）。"""
+    html = html.strip()
+    m = re.match(r"^<h1>(.*?)</h1>\s*", html, re.DOTALL)
+    if m:
+        return html[m.end():].strip()
+    return html
+
+
 def main():
     entries = []
     cats = {}
     cat_labels = {}
-    # 优先用 manifest 的分类标题作为显示名，保证与资料库定义一致
+    title = "资料库"
+    subtitle = "可维护 · 分层 · 版本化 · 协作更新"
+
     manifest_path = os.path.join(ROOT, "manifest.json")
     if os.path.exists(manifest_path):
         try:
             with open(manifest_path, encoding="utf-8") as f:
                 mdata = json.load(f)
+            kb = mdata.get("kb", {})
+            title = kb.get("name", title)
+            src = kb.get("source_name", "")
+            desc = kb.get("description", "")
+            subtitle = (("基于 " + src + " 整理 · " if src else "") + desc) or subtitle
             for c in mdata.get("categories", []):
                 cat_labels[c.get("dir")] = c.get("title", c.get("dir"))
         except Exception:
@@ -227,7 +236,7 @@ def main():
             # 抽取 frontmatter 之后的正文，渲染为排版好的 HTML 内联进详情面板
             m = FM_RE.match(text)
             body = text[m.end():].strip() if m else text.strip()
-            fm["content"] = md_to_html(body)
+            fm["content"] = _strip_leading_h1(md_to_html(body))
             category = fm.get("category", top)
             fm["_file"] = os.path.relpath(full, ROOT).replace("\\", "/")
             fm["_chars"] = len(text)
@@ -248,6 +257,8 @@ def main():
     html = html.replace("__ENTRIES__", json.dumps(entries, ensure_ascii=False).replace("</", "<\\/"))
     html = html.replace("__CATS__", json.dumps(data["by_category"], ensure_ascii=False))
     html = html.replace("__CAT_LABELS__", json.dumps(cat_labels, ensure_ascii=False))
+    html = html.replace("__TITLE__", title)
+    html = html.replace("__SUBTITLE__", subtitle)
     html = html.replace("__GENERATED__", data["generated"])
     html = html.replace("__TOTAL__", str(len(entries)))
     assert "__ENTRIES__" not in html and "__CATS__" not in html and "__CAT_LABELS__" not in html, "占位符未替换！"
@@ -262,7 +273,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creation Kit 资料库</title>
+<title>__TITLE__</title>
 <style>
   :root{
     --bg:#f7f8fa; --panel:#ffffff; --ink:#1f2329; --muted:#6b7280;
@@ -278,7 +289,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .stat{background:rgba(255,255,255,.15);padding:4px 10px;border-radius:20px;font-size:12px}
   .wrap{display:flex;min-height:calc(100vh - 116px)}
-  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto}
+  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto;
+        transition:width .16s ease,flex-basis .16s ease}
+  aside.collapsed{width:78px;flex:0 0 78px;padding:14px 10px}
+  aside.collapsed .sidehead{flex-direction:column;gap:8px;align-items:stretch;margin:0}
+  aside.collapsed .sidehead-title{display:none}
+  aside.collapsed .navtoggle{padding:6px 4px;width:100%}
+  .sidehead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .sidehead-title{font-size:12px;color:var(--muted);white-space:nowrap}
+  .navtoggle{background:none;border:1px solid var(--line);border-radius:6px;color:var(--muted);
+             font-size:11px;padding:2px 8px;cursor:pointer;line-height:1.5;white-space:nowrap}
+  .navtoggle:hover{color:var(--accent);border-color:var(--accent)}
+  #navbox.hidden{display:none}
   main{flex:1;padding:20px 24px;overflow:auto}
   .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
   input[type=search]{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px}
@@ -296,12 +318,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .chips{display:flex;gap:6px;flex-wrap:wrap}
   .chip{background:var(--chip);color:#3730a3;font-size:11px;padding:2px 8px;border-radius:20px}
   .chip.muted{background:#f3f4f6;color:var(--muted)}
-  .badge{font-size:11px;padding:2px 8px;border-radius:20px;color:#fff}
-  .b-stable{background:var(--green)} .b-review{background:var(--blue)} .b-draft{background:var(--gray)}
   .detail{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;max-width:880px}
   .detail h2{margin-top:0}
   .back{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;margin-bottom:12px}
-  .detail .sum{font-size:15px;color:var(--ink);background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:14px 0}
   .actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
   .btn{display:inline-block;padding:9px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600}
   .btn-primary{background:var(--accent);color:#fff}
@@ -335,20 +354,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 <header>
-  <h1>Creation Kit 资料库</h1>
-  <p>可维护 · 分层 · 版本化 · 协作更新 — 基于 UESP Creation Kit Wiki (ck.uesp.net/wiki) 整理</p>
+  <h1>__TITLE__</h1>
+  <p>__SUBTITLE__</p>
   <div class="stats" id="stats"></div>
 </header>
 <div class="wrap">
   <aside>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">分类过滤</div>
-    <button class="navbtn active" data-cat="all">全部 <span class="cnt" id="allcnt"></span></button>
-    <div id="catnav"></div>
-    <div style="font-size:12px;color:var(--muted);margin:14px 0 8px">状态过滤</div>
-    <button class="navbtn" data-status="all">全部状态</button>
-    <button class="navbtn" data-status="stable">stable（稳定）</button>
-    <button class="navbtn" data-status="review">review（审核）</button>
-    <button class="navbtn" data-status="draft">draft（草稿）</button>
+    <div class="sidehead">
+      <span class="sidehead-title">分类过滤</span>
+      <button id="navtoggle" class="navtoggle" type="button" aria-expanded="true"
+              aria-controls="navbox" title="收起/展开分类过滤">‹ 收起</button>
+    </div>
+    <div id="navbox">
+      <button class="navbtn active" data-cat="all" type="button">全部 <span class="cnt" id="allcnt"></span></button>
+      <div id="catnav"></div>
+    </div>
   </aside>
   <main>
     <div class="toolbar">
@@ -366,22 +386,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 const ENTRIES = __ENTRIES__;
 const CATS = __CATS__;
 const CAT_LABELS = __CAT_LABELS__;
-let curCat='all', curStatus='all', curQ='', sortBy='cat';
+let curCat='all', curQ='', sortBy='cat';
 
 function label(cat){ return CAT_LABELS[cat] || cat; }
-function statusBadge(e){
-  if(e.status==='stable') return '<span class="badge b-stable">stable</span>';
-  if(e.status==='review') return '<span class="badge b-review">review</span>';
-  if(e.status==='draft')  return '<span class="badge b-draft">draft</span>';
-  return '';
-}
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function filtered(){
   const q=curQ.toLowerCase();
   return ENTRIES.filter(e=>{
     if(curCat!=='all' && e.category!==curCat) return false;
-    if(curStatus!=='all' && e.status!==curStatus) return false;
     if(q){
       const hay=(e.title+' '+(e.summary||'')+' '+(e.tags||[]).join(' ')+' '+(e.category||'')+' '+label(e.category)).toLowerCase();
       if(!hay.includes(q)) return false;
@@ -401,7 +414,7 @@ function renderGrid(){
   let html='<div class="grid">';
   for(const e of list){
     html+='<div class="card" data-id="'+esc(e.id)+'"><h3>'+esc(e.title)+'</h3>'+
-      '<div class="chips" style="margin-bottom:6px">'+statusBadge(e)+
+      '<div class="chips" style="margin-bottom:6px">'+
       '<span class="chip">'+esc(label(e.category))+'</span>'+
       (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+'</div>'+
       '<p class="sum">'+esc(e.summary||'')+'</p>'+
@@ -419,7 +432,7 @@ function showDetail(id){
   const tags=((e.tags||[]).map(t=>'<span class="chip">'+esc(t)+'</span>').join(''));
   view.innerHTML='<button class="back" onclick="renderGrid()">← 返回列表</button>'+
     '<div class="detail"><h2>'+esc(e.title)+'</h2>'+
-    '<div class="chips" style="margin-bottom:4px">'+statusBadge(e)+
+    '<div class="chips" style="margin-bottom:4px">'+
     '<span class="chip">'+esc(label(e.category))+'</span>'+
     (e.kind?'<span class="chip muted">'+esc(e.kind)+'</span>':'')+
     (e.version?'<span class="chip muted">v'+esc(e.version)+'</span>':'')+
@@ -427,24 +440,34 @@ function showDetail(id){
     '<div class="chips" style="margin:6px 0 10px">'+tags+'</div>'+
     '<div class="article">'+(e.content||'<p>(暂无正文)</p>')+'</div>'+
     '<div class="actions">'+file+src+'</div>'+
-    '<p class="tip">源文件：'+esc(e._file||'')+' · 正文已渲染为排版好的文章（标题/列表/表格/代码块正常显示）。</p></div>';
+    '<p class="tip">源文件：'+esc(e._file||'')+'</p></div>';
   document.querySelector('main').scrollTop=0;
+}
+function selectCat(cat,btn){
+  curCat=cat;
+  document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
+  const target=btn||document.querySelector('#navbox .navbtn[data-cat="'+cat+'"]');
+  if(target) target.classList.add('active');
+  renderGrid();
+}
+function setNavCollapsed(collapsed){
+  const box=document.getElementById('navbox'), btn=document.getElementById('navtoggle'), side=document.querySelector('aside');
+  box.classList.toggle('hidden',collapsed);
+  if(side) side.classList.toggle('collapsed',collapsed);
+  btn.textContent=collapsed?'展开 ›':'‹ 收起';
+  btn.setAttribute('aria-expanded',String(!collapsed));
+  try{localStorage.setItem('kb-nav-collapsed',collapsed?'1':'0');}catch(e){}
+}
+function toggleNav(){
+  setNavCollapsed(document.getElementById('navbox').classList.contains('hidden')===false);
 }
 function renderNav(){
   const nav=document.getElementById('catnav');
   nav.innerHTML=Object.keys(CATS).map(c=>'<button class="navbtn" data-cat="'+c+'">'+esc(label(c))+' <span class="cnt">'+CATS[c]+'</span></button>').join('');
-  nav.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
-    curCat=b.dataset.cat;
-    document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    renderGrid();
-  });
-  document.querySelectorAll('[data-status]').forEach(b=>b.onclick=()=>{
-    curStatus=b.dataset.status;
-    document.querySelectorAll('[data-status]').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    renderGrid();
-  });
+  // 注意：侧栏「全部」按钮和分类按钮必须在这里统一绑定。
+  // 只选 [data-cat]（即分类按钮），避开同处 #navbox 内的状态过滤按钮，
+  // 否则「全部」按钮会漏绑 → 选中某分类后切不回全部（历史 bug）。
+  document.querySelectorAll('#navbox .navbtn[data-cat]').forEach(b=>b.onclick=()=>selectCat(b.dataset.cat,b));
 }
 function renderStats(){
   const s=document.getElementById('stats');
@@ -456,7 +479,14 @@ function renderStats(){
 }
 document.getElementById('q').oninput=e=>{curQ=e.target.value;renderGrid();};
 document.getElementById('sort').onchange=e=>{sortBy=e.target.value;renderGrid();};
+document.getElementById('navtoggle').onclick=toggleNav;
 renderStats();renderNav();renderGrid();
+// 恢复上次的收起/展开状态
+(function(){
+  let collapsed=false;
+  try{collapsed=localStorage.getItem('kb-nav-collapsed')==='1';}catch(e){}
+  if(collapsed) setNavCollapsed(true);
+})();
 </script>
 </body>
 </html>

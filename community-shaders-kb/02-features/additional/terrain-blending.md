@@ -1,7 +1,7 @@
 ---
 id: terrain-blending
 title: Terrain Blending 地形混合
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

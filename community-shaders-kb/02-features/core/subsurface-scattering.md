@@ -1,7 +1,7 @@
 ---
 id: subsurface-scattering
 title: Subsurface Scattering 次表面散射
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

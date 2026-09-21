@@ -1,7 +1,7 @@
 ---
 id: extended-materials
 title: Extended Materials 扩展材质
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

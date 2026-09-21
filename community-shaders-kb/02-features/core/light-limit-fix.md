@@ -1,7 +1,7 @@
 ---
 id: light-limit-fix
 title: Light Limit Fix 光源上限修复
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

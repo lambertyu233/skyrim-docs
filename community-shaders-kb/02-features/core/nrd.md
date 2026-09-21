@@ -1,7 +1,7 @@
 ---
 id: nrd
 title: NRD 实时降噪
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

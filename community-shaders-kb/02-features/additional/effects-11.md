@@ -1,7 +1,7 @@
 ---
 id: effects-11
 title: Effects 11 后处理
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

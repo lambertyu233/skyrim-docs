@@ -1,7 +1,7 @@
 ---
 id: lod-blending
 title: LOD Blending LOD 混合
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

@@ -89,8 +89,7 @@
               "title": "Source Control"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -201,17 +200,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b47e5c9d641abad4",
+  "active": "ef2599f6876595e1",
   "lastOpenFiles": [
-    "未命名.base",
+    "creation-kit-kb/_raw/legacy-creation-kit-2026-09-21/manifest.json.legacy",
+    "creation-kit-kb/_raw/legacy-creation-kit-2026-09-21/build_index.py.legacy",
+    "creation-kit-kb/_raw/legacy-creation-kit-2026-09-21",
+    "community-shaders-kb/_raw/legacy-community-2026-09-21/manifest.json.legacy",
+    "community-shaders-kb/_raw/legacy-community-2026-09-21/build_index.py.legacy",
+    "community-shaders-kb/_raw/legacy-community-2026-09-21",
+    "community-shaders-kb/_raw",
+    "_patch_changelogs.py",
+    "mo2-usvfs-kb/scripts/check_index_ui.py",
+    "creation-kit-kb/scripts/check_index_ui.py",
+    "community-shaders-kb/scripts/check_index_ui.py",
     "OAR/oar改了动作要刷动作吗.md",
-    "behaviour-engine-kb/scripts/validate_kb.py",
-    "behaviour-engine-kb/index.html",
-    "behaviour-engine-kb/index.json",
-    "behaviour-engine-kb/_raw/fore-2012-hkx-archive.txt",
-    "behaviour-engine-kb/_raw/scorrp10-patcher-vs-replacer.txt",
-    "behaviour-engine-kb/_raw/pandora-wiki-performance-notes.txt",
-    "behaviour-engine-kb/_raw/pandora-wiki-home.txt",
     "behaviour-engine-kb/CHANGELOG.md",
     "behaviour-engine-kb/CONTRIBUTING.md",
     "behaviour-engine-kb/README.md",

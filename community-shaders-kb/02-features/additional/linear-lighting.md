@@ -1,7 +1,7 @@
 ---
 id: linear-lighting
 title: Linear Lighting 线性光照
-category: features
+category: 02-features
 kind: additional
 status: TBA
 version: 1.0.0

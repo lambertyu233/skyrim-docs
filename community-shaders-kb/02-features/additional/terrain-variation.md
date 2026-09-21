@@ -1,7 +1,7 @@
 ---
 id: terrain-variation
 title: Terrain Variation 地形变化
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

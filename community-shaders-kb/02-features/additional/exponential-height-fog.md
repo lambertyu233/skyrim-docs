@@ -1,7 +1,7 @@
 ---
 id: exponential-height-fog
 title: Exponential Height Fog 指数高度雾
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

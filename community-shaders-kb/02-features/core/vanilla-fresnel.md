@@ -1,7 +1,7 @@
 ---
 id: vanilla-fresnel
 title: Vanilla Fresnel 原版菲涅尔
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

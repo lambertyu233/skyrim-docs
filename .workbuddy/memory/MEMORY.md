@@ -23,6 +23,14 @@
 - `OAR\OAR-教程.md`：OAR 通用教程（官方文档整理）。
 - `OAR\OAR-补充文档.md`：**改造实战补充**——替换的心智模型（键=路径+文件名，一个事件=一个文件）、DAR/OAR 目录对照、优先级三来源、条件文本/JSON 双语法、六步改造法、**进阶技巧：用 AttackState 按动作阶段拆分移动接管**、行为文件查事件名、hkx 版本判定、排错对照表、经验清单。
 - `behaviour-engine-kb\`：**FNIS / Nemesis / Pandora 动作引擎资料库**（28 条目 / 8 分类，见 `index.html` 离线浏览器）。要点：Havok Behavior = 非确定性有限状态机中间件、序列化进 hkx 包；**Patcher（引擎，新增动画命令）vs Replacer（OAR/DAR，按条件替换已有动画）是两类**；FNIS 7.6 闭源停更、Nemesis 中级以上无公开文档、Pandora v4.4.0-beta 全生物支持且兼容两者补丁格式；**Pandora 不是 Nemesis 的 fork**（社区常错）。源存档在 `_raw\`，含 fore 2012 一手帖（hkx 只是包格式，连骨骼也压里面）与 scorrp10 的动画数据库解释。维护：`scripts\build_index.py` + `scripts\validate_kb.py`。
+  - `index.html` 已升到 1.0.2：修掉「分类过滤选不了全部」（`全部` 按钮漏绑 onclick 的老 bug）、加了分类过滤收起/展开（localStorage 记忆）、去掉详情页冗余 tip；1.0.2 把脚本对齐到技能 stock 版。
+- **四个资料库（behaviour-engine-kb / community-shaders-kb / creation-kit-kb / mo2-usvfs-kb）的 `build_index.py` + `validate_kb.py` + `check_index_ui.py` 三件套，已全部与技能 stock 版逐字节相同**（规范版在 `~/.workbuddy/skills/build-maintainable-kb/scripts/`）。**2026-09-21 完成全库对齐，不再有任何分叉。**
+  - `community-shaders-kb` 与 `creation-kit-kb` 都按维护者要求**整体换成 stock 脚本**，各自私有功能（`CATS` 数组、`category_label`/`path` 字段、status 徽章与 `.b-*` 样式、侧栏「状态过滤」、硬编码页头标题）已全部移除；两者的 `manifest.json` 也转成 stock 形状（`kb.{name,description,locale}` + `schema` + `categories[].dir/title/desc` + `version/generated_at/sources/tooling`）。**条目正文与 frontmatter 一字未改**，旧脚本与旧 manifest 备份在各自 `_raw/legacy-*-2026-09-21/`。
+  - frontmatter 的 `kind`/`status` 仍作为**数据保留**（照常写进 `index.json`），只是页面不再呈现徽章；`gen_features.py`（生成器）与 `fetch_*.py`（上游抓取）作为遗留工具保留。
+  - stock 脚本两个行为要点：页头标题/副标题**从 manifest 注入**（`kb.description` 里别再重复写 `source_name` 那句，否则副标题重复）；正文开头的 `# H1` 会被 `_strip_leading_h1()` 剥掉（详情面板已单独显示标题）。
+- 四库都有 `scripts\validate_kb.py`（结构+索引+模板校验）+ `scripts\check_index_ui.py`（索引页交互回归，Node + DOM 桩、不需要浏览器）。改完模板必须重建并跑这两个，都过才算完成。
+- **`category` 必须与所在目录名严格相等**（如 `02-features`）。`build_index.py` 是拿 frontmatter 的 `category` 去 `CAT_LABELS` 查中文标签的，写成 `features` 这类短名会**静默**变成空标签。2026-09-21 发现 community-shaders-kb 的 47 个功能条目真的写错了，已修正；同时把 `validate_kb.py` 里「允许省略 `NN-` 前缀」的宽容校验改成严格相等，并新增「每个有条目的目录必须在 `manifest.categories[].dir` 里声明过」的交叉校验。**宽容校验比没有校验更危险。**
+- 改资料库页面一律改 `scripts\build_index.py` 的模板再重建，**不要手改 `index.html`**。
 
 ## 改造别人的动画包（可复用方法论）
 1. 文件名 = **目标状态下游戏请求的原始文件名**（站姿/潜行/移动是三套事件名）；「换了没效果」先查文件名，再查条件。

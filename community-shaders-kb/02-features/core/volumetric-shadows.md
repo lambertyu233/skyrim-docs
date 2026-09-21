@@ -1,7 +1,7 @@
 ---
 id: volumetric-shadows
 title: Volumetric Shadows 体积阴影
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

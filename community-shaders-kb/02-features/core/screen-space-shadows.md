@@ -1,7 +1,7 @@
 ---
 id: screen-space-shadows
 title: Screen Space Shadows 屏幕空间阴影
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

@@ -1,7 +1,7 @@
 ---
 id: true-pbr
 title: True PBR 物理渲染
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

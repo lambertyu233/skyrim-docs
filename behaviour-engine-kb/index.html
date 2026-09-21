@@ -19,7 +19,18 @@
   .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .stat{background:rgba(255,255,255,.15);padding:4px 10px;border-radius:20px;font-size:12px}
   .wrap{display:flex;min-height:calc(100vh - 116px)}
-  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto}
+  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto;
+        transition:width .16s ease,flex-basis .16s ease}
+  aside.collapsed{width:78px;flex:0 0 78px;padding:14px 10px}
+  aside.collapsed .sidehead{flex-direction:column;gap:8px;align-items:stretch;margin:0}
+  aside.collapsed .sidehead-title{display:none}
+  aside.collapsed .navtoggle{padding:6px 4px;width:100%}
+  .sidehead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .sidehead-title{font-size:12px;color:var(--muted);white-space:nowrap}
+  .navtoggle{background:none;border:1px solid var(--line);border-radius:6px;color:var(--muted);
+             font-size:11px;padding:2px 8px;cursor:pointer;line-height:1.5;white-space:nowrap}
+  .navtoggle:hover{color:var(--accent);border-color:var(--accent)}
+  #navbox.hidden{display:none}
   main{flex:1;padding:20px 24px;overflow:auto}
   .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
   input[type=search]{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px}
@@ -79,9 +90,15 @@
 </header>
 <div class="wrap">
   <aside>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">分类过滤</div>
-    <button class="navbtn active" data-cat="all">全部 <span class="cnt" id="allcnt"></span></button>
-    <div id="catnav"></div>
+    <div class="sidehead">
+      <span class="sidehead-title">分类过滤</span>
+      <button id="navtoggle" class="navtoggle" type="button" aria-expanded="true"
+              aria-controls="navbox" title="收起/展开分类过滤">‹ 收起</button>
+    </div>
+    <div id="navbox">
+      <button class="navbtn active" data-cat="all" type="button">全部 <span class="cnt" id="allcnt"></span></button>
+      <div id="catnav"></div>
+    </div>
   </aside>
   <main>
     <div class="toolbar">
@@ -153,18 +170,34 @@ function showDetail(id){
     '<div class="chips" style="margin:6px 0 10px">'+tags+'</div>'+
     '<div class="article">'+(e.content||'<p>(暂无正文)</p>')+'</div>'+
     '<div class="actions">'+file+src+'</div>'+
-    '<p class="tip">源文件：'+esc(e._file||'')+' · 正文已渲染为排版好的文章（标题/列表/表格/代码块正常显示）。</p></div>';
+    '<p class="tip">源文件：'+esc(e._file||'')+'</p></div>';
   document.querySelector('main').scrollTop=0;
+}
+function selectCat(cat,btn){
+  curCat=cat;
+  document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
+  const target=btn||document.querySelector('#navbox .navbtn[data-cat="'+cat+'"]');
+  if(target) target.classList.add('active');
+  renderGrid();
+}
+function setNavCollapsed(collapsed){
+  const box=document.getElementById('navbox'), btn=document.getElementById('navtoggle'), side=document.querySelector('aside');
+  box.classList.toggle('hidden',collapsed);
+  if(side) side.classList.toggle('collapsed',collapsed);
+  btn.textContent=collapsed?'展开 ›':'‹ 收起';
+  btn.setAttribute('aria-expanded',String(!collapsed));
+  try{localStorage.setItem('kb-nav-collapsed',collapsed?'1':'0');}catch(e){}
+}
+function toggleNav(){
+  setNavCollapsed(document.getElementById('navbox').classList.contains('hidden')===false);
 }
 function renderNav(){
   const nav=document.getElementById('catnav');
   nav.innerHTML=Object.keys(CATS).map(c=>'<button class="navbtn" data-cat="'+c+'">'+esc(label(c))+' <span class="cnt">'+CATS[c]+'</span></button>').join('');
-  nav.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
-    curCat=b.dataset.cat;
-    document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    renderGrid();
-  });
+  // 注意：侧栏「全部」按钮和分类按钮必须在这里统一绑定。
+  // 只选 [data-cat]（即分类按钮），避开同处 #navbox 内的状态过滤按钮，
+  // 否则「全部」按钮会漏绑 → 选中某分类后切不回全部（历史 bug）。
+  document.querySelectorAll('#navbox .navbtn[data-cat]').forEach(b=>b.onclick=()=>selectCat(b.dataset.cat,b));
 }
 function renderStats(){
   const s=document.getElementById('stats');
@@ -176,7 +209,14 @@ function renderStats(){
 }
 document.getElementById('q').oninput=e=>{curQ=e.target.value;renderGrid();};
 document.getElementById('sort').onchange=e=>{sortBy=e.target.value;renderGrid();};
+document.getElementById('navtoggle').onclick=toggleNav;
 renderStats();renderNav();renderGrid();
+// 恢复上次的收起/展开状态
+(function(){
+  let collapsed=false;
+  try{collapsed=localStorage.getItem('kb-nav-collapsed')==='1';}catch(e){}
+  if(collapsed) setNavCollapsed(true);
+})();
 </script>
 </body>
 </html>

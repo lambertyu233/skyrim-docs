@@ -2,6 +2,52 @@
 
 本文件记录资料库整体演进。条目级版本见各 `.md` 的 `version` / `updated` 字段。
 
+## [2.0.0] - 2026-09-21
+
+### 变更（结构对齐）
+
+索引页模板与数据层**整体对齐到 `build-maintainable-kb` 技能的 stock 版**，与 `mo2-usvfs-kb` / `behaviour-engine-kb` / `community-shaders-kb` 四库统一。
+**条目正文与 frontmatter 一字未改。**
+
+- **`scripts/build_index.py` 换成 stock 版**（diff 确认与技能逐字节一致）：
+  - 页头标题 / 副标题改为**从 `manifest.json` 的 `kb.name` / `kb.description` 注入**（此前硬编码在模板里，改 manifest 不生效）。
+  - 新增 `_strip_leading_h1()`：详情面板已单独显示条目标题，因此正文开头的 `# H1` 会被剥掉，避免标题重复。
+  - 移除 `statusBadge()`、`kind` / `status` 徽章与 `.b-*` 样式。
+  - 移除侧栏「状态过滤」按钮组与 `curStatus` 筛选逻辑。
+- **`manifest.json` 转为 stock 形状**：`kb.{name,description,locale}`；`entry_schema` → `schema`（含 `required` / `optional` 字段表）；`categories[].description` → `desc`；补充 `version` / `generated_at` / `maintainers` / `sources` / `license_note` / `index_files` / `tooling`。
+
+### 保留
+
+- frontmatter 的 `kind` / `status` **仍作为数据保留**（`index.json` 中照常输出），仅页面不再呈现徽章。
+- `scripts/gen_features.py`、`scripts/fetch_ck.py` 作为生成器与上游同步工具保留。
+
+### 验证
+
+- `validate_kb.py` → **0 错误**（29 条目、id 与目录严格一致、无残留占位符）；`check_index_ui.py` → **20 项断言全过**。
+- 7 个分类的 `CAT_LABELS` 全部解析成功（无空标签）。
+- 替换前的脚本与 manifest 备份于 `_raw/legacy-creation-kit-2026-09-21/`。
+
+## [1.0.1] - 2026-09-21
+
+### 修复（离线浏览器 index.html）
+
+- **修复分类过滤无法切回「全部」**：`全部` 按钮此前写死在 HTML 里、**没有绑定点击事件**（事件只绑给了 `#catnav` 内的分类按钮），
+  所以在侧栏选中任一分类后就再也回不到全部条目。现在「全部」与各分类按钮一起放进 `#navbox`，由 `renderNav()` 统一绑定
+  （选择器为 `#navbox .navbtn[data-cat]`，只认分类按钮，不会误绑同处的状态过滤按钮）。
+- **新增分类过滤收起 / 展开**：侧栏顶部加「‹ 收起 / 展开 ›」按钮，收起后隐藏筛选列表并把侧栏收窄、正文区变宽；
+  状态写入 `localStorage`，下次打开保持上次选择。
+- **详情页底部**：去掉「正文已渲染为排版好的文章（标题/列表/表格/代码块正常显示）」这句冗余说明，只保留源文件路径。
+
+### 维护
+
+- 新增 `scripts/validate_kb.py`：结构 + 索引 + 索引页模板的机械校验（兼容本库已有的 index.json 结构，不会误报）。
+- 新增 `scripts/check_index_ui.py`：索引页**交互回归检查**（抽出内联 `<script>` 套 DOM 桩在 Node 里跑，无需浏览器）。
+- 以上改动全部落在 `scripts/build_index.py` 的页面模板中，已重新生成 `index.html` / `index.json`。
+
+### 验证
+
+- `validate_kb.py` → **0 错误**；`check_index_ui.py` → **20 项断言全过**。
+
 ## [1.0.0] - 2026-09-20
 
 ### 新增

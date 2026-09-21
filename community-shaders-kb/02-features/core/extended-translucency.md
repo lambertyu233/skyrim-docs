@@ -1,7 +1,7 @@
 ---
 id: extended-translucency
 title: Extended Translucency 扩展半透明
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

@@ -1,7 +1,7 @@
 ---
 id: snow-deformation
 title: Snow Deformation 积雪形变
-category: features
+category: 02-features
 kind: additional
 status: TBA
 version: 1.0.0

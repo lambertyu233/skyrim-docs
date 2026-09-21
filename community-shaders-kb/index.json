@@ -1,25 +1,19 @@
 {
-  "meta": {
-    "generated_at": "2026-09-20",
-    "kb_version": "1.0.0",
-    "total": 59,
-    "by_category": {
-      "概览": 2,
-      "安装": 4,
-      "功能": 47,
-      "参考": 2,
-      "开发": 2,
-      "工具": 2
-    }
+  "generated": "2026-09-21",
+  "total": 59,
+  "by_category": {
+    "00-overview": 2,
+    "01-installation": 4,
+    "02-features": 47,
+    "03-reference": 2,
+    "04-development": 2,
+    "05-tools": 2
   },
   "entries": [
     {
       "id": "what-is-cs",
       "title": "什么是 Community Shaders",
       "category": "00-overview",
-      "category_label": "概览",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -29,15 +23,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders",
       "summary": "Community Shaders 是开源、模块化的 Skyrim 图形增强框架，提供先进光照、材质与视觉特效。",
-      "path": "00-overview/what-is-cs.md"
+      "content": "<p><strong>Community Shaders（CS）</strong> 是一个开源、综合性的 Skyrim 图形增强框架，提供先进的光照、材质与视觉特效。其设计是<strong>模块化</strong>的——你可以只启用想要的功能，同时保持良好性能。</p>\n<h2>核心定位</h2>\n<ul><li><strong>开源</strong>：代码完全开放，遵循 GPL-3.0 许可。</li><li><strong>模块化</strong>：核心功能随基础安装附带，附加功能可单独下载启用。</li><li><strong>用户驱动</strong>：由社区维护文档、测试与开发（GitHub + Discord）。</li><li><strong>兼容性取向</strong>：设计上替代 ENBSeries 的大部分功能，避免与之同时运行。</li></ul>\n<h2>快速上手</h2>\n<ul><li>游戏内按 <strong>END</strong> 打开 Community Shaders 菜单。</li><li>新手从 <a href=\"01-installation/installation-guide.md\" target=\"_blank\" rel=\"noopener\">安装指南</a> 开始。</li><li>想提升画质看 <a href=\"01-installation/vanilla-setup.md\" target=\"_blank\" rel=\"noopener\">Vanilla 设置指南</a>。</li><li>从 ENB 迁移看 <a href=\"01-installation/enb-migration.md\" target=\"_blank\" rel=\"noopener\">ENB 迁移指南</a>。</li></ul>\n<h2>与其他方案的对比（要点）</h2>\n<table><thead><tr><th style=\"text-align:left\">维度</th><th style=\"text-align:left\">Community Shaders</th><th style=\"text-align:left\">ENBSeries</th></tr></thead><tbody><tr><td style=\"text-align:left\">授权</td><td style=\"text-align:left\">开源 (GPL-3.0)</td><td style=\"text-align:left\">闭源</td></tr><tr><td style=\"text-align:left\">架构</td><td style=\"text-align:left\">模块化插件，集成于引擎</td><td style=\"text-align:left\">注入式后处理</td></tr><tr><td style=\"text-align:left\">菜单</td><td style=\"text-align:left\">游戏内 END 菜单</td><td style=\"text-align:left\">enbseries.ini 配置</td></tr><tr><td style=\"text-align:left\">兼容</td><td style=\"text-align:left\">与 ENB 互斥（检测即禁用）</td><td style=\"text-align:left\">—</td></tr><tr><td style=\"text-align:left\">预设</td><td style=\"text-align:left\">Effects 11 / 后续 Post Processing 支持未加密 ENB 预设</td><td style=\"text-align:left\">原生</td></tr></tbody></table>\n<h2>维护提示</h2>\n<p>本资料库以分层结构组织（概览 / 安装 / 功能 / 参考 / 开发 / 工具），每个条目独立成文件并带 <code>frontmatter</code> 元数据，便于增删改查与版本化协作。新增内容后运行 <code>scripts/build_index.py</code> 刷新索引。</p>",
+      "_file": "00-overview/what-is-cs.md",
+      "_chars": 1194
     },
     {
       "id": "architecture",
       "title": "架构与缓存系统",
       "category": "00-overview",
-      "category_label": "概览",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -48,15 +41,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders#cache-system",
       "summary": "CS 通过运行时着色器缓存与磁盘缓存替换原版着色器；理解其机制有助于排错与开发。",
-      "path": "00-overview/architecture.md"
+      "content": "<p>Community Shaders 在运行时替换 Skyrim 的原版着色器管线，并以<strong>缓存系统</strong>管理编译产物。理解这套机制对排错（尤其是“编译着色器”卡住、黑屏、特效异常）至关重要。</p>\n<h2>整体架构（要点）</h2>\n<ul><li><strong>基础安装（Core）</strong> 携带一组核心特性（见 <a href=\"../02-features/core\" target=\"_blank\" rel=\"noopener\">功能总览</a>）。</li><li><strong>附加特性（Addons）</strong> 单独下载，按需启用。</li><li><strong>渲染替换</strong>：CS 接管材质/光照/后处理相关着色器，支持 PBR、屏幕空间特效、体积光等。</li><li><strong>游戏内菜单</strong>：按 END 打开，可实时调整设置、场景管理、性能浮层、RenderDoc 捕获等。</li></ul>\n<h2>Shader Cache（着色器缓存）</h2>\n<p><strong>Shader Cache</strong> 是已编译着色器的运行时集合，用于替换 Skyrim 的原版着色器。</p>\n<ul><li>清空调色器缓存会强制下次游戏遇到对应着色器时重新编译。</li><li>主要用于<strong>着色器开发</strong>与热加载，<strong>正常游戏无需清理</strong>。</li></ul>\n<h2>Disk Cache（磁盘缓存）</h2>\n<p><strong>Disk Cache</strong> 将已编译着色器存储到磁盘，由 Shader Cache 自动填充。</p>\n<ul><li>若磁盘缓存缺失、过期或无效，屏幕左上角会出现 <strong>“Compiling Shaders”（正在编译着色器）</strong>。</li><li>此时游戏<strong>不会冻结</strong>，但在编译完成前交互被禁用。</li><li>完成后，后续启动应当即时，无额外延迟。</li></ul>\n<p><strong>位置</strong>：<code>Data/ShaderCache</code></p>\n<p><strong>清理方式</strong>：</p>\n<ul><li>删除该文件夹；或</li><li>在 UI 右上角点击 “Clear Shaders” 按钮。</li></ul>\n<blockquote>⚠️ 只删除 <code>ShaderCache</code> 文件夹，<strong>不要</strong>删除 <code>Shaders</code> 文件夹。另建议同时删除 <code>UnifiedWaterCache</code> 文件夹。</blockquote>\n<h2>排错关联</h2>\n<ul><li>更新 CS 后若没出现“编译着色器”弹窗 → 手动删除 Disk Cache（MO2: <code>Overwrite/ShaderCache</code>；Vortex: <code>&lt;游戏&gt;/Data/ShaderCache</code>）。详见 <a href=\"../03-reference/faq.md\" target=\"<em>blank\" rel=\"noopener\">FAQ</a> 与 <a href=\"../01-installation/installation-guide.md\" target=\"</em>blank\" rel=\"noopener\">安装-更新</a>。</li><li>“Shaders failed to compile” 红错 → 多为 CS 与附加特性版本混用，或缓存未重生。</li></ul>",
+      "_file": "00-overview/architecture.md",
+      "_chars": 1312
     },
     {
       "id": "enb-migration",
       "title": "ENB 迁移指南",
       "category": "01-installation",
-      "category_label": "安装",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -67,15 +59,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/ENB-Migration-Guide",
       "summary": "从 ENB 模组列表迁移到以 CS 为核心的配置：移除 ENB 二进制、替换特性、重装相关 MOD。",
-      "path": "01-installation/enb-migration.md"
+      "content": "<p>将基于 ENB 的 MOD 列表转换为以 Community Shaders 为核心的配置。</p>\n<h2>基础转换</h2>\n<h3>步骤 1：移除 ENB 二进制</h3>\n<p>CS 与 ENB 的 DLL <strong>同时安装会导致游戏崩溃</strong>。ENB 二进制位于游戏根目录（或 Rootbuilder 的 <code>Root</code> 文件夹），删除： <code>d3d11.dll</code> 与 <code>d3dcompiler_46e.dll</code>。</p>\n<blockquote><strong>无需</strong>删除 <code>enbseries</code> 文件夹与 ENB ini——加载 ENB 预设（经 Effects 11）时还要用到它们。</blockquote>\n<h3>步骤 2：移除 ENB 专属 / 不兼容 MOD</h3>\n<p>CS 会在检测到某些不兼容 MOD 时<strong>自我禁用</strong>。先查 <a href=\"../../03-reference/faq.md\" target=\"_blank\" rel=\"noopener\">FAQ</a> 最新清单。常见需移除：</p>\n<ul><li>EVLaS/AELaS（被 CS Sky Sync 替代）</li><li>KiLoader、ENB Worldspace Weatherlists、ENB Input Disabler、ENB Helper Plus、ENB AO Toggler、ENB Custom UI Color</li><li>ENB Anti-Aliasing（被 CS Upscaling 替代）、ENB Frame Generation（被 CS Upscaling 替代）</li><li>Skyrim Upscaler（付费/免费均不支持）</li><li>ENB Light 及其衍生（有限支持，建议换 Light Placer）</li><li>ENB Light Inventory Fix (ELIF)、ENB Terrain Blending Fix（CS 已含）、NVIDIA Reflex（与 CS 同用会卡顿）、Native Mesh Light Flicker Fix（被 CS LLF 替代）、Native Water Light Stabilizer（被 CS LLF 替代）</li></ul>\n<blockquote>列表非穷举。可在 MOD 列表中搜索含 “ENB” 的项先禁用。<strong>Particle Patch 受 CS 支持，无需移除</strong>（放加载顺序靠前让其被覆盖即可）；Water for ENB 完全兼容 CS 且有 CS 专用 FOMOD。 本清单最后更新：2026/06/15。</blockquote>\n<h3>步骤 3：安装 CS 前置</h3>\n<p>先读 <a href=\"installation-guide.md\" target=\"_blank\" rel=\"noopener\">安装指南</a>。必须装：Address Library、SSE Engine Fixes、Crash Logger（可选但推荐）。Engine Fixes 的 SKSE64 Preloader 需放入你之前放 ENB 二进制的根目录。</p>\n<h3>步骤 4：安装 CS + Effects 11</h3>\n<p>核心 MOD 必装且先加载，随后加载各附加特性。推荐与 Effects 11 搭配：</p>\n<ul><li><strong>SSGI</strong>：通过光遮挡与反弹带来更真实光照，质量远高于 ENB SSAO/IL（很重）。</li><li><strong>Skylighting</strong>：为屋檐、树荫、建筑内等遮蔽区增加着色，质量高于 ENB 版。</li></ul>\n<h3>步骤 5：Effects 11 后处理</h3>\n<p>支持大多数 ENB 预设（有兼容限制），于 <a href=\"https://mod.pub/skyrim-se/415-effects-11\" target=\"_blank\" rel=\"noopener\">mod.pub</a> 下载。预设安装方式与 ENBSeries 相同：<code>enbseries</code> 文件夹与 <code>enbseries.ini</code> 放入根目录（也可放 Data，但不推荐）。</p>\n<p><strong>兼容注意</strong>：</p>\n<ul><li><strong>不支持</strong>：Depth of Field、Sky Scattering、Prepass Shaders。</li><li><strong>加密 ENB 预设无法加载</strong>（需先解密），例如 Cabbage、Kauz、Dawnfire、Silent Horizons 2、Picta。</li><li>CS 已替代：SSAO/IL→SSGI、Skylighting→Skylighting、抗锯齿→Upscaling、反射/水/水下→Water Effects、SSS→SSS、阴影→Screen Space Shadows。</li></ul>\n<h3>步骤 6：重装部分 MOD</h3>\n<ul><li><strong>Lux</strong>：重装并取消所有 particle 与 optimized 网格。</li><li><strong>Embers XD</strong>：重装并选 CS 选项。</li><li><strong>Water for ENB</strong>：重装并选 CS 选项（仅当你使用的风格需要）。</li></ul>\n<h3>步骤 7：收尾</h3>\n<p>预设在 CS 菜单 <code>Effects 11</code> 标签页微调。仍有问题去 Discord。</p>\n<h2>完整转换</h2>\n<p>在基础转换之上进一步将整个列表转向 CS：</p>\n<ol><li>完成基础转换（游戏已无图形问题）。</li><li>移除更多 ENB 专属 MOD（不再需要但无害的，如 Sky Reflection Fix for ENB、Capture Warmer for ENB、Bright Waterfall Fix for ENB、Footprints - ENB patch、ENB Light Detection Fix、Word Wall Transparency Fix for ENB）。清单最后更新 2026/01/31。</li><li><strong>天气 MOD</strong>：不用 Effects 11 时强烈依赖天气 MOD 决定室外观感。CS 补丁示例：NAT.CS（配 NAT.ENB III）、Obsidian CS（配 Obsidian，移除 Rudy ENB Obsidian 补丁）、Azurite III HDR/CS/Enhanced。</li><li><strong>用 Light Placer 替换 ENB Light</strong>：搜索列表中的 “ENB Light” 并禁用（注意 MLO2 等未明示的依赖）。社区替代是 <strong>Light Placer + CS Light</strong>。</li><li>（WIP）未来可用 CS <strong>Post Processing</strong> 替代 Effects 11，充分利用 Linear Lighting 与 HDR Display，并支持 DoF 等 Effects 11 不支持的特性。</li></ol>",
+      "_file": "01-installation/enb-migration.md",
+      "_chars": 2884
     },
     {
       "id": "vanilla-setup",
       "title": "Vanilla 设置指南",
       "category": "01-installation",
-      "category_label": "安装",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -86,15 +77,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/vanilla-setup-guide",
       "summary": "在已稳定安装 CS 的基础上，如何搭配照明、粒子补丁与 PBR 纹理让画面最佳。",
-      "path": "01-installation/vanilla-setup.md"
+      "content": "<p>本页面向<strong>已稳定安装完整 CS 套件</strong>的玩家，讲解如何充分发挥 CS 的画质潜力。</p>\n<blockquote>提供的 FOMOD 选项仅为<strong>推荐</strong>设置。请务必阅读所下载 MOD 的说明。</blockquote>\n<h2>照明（Lighting）</h2>\n<p>照明 MOD 能让你充分利用 CS。当前最流行的两款室内方案是 <strong>True Light</strong> 与 <strong>Lux CS</strong>，外观都很好，按审美选择即可。</p>\n<blockquote>安装任何照明前，<strong>先装 Light Placer 与 CS Light</strong>。</blockquote>\n<ul><li>照明 MOD 通常在室内/室外分别放置光源，作者常拆分为两个插件（ exterior / interior），便于混搭。</li><li><strong>同一时间只使用一款室内 + 一款室外照明 MOD。</strong></li><li>任何使用 <strong>ENB Light / ENB Particle Lights</strong> 的 MOD 与 CS 不兼容——用了也不会发光，请改用 <strong>CS Light</strong> 或 <strong>Light Placer</strong> 的补丁。</li></ul>\n<h2>其它视觉</h2>\n<ul><li><strong>CS Particle Patch</strong>：修复大量原版网格光照，<strong>强烈推荐</strong>。与 ENB Particle Patch 兼容，但须让 CS 版覆盖后者。安装时注意其要求（并非全为硬需求）。</li><li><strong>DIAL（Dynamic Interior Ambient Lighting）</strong>：按昼夜调整室内亮度，强烈推荐。</li><li><strong>Remove Fake FX</strong>：去除原版光源周围的 2D 假辉光（True Light 的 FOMOD 提供 Base Object Swapper 配置）。</li></ul>\n<h2>PBR 纹理</h2>\n<ul><li>推荐 <strong>PGPatcher</strong> 设置（注意 <code>Instance Location</code> 与 <code>Output</code> 路径因环境而异；MO2 实例路径可在 MO2 文件夹图标→“Open Instance folder”找到）。</li></ul>\n<h2>预设（Presets）</h2>\n<p>目前设置预设仅适用于 CS 的<strong>实验构建</strong>，可在 Discord 获取。</p>\n<blockquote>更进阶的整体转换流程见 <a href=\"enb-migration.md\" target=\"_blank\" rel=\"noopener\">ENB 迁移指南</a> 的“完整转换”部分。</blockquote>",
+      "_file": "01-installation/vanilla-setup.md",
+      "_chars": 1205
     },
     {
       "id": "installation-guide",
       "title": "安装指南",
       "category": "01-installation",
-      "category_label": "安装",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -106,15 +96,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/installation-guide",
       "summary": "在纯净 Skyrim 上安装 Community Shaders 的完整步骤、前置条件与更新方法。",
-      "path": "01-installation/installation-guide.md"
+      "content": "<p>本指南覆盖将 Community Shaders 安装到纯净 Skyrim 的全部需求与推荐流程。</p>\n<h2>开始前</h2>\n<ol><li><strong>移除不兼容 MOD</strong>（见 <a href=\"../../03-reference/faq.md\" target=\"<em>blank\" rel=\"noopener\">FAQ-不兼容</a> 与 <a href=\"../03-reference/incompatible-mods.md\" target=\"</em>blank\" rel=\"noopener\">不兼容 MOD</a>）。</li><li><strong>确认满足所有需求</strong>（游戏版本、GPU、VC Redist 等），见 <a href=\"requirements.md\" target=\"_blank\" rel=\"noopener\">需求</a>。</li><li>将 Skyrim 配置为<strong>无边框窗口</strong>：<ul><li><code>SkyrimPrefs.ini</code>：<code>bBorderless=1</code>、<code>bFull Screen=0</code>；</li><li>若用 Display Tweaks：<code>SSEDisplayTweaks.ini</code> 设 <code>Fullscreen=false</code>、<code>Borderless=true</code>、<code>BorderlessUpscale=false</code>（或用<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/144637\" target=\"_blank\" rel=\"noopener\">预置配置</a>）。</li></ul></li><li><strong>关闭自动更新</strong>：Steam 用户找到 <code>&lt;库&gt;/steamapps/appmanifest_489830.acf</code>，右键→属性→只读→应用；GOG 直接关闭自动更新。</li></ol>\n<h2>安装步骤</h2>\n<blockquote>推荐使用 <strong>Mod Organizer 2 (MO2)</strong> 或 <strong>Vortex</strong>。仅这两款获得官方支持。</blockquote>\n<ol><li>安装所有<a href=\"requirements.md\" target=\"_blank\" rel=\"noopener\">前置 MOD</a>：<ul><li>SKSE64 <strong>手动</strong>拖入游戏根目录（含 <code>SkyrimSE.exe</code> 的目录）；</li><li>Engine Fixes 分两部分：主文件用管理器正常装，<strong>Preloader 手动</strong>将 <code>d3dx9_42.dll</code> 拖入根目录；</li><li>其余前置用管理器安装，勿手动。</li></ul></li><li>用管理器安装 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/86492\" target=\"_blank\" rel=\"noopener\">Community Shaders</a>（Nexus 页是唯一官方支持构建，仅最新版受支持）。</li><li>按需安装 <a href=\"../02-features/additional\" target=\"_blank\" rel=\"noopener\">附加特性</a>（同样仅在官方源下载、带 CS 标识者受官方支持）。</li></ol>\n<blockquote>若 CS 或其附加功能文件互相覆盖或被其它 MOD 覆盖，多半操作有误（除非 MOD 页另有说明）。只从官方源下载 CS 特性。</blockquote>\n<p>启动 <code>skse64_loader.exe</code>（MO2 用户<strong>必须</strong>经 MO2 启动以加载 MOD）。出现左上“Compiling Shaders”与 CS 欢迎横幅即成功。关闭弹窗前确认 END 为默认菜单键（点弹窗上的按键区可改键）。</p>\n<h2>安装后</h2>\n<ul><li>从 ENB 迁移者看 <a href=\"enb-migration.md\" target=\"_blank\" rel=\"noopener\">ENB 迁移指南</a>。</li><li>想进一步提升画质看 <a href=\"vanilla-setup.md\" target=\"_blank\" rel=\"noopener\">Vanilla 设置指南</a>。</li><li>使用 Lux 者：重装并<strong>取消</strong>“optimized”网格；CS Light Limit Fix 已替代它们。勿勾选支持粒子光照的选项（与 CS 不兼容）。</li></ul>\n<h2>更新</h2>\n<ul><li>若使用 <a href=\"https://www.nexusmods.com/games/skyrimspecialedition/collections/62eesj\" target=\"_blank\" rel=\"noopener\">Community Shaders Collection</a>，应整体更新合集，而非单独更新各特性。</li><li>CS 更新时，部分附加特性<strong>必须同步更新</strong>（非可选）。用 MO2/Vortex 的 Nexus 更新检查判断哪些需更新。</li><li>某特性若被并入核心（见 <a href=\"../../03-reference/faq.md\" target=\"_blank\" rel=\"noopener\">FAQ-废弃特性</a>），升级 CS 时必须从 MOD 列表移除它。</li><li>更新后应在 END 菜单确认版本号，并完成着色器编译。</li></ul>\n<h3>没出现“编译着色器”弹窗？</h3>\n<p>手动删除 Disk Cache：</p>\n<ul><li>MO2：<code>Overwrite/ShaderCache</code>（不了解 Overwrite 请看教程）；</li><li>Vortex：<code>&lt;游戏&gt;/Data/ShaderCache</code>。</li><li><strong>只删 <code>ShaderCache</code>，勿删 <code>Shaders</code></strong>；同时删 <code>UnifiedWaterCache</code>。详见 <a href=\"../00-overview/architecture.md\" target=\"_blank\" rel=\"noopener\">架构与缓存</a>。</li></ul>",
+      "_file": "01-installation/installation-guide.md",
+      "_chars": 2211
     },
     {
       "id": "requirements",
       "title": "系统与环境需求",
       "category": "01-installation",
-      "category_label": "安装",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -125,13 +114,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/installation-guide#requirements",
       "summary": "支持的游戏版本、GPU/系统要求，以及必须安装的前置 MOD 清单。",
-      "path": "01-installation/requirements.md"
+      "content": "<p>安装 Community Shaders 前，必须满足以下硬性条件。</p>\n<h2>游戏版本</h2>\n<ul><li><strong>Skyrim 1.6.1170（Steam） / 1.6.1179（GOG） / 1.5.97</strong></li><li><strong>不支持</strong> LE、VR 以及其它所有 Skyrim 版本。</li><li>团队只计划支持 Steam 最新版与 1.5.97；新版本发布后会跟进支持。</li><li>CS 主版本<strong>不再支持 VR</strong>，VR 用户请看 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/180419\" target=\"_blank\" rel=\"noopener\">Open Shaders</a>。</li></ul>\n<h2>硬件 / 系统</h2>\n<ul><li><strong>GPU</strong>：支持 <strong>Vulkan 1.4 或更新</strong>（GTX 900 Maxwell 系列、RX 5000 RDNA1 系列或更新）。<ul><li>不确定可查 <a href=\"https://www.techpowerup.com/gpu-specs\" target=\"_blank\" rel=\"noopener\">TechPowerUp</a>。</li></ul></li><li><strong>Intel 核显不支持</strong>；所有 CPU 均可。</li><li><strong>系统</strong>：Windows 10 创意者更新或更新（Linux 用户见 <a href=\"https://github.com/SulfurNitride/Fluorine-Manager\" target=\"_blank\" rel=\"noopener\">Fluorine</a>）。</li><li><strong>运行库</strong>：<a href=\"https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170\" target=\"_blank\" rel=\"noopener\">Microsoft Visual C++ Redistributable</a>（务必装 X64 最新版）。</li></ul>\n<h2>必须安装的前置 MOD</h2>\n<table><thead><tr><th style=\"text-align:left\">MOD</th><th style=\"text-align:left\">说明</th></tr></thead><tbody><tr><td style=\"text-align:left\"><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/30379\" target=\"_blank\" rel=\"noopener\">SKSE64</a></td><td style=\"text-align:left\">脚本扩展，<strong>需手动</strong>放入游戏根目录</td></tr><tr><td style=\"text-align:left\"><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/32444\" target=\"_blank\" rel=\"noopener\">Address Library</a></td><td style=\"text-align:left\">SKSE 插件地址库</td></tr><tr><td style=\"text-align:left\"><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/17230\" target=\"_blank\" rel=\"noopener\">Engine Fixes</a></td><td style=\"text-align:left\">引擎修复（含 Preloader，需手动放 <code>d3dx9_42.dll</code> 到根目录）</td></tr><tr><td style=\"text-align:left\"><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/59818\" target=\"_blank\" rel=\"noopener\">Crash Logger</a></td><td style=\"text-align:left\">非强制但<strong>强烈推荐</strong>，便于排错</td></tr></tbody></table>\n<h2>不兼容 MOD（节选）</h2>\n<ul><li>ENBSeries（见 <a href=\"https://mod.pub/skyrim-se/415-effects-11\" target=\"_blank\" rel=\"noopener\">Effects 11</a> 以支持未加密预设）</li><li>任何阻止 CS 初始化的 MOD（如 NVIDIA Reflex、TAA Sharpen 等）</li></ul>\n<blockquote>完整不兼容清单见 <a href=\"../03-reference/incompatible-mods.md\" target=\"<em>blank\" rel=\"noopener\">参考-不兼容 MOD</a> 与 <a href=\"../03-reference/faq.md\" target=\"</em>blank\" rel=\"noopener\">FAQ</a>。</blockquote>",
+      "_file": "01-installation/requirements.md",
+      "_chars": 1688
     },
     {
       "id": "advanced-skin",
       "title": "Advanced Skin 进阶皮肤",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "TBA",
       "version": "1.0.0",
@@ -142,13 +132,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "以多种技术增强角色皮肤渲染。[TBA]",
-      "path": "02-features/additional/advanced-skin.md"
+      "content": "<blockquote>分类：附加特性 · 状态：开发中 (TBA)</blockquote>\n<p>以多种技术增强角色皮肤渲染。[TBA]</p>\n<h2>说明</h2>\n<p>开发中（TBA）。计划用多种技术提升角色皮肤渲染质量。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：开发中 (TBA)</li><li>标签：皮肤, 角色</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/advanced-skin.md",
+      "_chars": 554
     },
     {
       "id": "cs-editor",
       "title": "CS Editor 编辑器",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -159,13 +150,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "实时天气与 imagespace 编辑器，服务所有 MOD 制作需求。",
-      "path": "02-features/core/cs-editor.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>实时天气与 imagespace 编辑器，服务所有 MOD 制作需求。</p>\n<h2>说明</h2>\n<p>为 MOD 作者提供的实时编辑工具，可调整天气与 imagespace 参数。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：开发工具, 天气</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/cs-editor.md",
+      "_chars": 575
     },
     {
       "id": "cloud-shadows",
       "title": "Cloud Shadows 云影",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -177,13 +169,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/cloud-shadows",
       "summary": "动态云层阴影投射到广阔地形上。",
-      "path": "02-features/core/cloud-shadows.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>动态云层阴影投射到广阔地形上。</p>\n<h2>说明</h2>\n<p>让云层在地面投射实时移动的阴影，增强户外场景的真实感与时间感。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：阴影, 户外, 天气</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/cloud-shadows</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/cloud-shadows.md",
+      "_chars": 569
     },
     {
       "id": "dynamic-cubemaps",
       "title": "Dynamic Cubemaps 动态立方体贴图",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -194,13 +187,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/dynamic-cubemaps",
       "summary": "实时反射映射，增强环境反射效果（1.0+ 已并入核心）。",
-      "path": "02-features/core/dynamic-cubemaps.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>实时反射映射，增强环境反射效果（1.0+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.0 版本起并入核心，无需单独安装。提供实时环境反射。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：反射, 环境</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/dynamic-cubemaps</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/dynamic-cubemaps.md",
+      "_chars": 609
     },
     {
       "id": "effects-11",
       "title": "Effects 11 后处理",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -212,13 +206,14 @@
       ],
       "source": "https://mod.pub/skyrim-se/415-effects-11",
       "summary": "通过 FX11 框架支持未加密 ENB 预设。",
-      "path": "02-features/additional/effects-11.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>通过 FX11 框架支持未加密 ENB 预设。</p>\n<h2>说明</h2>\n<p>支持加载未加密的 ENB 预设（FX11 框架）。详见 ENB 迁移指南。注意：不支持 DoF、天空散射、Prepass；加密预设须先解密。可于 mod.pub 获取。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：ENB, 后处理, 预设</li><li>官方来源：https://mod.pub/skyrim-se/415-effects-11</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/effects-11.md",
+      "_chars": 547
     },
     {
       "id": "exponential-height-fog",
       "title": "Exponential Height Fog 指数高度雾",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -229,13 +224,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/180146",
       "summary": "随高度增加密度、更真实的雾效。",
-      "path": "02-features/additional/exponential-height-fog.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>随高度增加密度、更真实的雾效。</p>\n<h2>说明</h2>\n<p>添加随高度指数增长的真实雾效，改善远景雾化表现。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：雾, 天气</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/180146</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/exponential-height-fog.md",
+      "_chars": 533
     },
     {
       "id": "extended-materials",
       "title": "Extended Materials 扩展材质",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -246,13 +242,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/extended-materials",
       "summary": "地形与物体视差（parallax）及其它高级效果，需支持纹理与网格修补。",
-      "path": "02-features/core/extended-materials.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>地形与物体视差（parallax）及其它高级效果，需支持纹理与网格修补。</p>\n<h2>说明</h2>\n<p>开启地形/物体视差等高级材质效果。需要配套的支持 PBR/视差的纹理与网格（PGPatcher 修补）。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：材质, 视差</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/extended-materials</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/extended-materials.md",
+      "_chars": 653
     },
     {
       "id": "extended-translucency",
       "title": "Extended Translucency 扩展半透明",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -263,13 +260,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/extended-translucency",
       "summary": "增强的半透明材质渲染（1.4.7+ 已并入核心）。",
-      "path": "02-features/core/extended-translucency.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>增强的半透明材质渲染（1.4.7+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.4.7 起并入核心。改善玻璃、液体等半透明物体的渲染。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：半透明, 材质</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/extended-translucency</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/extended-translucency.md",
+      "_chars": 627
     },
     {
       "id": "grass-collision",
       "title": "Grass Collision 草体碰撞",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -280,13 +278,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-collision",
       "summary": "真实草体交互与碰撞检测（1.5+ 已并入核心）。",
-      "path": "02-features/core/grass-collision.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>真实草体交互与碰撞检测（1.5+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.5 起并入核心。让角色与草体产生真实的物理交互。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：草地, 物理</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-collision</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/grass-collision.md",
+      "_chars": 588
     },
     {
       "id": "grass-lighting",
       "title": "Grass Lighting 草体光照",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -297,13 +296,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-lighting",
       "summary": "改进植被光照计算，部分功能需支持的草 MOD（1.5+ 已并入核心）。",
-      "path": "02-features/core/grass-lighting.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>改进植被光照计算，部分功能需支持的草 MOD（1.5+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.5 起并入核心。提升草与植被的光照表现，某些特性需配套草 MOD 支持。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：草地, 光照</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-lighting</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/grass-lighting.md",
+      "_chars": 617
     },
     {
       "id": "grass-optimizations",
       "title": "Grass Optimizations 草优化",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -314,13 +314,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/188628",
       "summary": "围绕 GPU 驱动剔除与实例化重写草渲染。",
-      "path": "02-features/additional/grass-optimizations.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>围绕 GPU 驱动剔除与实例化重写草渲染。</p>\n<h2>说明</h2>\n<p>以 GPU 驱动的剔除与实例化重写草地渲染，显著提升草地性能。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：草地, 性能</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/188628</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/grass-optimizations.md",
+      "_chars": 541
     },
     {
       "id": "hdr-display",
       "title": "HDR Display HDR 显示",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -331,13 +332,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/179371",
       "summary": "对支持的显示器输出原生 HDR。",
-      "path": "02-features/additional/hdr-display.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>对支持的显示器输出原生 HDR。</p>\n<h2>说明</h2>\n<p>为支持的显示设备提供原生 HDR 输出。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：HDR, 显示</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/179371</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/hdr-display.md",
+      "_chars": 504
     },
     {
       "id": "hair-specular",
       "title": "Hair Specular 毛发高光",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -348,13 +350,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/149011",
       "summary": "带真实高光的增强毛发渲染。",
-      "path": "02-features/additional/hair-specular.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>带真实高光的增强毛发渲染。</p>\n<h2>说明</h2>\n<p>为角色毛发提供增强的真实高光。可与 True PBR 的 Marschner 毛发模型互补（后者偏实验性）。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：毛发, 高光</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/149011</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/hair-specular.md",
+      "_chars": 532
     },
     {
       "id": "horizon-fix",
       "title": "Horizon Fix 地平线修复",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -365,13 +368,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/184607",
       "summary": "改善地平线外观。",
-      "path": "02-features/additional/horizon-fix.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>改善地平线外观。</p>\n<h2>说明</h2>\n<p>修正/改善游戏地平线的视觉表现。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：地平线, 天空</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/184607</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/horizon-fix.md",
+      "_chars": 482
     },
     {
       "id": "image-based-lighting",
       "title": "Image Based Lighting 基于图像光照",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -382,13 +386,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "用立方体贴图球谐推导的物理化 IBL 替换游戏环境光。",
-      "path": "02-features/core/image-based-lighting.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>用立方体贴图球谐推导的物理化 IBL 替换游戏环境光。</p>\n<h2>说明</h2>\n<p>以 cubemap 球谐（spherical harmonics）推导的基于图像光照替换原版环境光，提升整体光照一致性与真实感。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：光照, IBL</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/image-based-lighting.md",
+      "_chars": 621
     },
     {
       "id": "interior-sun",
       "title": "Interior Sun 室内阳光",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -400,13 +405,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "室内随昼夜变化的进阶阴影投射，需支持的照明 MOD。",
-      "path": "02-features/core/interior-sun.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>室内随昼夜变化的进阶阴影投射，需支持的照明 MOD。</p>\n<h2>说明</h2>\n<p>为室内空间带来随时间变化的阴影投射，需要配套支持的照明 MOD。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：室内, 阴影, 光照</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/interior-sun.md",
+      "_chars": 565
     },
     {
       "id": "inverse-square-lighting",
       "title": "Inverse Square Lighting 平方反比光照",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -417,13 +423,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/inverse-square-lighting",
       "summary": "物理精确的光照衰减计算，需支持的照明 MOD（1.4.7+ 已并入核心）。",
-      "path": "02-features/core/inverse-square-lighting.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>物理精确的光照衰减计算，需支持的照明 MOD（1.4.7+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.4.7 起并入核心。按平方反比规律计算点光衰减，更符合物理真实，需配套照明 MOD。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：光照, 物理</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/inverse-square-lighting</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/inverse-square-lighting.md",
+      "_chars": 676
     },
     {
       "id": "lod-blending",
       "title": "LOD Blending LOD 混合",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -434,13 +441,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "对 LOD 物体与地形的光照特性做精细控制。",
-      "path": "02-features/core/lod-blending.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>对 LOD 物体与地形的光照特性做精细控制。</p>\n<h2>说明</h2>\n<p>提供 LOD 物体与地形光照特性的微调控制，缓解近景与远景光照差异。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：LOD, 光照</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/lod-blending.md",
+      "_chars": 557
     },
     {
       "id": "light-limit-fix",
       "title": "Light Limit Fix 光源上限修复",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -452,13 +460,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/light-limit-fix",
       "summary": "移除引擎对动态光源数量的限制，视野内可超过 4 个光源（1.4+ 已并入核心）。",
-      "path": "02-features/core/light-limit-fix.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>移除引擎对动态光源数量的限制，视野内可超过 4 个光源（1.4+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.4 起并入核心。解除原版引擎动态光源数量限制（阴影投射上限不变）。安装 Lux 时请勿勾选其“optimized”网格，CS LLF 已替代它们。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：光照, 性能, 引擎修复</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/light-limit-fix</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/light-limit-fix.md",
+      "_chars": 685
     },
     {
       "id": "linear-lighting",
       "title": "Linear Lighting 线性光照",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "TBA",
       "version": "1.0.0",
@@ -469,13 +478,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "内部色彩空间转换以提升光照计算精度。[TBA]",
-      "path": "02-features/additional/linear-lighting.md"
+      "content": "<blockquote>分类：附加特性 · 状态：开发中 (TBA)</blockquote>\n<p>内部色彩空间转换以提升光照计算精度。[TBA]</p>\n<h2>说明</h2>\n<p>开发中（TBA）。在内部做色彩空间转换，提高光照计算精度。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：开发中 (TBA)</li><li>标签：光照, 色彩空间</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/linear-lighting.md",
+      "_chars": 574
     },
     {
       "id": "nrd",
       "title": "NRD 实时降噪",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -486,13 +496,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "集成 NVIDIA 实时降噪器，供 SSGI、SSR 等使用。",
-      "path": "02-features/core/nrd.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>集成 NVIDIA 实时降噪器，供 SSGI、SSR 等使用。</p>\n<h2>说明</h2>\n<p>NVIDIA Real-Time Denoisers 集成，为屏幕空间全局光照（SSGI）、屏幕空间反射（SSR）等提供降噪。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：降噪, 屏幕空间</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/nrd.md",
+      "_chars": 575
     },
     {
       "id": "order-independent-transparency",
       "title": "Order Independent Transparency 顺序无关透明",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -503,13 +514,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/187431",
       "summary": "正确混合重叠的透明表面。",
-      "path": "02-features/additional/order-independent-transparency.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>正确混合重叠的透明表面。</p>\n<h2>说明</h2>\n<p>以顺序无关透明（OIT）技术正确混合多层重叠的透明表面。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：透明, 渲染</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/187431</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/order-independent-transparency.md",
+      "_chars": 559
     },
     {
       "id": "performance-overlay",
       "title": "Performance Overlay 性能浮层",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -520,13 +532,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/performance-overlay",
       "summary": "实时监测帧率、绘制调用与性能指标。",
-      "path": "02-features/core/performance-overlay.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>实时监测帧率、绘制调用与性能指标。</p>\n<h2>说明</h2>\n<p>在游戏内实时显示 FPS、draw calls 及各项性能开销，便于定位瓶颈（见 FAQ 性能章节）。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：性能, 监测</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/performance-overlay</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/performance-overlay.md",
+      "_chars": 619
     },
     {
       "id": "post-processing",
       "title": "Post Processing 后处理",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "TBA",
       "version": "1.0.0",
@@ -537,13 +550,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "进阶图像特效，Effects 11 的继任者。[TBA]",
-      "path": "02-features/additional/post-processing.md"
+      "content": "<blockquote>分类：附加特性 · 状态：开发中 (TBA)</blockquote>\n<p>进阶图像特效，Effects 11 的继任者。[TBA]</p>\n<h2>说明</h2>\n<p>开发中（TBA）。进阶图像特效与增强，是 Effects 11 的继任者，将支持 DoF 等 Effects 11 不支持的特性，并充分利用 Linear Lighting 与 HDR Display。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：开发中 (TBA)</li><li>标签：后处理, ENB替代</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/post-processing.md",
+      "_chars": 658
     },
     {
       "id": "remote-control",
       "title": "Remote Control 远程控制",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -553,13 +567,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "向外部 devbench 暴露开发者工具，支持 AI 辅助开发。",
-      "path": "02-features/core/remote-control.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>向外部 devbench 暴露开发者工具，支持 AI 辅助开发。</p>\n<h2>说明</h2>\n<p>将 CS 开发者工具暴露给外部 devbench，便于 AI 辅助开发调试。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：开发工具</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/remote-control.md",
+      "_chars": 577
     },
     {
       "id": "renderdoc",
       "title": "RenderDoc 捕获",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -570,13 +585,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/faq#renderdoc",
       "summary": "内置 RenderDoc 截图捕获，便于开发调试（1.4.6+）。",
-      "path": "02-features/core/renderdoc.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>内置 RenderDoc 截图捕获，便于开发调试（1.4.6+）。</p>\n<h2>说明</h2>\n<p>1.4.6 起内置。报 bug 时开发者可能要求提供 RenderDoc 捕获，详见 FAQ 的 RenderDoc 章节。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：开发工具, 调试</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/faq#renderdoc</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/renderdoc.md",
+      "_chars": 592
     },
     {
       "id": "ssgi",
       "title": "SSGI 屏幕空间全局光照",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -588,13 +604,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/130375",
       "summary": "实时间接光照模拟（间接光反弹），开销较高。",
-      "path": "02-features/additional/ssgi.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>实时间接光照模拟（间接光反弹），开销较高。</p>\n<h2>说明</h2>\n<p>实时屏幕空间全局光照，模拟光线遮挡与反弹带来的间接照明，质量显著高于 ENB SSAO/IL，但性能开销大（可在 Low 档或关闭）。依赖 NRD 降噪。替代 ENB 的 SSAO/IL。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：全局光照, 屏幕空间, 性能</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/130375</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/ssgi.md",
+      "_chars": 585
     },
     {
       "id": "scene-manager",
       "title": "Scene Manager 场景管理器",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -605,13 +622,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "按室内/室外、昼夜、天气、地点套用选定 CS 设置。",
-      "path": "02-features/core/scene-manager.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>按室内/室外、昼夜、天气、地点套用选定 CS 设置。</p>\n<h2>说明</h2>\n<p>可根据不同场景（室内外、时间、天气、位置）自动套用不同的 CS 设置组合。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：配置, 场景</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/scene-manager.md",
+      "_chars": 567
     },
     {
       "id": "screen-space-reflections",
       "title": "Screen Space Reflections 屏幕空间反射",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "TBA",
       "version": "1.0.0",
@@ -622,13 +640,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "层级化屏幕空间镜面反射。[TBA]",
-      "path": "02-features/additional/screen-space-reflections.md"
+      "content": "<blockquote>分类：附加特性 · 状态：开发中 (TBA)</blockquote>\n<p>层级化屏幕空间镜面反射。[TBA]</p>\n<h2>说明</h2>\n<p>开发中（TBA）。层级化（hierarchical）屏幕空间镜面反射。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：开发中 (TBA)</li><li>标签：反射, 屏幕空间</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/screen-space-reflections.md",
+      "_chars": 599
     },
     {
       "id": "screen-space-shadows",
       "title": "Screen Space Shadows 屏幕空间阴影",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -639,13 +658,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/screen-space-shadows",
       "summary": "屏幕空间增强阴影渲染（1.5+ 已并入核心）。",
-      "path": "02-features/core/screen-space-shadows.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>屏幕空间增强阴影渲染（1.5+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.5 起并入核心。在屏幕空间增强阴影质量，替代 ENB 的 Shadow/Detailed Shadow。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：阴影, 屏幕空间</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/screen-space-shadows</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/screen-space-shadows.md",
+      "_chars": 647
     },
     {
       "id": "screenshot",
       "title": "Screenshot 截图",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -656,13 +676,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "不卡顿地捕获带 HDR 能力的截图。",
-      "path": "02-features/core/screenshot.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>不卡顿地捕获带 HDR 能力的截图。</p>\n<h2>说明</h2>\n<p>支持 HDR 截图捕获，且不会造成游戏停顿。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：截图, HDR</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/screenshot.md",
+      "_chars": 523
     },
     {
       "id": "sky-sync",
       "title": "Sky Sync 天空同步",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -673,13 +694,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/sky-sync",
       "summary": "真实日月沿天空运动（1.7+ 已并入核心）。",
-      "path": "02-features/core/sky-sync.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>真实日月沿天空运动（1.7+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.7 起并入核心，替代 EVLaS/AELaS。提供真实日月运动轨迹。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：天空, 天体</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/sky-sync</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/sky-sync.md",
+      "_chars": 559
     },
     {
       "id": "skylighting",
       "title": "Skylighting 天光遮蔽",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -690,13 +712,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/139352",
       "summary": "模拟大规模世界空间环境光遮蔽（AO）。",
-      "path": "02-features/additional/skylighting.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>模拟大规模世界空间环境光遮蔽（AO）。</p>\n<h2>说明</h2>\n<p>模拟大尺度的世界空间环境光遮蔽，提升遮蔽区域（屋檐下、树荫、建筑内）的真实感，质量高于 ENB 版本。替代 ENB 的 Skylighting。低端机可考虑移除。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：环境光遮蔽, 户外</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/139352</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/skylighting.md",
+      "_chars": 571
     },
     {
       "id": "snow-deformation",
       "title": "Snow Deformation 积雪形变",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "TBA",
       "version": "1.0.0",
@@ -707,13 +730,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "角色踩过积雪可被压陷并留下持久痕迹。[TBA]",
-      "path": "02-features/additional/snow-deformation.md"
+      "content": "<blockquote>分类：附加特性 · 状态：开发中 (TBA)</blockquote>\n<p>角色踩过积雪可被压陷并留下持久痕迹。[TBA]</p>\n<h2>说明</h2>\n<p>开发中（TBA）。积雪可被角色/生物踩压变形并留下持久轨迹。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：开发中 (TBA)</li><li>标签：雪, 物理</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/snow-deformation.md",
+      "_chars": 572
     },
     {
       "id": "subsurface-scattering",
       "title": "Subsurface Scattering 次表面散射",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -725,13 +749,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/subsurface-scattering",
       "summary": "真实光线穿透半透明材质（如皮肤）（1.5+ 已并入核心）。",
-      "path": "02-features/core/subsurface-scattering.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>真实光线穿透半透明材质（如皮肤）（1.5+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.5 起并入核心。模拟光线在半透明材质内部的散射，常用于皮肤、树叶、蜡烛等。与双层材质不兼容，但与 glint/fuzz/视差/自发光兼容。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：皮肤, 散射, 材质</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/subsurface-scattering</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/subsurface-scattering.md",
+      "_chars": 683
     },
     {
       "id": "terrain-blending",
       "title": "Terrain Blending 地形混合",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -742,13 +767,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/157076",
       "summary": "将地形混合进地形网格，消除接缝。",
-      "path": "02-features/additional/terrain-blending.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>将地形混合进地形网格，消除接缝。</p>\n<h2>说明</h2>\n<p>把地形混合到地形网格中，减少地形衔接处的硬边/接缝。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：地形, 混合</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/157076</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/terrain-blending.md",
+      "_chars": 519
     },
     {
       "id": "terrain-helper",
       "title": "Terrain Helper 地形辅助",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -759,13 +785,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/143149",
       "summary": "为非 PBR 地形 MOD 增加额外纹理层以优化贴图。",
-      "path": "02-features/additional/terrain-helper.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>为非 PBR 地形 MOD 增加额外纹理层以优化贴图。</p>\n<h2>说明</h2>\n<p>为非 PBR 的景观 MOD 提供额外的纹理层，从而生成更优化的地图。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：地形, 纹理</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/143149</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/terrain-helper.md",
+      "_chars": 544
     },
     {
       "id": "terrain-shadows",
       "title": "Terrain Shadows 地形阴影",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -776,13 +803,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/terrain-shadows",
       "summary": "无限距离粗糙地形阴影，游戏内与世界地图均生效（1.4.7+ 已并入核心）。",
-      "path": "02-features/core/terrain-shadows.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>无限距离粗糙地形阴影，游戏内与世界地图均生效（1.4.7+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.4.7 起并入核心。提供无限距离的粗糙地形阴影，在游戏内与世界地图上都有效。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：地形, 阴影</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/terrain-shadows</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/terrain-shadows.md",
+      "_chars": 628
     },
     {
       "id": "terrain-variation",
       "title": "Terrain Variation 地形变化",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -793,13 +821,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/148123",
       "summary": "在不损失质量的前提下打破原版地形平铺问题。",
-      "path": "02-features/additional/terrain-variation.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>在不损失质量的前提下打破原版地形平铺问题。</p>\n<h2>说明</h2>\n<p>打破原版地形的重复平铺感，且不带来画质下降。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：地形, 平铺</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/148123</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/terrain-variation.md",
+      "_chars": 528
     },
     {
       "id": "true-pbr",
       "title": "True PBR 物理渲染",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -811,13 +840,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/true-pbr-home",
       "summary": "支持物理基础渲染，需支持的纹理与网格修补。",
-      "path": "02-features/core/true-pbr.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>支持物理基础渲染，需支持的纹理与网格修补。</p>\n<h2>说明</h2>\n<p>CS 的 PBR 渲染支持，带来更真实光照并可组合视差、SSS、自发光、双层材质等效果。需要 PBR 纹理与网格（PGPatcher）修补。详见 04-development/pbr-for-artists.md。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：PBR, 材质, 纹理</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/true-pbr-home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/true-pbr.md",
+      "_chars": 620
     },
     {
       "id": "unified-water",
       "title": "Unified Water 统一水体",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -828,13 +858,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "将真实水体瓦片延伸到 LOD，消除水 LOD 接缝并改善着色。",
-      "path": "02-features/core/unified-water.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>将真实水体瓦片延伸到 LOD，消除水 LOD 接缝并改善着色。</p>\n<h2>说明</h2>\n<p>把真实水体瓦片扩展到 LOD 范围，消除远处水体的 LOD 接缝并改善 LOD 中的水着色。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：水, LOD</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/unified-water.md",
+      "_chars": 584
     },
     {
       "id": "upscaling",
       "title": "Upscaling 超分与帧生成",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -848,13 +879,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/156952",
       "summary": "DLSS 4.5/FSR 3.1 超分与 FSR 3.1 帧生成。",
-      "path": "02-features/additional/upscaling.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>DLSS 4.5/FSR 3.1 超分与 FSR 3.1 帧生成。</p>\n<h2>说明</h2>\n<p>集成超分技术（DLSS 4.5 / FSR 3.1）与 FSR 3.1 帧生成，提升帧率。与 Skyrim Upscaler 冲突，与 Display Tweaks 的 Borderless upscale 不兼容，需无边框窗口。替代 ENB 的抗锯齿/帧生成。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：超分, 帧生成, DLSS, FSR, 性能</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/156952</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/upscaling.md",
+      "_chars": 673
     },
     {
       "id": "vanilla-fresnel",
       "title": "Vanilla Fresnel 原版菲涅尔",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -865,13 +897,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "为非 PBR 材质添加真实环境反射。",
-      "path": "02-features/core/vanilla-fresnel.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>为非 PBR 材质添加真实环境反射。</p>\n<h2>说明</h2>\n<p>为未启用 PBR 的原版材质补充基于菲涅尔的环境反射，提升反射真实感。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：反射, 材质</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/vanilla-fresnel.md",
+      "_chars": 555
     },
     {
       "id": "volumetric-lighting",
       "title": "Volumetric Lighting 体积光照",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -882,13 +915,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "动态体积光照效果。",
-      "path": "02-features/core/volumetric-lighting.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>动态体积光照效果。</p>\n<h2>说明</h2>\n<p>提供动态体积光（如光束、雾中光照）效果。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：体积光, 光照</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/volumetric-lighting.md",
+      "_chars": 534
     },
     {
       "id": "volumetric-shadows",
       "title": "Volumetric Shadows 体积阴影",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -899,13 +933,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home",
       "summary": "降采样 VSM 阴影贴图，供粒子、贴花等使用。",
-      "path": "02-features/core/volumetric-shadows.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>降采样 VSM 阴影贴图，供粒子、贴花等使用。</p>\n<h2>说明</h2>\n<p>使用降采样的方差阴影贴图（VSM），为粒子、贴花等效果提供阴影。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：阴影, 粒子</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/volumetric-shadows.md",
+      "_chars": 569
     },
     {
       "id": "water-effects",
       "title": "Water Effects 水特效",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "core",
       "status": "released",
       "version": "1.0.0",
@@ -917,13 +952,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/water-effects",
       "summary": "水的视差与焦散，视差需支持的水 MOD（1.4.7+ 已并入核心）。",
-      "path": "02-features/core/water-effects.md"
+      "content": "<blockquote>分类：核心特性 · 状态：已发布</blockquote>\n<p>水的视差与焦散，视差需支持的水 MOD（1.4.7+ 已并入核心）。</p>\n<h2>说明</h2>\n<p>1.4.7 起并入核心。提供水的视差与焦散效果；视差需要支持的 Water MOD。替代 ENB 的 Reflection/Water/Underwater。</p>\n<h2>维护信息</h2>\n<ul><li>类型：核心特性</li><li>状态：已发布</li><li>标签：水, 焦散, 视差</li><li>官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/water-effects</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/core/water-effects.md",
+      "_chars": 655
     },
     {
       "id": "wetness-effects",
       "title": "Wetness Effects 湿润特效",
       "category": "02-features",
-      "category_label": "功能",
       "kind": "additional",
       "status": "released",
       "version": "1.0.0",
@@ -935,15 +971,14 @@
       ],
       "source": "https://www.nexusmods.com/skyrimspecialedition/mods/112739",
       "summary": "动态表面湿润与降雨交互、自定义雨涟漪。",
-      "path": "02-features/additional/wetness-effects.md"
+      "content": "<blockquote>分类：附加特性 · 状态：已发布</blockquote>\n<p>动态表面湿润与降雨交互、自定义雨涟漪。</p>\n<h2>说明</h2>\n<p>提供动态表面湿润、降雨交互与自定义雨滴涟漪。注意：需在 Skyrim.ini [Display] 关闭 bEnableAutoDynamicResolution=0；N 卡控制面板将 Antialiasing-Transparency 设为关，否则会出现边缘/错误。</p>\n<h2>维护信息</h2>\n<ul><li>类型：附加特性</li><li>状态：已发布</li><li>标签：湿润, 雨, 天气</li><li>官方来源：https://www.nexusmods.com/skyrimspecialedition/mods/112739</li></ul>\n<hr>\n<p><em>本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。</em></p>",
+      "_file": "02-features/additional/wetness-effects.md",
+      "_chars": 635
     },
     {
       "id": "incompatible-mods",
       "title": "不兼容 MOD 清单",
       "category": "03-reference",
-      "category_label": "参考",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -954,15 +989,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/faq#what-mods-are-not-compatible-with-cs",
       "summary": "与 CS 冲突或需调整的 MOD 汇总，分为完全不兼容与需微调两类。",
-      "path": "03-reference/incompatible-mods.md"
+      "content": "<blockquote>⚠️ <strong>切勿绕过 CS 的兼容保护</strong>——否则失去官方支持且极易 CTD。</blockquote>\n<h2>完全不兼容（会导致无法初始化或崩溃）</h2>\n<ul><li><strong>ENBSeries</strong>：经 <a href=\"https://mod.pub/skyrim-se/415-effects-11\" target=\"<em>blank\" rel=\"noopener\">Effects 11</a> 支持未加密预设；详见 <a href=\"../01-installation/enb-migration.md\" target=\"</em>blank\" rel=\"noopener\">ENB 迁移指南</a>。</li><li><strong>Particle lights / ENB lights</strong>：1.4–1.7 不支持，1.8 有限支持；建议改用 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/127557\" target=\"_blank\" rel=\"noopener\">Light Placer</a>。</li><li><strong>Skyrim Upscaler</strong>：与 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/156952\" target=\"_blank\" rel=\"noopener\">Upscaling - CS</a> 冲突。</li><li><strong>EVLaS / AELaS</strong>：与 <a href=\"../02-features/additional/sky-sync.md\" target=\"_blank\" rel=\"noopener\">Sky Sync - CS</a> 冲突。</li><li><strong>ReShade Helper</strong></li><li><strong>NVIDIA Reflex Support</strong></li><li><strong>TAA Sharpen</strong></li><li><strong>SSE Parallax Shader Fix</strong>：CS 已取代；删除 <code>d3dcompiler_47.dll</code>（Linux 除外）。</li><li><strong>Native Mesh Light Flicker Fix</strong></li><li><strong>Dynamic Wetness</strong>：与 PBR 冲突导致发白。</li></ul>\n<h2>需调整 / 轻微不兼容</h2>\n<ul><li><strong>Lux</strong>：重装时<strong>不勾选</strong> “optimized/particle” 网格；可选 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/153919\" target=\"_blank\" rel=\"noopener\">Lux CS patch</a>。</li><li><strong>Skyrim Souls</strong>：菜单透明，禁用帧生成。</li><li><strong>Skyrim Together Reborn</strong>：与 Upscaling 同用易崩，玩 STR 时移除此功能。</li><li><strong>Alternative Conversation Camera</strong>：黑边不兼容，禁用此功能。</li><li><strong>Display Tweaks</strong>：Borderless upscale 不兼容，用 CS Upscaling；需无边框窗口。</li><li><strong>Improved Camera</strong>：月球变暗，测试版已修复。</li><li><strong>ReShade</strong>：深度缓冲特效与帧生成不兼容；1.4 起不支持 UI 屏蔽 ReShade。</li><li><strong>Auto Parallax</strong>：与 True PBR（experimental）不兼容，用 PGPatcher。</li><li><strong>PrivateProfileRedirector</strong>：使用 ≥0.6.x。</li><li><strong>Simplicity of Snow / Ash</strong>：PBR 下多 pass 错误，改用单 pass（如 BDS3）。</li><li><strong>Skyrim Platform</strong>：多问题。</li><li><strong>MARA</strong>：致崩且误指 CS。</li></ul>\n<h2>不再需要（不致崩，功能已集成）</h2>\n<ul><li><strong>Capture Warmer</strong>、<strong>Sky Reflection Fix</strong>：已集成入 CS。</li><li><strong>Rim Lighting Removed</strong>：CS 自有调整。</li><li><strong>Splashes of Storms</strong>：CS 湿润特效覆盖（主观可选；Splashes of Skyrim 不同）。</li></ul>\n<h2>版本演进：被并入核心的特性</h2>\n<p>CS 升级后，以下特性被并入核心或他处，<strong>达到对应版本须移除</strong>：</p>\n<table><thead><tr><th style=\"text-align:left\">特性</th><th style=\"text-align:left\">并入核心版本</th></tr></thead><tbody><tr><td style=\"text-align:left\">Dynamic Cubemaps</td><td style=\"text-align:left\">1.0+</td></tr><tr><td style=\"text-align:left\">Complex Parallax Materials</td><td style=\"text-align:left\">1.0+</td></tr><tr><td style=\"text-align:left\">Water Parallax</td><td style=\"text-align:left\">1.0+</td></tr><tr><td style=\"text-align:left\">Tree LOD Lighting</td><td style=\"text-align:left\">1.0+</td></tr><tr><td style=\"text-align:left\">Light Limit Fix</td><td style=\"text-align:left\">1.4+</td></tr><tr><td style=\"text-align:left\">Frame Generation</td><td style=\"text-align:left\">1.4+</td></tr><tr><td style=\"text-align:left\">Extended Translucency</td><td style=\"text-align:left\">1.4.7+</td></tr><tr><td style=\"text-align:left\">Inverse Square Lighting</td><td style=\"text-align:left\">1.4.7+</td></tr><tr><td style=\"text-align:left\">Terrain Shadows</td><td style=\"text-align:left\">1.4.7+</td></tr><tr><td style=\"text-align:left\">Water Effects</td><td style=\"text-align:left\">1.4.7+</td></tr><tr><td style=\"text-align:left\">Grass Collision</td><td style=\"text-align:left\">1.5+</td></tr><tr><td style=\"text-align:left\">Grass Lighting</td><td style=\"text-align:left\">1.5+</td></tr><tr><td style=\"text-align:left\">Screen-Space Shadows</td><td style=\"text-align:left\">1.5+</td></tr><tr><td style=\"text-align:left\">Subsurface Scattering</td><td style=\"text-align:left\">1.5+</td></tr><tr><td style=\"text-align:left\">Sky Sync</td><td style=\"text-align:left\">1.7+</td></tr><tr><td style=\"text-align:left\">Cloud Shadows</td><td style=\"text-align:left\">1.8+</td></tr></tbody></table>\n<p>低于指定版本则仍兼容。</p>",
+      "_file": "03-reference/incompatible-mods.md",
+      "_chars": 2429
     },
     {
       "id": "faq",
       "title": "常见问题解答 (FAQ)",
       "category": "03-reference",
-      "category_label": "参考",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -975,15 +1009,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/faq",
       "summary": "覆盖已知问题、安装、兼容性、配置、开发、错误、性能与通用排查的全部 Q&A。",
-      "path": "03-reference/faq.md"
+      "content": "<blockquote>内容整理自官方 FAQ（CS 1.8.4 已知问题基线）。新增/修订请同步官方并在 CHANGELOG 记录。</blockquote>\n<h2>已知问题（CS 1.8.4）</h2>\n<ul><li><strong>Effects 11</strong> 当前在 Nexus Mods 不可用，可在 <a href=\"https://mod.pub/skyrim-se/415-effects-11\" target=\"_blank\" rel=\"noopener\">mod.pub</a> 获取。</li><li><strong>Skyrim SE 1.7.99 / 1.7.104.0</strong> 与 CS 1.8.4 不兼容，将在 1.9.0 支持（测试构建可用）。</li></ul>\n<h2>安装</h2>\n<p><strong>Q：最新 CS 在哪？</strong> A：始终在 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/86492\" target=\"_blank\" rel=\"noopener\">Nexus Mods</a>。仅官方构建受支持；第三方构建/分支不受支持。开发构建仅在 Discord 相关线程受支持。Discord 上的 Jiaye/后处理构建非官方、未经审核、非为性能设计。</p>\n<p><strong>Q：为何某些 MOD 标记为 CS Official？</strong> A：CS 开源（GPL-3.0），任何人可发布自己的版本；仅“CS Official”由官方团队发布、符合质量标准并获官方测试/支持。</p>\n<p><strong>Q：如何安装 CS？</strong> A：见 <a href=\"../01-installation/installation-guide.md\" target=\"<em>blank\" rel=\"noopener\">安装指南</a>；从 ENB 迁移见 <a href=\"../01-installation/enb-migration.md\" target=\"</em>blank\" rel=\"noopener\">ENB 迁移指南</a>。</p>\n<p><strong>Q：如何让游戏更好看？</strong> A：遵循 <a href=\"../01-installation/vanilla-setup.md\" target=\"_blank\" rel=\"noopener\">Vanilla 设置指南</a>。</p>\n<p><strong>Q：CS MOD 的顺序？</strong> A：CS 功能应无冲突文件，顺序无关。若有冲突，要么操作有误，要么 MOD 页另有说明。</p>\n<h2>兼容性</h2>\n<p><strong>Q：CS 支持 VR 吗？</strong> A：主版本不再支持 VR。VR 或继续 VR 开发请看 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/180419\" target=\"_blank\" rel=\"noopener\">Open Shaders</a>。</p>\n<p><strong>Q：CS 支持 Linux 吗？</strong> A：团队不官方支持，但 Discord 有活跃 Linux 社区可协助。</p>\n<p><strong>Q：Skyrim 刚更新，CS 需更新！</strong> A：团队已知并在处理，可暂用 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/169962\" target=\"_blank\" rel=\"noopener\">downgrader</a> 降级。Steam 降级后设 <code>appmanifest_489830.acf</code> 只读；恢复则取消只读并验证文件。CommonLibSSE、Address Library、Engine Fixes 需先更新。</p>\n<p><strong>Q：哪些功能与新版 CS 不兼容？</strong> A：见 <a href=\"../03-reference/incompatible-mods.md\" target=\"_blank\" rel=\"noopener\">不兼容 MOD-版本演进</a> 表格——达到对应版本须移除该功能。</p>\n<p><strong>Q：哪些 MOD 与 CS 不兼容？</strong> A：见 <a href=\"../03-reference/incompatible-mods.md\" target=\"_blank\" rel=\"noopener\">不兼容 MOD清单</a>。切勿绕过 CS 兼容保护。</p>\n<p><strong>Q：用 CS 后哪些 MOD 不再需要？</strong> A：Capture Warmer、Sky Reflection Fix、Rim Lighting Removed、Splashes of Storms（主观）等已被 CS 集成或覆盖。</p>\n<p><strong>Q：还需要 Lux 分流/优化网格吗？</strong> A：不需要，安装时取消勾选，否则性能下降。Light Limit Fix 使此类网格无意义。</p>\n<p><strong>Q：会有 DLSS 帧生成 / DLSS 5 / FSR 4 / XeSS 吗？</strong> A：FSR 4 因需 Vulkan/DX11 不支持（可 OptiScaler 硬改）；DLSSG/XeSS 随 Vulkan 转移研究中；DLSS 5 待 SDK；RTX 40 及更旧不支持 DLSS MFG/5。无路线图。</p>\n<p><strong>Q：CS 会支持某旧 Skyrim 版本吗？</strong> A：仅计划支持 Steam 最新版与 1.5.97。</p>\n<p><strong>Q：哪些 ENB 预设与 Effects 11 不兼容？</strong> A：依赖天空散射或 <strong>ENB Worldspace Weatherlists</strong> 的预设不兼容；加密预设须先解密（CS 不帮解密）。例如依赖 Silent Horizons 2 / Universal Core（经 ENB Extender 加密）者：Cabbage、Dawnfire、Kauz、Picta；以及 Picta - Weathers of Anubis - Repainted。</p>\n<p><strong>Q：Effects 11 不支持 DoF / 预通行？</strong> A：刻意未实现（质量低）。用 ReShade 或原版 DoF。CS 后处理将支持 DoF。</p>\n<h2>配置</h2>\n<p><strong>Q：不用 CS 菜单能改设置吗？</strong> A：能。首次改设置后生成 <code>SKSE/Plugins/CommunityShaders/SettingsUser.json</code>（MO2 overwrite 或 Data 夹），可直接编辑。</p>\n<p><strong>Q：按 End 没反应！</strong> A：若已装 CS，暂停菜单应有 <code>Settings &gt; Graphics &gt; Open Community Shaders Menu</code>，从中改键 <code>General &gt; Keybindings</code> 并保存。若无此项，确认 CS 1.9.0+ 且装好。仍不开则禁用 overlays（RTSS/Fraps）；删 Fraps，禁 RTSS for <code>SkyrimSE.exe</code>。</p>\n<p><strong>Q：菜单全屏，怎么移动？</strong> A：窗体顶部似浏览器标签可拖拽；若隐藏，点左上高亮处显示标签栏。都不行则删 <code>CommunityShaders_ImGui.ini</code>（SKSE/Plugins）。</p>\n<h2>开发</h2>\n<p><strong>Q：我有功能请求？</strong> A：发 <code>#cs-feature-request</code> 频道；勿发 GitHub Issues 除非开发者要。</p>\n<p><strong>Q：能加入开发吗？</strong> A：能。经 <a href=\"https://github.com/community-shaders/skyrim-community-shaders\" target=\"<em>blank\" rel=\"noopener\">GitHub</a>，读 <a href=\"https://github.com/community-shaders/skyrim-community-shaders/blob/dev/CONTRIBUTING.md\" target=\"</em>blank\" rel=\"noopener\">贡献指南</a>。可加 Discord <code>#cs-development-discussion</code>。AI 辅助可行，未经验证的 vibe coding 不行。</p>\n<p><strong>Q：在哪测开发中功能？</strong> A：测试构建<strong>不提供常规支持</strong>。新功能在 Discord <code>#cs-testing</code> 测试，勿在 <code>#support</code> 报问题。常是 AIO，须卸旧 CS/功能且无冲突。反馈回原线程。</p>\n<h2>错误</h2>\n<p><strong>Q：<code>REL/ID.h(223): Failed to open address library file</code></strong> A：SSE 版本不受支持；若过时须更新，否则<a href=\"../../01-installation/installation-guide.md\" target=\"<em>blank\" rel=\"noopener\">降级</a>。CS 只支持<a href=\"../../01-installation/installation-guide.md\" target=\"</em>blank\" rel=\"noopener\">安装指南</a>指定版本。</p>\n<p><strong>Q：启动报 “Required DLL &lt;...&gt; was missing, will disable all hooks and features”</strong> A：检查 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/86492\" target=\"<em>blank\" rel=\"noopener\">Nexus 页</a> 需求与<a href=\"../../01-installation/installation-guide.md\" target=\"</em>blank\" rel=\"noopener\">安装指南</a>。常见缺 <code>EngineFixes.dll</code>。</p>\n<p><strong>Q：功能缺失？“not installed” / “file is missing”？</strong> A：从 Nexus 下载<a href=\"../02-features/additional\" target=\"<em>blank\" rel=\"noopener\">附加特性</a>；不在 Nexus 即未发布。高级用户可<a href=\"#开发\" target=\"</em>blank\" rel=\"noopener\">测开发版</a>。</p>\n<p><strong>Q：Shaders failed to compile！红色错误！</strong> A：多为 CS 与附加特性版本混用，或缓存未重生。<strong>只用最新 Nexus 或单一测试构建，勿混</strong>。Effects 11 红错若 ENB 相关，确认预设<a href=\"#兼容性\" target=\"<em>blank\" rel=\"noopener\">受支持</a>；加密者不能载。查看游戏内 <code>Feature Issues</code> 标签；检查 MOD 管理器冲突；确认无<a href=\"#兼容性\" target=\"</em>blank\" rel=\"noopener\">废弃特性</a>且皆新；确认无 ENB/Shader Tools（<code>d3d11.dll</code>、<code>d3dcompiler_46e.dll</code>、Win 下 <code>d3dcompiler_47.dll</code>）。Linux 用 <a href=\"https://github.com/SulfurNitride/Fluorine-Manager\" target=\"_blank\" rel=\"noopener\">Fluorine</a>。</p>\n<p><strong>Q：CS 效果奇怪/坏掉！</strong> A：① 禁 CS 看问题是否消失；② 清 overwrite 生成文件（不含 Shaders 夹），重启重编译；③ 建<a href=\"#通用排查建议\" target=\"<em>blank\" rel=\"noopener\">最小设置</a>用二分法定位；④ 检查过期功能；⑤ 读本 FAQ。无解则发 Discord 附截图/硬件/日志；若确认 bug 可建 <a href=\"https://github.com/community-shaders/skyrim-community-shaders/issues\" target=\"</em>blank\" rel=\"noopener\">GitHub Issue</a>。</p>\n<p><strong>Q：启动黑屏但有声？</strong> A：1.2.0 起独占全屏或渲染/监视器分辨率不符致问题。用<strong>无边框窗口</strong>且分辨率匹配监视器。Display Tweaks 无边框放大不支持，用 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/156952\" target=\"_blank\" rel=\"noopener\">Upscaling</a>。仍疑 overlay（RTSS/Fraps）致问题；删 Fraps，禁 RTSS for <code>SkyrimSE.exe</code>。</p>\n<p><strong>Q：着色器编译卡数小时或 CTD</strong> A：先装/更 <a href=\"https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist\" target=\"_blank\" rel=\"noopener\">VC Redist X64</a>。弱 CPU 可减 <code>Background Compiler Threads</code>/<code>Compiler Threads</code>（改 <code>SettingsUser.json</code> 或首跑改 <code>SettingsDefault.json</code>）。确认受支持 SSE 版、用无边框窗口。仍者发 Discord 崩溃日志。</p>\n<p><strong>Q：眼睛为什么亮？</strong> A：用 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/154829\" target=\"_blank\" rel=\"noopener\">Improved Eye</a>；NPC 需自补或换不此问题 replacer（如 COTR）。</p>\n<p><strong>Q：地形无视差/刺状！</strong> A：① 用带视差地形纹（如 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/89542\" target=\"<em>blank\" rel=\"noopener\">Atlantean Landscapes</a>、<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/88261\" target=\"</em>blank\" rel=\"noopener\">Terrain Blending Fix</a>），须全覆否则刺状；② CS 菜单 <code>Extended Materials</code> 勾 <code>Enable Legacy Terrain</code>（PBR 地形纹不需）。</p>\n<p><strong>Q：湿润效果坏、有边、全错</strong> A：禁 Skyrim.ini [Display] 中动态分辨率：<code>bEnableAutoDynamicResolution=0</code>；N 卡控制面板‘Antialiasing - Transparency’设关。</p>\n<p><strong>Q：ENB 预设用 Effects 11 不载！</strong> A：① 预设<a href=\"#兼容性\" target=\"<em>blank\" rel=\"noopener\">受支持</a>？② 依 <a href=\"https://mod.pub/skyrim-se/415-effects-11\" target=\"</em>blank\" rel=\"noopener\">mod.pub 页</a> 装：<code>enbseries</code> 夹及 <code>enbseries.ini</code> 入根目录（或 Data 经管理器，但推荐手动入根）。</p>\n<h2>性能</h2>\n<p><strong>Q：最耗 CS 功能？</strong> A：Screen Space GI（IL 贵，可禁或调 Low）、Effects 11（依预设）、Upscaling（旧系统）、Skylighting（低端可移）。各异，见 <code>Profiling</code> 标签。</p>\n<p><strong>Q：性能浮层 “Utility”/“Other” 高！</strong> A：<code>Utility</code> 系阴影等 Bethesda 类型，清 clutter、调阴影设。通用排：调 ini、避高 draw call MOD、查 CPU（单核）/GPU/VRAM 瓶颈、查 FPS 限、减/移 CS 功能、更低 upscaling。用<a href=\"#通用排查建议\" target=\"_blank\" rel=\"noopener\">最小设置</a>判断 CS 是否主因。</p>\n<p><strong>Q：Load Time Profiler 说 CS 启动慢！</strong> A：编译/水生缓存时会误报，缓存后另测。</p>\n<h2>通用排查建议</h2>\n<p><strong>Q：最小设置（Minimal setup）</strong> A：若 FAQ 未解，隔离 CS 排冲。仅启：Community Shaders、页上 “Additional Features” 所列者、Nexus “requirements/off-site requirements” 及彼等所需者。MO2 新档 <code>ctrl+a</code> 禁再启列者；Vortex 新档启列者。确认 VC Redist X64 最新。</p>\n<p><strong>Q：RenderDoc</strong> A：报 bug 时开发者或要捕获（1.4.6+ 内建）。须用官方最新或指定测试构建。步骤：① CS 菜单 <code>RenderDoc</code> 选 <code>Enable RenderDoc Capture</code>；② <code>Save Settings</code> 重开游戏；③ 见左上 WARNING（性能降正常）；④ 复现 bug 留屏内；⑤ 菜单 <code>RenderDoc &gt; Create Capture</code> 后 <code>Open Capture Directory</code>；⑥ 传第三方托管（Discord 不支大文件）回链开发者。毕后取消勾选并保存禁捕获。</p>",
+      "_file": "03-reference/faq.md",
+      "_chars": 6428
     },
     {
       "id": "pbr-for-artists",
       "title": "True PBR 美术师与开发者指南",
       "category": "04-development",
-      "category_label": "开发",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -995,15 +1028,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/true-pbr-home",
       "summary": "面向纹理作者与开发者的 True PBR 完整指南：网格标记、纹理槽位、特殊渲染技法与 MATO。",
-      "path": "04-development/pbr-for-artists.md"
+      "content": "<p>PBR（物理基础渲染）近似真实材质对光的反应，被多数现代游戏采用。<strong>True PBR</strong> 是 CS 的一部分，优势：</p>\n<ul><li>比原版/复杂材质更真实的光照，且可组合视差、次表面散射、自发光、双层材质等；</li><li>可使用广泛可得（含免费）的 PBR 材质；</li><li>可在 Blender 等标准工具中轻松使用并简单导出；</li><li>因 PBR 是行业标准，纹理软件皆为之设计，纹理在工具中与在启用 CS 的 Skyrim 中外观一致，无需按 Skyrim 独特亮度/高光盲目修改。</li></ul>\n<blockquote>使用 PBR 需要 Community Shaders（基础 CS 已含）与 True PBR 纹理包；纹理包无 CS 无法正确渲染（Creation Kit / Outfit Studio / Bodyslide 中也不会正确）。非纹理作者可忽略下文。</blockquote>\n<h2>生成一套 True PBR 纹理（两步）</h2>\n<ol><li><strong>更新使用这些纹理的网格以启用 PBR</strong>：True PBR 只关心被特定 flag 标记的网格，其余照常渲染。True PBR MOD 因此包含「一组 PBR 纹理 + 标记为 PBR 的网格」，<strong>或</strong>包含告诉 PGPatcher 替换哪些纹理路径、对网格应用哪些值的 JSON（后者更推荐，便于重纹理原版模型或盔甲并允许用户套用到 bodyslide 输出）。</li><li><strong>创建 True PBR 纹理</strong>：基础纹理为 albedo（基础色）、normal（DX 格式）、roughness、metallic、ambient occlusion、specular。部分附加特性还需额外纹理（emissive、parallax 等）。</li></ol>\n<p>可用 <strong>TruePBR Manager</strong> 将一组 PBR 纹理导出为可用 Skyrim MOD（自动处理通道打包、压缩格式、纹理槽、JSON 与文件夹结构）。</p>\n<hr>\n<h2>网格修改（.nif）</h2>\n<h3>基础</h3>\n<p>网格要在 <code>BSLightingShaderProperty</code> 中被识别为 PBR，须满足：</p>\n<ul><li>默认 shader 类型（除非另有说明）；</li><li><code>Shader Flags 2</code> 中设置 <code>Unused01</code>（或 PBR）flag；</li><li>依所用附加特性可能需额外 flag（在各特性小节说明）。</li></ul>\n<hr>\n<h2>纹理修改</h2>\n<h3>通用纹理（槽位从 1 起）</h3>\n<ol><li><strong>Base color</strong>：RGB 基础色，A 为不透明度。（sRGB 色彩空间 + DDS flag）</li><li><strong>Normal</strong>：RGB 三通道（DX 格式），A 未用。（线性空间 + DDS flag）</li><li><strong>Emissive（可选）</strong>：RGB 自发光色，A 未用。（sRGB + DDS flag）</li><li><strong>Displacement（可选）</strong>：R 为位移，GBA 未用。（BC4 灰度）</li><li>未用。</li><li><strong>RMAOS</strong>：R=roughness，G=metallic，B=AO，A=specular。注意 AO：烘焙 AO 纹理所见即所得——黑/0=满 AO，白/255=无 AO。（线性空间 + DDS flag）</li><li><strong>Multilayer normal（可选）</strong>：RGB 多层法线，A=roughness（线性）。<strong>Fuzz（可选）</strong>：RGB fuzz 色，A fuzz 权重（sRGB）。</li><li><strong>Subsurface（可选）</strong>：RGB 次表面色，A 次表面不透明度（sRGB）。<strong>Multilayer coat（可选）</strong>：RGB 涂层色，A 强度（sRGB）。</li></ol>\n<p><strong>色彩空间规则</strong>：</p>\n<ul><li>代表游戏中颜色（base color、emissive、fuzz、coat、subsurface 色）→ <strong>sRGB</strong>（部分软件称 gamma 2.2）+ sRGB DDS flag；</li><li>也可导出线性并保存线性 DDS，但会在人眼最敏感的光谱段损失精度；</li><li>不代表颜色（normal、displacement、rmaos）→ 始终线性 + 线性 DDS。</li></ul>\n<h3>地形纹理</h3>\n<p>四叉片（quad）中任一纹理为 PBR，则整个 quad 按 PBR 渲染；若混有原版风格纹理，内部会做转换使其不太违和，但经验法则是<strong>只发布完整地形 MOD</strong>——务必覆盖 DLC（DLC 大量复用基础游戏纹理）。地形 LOD <strong>不会</strong>渲染为 PBR（远景混合）；Dyndolod / xlodgen 会在用户侧由你的 PBR 纹理生成原版风格 LOD 纹理。</p>\n<hr>\n<h2>特殊渲染技法</h2>\n<h3>次表面散射（Subsurface Scattering）</h3>\n<p>模拟光在物体内部散射，类似原版 soft lighting 与 back lighting。最适用于树叶、部分织物（旗帜）、蜡烛蜡、龙翼（原版用 back lighting）。注意它始终带 backlighting 效果——玻璃盔甲若开 SSS 会像光穿透角色，务必只在合理处使用。可用烘焙 thickness / transmission 纹理。</p>\n<p>参数：</p>\n<ul><li><strong>Subsurface Color</strong>（替换 Specular Color）：若提供 subsurface 贴图，作为线性乘子。</li><li><strong>Subsurface Opacity</strong>（替换 Lighting Effect 1）：<strong>越高越弱，越低透光越多</strong>。</li><li>纹理：槽 8（sRGB）。</li></ul>\n<p>与双层材质不兼容；与 glint、fuzz、视差、自发光兼容。</p>\n<h3>Fuzz（绒毛）</h3>\n<p>模拟柔软纤维材质外观（天鹅绒、某些皮毛、桃绒、某些布料）。需：启用 soft lighting flag + multilayer parallax shader 类型；fuzz 纹理入槽 7（fuzz 色 RGB + fuzz 遮罩 A，sRGB）；fuzz color 参数作 fuzz 高光色（无纹理时单独控制，有纹理时作乘子，存前三个 multilayer parallax 参数，建议 [0.08,0.08,0.08] 或 [0.04,0.04,0.04]）；fuzz weight 作遮罩（存第四个参数）。</p>\n<p>与双层材质或 glint 不兼容；与 subsurface、视差、自发光兼容。</p>\n<p>示例 JSON：</p>\n<pre class=\"code\"><code>{\n    \"texture\": \"clothes\\\\example\", \"emissive\": false, \"parallax\": false, \"subsurface\": false, \"specular_level\" : 0.04, \"subsurface_color\": [1,1,1], \"roughness_scale\" : 1, \"subsurface_opacity\" : 1, \"displacement_scale\" : 0,\n    \"fuzz\": { \"texture\": true, \"color\": [1.25,1.25,1.25], \"weight\": 1.0 }\n}</code></pre>\n<h3>毛发模型（Hair model）</h3>\n<p>使用 Marschner 毛发模型（模拟 3D 毛发的漫反射、镜面与散射）。CS PBR 毛发着色仍处实验状态。启用：back lighting flag；无需特殊纹理/参数。它是完全不同的着色模型，与任何其它都不兼容；仅对真实 3D 毛发/皮毛有用（原版盔甲上画出来的皮毛不合适）。角色头发请用 CS 的 <strong>Hair Specular</strong> 特性（同技术但更完善）。</p>\n<h3>双层材质（Dual Layer Material）</h3>\n<p>True PBR 对 Multilayer Parallax 的等价物，用来在常规 PBR 材质上渲染半透明涂层：简单清漆、彩色涂层、涂层法线、层间视差。可用于普通网格（水晶、冰洞壁、stalhrim 盔甲），但<strong>不能用于地形</strong>。与 glint、fuzz、SSS 不兼容；与视差、自发光兼容（辉光来自下层）。</p>\n<p>参数（由 MultilayerParallax flag + shader 类型启用）：</p>\n<ul><li>Coat strength（替换 Lighting Effect 1）：涂层贡献 0–1，作涂层强度纹理（槽 8 alpha）乘子；</li><li>Coat roughness（替换 parallax inner layer thickness）：涂层粗糙度，作槽 7 alpha 乘子；</li><li>Coat specular level（替换 parallax refraction scale）：涂层反射率，多数材质 0.04，冰用 0.02；</li><li>EffectLighting flag：启用漫反射贡献（涂层色）；</li><li>SoftLighting：启用层间视差；</li><li>BackLighting：启用涂层自有法线（取槽 7 RGB）。</li></ul>\n<p>额外纹理：槽 4 displacement（同常规视差）；槽 7 涂层法线 RGB + 涂层粗糙度 A；槽 8 涂层色 RGB + 涂层强度 A（sRGB）。</p>\n<p>（JSON 中 “coat parallax” 即指层间视差。）</p>\n<h3>材质对象（Material Objects / MATO，投影雪、灰等）</h3>\n<p>MATO 是 ESP/ESM 中的记录。仅带 <strong>single pass</strong> flag 的 MATO 可渲染为 PBR（效果渲染在底层材质之上，贴合其法线与视差）。single pass MATO 与原版 multilayer parallax 及 parallax shader 类型不兼容，但兼容复杂材质。MATO 仅当应用于 PBR 启用表面时才渲染为 PBR。</p>\n<p>启用：在插件中设为 single pass，并将同名 editor ID 的 JSON 放入 <code>data/PBRMaterialObjects</code>。JSON 中可乘算颜色、高光强度、roughness 缩放，并可选启用 glint 或 fuzz（无纹理时）。</p>\n<p>示例 JSON：</p>\n<pre class=\"code\"><code>{\n    \"baseColorScale\": [0.98, 0.98, 1.0],\n    \"glintParameters\": {\n        \"densityRandomization\": 5.0, \"enabled\": true,\n        \"logMicrofacetDensity\": 13.0, \"microfacetRoughness\": 1.0, \"screenSpaceScale\": 1.0\n    },\n    \"roughness\": 0.7, \"specularLevel\": 0.02\n}</code></pre>\n<hr>\n<h2>纹理创建工作流</h2>\n<ul><li>使用带 PBR 命名 flag 的 <a href=\"https://github.com/Jonahex\" target=\"_blank\" rel=\"noopener\">Nifskope（Jonahex 版）</a> 便于手动改 flag。</li><li>测试时搭建测试文件夹并配置 <strong>PGtools</strong>（PGPatcher 的 MOD 作者工具，详见 PGPatcher GitHub wiki）以快速批量改动。</li><li>选正确 specular 强度：多数材质 0.04；雪/冰/水 0.02；钻石 0.16（按 Reflectance F0 列）。</li></ul>",
+      "_file": "04-development/pbr-for-artists.md",
+      "_chars": 5037
     },
     {
       "id": "contributing",
       "title": "参与贡献",
       "category": "04-development",
-      "category_label": "开发",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -1015,15 +1047,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders#contributing",
       "summary": "如何参与 Community Shaders 的代码、文档、测试与着色器贡献。",
-      "path": "04-development/contributing.md"
+      "content": "<p>Community Shaders 是社区驱动项目，欢迎对<strong>代码、文档、测试、着色器</strong>的贡献。</p>\n<h2>入口</h2>\n<ul><li><strong>GitHub 仓库</strong>：<a href=\"https://github.com/community-shaders/skyrim-community-shaders\" target=\"_blank\" rel=\"noopener\">community-shaders/skyrim-community-shaders</a></li><li><strong>Discord</strong>：<a href=\"https://discord.gg/nkrQybAsyy\" target=\"_blank\" rel=\"noopener\">discord.gg/nkrQybAsyy</a></li><li><strong>贡献指南</strong>：<code>CONTRIBUTING.md</code>（dev 分支）</li></ul>\n<h2>方式</h2>\n<ul><li><strong>功能请求</strong>：Discord <code>#cs-feature-request</code> 频道（勿直接发 GitHub Issues，除非开发者要求）。</li><li><strong>加入开发</strong>：Fork / PR，阅读官方 CONTRIBUTING；可加入 <code>#cs-development-discussion</code>。AI 辅助可行，未经验证的 vibe coding 不行。</li><li><strong>测试开发中功能</strong>：Discord <code>#cs-testing</code>（测试构建不提供常规支持，常为 AIO，须卸旧 CS/功能且无冲突；反馈回原线程）。</li><li><strong>文档</strong>：本资料库即社区文档成果之一——见根目录 <a href=\"../../CONTRIBUTING.md\" target=\"_blank\" rel=\"noopener\">CONTRIBUTING.md</a> 了解如何协同维护。</li></ul>\n<h2>本资料库的贡献约定</h2>\n<ul><li>每个条目独立成 <code>.md</code> 文件，带统一 <code>frontmatter</code>（见 <a href=\"../../manifest.json\" target=\"_blank\" rel=\"noopener\">manifest.json</a> 的 schema）。</li><li>新增/删除条目后运行 <code>scripts/build_index.py</code> 刷新 <code>index.json</code> 与 <code>index.html</code>。</li><li>功能类条目统一由 <code>scripts/gen_features.py</code> 的 <code>FEATURES</code> 列表生成，编辑该列表后重跑。</li><li>任何内容变更须在 <a href=\"../../CHANGELOG.md\" target=\"_blank\" rel=\"noopener\">CHANGELOG.md</a> 记录版本与摘要，并递增版本号。</li></ul>",
+      "_file": "04-development/contributing.md",
+      "_chars": 1200
     },
     {
       "id": "light-placer",
       "title": "Light Placer（光照放置器）",
       "category": "05-tools",
-      "category_label": "工具",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -1034,15 +1065,14 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/light-placer-home",
       "summary": "通过 JSON 将可配置的真实光源附加到物体与角色，是 ENB Light 的社区替代。",
-      "path": "05-tools/light-placer.md"
+      "content": "<p><strong>Light Placer</strong> 是一个框架型工具，允许 MOD 作者通过 <code>.json</code> 文件把<strong>真实灯泡</strong>附加到各种网格与引用（reference）上。因为灯泡是真实的，它们也影响潜行（stealth）。</p>\n<h2>为什么需要它</h2>\n<ul><li>ENB Light 在 CS 中<strong>仅有限支持</strong>（且不再承诺广泛支持）。</li><li>社区公认的 ENB Light 替代是 <strong>Light Placer</strong>。</li></ul>\n<h2>工作机制</h2>\n<ul><li>它是一个<strong>框架</strong>，自身不做任何事；需要各 MOD 提供 JSON 配置来“附加灯泡”。</li><li>最流行的附加组件是 <strong>CS Light</strong>：把灯泡附加到许多原本靠 ENB Light 照亮的原版网格，并为一些流行 ENB Light MOD 提供补丁。</li><li>相比 ENB Light，Light Placer 的补丁<strong>更容易创建</strong>。</li></ul>\n<h2>使用建议</h2>\n<ul><li>安装 Light Placer 时请遵循其说明与前置要求。</li><li>从 ENB 迁移时：在 MOD 列表中搜索含 “ENB Light” 的项并禁用（注意 MLO2 等未在名称中明示的依赖）。移除后用 Light Placer + CS Light 替代以维持发光。</li><li>安装任何照明 MOD 前，<strong>先装 Light Placer 与 CS Light</strong>（见 <a href=\"../01-installation/vanilla-setup.md\" target=\"_blank\" rel=\"noopener\">Vanilla 设置指南</a>）。</li></ul>\n<blockquote>更多细节与 JSON 格式请参考官方 Light Placer 页面与 Discord。</blockquote>",
+      "_file": "05-tools/light-placer.md",
+      "_chars": 973
     },
     {
       "id": "pgpatcher",
       "title": "PGPatcher（Parallax / PBR 修补器）",
       "category": "05-tools",
-      "category_label": "工具",
-      "kind": "",
-      "status": "",
       "version": "1.0.0",
       "updated": "2026-09-20",
       "tags": [
@@ -1054,7 +1084,9 @@
       ],
       "source": "https://modding.wiki/en/skyrim/developers/community-shaders/pgpatcher-home",
       "summary": "独立工具，修补纹理 MOD 的加载顺序（视差 / 复杂材质 / PBR），是 True PBR 工作流核心。",
-      "path": "05-tools/pgpatcher.md"
+      "content": "<p><strong>PGPatcher</strong> 是一个独立工具，用于修补纹理 MOD 的加载顺序，覆盖 <strong>视差（parallax）/ 复杂材质（CM）/ PBR</strong> 三类需求。它是 True PBR 工作流的核心组件。</p>\n<h2>在 True PBR 中的角色</h2>\n<p>True PBR 依赖被标记 PBR 的网格。PGPatcher 让 MOD 作者不必随包发布“已标记网格”，而是发布 <strong>JSON</strong>，在用户侧告诉工具：</p>\n<ul><li>替换哪些纹理路径；</li><li>对网格应用哪些 PBR 值。</li></ul>\n<p>这对重纹理原版模型或盔甲尤其推荐——可让用户把你的 PBR 纹理套用到其 bodyslide 输出。</p>\n<h2>关键组成</h2>\n<ul><li><strong>PGtools</strong>：PGPatcher 的 MOD 作者工具，便于测试时快速批量改动（详见 PGPatcher GitHub wiki）。</li><li>运行 PGPatcher 需要配置 <code>Instance Location</code>（MO2 实例路径）与 <code>Output</code> 路径——各环境不同（MO2 实例路径可在 MO2 文件夹图标→“Open Instance folder” 找到）。</li></ul>\n<h2>相关</h2>\n<ul><li>美术师完整流程见 <a href=\"../04-development/pbr-for-artists.md\" target=\"_blank\" rel=\"noopener\">True PBR 美术师指南</a>。</li><li>Auto Parallax 与 True PBR（experimental）不兼容，应改用 PGPatcher（见 <a href=\"../03-reference/incompatible-mods.md\" target=\"_blank\" rel=\"noopener\">不兼容 MOD</a>）。</li></ul>\n<blockquote>具体下载、JSON 字段与运行步骤请以官方 PGPatcher 页面与 GitHub wiki 为准。</blockquote>",
+      "_file": "05-tools/pgpatcher.md",
+      "_chars": 1049
     }
   ]
 }

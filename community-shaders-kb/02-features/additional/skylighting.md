@@ -1,7 +1,7 @@
 ---
 id: skylighting
 title: Skylighting 天光遮蔽
-category: features
+category: 02-features
 kind: additional
 status: released
 version: 1.0.0

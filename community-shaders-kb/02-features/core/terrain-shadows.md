@@ -1,7 +1,7 @@
 ---
 id: terrain-shadows
 title: Terrain Shadows 地形阴影
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

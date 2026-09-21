@@ -1,7 +1,7 @@
 ---
 id: post-processing
 title: Post Processing 后处理
-category: features
+category: 02-features
 kind: additional
 status: TBA
 version: 1.0.0

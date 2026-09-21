@@ -1,7 +1,7 @@
 ---
 id: inverse-square-lighting
 title: Inverse Square Lighting 平方反比光照
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

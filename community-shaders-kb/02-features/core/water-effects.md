@@ -1,7 +1,7 @@
 ---
 id: water-effects
 title: Water Effects 水特效
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

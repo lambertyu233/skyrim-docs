@@ -1,7 +1,10 @@
 {
-  "name": "Community Shaders 资料库",
-  "description": "基于 modding.wiki 官方文档整理的 Community Shaders 可维护资料库，分层组织、便于增删改查与版本化协作。",
-  "version": "1.0.0",
+  "kb": {
+    "name": "Community Shaders 资料库",
+    "description": "基于 modding.wiki 官方文档整理的 Community Shaders 可维护资料库，分层组织、便于增删改查与版本化协作。",
+    "locale": "zh-CN"
+  },
+  "version": "2.0.0",
   "generated_at": "2026-09-20",
   "maintainers": ["社区协作"],
   "sources": [
@@ -25,11 +28,11 @@
       "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
       "optional": ["kind", "status"],
       "fields": {
-        "id": "唯一标识（小写连字符），用于索引与链接",
+        "id": "唯一标识（小写连字符），与文件名一致",
         "title": "中文标题",
-        "category": "分类目录名（如 02-features），索引以此过滤",
-        "kind": "仅功能条目使用：core / additional",
-        "status": "released / TBA",
+        "category": "分类目录名（如 02-features）。必须与所在目录同名，索引据此聚合分类与标签",
+        "kind": "仅功能条目使用：core / additional（保留字段，页面不再呈现徽章）",
+        "status": "released / TBA（保留字段，页面不再呈现徽章）",
         "version": "条目版本（语义化，随内容变更递增）",
         "updated": "最后更新日期 YYYY-MM-DD",
         "tags": "标签数组，便于检索",
@@ -39,19 +42,21 @@
     }
   },
   "categories": [
-    { "key": "00-overview", "label": "概览", "desc": "定位、架构、缓存系统" },
-    { "key": "01-installation", "label": "安装", "desc": "需求、安装、Vanilla 设置、ENB 迁移" },
-    { "key": "02-features", "label": "功能", "desc": "核心特性与附加特性（每特性一文件）" },
-    { "key": "03-reference", "label": "参考", "desc": "不兼容 MOD、FAQ" },
-    { "key": "04-development", "label": "开发", "desc": "PBR 美术师指南、贡献" },
-    { "key": "05-tools", "label": "工具", "desc": "Light Placer、PGPatcher" }
+    { "dir": "00-overview", "title": "概览", "desc": "定位、架构、缓存系统" },
+    { "dir": "01-installation", "title": "安装", "desc": "需求、安装、Vanilla 设置、ENB 迁移" },
+    { "dir": "02-features", "title": "功能", "desc": "核心特性与附加特性（每特性一文件，分 core / additional 子目录）" },
+    { "dir": "03-reference", "title": "参考", "desc": "不兼容 MOD、FAQ" },
+    { "dir": "04-development", "title": "开发", "desc": "PBR 美术师指南、贡献" },
+    { "dir": "05-tools", "title": "工具", "desc": "Light Placer、PGPatcher" }
   ],
   "index_files": {
-    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.json": "完整索引：元数据 + 内联渲染后的正文 HTML（可程序化消费 / 外部工具）",
     "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
   },
   "tooling": {
-    "scripts/gen_features.py": "由 FEATURES 列表生成功能条目",
-    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html"
+    "scripts/gen_features.py": "由 FEATURES 列表生成功能条目（遗留工具：写出的 frontmatter 含 kind/status，页面已不呈现；新增功能条目仍可用它生成模板）",
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索"
   }
 }

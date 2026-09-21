@@ -1,7 +1,7 @@
 ---
 id: grass-collision
 title: Grass Collision 草体碰撞
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0

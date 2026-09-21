@@ -1,7 +1,7 @@
 ---
 id: cs-editor
 title: CS Editor 编辑器
-category: features
+category: 02-features
 kind: core
 status: released
 version: 1.0.0
