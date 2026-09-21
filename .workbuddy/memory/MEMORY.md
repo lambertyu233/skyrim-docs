@@ -34,11 +34,19 @@
   动过条目或目录再加 `check_links`；动了脚本再加 `sync_scripts.py --check`。
 
 ## 环境
+- **git 远程**：`origin = ssh://git@ssh.github.com:443/lambertyu233/skyrim-docs.git`
+  （**必须用 443 端口**：本机 `HTTP(S)_PROXY=127.0.0.1:7897` 会劫持 22 端口，
+  表现为 `Connection closed by 198.18.0.59 port 22` —— 198.18.x.x 是代理返回的保留地址。
+  GitHub 官方的 `ssh.github.com:443` 可绕过，`ssh -p 443 -T git@ssh.github.com` 验证通过）。
+- **本仓库文本一律 LF**，靠根目录 `.gitattributes`（`* text=auto eol=lf`）强制。
+  本机 `core.autocrlf=true`，若没这个文件，检出时会全变 CRLF，
+  与 `check_links.py` 的「全部为 LF」断言冲突。**新克隆后先确认该文件在**。
 - **活动实例 = `D:\game\JIZIYU J5.0`**（mods 约 1627，obito 拉弓动作已装于此）；`E:\game\JIZIYU Y5.0` 是另一个实例（mods 约 1297）。查整合/装 mod 一律以 **D 盘**为准，判据是 OAR 日志里的游戏路径。
 - 已装 `OAR动作框架-Open Animation Replacer`（**v2.3.6**，条件名单与版本新增信息全文写在它的 `meta.ini` 里）。
 - OAR 日志：`C:\Users\Lambert\Documents\My Games\Skyrim Special Edition\SKSE\OpenAnimationReplacer.log`（同目录另有 `-DetectionPlugin.log`）。排错必看：搜被替换的原动画路径判断 submod 是否被扫描到。
-- 工具坑：本机 Bash 的 PATH 被破坏，命令前须 `export PATH="/usr/bin:/bin:$PATH"`；且**没有 `strings`/`grep` 二进制** → 提二进制字符串用托管 Python：
+- 工具坑：本机 Bash 的 PATH 被破坏，命令前须 `export PATH="/usr/bin:/bin:/c/Windows/System32:$PATH"`；且**没有 `strings`/`grep` 二进制** → 提二进制字符串用托管 Python：
   `C:\Users\Lambert\.workbuddy\binaries\python\versions\3.13.12\python.exe` + `re.finditer(rb"[\x20-\x7e]{6,}", data)`。
+  **`python -c` 不可靠**（含转义+嵌套引号会被静默吞掉，无输出无报错退出码 0）→ 一律把脚本**写成文件**再执行。
 
 ## Skyrim 动画事件地图（可复用的硬事实）
 - 站姿弓：`Bow_DrawLight` / `Bow_DrawHeavy` / `Bow_IdleDrawn` / `Bow_Release`；站姿拉弓中移动 = `BowDrawn_Walk*` + `BowDrawn_Turn60/180`。

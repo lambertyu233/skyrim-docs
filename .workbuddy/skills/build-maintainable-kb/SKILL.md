@@ -253,7 +253,21 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - **改完 stock 脚本必须同步**：`python scripts/sync_scripts.py`。只改技能或只改某个库，都会造成"技能一个行为、库另一个行为"的隐性分叉。
 - **坏链是"不会报错的错误"**：新增/移动目录或批量写条目后，务必跑 `check_links.py`；用 `fix_links.py` 修，别手改 `../` 层数。
 - **换行统一为 LF**：库内混用 LF/CRLF 会让 diff 噪音巨大。批量改动一律按字节处理并保留原换行（见"环境坑"），但从零新建的条目就写 LF；发现混用时用脚本一次性归一化并记进 CHANGELOG。
-- **生成器脚本自身必须写 `newline="\n"`**：`open(p, "w", encoding="utf-8", newline="\n")`。默认文本模式在 Windows 上会把 `\n` **静默**翻译成 `\r\n`——实测某库的 `gen_features.py` 就这样产出了 4 个 CRLF 条目。**只归一化产物而不修生成器，下次重跑又会被写回去。**
+- **生成器脚本自身必须写 `newline=""`**：`open(p, "w", encoding="utf-8", newline="")`。
+  默认文本模式在 Windows 上会把 `\n` **静默**翻译成 `\r\n`。
+  **这一类 bug 已出现过两次**：先是 `gen_features.py` 产出 4 个 CRLF 条目；
+  后是 **`build_index.py` 写 `index.json` / `index.html` 时漏传**，导致每次重建都往产物里灌 CRLF
+  （stock 版 2026-09-21 已修正，六库已同步）。
+  **只归一化产物而不修生成器，下次重跑又会被写回去** —— 修产物是治标，修生成器才是治本。
+- **`check_links.py` 查不出这个问题**：它只 lint `.md`，不检查 `index.json` / `index.html` 的换行。
+  怀疑产物换行异常时，直接按字节扫：
+  `python -c` 不可靠，写成脚本：遍历目标目录，`open(p,"rb").read()` 后断言 `b"\r\n" not in raw`。
+- **配合 git 用时必须加 `.gitattributes`**：本机常见 `core.autocrlf=true`，
+  会在检出时把全库 LF 改写成 CRLF，与「全部为 LF」的约定直接冲突。
+  工作区根放一行 `* text=auto eol=lf` 即可覆盖该设置（`eol=` 优先级高于 `core.autocrlf`）。
+  ⚠️ 加了之后**别顺手跑 `git add --renormalize .`** —— 它会把工作区文件按新属性重新检出，
+  可能一次性改掉大量文件的磁盘换行（实测一次刷出 13 个 CRLF 文件），
+  确认索引本身已是 `i/lf` 就足够了（用 `git ls-files --eol <path>` 看）。
 - 功能条目众多时优先数据驱动生成，避免手工 50+ 文件。
 - 本技能产出"结构 + 内容"，上游版权保留出处（如 GPL-3.0 精神 / UESP 署名）。
 
