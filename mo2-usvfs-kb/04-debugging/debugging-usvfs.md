@@ -57,4 +57,4 @@ timestamp <pid:tid> [L] message [param] [param]...
 - **Process Monitor**（Sysinternals）：按目标进程加筛选、开启"Show File System Activity"，可看到每一次文件系统调用，作为日志的补充。
 - **Visual Studio**：打开 usvfs 解决方案后可 attach 到 MO2 直接或间接启动的任意进程；配合 `spawn_delay` 更易下断点。调试会派生子进程时可用 Child Process Debugging Power Tool。
 
-> 看到 hook 行为却仍不对？大概率是注入被安全软件挡了，见 [VFS/USVFS 常见排错](06-reference/troubleshooting-vfs.md)。
+> 看到 hook 行为却仍不对？大概率是注入被安全软件挡了，见 [VFS/USVFS 常见排错](../06-reference/troubleshooting-vfs.md)。

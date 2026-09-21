@@ -32,7 +32,13 @@ behaviour-engine-kb/
 ├── 06-practices/          # 实战：选型、刷补丁流程、常见报错
 ├── 07-sources/            # 来源：官方清单、社区来源、不可信来源警示
 ├── _raw/                  # 抓取的上游原文存档（不参与索引）
-└── scripts/               # 索引构建脚本
+└── scripts/
+    ├── build_index.py    # 扫描全部 frontmatter → index.json + index.html
+    ├── validate_kb.py    # 结构 + 索引 + 索引页模板的机械校验
+    ├── check_index_ui.py # 索引页交互回归（Node + DOM 桩，不需要浏览器）
+    ├── check_links.py    # 站内相对链接 lint（附带换行一致性提示）
+    ├── fix_links.py      # 修复链接深度错误（按目标尾部路径反查，不靠手写 ../ ）
+    └── fetch_mediawiki.py# 通用 MediaWiki 抓取器（留作后续同步）
 ```
 
 ## 怎么用
@@ -44,7 +50,8 @@ behaviour-engine-kb/
 
 1. 在对应分类目录新建/修改 `.md`，**保持 frontmatter 的 `category` 等于目录名**。
 2. 跑 `python scripts/build_index.py` 重新生成索引。
-3. 按 [`CONTRIBUTING.md`](CONTRIBUTING.md) 的检查清单自检。
+3. 跑三项校验，都过才算完成：`python scripts/validate_kb.py`（结构）、`python scripts/check_index_ui.py`（索引页交互回归）、`python scripts/check_links.py`（站内相对链接）。
+4. 按 [`CONTRIBUTING.md`](CONTRIBUTING.md) 的检查清单自检。
 
 ## 来源与版权
 

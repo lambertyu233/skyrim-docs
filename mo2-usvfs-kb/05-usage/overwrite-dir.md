@@ -31,4 +31,4 @@ kind: tutorial
 3. 只保留真正需要"临时覆盖一切"的文件在 Overwrite 中。
 4. 删除已归档的重复项，避免 Overwrite 与正式 mod 互相打架。
 
-> Overwrite 与 [虚拟删除](01-mechanism/virtual-delete.md) 方向相反：一个是"暴露工具写出的新文件"，一个是"隐藏某文件"。
+> Overwrite 与 [虚拟删除](../01-mechanism/virtual-delete.md) 方向相反：一个是"暴露工具写出的新文件"，一个是"隐藏某文件"。

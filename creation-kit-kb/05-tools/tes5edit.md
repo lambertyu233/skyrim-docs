@@ -38,7 +38,7 @@ MOD 在 CK 中编辑时，常会无意引入「与官方主文件完全相同」
 
 ## 相关条目
 
-- [Data 目录与插件格式](01-installation/data-files.md)
-- [上传 Steam 创意工坊](06-tutorials/upload-steam-workshop.md)
+- [Data 目录与插件格式](../01-installation/data-files.md)
+- [上传 Steam 创意工坊](../06-tutorials/upload-steam-workshop.md)
 
 > 来源：[UESP TES5Edit Mod Cleaning Tutorial](https://ck.uesp.net/wiki/TES5Edit_Mod_Cleaning_Tutorial)

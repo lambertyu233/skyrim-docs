@@ -2,21 +2,23 @@
 id: faq
 title: 常见问题解答 (FAQ)
 category: 03-reference
-version: 1.0.0
-updated: 2026-09-20
-tags: [FAQ, 排错, 兼容, 配置, 错误, 性能]
+version: 1.1.0
+updated: 2026-09-21
+tags: [FAQ, 排错, 兼容, 配置, 错误, 性能, 版本]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/faq
 summary: 覆盖已知问题、安装、兼容性、配置、开发、错误、性能与通用排查的全部 Q&A。
 ---
 
 # 常见问题解答 (FAQ)
 
-> 内容整理自官方 FAQ（CS 1.8.4 已知问题基线）。新增/修订请同步官方并在 CHANGELOG 记录。
+> 内容整理自官方 FAQ。基线：稳定版 **1.8.x**（最新补丁 1.8.4，2026-08-26）+ 开发中的 **1.9.0**（2026-09）。新增/修订请同步官方并在 CHANGELOG 记录。
 
-## 已知问题（CS 1.8.4）
+## 已知问题（截至 2026-09）
 
 - **Effects 11** 当前在 Nexus Mods 不可用，可在 [mod.pub](https://mod.pub/skyrim-se/415-effects-11) 获取。
-- **Skyrim SE 1.7.99 / 1.7.104.0** 与 CS 1.8.4 不兼容，将在 1.9.0 支持（测试构建可用）。
+- **Skyrim SE 1.7.99 / 1.7.104.0** 与 CS 1.8.4 不兼容，计划在 **1.9.0** 支持（测试构建可用）。
+- 稳定版与开发版的渠道差异、以及「哪些版本受支持」，见 [版本与支持策略](../00-overview/version-and-support.md)。
+- 高频实战问题（黑屏、帧生成不生效、显存、Lux 网格等）另见 [实战常见坑](../06-community/common-pitfalls.md)。
 
 ## 安装
 
@@ -95,10 +97,10 @@ A：测试构建**不提供常规支持**。新功能在 Discord `#cs-testing` �
 ## 错误
 
 **Q：`REL/ID.h(223): Failed to open address library file`**
-A：SSE 版本不受支持；若过时须更新，否则[降级](../../01-installation/installation-guide.md)。CS 只支持[安装指南](../../01-installation/installation-guide.md)指定版本。
+A：SSE 版本不受支持；若过时须更新，否则[降级](../01-installation/installation-guide.md)。CS 只支持[安装指南](../01-installation/installation-guide.md)指定版本。
 
 **Q：启动报 “Required DLL <...> was missing, will disable all hooks and features”**
-A：检查 [Nexus 页](https://www.nexusmods.com/skyrimspecialedition/mods/86492) 需求与[安装指南](../../01-installation/installation-guide.md)。常见缺 `EngineFixes.dll`。
+A：检查 [Nexus 页](https://www.nexusmods.com/skyrimspecialedition/mods/86492) 需求与[安装指南](../01-installation/installation-guide.md)。常见缺 `EngineFixes.dll`。
 
 **Q：功能缺失？“not installed” / “file is missing”？**
 A：从 Nexus 下载[附加特性](../02-features/additional)；不在 Nexus 即未发布。高级用户可[测开发版](#开发)。

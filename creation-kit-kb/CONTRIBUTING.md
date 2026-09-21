@@ -65,12 +65,13 @@ summary: 一句话摘要
 - `status` 字段：`draft`（草稿）/ `review`（待审）/ `stable`（已发布）。
   **仅作为数据保留**（会写入 `index.json`），索引页**不再呈现状态徽章**。
 - 新条目默认 `draft`，经复核后改为 `stable`。
-- PR / 合并前必须重建索引并跑通两项校验：
+- PR / 合并前必须重建索引并跑通三项校验：
 
   ```bash
   python scripts/build_index.py
   python scripts/validate_kb.py     # 结构校验，退出码 0 通过
   python scripts/check_index_ui.py  # 索引页交互回归，20 项断言
+  python scripts/check_links.py     # 站内相对链接 lint，退出码 0 通过
   ```
 
 ---

@@ -2,9 +2,9 @@
 id: incompatible-mods
 title: 不兼容 MOD 清单
 category: 03-reference
-version: 1.0.0
-updated: 2026-09-20
-tags: [兼容, ENB, 排错, 警告]
+version: 1.1.0
+updated: 2026-09-21
+tags: [兼容, ENB, 排错, 警告, 照明, 天气]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/faq#what-mods-are-not-compatible-with-cs
 summary: 与 CS 冲突或需调整的 MOD 汇总，分为完全不兼容与需微调两类。
 ---
@@ -17,8 +17,8 @@ summary: 与 CS 冲突或需调整的 MOD 汇总，分为完全不兼容与需�
 
 - **ENBSeries**：经 [Effects 11](https://mod.pub/skyrim-se/415-effects-11) 支持未加密预设；详见 [ENB 迁移指南](../01-installation/enb-migration.md)。
 - **Particle lights / ENB lights**：1.4–1.7 不支持，1.8 有限支持；建议改用 [Light Placer](https://www.nexusmods.com/skyrimspecialedition/mods/127557)。
-- **Skyrim Upscaler**：与 [Upscaling - CS](https://www.nexusmods.com/skyrimspecialedition/mods/156952) 冲突。
-- **EVLaS / AELaS**：与 [Sky Sync - CS](../02-features/additional/sky-sync.md) 冲突。
+- **Skyrim Upscaler**（DLSS / FSR2 / XeSS）：与 [Upscaling - CS](https://www.nexusmods.com/skyrimspecialedition/mods/156952) 冲突。注意 CS 的 Upscaling **本身不支持 XeSS**（详见 [Upscaling 条目](../02-features/additional/upscaling.md)）。
+- **EVLaS / AELaS**：与 [Sky Sync - CS](../02-features/core/sky-sync.md) 冲突。Sky Sync **检测到它们会自动禁用自己**；官方 Vanilla 设置指南明确要求「不要装 EVLaS」。
 - **ReShade Helper**
 - **NVIDIA Reflex Support**
 - **TAA Sharpen**
@@ -71,3 +71,19 @@ CS 升级后，以下特性被并入核心或他处，**达到对应版本须移
 | Cloud Shadows | 1.8+ |
 
 低于指定版本则仍兼容。
+
+> 各功能的准确纳入版本另见 [版本与支持策略](../00-overview/version-and-support.md)。
+
+## 照明 MOD 之间的互斥规则
+
+CS 本身与几乎所有照明 MOD 兼容，但**照明 MOD 彼此之间**有一套硬规则（出自官方 Vanilla 设置指南）：
+
+- ⚠️ **同一时间只用一款室内 + 一款室外照明 MOD。**
+- ⚠️ **同一时间只用一款天气 MOD**（天气 MOD 会改写室外光照）。
+- ⚠️ **不要用 EVLaS** —— Sky Sync 已完全取代它。
+- ⚠️ **Modern Lighting Overhaul 2 高于 1.3.6 的版本与 CS 不兼容。**
+- ⚠️ **Window Shadows Ultimate** 与以下互斥：Window Shadows RT、**Lux**、ELFX Shadows、Enhanced Lights and FX、Relighting Skyrim (Interiors)、Skyrim is Luminous。
+- ⚠️ **Lux CS** 与 **Ambient Templates for Lighting Mods**、**Windows Shadows Ultimate** 互斥。
+- ⚠️ 任何使用 **ENB Light / ENB Particle Lights** 的 MOD 与 CS 不兼容——用了也不会发光，改用 **CS Light / Light Placer** 补丁。
+
+> 官方推荐的照明与天气 MOD 清单见 [Vanilla 设置指南](../01-installation/vanilla-setup.md)。

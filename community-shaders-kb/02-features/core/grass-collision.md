@@ -4,29 +4,40 @@ title: Grass Collision 草体碰撞
 category: 02-features
 kind: core
 status: released
-version: 1.0.0
-updated: 2026-09-20
-tags: [草地, 物理]
+version: 1.1.0
+updated: 2026-09-21
+tags: [草地, 物理, 角色]
 source: https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-collision
-summary: 真实草体交互与碰撞检测（1.5+ 已并入核心）。
+summary: 给草体加上角色碰撞，玩家与 NPC 走过时草会被推开、压弯（1.5.0+ 并入核心）。
 ---
 
 # Grass Collision 草体碰撞
 
-> 分类：核心特性 · 状态：已发布
+> 分类：核心特性（1.5.0+ 并入） · 状态：已发布
 
-真实草体交互与碰撞检测（1.5+ 已并入核心）。
+给草体加上**角色碰撞**，让草在被踩到或被推开时**弯曲**。
 
-## 说明
+## 效果
 
-1.5 起并入核心。让角色与草体产生真实的物理交互。
+草现在会与**玩家和 NPC** 碰撞，像被踩到或推挤一样弯折。该效果基于《战神》（God of War）里那套交互式风与植被的技术（官方附了该技术演示视频）。
 
-## 维护信息
+## 为什么这项功能值得注意
 
-- 类型：核心特性
-- 状态：已发布
-- 标签：草地, 物理
-- 官方来源：https://modding.wiki/en/skyrim/developers/community-shaders/Features-Home/grass-collision
+在 CS 之前，「走过草地会分开」是 ENB 阵营的招牌效果之一；Grass Collision 把它带进了 CS，并且因为是在引擎层实现，**不依赖 ENB 的注入式后处理**。在[官方功能对照矩阵](../../00-overview/feature-matrix.md)中，CS / ENB / CS VR 都有、ENB VR 没有。
+
+## 相关条目
+
+- [Grass Lighting 草体光照](grass-lighting.md)
+- [Grass Optimizations 草优化](../additional/grass-optimizations.md)（附加特性，重写草渲染）
+
+## 贡献者
+
+- doodlum：主要贡献者
+- Nukem：游戏着色器与渲染的原始逆向
+- Jonahex：逆向、最早的着色器缓存与协助
+- Maxsu：那套「复杂到我看不懂」的碰撞函数
+- Ersh：协助
+- alandtse
 
 ---
-*本条目由 gen_features.py 自动生成，修改请编辑脚本后重跑，或直接在源站更新后同步。*
+*本条目依据官方功能页精修整理；如与官方页面不一致，以官方为准。*

@@ -26,9 +26,9 @@
       "source": "https://github.com/ModOrganizer2/usvfs",
       "summary": "USVFS（用户态虚拟文件系统）是 MO2 的核心组件，用 API hooking 把\"别处\"的文件呈现给指定进程。",
       "kind": "concept",
-      "content": "<p><strong>USVFS（User Space Virtual File System，用户态虚拟文件系统）</strong> 是 MO2 的心脏。官方定义：</p>\n<blockquote>USVFS 让 Windows 程序创建<strong>只对一组选定进程可见</strong>的文件/目录链接；它靠 <strong>API hooking</strong> 骗过文件访问函数，使它们\"发现/打开\"其实位于别处的文件。</blockquote>\n<h2>它在 MO2 里做什么</h2>\n<ol><li><strong>不改动游戏目录</strong>：mod 实际在 <code>mods\\</code> 各自的文件夹里，USVFS 在游戏/工具进程启动的那一刻，把合并后的视图\"塞\"进该进程的眼中。</li><li><strong>进程级可见</strong>：链接只对 MO2 启动的游戏/工具进程可见；其它程序（包括资源管理器）看到的仍是真实目录。</li><li><strong>优先级叠加</strong>：多个 mod 文件夹 + Overwrite + 游戏原文件，按优先级叠加成一份统一的虚拟 Data 目录。</li><li><strong>会话级生命周期</strong>：MO2 关闭或进程结束，虚拟链接随之消失，不留下任何残留。</li></ol>\n<h2>与 MO2 其它子系统的关系</h2>\n<ul><li><strong>DirectoryRefresher</strong>：在 mod 变动时后台多线程重建虚拟目录树（见 <a href=\"03-architecture/directory-refresher.md\" target=\"_blank\" rel=\"noopener\">DirectoryRefresher</a>）。</li><li><strong>UsvfsConnector</strong>：启动游戏时把\"虚拟路径 → 真实路径\"的映射表交给 usvfs（见 <a href=\"03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a>）。</li><li><strong>VFS 节点类</strong>：DirectoryEntry / FileEntry / FilesOrigin 等描述虚拟目录树（见 <a href=\"03-architecture/vfs-node-classes.md\" target=\"_blank\" rel=\"noopener\">VFS 节点类</a>）。</li></ul>\n<blockquote>USVFS 自身仍是\"进行中（alpha）\"状态，但作为 MO2 核心组件接受了大量真实世界测试。当前许可为 GPLv3。</blockquote>",
+      "content": "<p><strong>USVFS（User Space Virtual File System，用户态虚拟文件系统）</strong> 是 MO2 的心脏。官方定义：</p>\n<blockquote>USVFS 让 Windows 程序创建<strong>只对一组选定进程可见</strong>的文件/目录链接；它靠 <strong>API hooking</strong> 骗过文件访问函数，使它们\"发现/打开\"其实位于别处的文件。</blockquote>\n<h2>它在 MO2 里做什么</h2>\n<ol><li><strong>不改动游戏目录</strong>：mod 实际在 <code>mods\\</code> 各自的文件夹里，USVFS 在游戏/工具进程启动的那一刻，把合并后的视图\"塞\"进该进程的眼中。</li><li><strong>进程级可见</strong>：链接只对 MO2 启动的游戏/工具进程可见；其它程序（包括资源管理器）看到的仍是真实目录。</li><li><strong>优先级叠加</strong>：多个 mod 文件夹 + Overwrite + 游戏原文件，按优先级叠加成一份统一的虚拟 Data 目录。</li><li><strong>会话级生命周期</strong>：MO2 关闭或进程结束，虚拟链接随之消失，不留下任何残留。</li></ol>\n<h2>与 MO2 其它子系统的关系</h2>\n<ul><li><strong>DirectoryRefresher</strong>：在 mod 变动时后台多线程重建虚拟目录树（见 <a href=\"../03-architecture/directory-refresher.md\" target=\"_blank\" rel=\"noopener\">DirectoryRefresher</a>）。</li><li><strong>UsvfsConnector</strong>：启动游戏时把\"虚拟路径 → 真实路径\"的映射表交给 usvfs（见 <a href=\"../03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a>）。</li><li><strong>VFS 节点类</strong>：DirectoryEntry / FileEntry / FilesOrigin 等描述虚拟目录树（见 <a href=\"../03-architecture/vfs-node-classes.md\" target=\"_blank\" rel=\"noopener\">VFS 节点类</a>）。</li></ul>\n<blockquote>USVFS 自身仍是\"进行中（alpha）\"状态，但作为 MO2 核心组件接受了大量真实世界测试。当前许可为 GPLv3。</blockquote>",
       "_file": "00-overview/usvfs-role.md",
-      "_chars": 1134
+      "_chars": 1143
     },
     {
       "id": "what-is-mo2",
@@ -45,9 +45,9 @@
       "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
       "summary": "MO2 是开源 mod 管理工具，靠虚拟文件系统（VFS）在运行时合并 mod，保持游戏真实目录干净。",
       "kind": "concept",
-      "content": "<p><strong>Mod Organizer 2（MO2）</strong> 是一个开源的 PC 游戏 mod 管理工具，目标是让 mod 的安装与管理对初学者与老手都一样简单、干净。它最关键的革命性设计是：<strong>mod 不写入游戏目录，而是在运行时通过一个\"虚拟文件系统（VFS）\"合并呈现给游戏进程</strong>。</p>\n<h2>关键定位</h2>\n<ul><li><strong>开源</strong>：代码开放，社区持续维护（Tannin 开创，后由社区接手为 MO2）。</li><li><strong>虚拟部署</strong>：mod 各自独立存放，运行时统一\"叠加\"成游戏看到的 Data 目录；关闭 MO2 后游戏目录原样如初。</li><li><strong>mod 隔离</strong>：游戏目录始终保持干净，启用/禁用 mod 不会互相破坏。</li><li><strong>Profile（档案）</strong>：可为同一游戏保存多套不同的 mod 组合与加载顺序，无缝切换。</li><li><strong>冲突解决</strong>：多个 mod 提供同名文件时，按优先级决定\"谁胜出\"。</li><li>另外还提供 <strong>BSA 解包（Bethesda 游戏）、Nexus 集成、BAIN/FOMOD 安装器、存档查看器、归档失效（archive invalidation）、可定制分类</strong> 等。</li></ul>\n<h2>为什么需要 VFS</h2>\n<p>传统方案（如直接覆盖游戏文件，或是 NTFS 符号链接/连接点）要么污染游戏目录、要么需要管理员权限、要么全局可见。MO2 的 VFS（由 <strong>USVFS</strong> 实现）解决了这些痛点——它才是 MO2 的\"心脏\"。</p>\n<blockquote>想理解 VFS 本身的工作原理，见 <a href=\"usvfs-role.md\" target=\"<em>blank\" rel=\"noopener\">USVFS 在 MO2 中的角色</a> 与 <a href=\"01-mechanism/api-hooking.md\" target=\"</em>blank\" rel=\"noopener\">核心机制：API Hooking</a>。</blockquote>",
+      "content": "<p><strong>Mod Organizer 2（MO2）</strong> 是一个开源的 PC 游戏 mod 管理工具，目标是让 mod 的安装与管理对初学者与老手都一样简单、干净。它最关键的革命性设计是：<strong>mod 不写入游戏目录，而是在运行时通过一个\"虚拟文件系统（VFS）\"合并呈现给游戏进程</strong>。</p>\n<h2>关键定位</h2>\n<ul><li><strong>开源</strong>：代码开放，社区持续维护（Tannin 开创，后由社区接手为 MO2）。</li><li><strong>虚拟部署</strong>：mod 各自独立存放，运行时统一\"叠加\"成游戏看到的 Data 目录；关闭 MO2 后游戏目录原样如初。</li><li><strong>mod 隔离</strong>：游戏目录始终保持干净，启用/禁用 mod 不会互相破坏。</li><li><strong>Profile（档案）</strong>：可为同一游戏保存多套不同的 mod 组合与加载顺序，无缝切换。</li><li><strong>冲突解决</strong>：多个 mod 提供同名文件时，按优先级决定\"谁胜出\"。</li><li>另外还提供 <strong>BSA 解包（Bethesda 游戏）、Nexus 集成、BAIN/FOMOD 安装器、存档查看器、归档失效（archive invalidation）、可定制分类</strong> 等。</li></ul>\n<h2>为什么需要 VFS</h2>\n<p>传统方案（如直接覆盖游戏文件，或是 NTFS 符号链接/连接点）要么污染游戏目录、要么需要管理员权限、要么全局可见。MO2 的 VFS（由 <strong>USVFS</strong> 实现）解决了这些痛点——它才是 MO2 的\"心脏\"。</p>\n<blockquote>想理解 VFS 本身的工作原理，见 <a href=\"usvfs-role.md\" target=\"<em>blank\" rel=\"noopener\">USVFS 在 MO2 中的角色</a> 与 <a href=\"../01-mechanism/api-hooking.md\" target=\"</em>blank\" rel=\"noopener\">核心机制：API Hooking</a>。</blockquote>",
       "_file": "00-overview/what-is-mo2.md",
-      "_chars": 1014
+      "_chars": 1017
     },
     {
       "id": "session-scoped-links",
@@ -64,9 +64,9 @@
       "source": "https://github.com/ModOrganizer2/usvfs",
       "summary": "虚拟链接在会话结束时消失，无需管理员权限，且不依赖具体文件系统（FAT32/只读/网络盘均可）。",
       "kind": "concept",
-      "content": "<p>USVFS 的链接相比 NTFS 符号链接，有三项关键便利：</p>\n<h2>1. 会话级生命周期</h2>\n<ul><li>链接在\"会话结束\"时自动消失（MO2 关闭或进程退出）。</li><li><strong>不需要写权限到链接目标目录</strong>，也<strong>不需要管理员权限</strong>（安装与使用都不需要）。</li><li>这对\"不想动系统、不想提权\"的普通玩家极其友好。</li></ul>\n<h2>2. 跨文件系统</h2>\n<ul><li>NTFS 符号链接被锁死在 NTFS 上；USVFS 的链接<strong>与文件系统无关</strong>。</li><li>因此你可以在 <strong>FAT32 驱动器、只读介质、甚至网络盘</strong>上建立\"链接\"。</li></ul>\n<h2>3. 不需要先创建真实的链接对象</h2>\n<p>NTFS 符号链接是文件系统中真实存在的对象（需要创建/删除权限与目标写权限）。USVFS 纯在进程内重定向，<strong>不落任何真实链接对象</strong>，所以没有这些限制。</p>\n<blockquote>代价与边界见 <a href=\"02-features/usvfs-drawbacks.md\" target=\"_blank\" rel=\"noopener\">USVFS 的代价与风险</a>。</blockquote>",
+      "content": "<p>USVFS 的链接相比 NTFS 符号链接，有三项关键便利：</p>\n<h2>1. 会话级生命周期</h2>\n<ul><li>链接在\"会话结束\"时自动消失（MO2 关闭或进程退出）。</li><li><strong>不需要写权限到链接目标目录</strong>，也<strong>不需要管理员权限</strong>（安装与使用都不需要）。</li><li>这对\"不想动系统、不想提权\"的普通玩家极其友好。</li></ul>\n<h2>2. 跨文件系统</h2>\n<ul><li>NTFS 符号链接被锁死在 NTFS 上；USVFS 的链接<strong>与文件系统无关</strong>。</li><li>因此你可以在 <strong>FAT32 驱动器、只读介质、甚至网络盘</strong>上建立\"链接\"。</li></ul>\n<h2>3. 不需要先创建真实的链接对象</h2>\n<p>NTFS 符号链接是文件系统中真实存在的对象（需要创建/删除权限与目标写权限）。USVFS 纯在进程内重定向，<strong>不落任何真实链接对象</strong>，所以没有这些限制。</p>\n<blockquote>代价与边界见 <a href=\"../02-features/usvfs-drawbacks.md\" target=\"_blank\" rel=\"noopener\">USVFS 的代价与风险</a>。</blockquote>",
       "_file": "01-mechanism/session-scoped-links.md",
-      "_chars": 695
+      "_chars": 698
     },
     {
       "id": "overlay-links",
@@ -83,9 +83,9 @@
       "source": "https://github.com/ModOrganizer2/usvfs",
       "summary": "USVFS 可把多个目录叠加到同一个目标上，按优先级决定哪个\"赢\"，这正是 mod 合并的原理。",
       "kind": "concept",
-      "content": "<p>USVFS 能把<strong>多个目录叠加（overlay）到同一个目标目录上</strong>——这正是 MO2\"把几十个 mod 合并成一份 Data\"的实现基础。</p>\n<h2>叠加如何工作</h2>\n<ul><li>游戏真实 <code>Data\\</code>、各个 mod 的 <code>mods\\ModA\\...</code>、<code>mods\\ModB\\...</code>、以及 <code>overwrite\\</code>，都被\"铺\"在同一棵虚拟目录树上。</li><li>当进程请求 <code>Data\\Textures\\rock.dds</code> 时，usvfs 在所有叠加层中查找该文件，按<strong>优先级</strong>返回最上面那一份。</li><li>排在最前（优先级最高）的来源即为\"赢家\"，被进程读取；其它来源对该路径\"隐藏\"。</li></ul>\n<h2>这与冲突解决是同一件事</h2>\n<p>叠加 + 优先级 = MO2 的<strong>冲突解决</strong>规则。优先级由 mod 列表顺序、profile、BSA 等因素决定（见 <a href=\"05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a> 与 <a href=\"03-architecture/fileentry-priority.md\" target=\"</em>blank\" rel=\"noopener\">FileEntry 优先级冲突</a>）。</p>\n<blockquote>启动游戏时，这份\"虚拟路径→真实来源\"的映射由 <a href=\"03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 交给 usvfs。</blockquote>",
+      "content": "<p>USVFS 能把<strong>多个目录叠加（overlay）到同一个目标目录上</strong>——这正是 MO2\"把几十个 mod 合并成一份 Data\"的实现基础。</p>\n<h2>叠加如何工作</h2>\n<ul><li>游戏真实 <code>Data\\</code>、各个 mod 的 <code>mods\\ModA\\...</code>、<code>mods\\ModB\\...</code>、以及 <code>overwrite\\</code>，都被\"铺\"在同一棵虚拟目录树上。</li><li>当进程请求 <code>Data\\Textures\\rock.dds</code> 时，usvfs 在所有叠加层中查找该文件，按<strong>优先级</strong>返回最上面那一份。</li><li>排在最前（优先级最高）的来源即为\"赢家\"，被进程读取；其它来源对该路径\"隐藏\"。</li></ul>\n<h2>这与冲突解决是同一件事</h2>\n<p>叠加 + 优先级 = MO2 的<strong>冲突解决</strong>规则。优先级由 mod 列表顺序、profile、BSA 等因素决定（见 <a href=\"../05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a> 与 <a href=\"../03-architecture/fileentry-priority.md\" target=\"</em>blank\" rel=\"noopener\">FileEntry 优先级冲突</a>）。</p>\n<blockquote>启动游戏时，这份\"虚拟路径→真实来源\"的映射由 <a href=\"../03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 交给 usvfs。</blockquote>",
       "_file": "01-mechanism/overlay-links.md",
-      "_chars": 835
+      "_chars": 844
     },
     {
       "id": "api-hooking",
@@ -102,9 +102,9 @@
       "source": "https://github.com/ModOrganizer2/usvfs",
       "summary": "USVFS 通过 hook 文件访问类 Win32 API，拦截进程发起的路径请求并重写为真实路径。",
       "kind": "concept",
-      "content": "<p>USVFS 的本质是 <strong>API hooking（应用程序接口挂钩）</strong>：在目标进程里\"替换/拦截\"它用来访问文件系统的 Win32 函数，从而把一次\"打开 A\"的请求，悄悄改到\"打开 B\"。</p>\n<h2>它是怎么骗过文件访问函数的</h2>\n<ol><li>当 MO2 启动游戏（或工具）时，usvfs 被注入该进程。</li><li>进程调用 <code>CreateFileW</code>、<code>GetFileAttributesW</code>、<code>FindFirstFileW</code> 等文件 API 时，会先经过 usvfs 的 <strong>hook</strong>（所有 hook 函数统一命名为 <code>hook_&lt;原函数名&gt;</code>，见 <a href=\"04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a>）。</li><li>hook 检查请求的路径是否落在被管理的虚拟目录里：<ul><li>命中 → 把路径<strong>重定向</strong>到该文件真实所在的 mod 文件夹，再调用底层原生函数。</li><li>未命中 → 原样放行。</li></ul></li><li>进程完全不知道自己打开的是 <code>mods\\ModA\\...</code> 而不是 <code>Data\\...</code>，对它而言一切正常。</li></ol>\n<h2>为什么叫\"用户态\"</h2>\n<p>重定向发生在<strong>进程自己的地址空间内</strong>，不依赖任何文件系统/内核特性。这正是它能做到\"只对指定进程可见\"\"跨文件系统\"\"无需管理员\"的根本原因。</p>\n<blockquote>直观感受：打开 usvfs 调试日志，你会看到每一行都打印进程请求的<strong>原始路径</strong>和被 usvfs <strong>重定向后的真实路径</strong>——这是理解\"重定向\"最直观的材料。</blockquote>",
+      "content": "<p>USVFS 的本质是 <strong>API hooking（应用程序接口挂钩）</strong>：在目标进程里\"替换/拦截\"它用来访问文件系统的 Win32 函数，从而把一次\"打开 A\"的请求，悄悄改到\"打开 B\"。</p>\n<h2>它是怎么骗过文件访问函数的</h2>\n<ol><li>当 MO2 启动游戏（或工具）时，usvfs 被注入该进程。</li><li>进程调用 <code>CreateFileW</code>、<code>GetFileAttributesW</code>、<code>FindFirstFileW</code> 等文件 API 时，会先经过 usvfs 的 <strong>hook</strong>（所有 hook 函数统一命名为 <code>hook_&lt;原函数名&gt;</code>，见 <a href=\"../04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a>）。</li><li>hook 检查请求的路径是否落在被管理的虚拟目录里：<ul><li>命中 → 把路径<strong>重定向</strong>到该文件真实所在的 mod 文件夹，再调用底层原生函数。</li><li>未命中 → 原样放行。</li></ul></li><li>进程完全不知道自己打开的是 <code>mods\\ModA\\...</code> 而不是 <code>Data\\...</code>，对它而言一切正常。</li></ol>\n<h2>为什么叫\"用户态\"</h2>\n<p>重定向发生在<strong>进程自己的地址空间内</strong>，不依赖任何文件系统/内核特性。这正是它能做到\"只对指定进程可见\"\"跨文件系统\"\"无需管理员\"的根本原因。</p>\n<blockquote>直观感受：打开 usvfs 调试日志，你会看到每一行都打印进程请求的<strong>原始路径</strong>和被 usvfs <strong>重定向后的真实路径</strong>——这是理解\"重定向\"最直观的材料。</blockquote>",
       "_file": "01-mechanism/api-hooking.md",
-      "_chars": 929
+      "_chars": 932
     },
     {
       "id": "virtual-delete",
@@ -120,9 +120,9 @@
       "source": "https://github.com/ModOrganizer2/usvfs",
       "summary": "USVFS 可以\"虚拟地\"取消链接，使某文件对进程不可见，或用一个文件替换另一个真实文件。",
       "kind": "concept",
-      "content": "<p>USVFS 还能\"虚拟地\"<strong>取消链接（unlink）</strong>一个文件：</p>\n<ul><li>让某个真实存在的文件在进程眼里<strong>完全消失</strong>（像被删了一样，但磁盘上毫发无损）。</li><li>或用一个（来自某 mod 的）文件<strong>替换</strong>另一个真实文件，而无需改动磁盘。</li></ul>\n<h2>典型用途</h2>\n<ul><li><strong>屏蔽文件</strong>：想禁用游戏/某 mod 里的某个文件，但又不真删——在虚拟层把它\"藏\"起来即可。</li><li><strong>覆盖而不修改</strong>：用高优先级 mod 的文件\"盖住\"低优先级或原版文件，原版文件物理上仍在。</li></ul>\n<blockquote>注意：被\"虚拟删除\"的文件并非真的删除，MO2 关闭后它依旧存在。这与 <a href=\"05-usage/overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a> 的\"工具产出物\"是相反方向的概念（一个是隐藏，一个是暴露工具写出的新文件）。</blockquote>",
+      "content": "<p>USVFS 还能\"虚拟地\"<strong>取消链接（unlink）</strong>一个文件：</p>\n<ul><li>让某个真实存在的文件在进程眼里<strong>完全消失</strong>（像被删了一样，但磁盘上毫发无损）。</li><li>或用一个（来自某 mod 的）文件<strong>替换</strong>另一个真实文件，而无需改动磁盘。</li></ul>\n<h2>典型用途</h2>\n<ul><li><strong>屏蔽文件</strong>：想禁用游戏/某 mod 里的某个文件，但又不真删——在虚拟层把它\"藏\"起来即可。</li><li><strong>覆盖而不修改</strong>：用高优先级 mod 的文件\"盖住\"低优先级或原版文件，原版文件物理上仍在。</li></ul>\n<blockquote>注意：被\"虚拟删除\"的文件并非真的删除，MO2 关闭后它依旧存在。这与 <a href=\"../05-usage/overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a> 的\"工具产出物\"是相反方向的概念（一个是隐藏，一个是暴露工具写出的新文件）。</blockquote>",
       "_file": "01-mechanism/virtual-delete.md",
-      "_chars": 628
+      "_chars": 631
     },
     {
       "id": "process-local-links",
@@ -138,9 +138,9 @@
       "source": "https://github.com/ModOrganizer2/usvfs",
       "summary": "USVFS 创建的链接只对调用者选定的进程可见，其它程序（含资源管理器）看到的是真实目录。",
       "kind": "concept",
-      "content": "<p>与 NTFS 符号链接\"对全系统所有程序可见\"不同，USVFS 的链接<strong>只对一组被选中的进程可见</strong>。</p>\n<h2>这意味着什么</h2>\n<ul><li>只有<strong>通过 MO2 启动</strong>的游戏/Tool（如 xEdit、LOOT、BodySlide）才会\"看到\"虚拟合并后的 Data 目录。</li><li>直接双击游戏 exe、或用资源管理器打开游戏目录，看到的仍是<strong>未经修改的真实目录</strong>——mod 文件物理上并不在那里。</li><li>因此多个程序可以各自拥有不同的\"视图\"，互不干扰。</li></ul>\n<h2>对比 NTFS 符号链接</h2>\n<table><thead><tr><th style=\"text-align:left\">维度</th><th style=\"text-align:left\">USVFS</th><th style=\"text-align:left\">NTFS 符号链接/连接点</th></tr></thead><tbody><tr><td style=\"text-align:left\">可见范围</td><td style=\"text-align:left\">仅选定进程</td><td style=\"text-align:left\">所有进程（全局）</td></tr><tr><td style=\"text-align:left\">是否改动真实目录</td><td style=\"text-align:left\">否</td><td style=\"text-align:left\">是（创建了真实链接对象）</td></tr></tbody></table>\n<blockquote>这是 mod 隔离与\"游戏目录保持干净\"能够成立的基础，详见 <a href=\"05-usage/mod-isolation.md\" target=\"_blank\" rel=\"noopener\">mod 隔离</a>。</blockquote>",
+      "content": "<p>与 NTFS 符号链接\"对全系统所有程序可见\"不同，USVFS 的链接<strong>只对一组被选中的进程可见</strong>。</p>\n<h2>这意味着什么</h2>\n<ul><li>只有<strong>通过 MO2 启动</strong>的游戏/Tool（如 xEdit、LOOT、BodySlide）才会\"看到\"虚拟合并后的 Data 目录。</li><li>直接双击游戏 exe、或用资源管理器打开游戏目录，看到的仍是<strong>未经修改的真实目录</strong>——mod 文件物理上并不在那里。</li><li>因此多个程序可以各自拥有不同的\"视图\"，互不干扰。</li></ul>\n<h2>对比 NTFS 符号链接</h2>\n<table><thead><tr><th style=\"text-align:left\">维度</th><th style=\"text-align:left\">USVFS</th><th style=\"text-align:left\">NTFS 符号链接/连接点</th></tr></thead><tbody><tr><td style=\"text-align:left\">可见范围</td><td style=\"text-align:left\">仅选定进程</td><td style=\"text-align:left\">所有进程（全局）</td></tr><tr><td style=\"text-align:left\">是否改动真实目录</td><td style=\"text-align:left\">否</td><td style=\"text-align:left\">是（创建了真实链接对象）</td></tr></tbody></table>\n<blockquote>这是 mod 隔离与\"游戏目录保持干净\"能够成立的基础，详见 <a href=\"../05-usage/mod-isolation.md\" target=\"_blank\" rel=\"noopener\">mod 隔离</a>。</blockquote>",
       "_file": "01-mechanism/process-local-links.md",
-      "_chars": 707
+      "_chars": 710
     },
     {
       "id": "vs-ntfs-symlink",
@@ -177,9 +177,9 @@
       "source": "https://github.com/ModOrganizer2/usvfs",
       "summary": "USVFS 带来内存/CPU 开销、初始化时机限制、新 bug 源，以及易触发杀软误报。",
       "kind": "reference",
-      "content": "<p>USVFS 强大，但也有明确代价（来自官方 README）：</p>\n<ul><li><strong>性能开销</strong>：每个被 hook 的文件调用都会经过 usvfs，必然带来一定的内存与 CPU 开销（理想情况下很小，但并非零）。</li><li><strong>初始化时机</strong>：usvfs 仅在<strong>每个进程初始化阶段</strong>才激活。若某依赖 DLL 在 usvfs 就位前就被加载，它可能错过重定向。</li><li><strong>新的 bug 源</strong>：注入式 hook 会引入一类\"难以诊断\"的问题，可能让受影响进程出现诡异故障。</li><li><strong>杀软误报</strong>：所用技术与部分恶意软件相似，<strong>容易被杀软/反恶意软件拦截或干扰</strong>（且常常毫无提示）。需要把整个 MO2 安装目录加入排除项，必要时甚至要卸载某些顽固杀软。</li></ul>\n<blockquote>实际排错与缓解见 <a href=\"06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS/USVFS 常见排错</a>，以及杀软清单与 HVCI 章节。</blockquote>",
+      "content": "<p>USVFS 强大，但也有明确代价（来自官方 README）：</p>\n<ul><li><strong>性能开销</strong>：每个被 hook 的文件调用都会经过 usvfs，必然带来一定的内存与 CPU 开销（理想情况下很小，但并非零）。</li><li><strong>初始化时机</strong>：usvfs 仅在<strong>每个进程初始化阶段</strong>才激活。若某依赖 DLL 在 usvfs 就位前就被加载，它可能错过重定向。</li><li><strong>新的 bug 源</strong>：注入式 hook 会引入一类\"难以诊断\"的问题，可能让受影响进程出现诡异故障。</li><li><strong>杀软误报</strong>：所用技术与部分恶意软件相似，<strong>容易被杀软/反恶意软件拦截或干扰</strong>（且常常毫无提示）。需要把整个 MO2 安装目录加入排除项，必要时甚至要卸载某些顽固杀软。</li></ul>\n<blockquote>实际排错与缓解见 <a href=\"../06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS/USVFS 常见排错</a>，以及杀软清单与 HVCI 章节。</blockquote>",
       "_file": "02-features/usvfs-drawbacks.md",
-      "_chars": 668
+      "_chars": 671
     },
     {
       "id": "bsa-priority-resolution",
@@ -196,9 +196,9 @@
       "source": "https://deepwiki.com/ModOrganizer2/modorganizer",
       "summary": "BSA 归档内容会被拉进虚拟目录，与 loose file 一起参与优先级判定，决定冲突谁胜。",
       "kind": "reference",
-      "content": "<p>BSA（Bethesda Archive）是 Bethesda 游戏把资源打包成的归档文件。USVFS 不会忽略它们——<strong>BSA 的内容也会被拉进虚拟目录，参与优先级判定</strong>。</p>\n<h2>机制要点</h2>\n<ul><li>MO2 解析每个启用 mod 的 BSA，把其中的文件路径\"展开\"进虚拟目录树，作为该 mod 的贡献来源。</li><li>这样，BSA 里的 <code>Textures\\rock.dds</code> 和某个 loose file 的 <code>Textures\\rock.dds</code> 就是<strong>同一路径的两个来源</strong>，照常按优先级排序。</li><li>BSA 本身也有优先级顺序（通常与其所属 mod 的优先级一致，并受\"存档失效/archive invalidation\"与 BSA 加载顺序影响）。</li></ul>\n<h2>实际影响</h2>\n<ul><li>想用 loose file 覆盖某 BSA 内的资源？只要让该 loose file 所在 mod 优先级更高即可。</li><li>反之，高优先级 mod 的 BSA 会盖过低优先级 mod 的 loose file——这正是 STEP 指南里\"BSA Priorities\"要讲清楚的坑。</li></ul>\n<blockquote>使用层面的冲突处理见 <a href=\"05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a>；mod 隔离与游戏目录干净见 <a href=\"05-usage/mod-isolation.md\" target=\"</em>blank\" rel=\"noopener\">mod 隔离</a>。</blockquote>",
+      "content": "<p>BSA（Bethesda Archive）是 Bethesda 游戏把资源打包成的归档文件。USVFS 不会忽略它们——<strong>BSA 的内容也会被拉进虚拟目录，参与优先级判定</strong>。</p>\n<h2>机制要点</h2>\n<ul><li>MO2 解析每个启用 mod 的 BSA，把其中的文件路径\"展开\"进虚拟目录树，作为该 mod 的贡献来源。</li><li>这样，BSA 里的 <code>Textures\\rock.dds</code> 和某个 loose file 的 <code>Textures\\rock.dds</code> 就是<strong>同一路径的两个来源</strong>，照常按优先级排序。</li><li>BSA 本身也有优先级顺序（通常与其所属 mod 的优先级一致，并受\"存档失效/archive invalidation\"与 BSA 加载顺序影响）。</li></ul>\n<h2>实际影响</h2>\n<ul><li>想用 loose file 覆盖某 BSA 内的资源？只要让该 loose file 所在 mod 优先级更高即可。</li><li>反之，高优先级 mod 的 BSA 会盖过低优先级 mod 的 loose file——这正是 STEP 指南里\"BSA Priorities\"要讲清楚的坑。</li></ul>\n<blockquote>使用层面的冲突处理见 <a href=\"../05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a>；mod 隔离与游戏目录干净见 <a href=\"../05-usage/mod-isolation.md\" target=\"</em>blank\" rel=\"noopener\">mod 隔离</a>。</blockquote>",
       "_file": "03-architecture/bsa-priority-resolution.md",
-      "_chars": 881
+      "_chars": 887
     },
     {
       "id": "directory-refresher",
@@ -234,9 +234,9 @@
       "source": "https://deepwiki.com/ModOrganizer2/modorganizer",
       "summary": "同名文件可来自多个 mod；FileEntry 按优先级排序，排在最前的\"赢家\"被进程读取。",
       "kind": "reference",
-      "content": "<p>当<strong>同一个相对路径</strong>（例如 <code>Textures\\rock.dds</code>）同时存在于多个来源时，就发生了冲突。<code>FileEntry</code> 的处理方式：</p>\n<h2>规则：按优先级排序，第一名获胜</h2>\n<ul><li><code>FileEntry</code> 持有该文件的<strong>所有来源</strong>（来自不同 mod、Overwrite、游戏原文件），每个来源带一个优先级。</li><li>这些来源按优先级排序，<strong>排在第一位的即为\"赢家\"</strong>，被进程实际读取。</li><li>其它来源对该路径\"隐藏\"，但 MO2 仍会在 UI 中标出它们（冲突提示）。</li></ul>\n<h2>优先级由什么决定</h2>\n<ul><li><strong>mod 在列表中的顺序</strong>（越靠下优先级越高，覆盖上面的）。</li><li><strong>profile</strong> 的启用状态与顺序。</li><li><strong>BSA 归档</strong>也有自己的优先级，且可与 loose file 混合参与排序（见 <a href=\"bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 的优先级解析</a>）。</li><li><strong>Overwrite</strong> 目录通常优先级最高，直接\"盖\"住一切。</li></ul>\n<blockquote>这套规则在实际使用层面就是 <a href=\"05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a>。正是叠加 + 优先级（<a href=\"01-mechanism/overlay-links.md\" target=\"</em>blank\" rel=\"noopener\">多目录叠加</a>）让 MO2 既能合并又能解决冲突。</blockquote>",
+      "content": "<p>当<strong>同一个相对路径</strong>（例如 <code>Textures\\rock.dds</code>）同时存在于多个来源时，就发生了冲突。<code>FileEntry</code> 的处理方式：</p>\n<h2>规则：按优先级排序，第一名获胜</h2>\n<ul><li><code>FileEntry</code> 持有该文件的<strong>所有来源</strong>（来自不同 mod、Overwrite、游戏原文件），每个来源带一个优先级。</li><li>这些来源按优先级排序，<strong>排在第一位的即为\"赢家\"</strong>，被进程实际读取。</li><li>其它来源对该路径\"隐藏\"，但 MO2 仍会在 UI 中标出它们（冲突提示）。</li></ul>\n<h2>优先级由什么决定</h2>\n<ul><li><strong>mod 在列表中的顺序</strong>（越靠下优先级越高，覆盖上面的）。</li><li><strong>profile</strong> 的启用状态与顺序。</li><li><strong>BSA 归档</strong>也有自己的优先级，且可与 loose file 混合参与排序（见 <a href=\"bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 的优先级解析</a>）。</li><li><strong>Overwrite</strong> 目录通常优先级最高，直接\"盖\"住一切。</li></ul>\n<blockquote>这套规则在实际使用层面就是 <a href=\"../05-usage/conflict-resolution.md\" target=\"<em>blank\" rel=\"noopener\">冲突解决与优先级</a>。正是叠加 + 优先级（<a href=\"../01-mechanism/overlay-links.md\" target=\"</em>blank\" rel=\"noopener\">多目录叠加</a>）让 MO2 既能合并又能解决冲突。</blockquote>",
       "_file": "03-architecture/fileentry-priority.md",
-      "_chars": 867
+      "_chars": 873
     },
     {
       "id": "usvfs-connector",
@@ -253,9 +253,9 @@
       "source": "https://deepwiki.com/ModOrganizer2/modorganizer",
       "summary": "游戏启动时，UsvfsConnector 把\"虚拟路径→真实路径\"的映射表交给 usvfs 完成注入。",
       "kind": "reference",
-      "content": "<p>当你通过 MO2 点击\"运行\"时，<strong><code>UsvfsConnector</code></strong> 负责把 MO2 算好的虚拟视图\"交给\" usvfs。</p>\n<h2>它做什么</h2>\n<ul><li>把构建好的虚拟目录树翻译成一份 <strong>映射表</strong>：每条记录是一个\"进程会请求的路径\"→\"真实磁盘上该文件的位置\"。</li><li>例如：<code>Data\\Textures\\rock.dds</code> → <code>C:\\MO2\\mods\\ModA\\Textures\\rock.dds</code>。</li><li>在启动游戏进程的同时，把这份映射交给 usvfs，usvfs 据此注入进程并开始重定向。</li></ul>\n<h2>为什么这一步关键</h2>\n<ul><li>此前所有工作（<a href=\"directory-refresher.md\" target=\"<em>blank\" rel=\"noopener\">DirectoryRefresher 建树</a>、<a href=\"fileentry-priority.md\" target=\"</em>blank\" rel=\"noopener\">FileEntry 定优先级</a>、<a href=\"bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 拉入</a>）都是为了产出这份映射。</li><li>映射一旦交付，进程对自己打开的是\"别处\"的文件<strong>毫无察觉</strong>。</li></ul>\n<blockquote>注入与重定向的实际行为，可用 <a href=\"04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 的日志亲眼看到。</blockquote>",
+      "content": "<p>当你通过 MO2 点击\"运行\"时，<strong><code>UsvfsConnector</code></strong> 负责把 MO2 算好的虚拟视图\"交给\" usvfs。</p>\n<h2>它做什么</h2>\n<ul><li>把构建好的虚拟目录树翻译成一份 <strong>映射表</strong>：每条记录是一个\"进程会请求的路径\"→\"真实磁盘上该文件的位置\"。</li><li>例如：<code>Data\\Textures\\rock.dds</code> → <code>C:\\MO2\\mods\\ModA\\Textures\\rock.dds</code>。</li><li>在启动游戏进程的同时，把这份映射交给 usvfs，usvfs 据此注入进程并开始重定向。</li></ul>\n<h2>为什么这一步关键</h2>\n<ul><li>此前所有工作（<a href=\"directory-refresher.md\" target=\"<em>blank\" rel=\"noopener\">DirectoryRefresher 建树</a>、<a href=\"fileentry-priority.md\" target=\"</em>blank\" rel=\"noopener\">FileEntry 定优先级</a>、<a href=\"bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 拉入</a>）都是为了产出这份映射。</li><li>映射一旦交付，进程对自己打开的是\"别处\"的文件<strong>毫无察觉</strong>。</li></ul>\n<blockquote>注入与重定向的实际行为，可用 <a href=\"../04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 的日志亲眼看到。</blockquote>",
       "_file": "03-architecture/usvfs-connector.md",
-      "_chars": 837
+      "_chars": 840
     },
     {
       "id": "vfs-node-classes",
@@ -292,9 +292,9 @@
       "source": "https://github.com/ModOrganizer2/modorganizer/wiki/Debugging-usvfs",
       "summary": "开启 MO2 调试日志后即可看到 usvfs 的 hook 调用、原始路径与重定向后路径；附 spawn_delay 与 Process Monitor 用法。",
       "kind": "tutorial",
-      "content": "<p>打开 MO2 的<strong>调试日志（debug logs）</strong>，usvfs 也会输出对应日志——这是看\"重定向到底发生了什么\"最直观的途径。</p>\n<h2>日志格式</h2>\n<p>大多形如：</p>\n<pre class=\"code\"><code>timestamp &lt;pid:tid&gt; [L] message [param] [param]...</code></pre>\n<p>示例（来自官方 wiki）：</p>\n<pre class=\"code\"><code>07:52:53.161 &lt;19328:40984&gt; [D] hook_GetFileAttributesW [lpFileName=\\??\\C:\\skyrim\\data\\] [reroute.fileName()=C:\\mo\\overwrite] [res=10] [originalError=0] [fixedError=0]</code></pre>\n<h2>字段含义</h2>\n<table><thead><tr><th style=\"text-align:left\">片段</th><th style=\"text-align:left\">含义</th></tr></thead><tbody><tr><td style=\"text-align:left\"><code>07:52:53.161</code></td><td style=\"text-align:left\">消息的本地时间</td></tr><tr><td style=\"text-align:left\"><code>&lt;19328:40984&gt;</code></td><td style=\"text-align:left\">进程 ID 19328、线程 ID 40984（多个进程在 usvfs 下运行时，pid 很有用）</td></tr><tr><td style=\"text-align:left\"><code>hook_GetFileAttributesW</code></td><td style=\"text-align:left\"><strong>所有 usvfs hook 都以 <code>hook_</code> 开头，并包含原函数名</strong></td></tr><tr><td style=\"text-align:left\"><code>lpFileName=\\??\\C:\\skyrim\\data\\</code></td><td style=\"text-align:left\">进程<strong>原始请求</strong>的路径</td></tr><tr><td style=\"text-align:left\"><code>reroute.fileName()=C:\\mo\\overwrite</code></td><td style=\"text-align:left\">usvfs <strong>重定向后</strong>实际使用的真实路径</td></tr><tr><td style=\"text-align:left\"><code>res=10</code></td><td style=\"text-align:left\">底层 <code>GetFileAttributesW()</code> 的返回值（此处为属性位）</td></tr><tr><td style=\"text-align:left\"><code>originalError=0</code></td><td style=\"text-align:left\">调用后 <code>GetLastError()</code> 的结果</td></tr><tr><td style=\"text-align:left\"><code>fixedError=0</code></td><td style=\"text-align:left\">同上，但部分错误被重映射（如 <code>ERROR_PATH_NOT_FOUND</code> → <code>ERROR_FILE_NOT_FOUND</code>）</td></tr></tbody></table>\n<h2>读懂\"重定向\"</h2>\n<ul><li><code>lpFileName</code> → <code>reroute.fileName()</code> 这一对，就是\"进程以为打开 A，实际打开 B\"的铁证。</li><li>注意：部分调用<strong>若最终未被重定向则不会打印</strong>（例如 <code>DeleteFile()</code> 在未重定向时不打日志），以避免刷屏、但也因此可能掩盖某些问题。</li></ul>\n<h2>辅助调试手段</h2>\n<ul><li><strong>spawn_delay（启动延迟）</strong>：在 MO2 的 INI 中加</li></ul>\n<p>``<code>ini [Settings] spawn_delay = X   # 单位：秒 </code>`` 让 MO2 启动进程后先挂起若干秒，方便你 attach 调试器或重置 Process Monitor。</p>\n<ul><li><strong>Process Monitor</strong>（Sysinternals）：按目标进程加筛选、开启\"Show File System Activity\"，可看到每一次文件系统调用，作为日志的补充。</li><li><strong>Visual Studio</strong>：打开 usvfs 解决方案后可 attach 到 MO2 直接或间接启动的任意进程；配合 <code>spawn_delay</code> 更易下断点。调试会派生子进程时可用 Child Process Debugging Power Tool。</li></ul>\n<blockquote>看到 hook 行为却仍不对？大概率是注入被安全软件挡了，见 <a href=\"06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS/USVFS 常见排错</a>。</blockquote>",
+      "content": "<p>打开 MO2 的<strong>调试日志（debug logs）</strong>，usvfs 也会输出对应日志——这是看\"重定向到底发生了什么\"最直观的途径。</p>\n<h2>日志格式</h2>\n<p>大多形如：</p>\n<pre class=\"code\"><code>timestamp &lt;pid:tid&gt; [L] message [param] [param]...</code></pre>\n<p>示例（来自官方 wiki）：</p>\n<pre class=\"code\"><code>07:52:53.161 &lt;19328:40984&gt; [D] hook_GetFileAttributesW [lpFileName=\\??\\C:\\skyrim\\data\\] [reroute.fileName()=C:\\mo\\overwrite] [res=10] [originalError=0] [fixedError=0]</code></pre>\n<h2>字段含义</h2>\n<table><thead><tr><th style=\"text-align:left\">片段</th><th style=\"text-align:left\">含义</th></tr></thead><tbody><tr><td style=\"text-align:left\"><code>07:52:53.161</code></td><td style=\"text-align:left\">消息的本地时间</td></tr><tr><td style=\"text-align:left\"><code>&lt;19328:40984&gt;</code></td><td style=\"text-align:left\">进程 ID 19328、线程 ID 40984（多个进程在 usvfs 下运行时，pid 很有用）</td></tr><tr><td style=\"text-align:left\"><code>hook_GetFileAttributesW</code></td><td style=\"text-align:left\"><strong>所有 usvfs hook 都以 <code>hook_</code> 开头，并包含原函数名</strong></td></tr><tr><td style=\"text-align:left\"><code>lpFileName=\\??\\C:\\skyrim\\data\\</code></td><td style=\"text-align:left\">进程<strong>原始请求</strong>的路径</td></tr><tr><td style=\"text-align:left\"><code>reroute.fileName()=C:\\mo\\overwrite</code></td><td style=\"text-align:left\">usvfs <strong>重定向后</strong>实际使用的真实路径</td></tr><tr><td style=\"text-align:left\"><code>res=10</code></td><td style=\"text-align:left\">底层 <code>GetFileAttributesW()</code> 的返回值（此处为属性位）</td></tr><tr><td style=\"text-align:left\"><code>originalError=0</code></td><td style=\"text-align:left\">调用后 <code>GetLastError()</code> 的结果</td></tr><tr><td style=\"text-align:left\"><code>fixedError=0</code></td><td style=\"text-align:left\">同上，但部分错误被重映射（如 <code>ERROR_PATH_NOT_FOUND</code> → <code>ERROR_FILE_NOT_FOUND</code>）</td></tr></tbody></table>\n<h2>读懂\"重定向\"</h2>\n<ul><li><code>lpFileName</code> → <code>reroute.fileName()</code> 这一对，就是\"进程以为打开 A，实际打开 B\"的铁证。</li><li>注意：部分调用<strong>若最终未被重定向则不会打印</strong>（例如 <code>DeleteFile()</code> 在未重定向时不打日志），以避免刷屏、但也因此可能掩盖某些问题。</li></ul>\n<h2>辅助调试手段</h2>\n<ul><li><strong>spawn_delay（启动延迟）</strong>：在 MO2 的 INI 中加</li></ul>\n<p>``<code>ini [Settings] spawn_delay = X   # 单位：秒 </code>`` 让 MO2 启动进程后先挂起若干秒，方便你 attach 调试器或重置 Process Monitor。</p>\n<ul><li><strong>Process Monitor</strong>（Sysinternals）：按目标进程加筛选、开启\"Show File System Activity\"，可看到每一次文件系统调用，作为日志的补充。</li><li><strong>Visual Studio</strong>：打开 usvfs 解决方案后可 attach 到 MO2 直接或间接启动的任意进程；配合 <code>spawn_delay</code> 更易下断点。调试会派生子进程时可用 Child Process Debugging Power Tool。</li></ul>\n<blockquote>看到 hook 行为却仍不对？大概率是注入被安全软件挡了，见 <a href=\"../06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS/USVFS 常见排错</a>。</blockquote>",
       "_file": "04-debugging/debugging-usvfs.md",
-      "_chars": 1834
+      "_chars": 1837
     },
     {
       "id": "bsa-management-usage",
@@ -331,9 +331,9 @@
       "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
       "summary": "工具写出的新文件落入 Overwrite；应定期把其中内容归档进正式 mod，保持 Overwrite 干净。",
       "kind": "tutorial",
-      "content": "<p><code>Overwrite</code> 是 MO2 里一个特殊的高优先级文件夹：<strong>工具（而非游戏）通过 VFS 写出的新文件，会落到这里</strong>。</p>\n<h2>文件怎么进 Overwrite 的</h2>\n<ul><li>BodySlide 生成的 <code>_cbbe.dds</code>、xEdit 清洗出的 <code>.esp</code>、LOOT 排序结果、FNIS 输出等，经 usvfs 写出时，默认写入 <code>overwrite\\</code>。</li><li>因为 Overwrite 优先级最高，它\"盖\"住一切同名文件——这正是你期望的行为（工具产物立即生效）。</li></ul>\n<h2>为什么要维护一个干净的 Overwrite</h2>\n<ul><li>若不清理，Overwrite 会越积越乱，文件名冲突、难以追溯\"这文件是哪来的\"。</li><li>它应是一个<strong>中转站</strong>，而不是长期仓库。</li></ul>\n<h2>维护流程</h2>\n<ol><li>定期打开 <code>Overwrite</code>，查看里面的文件。</li><li>把属于某个具体 mod 的产出，<strong>移动/归类</strong>到对应的正式 mod 文件夹里（必要时新建一个\"工具输出\"mod）。</li><li>只保留真正需要\"临时覆盖一切\"的文件在 Overwrite 中。</li><li>删除已归档的重复项，避免 Overwrite 与正式 mod 互相打架。</li></ol>\n<blockquote>Overwrite 与 <a href=\"01-mechanism/virtual-delete.md\" target=\"_blank\" rel=\"noopener\">虚拟删除</a> 方向相反：一个是\"暴露工具写出的新文件\"，一个是\"隐藏某文件\"。</blockquote>",
+      "content": "<p><code>Overwrite</code> 是 MO2 里一个特殊的高优先级文件夹：<strong>工具（而非游戏）通过 VFS 写出的新文件，会落到这里</strong>。</p>\n<h2>文件怎么进 Overwrite 的</h2>\n<ul><li>BodySlide 生成的 <code>_cbbe.dds</code>、xEdit 清洗出的 <code>.esp</code>、LOOT 排序结果、FNIS 输出等，经 usvfs 写出时，默认写入 <code>overwrite\\</code>。</li><li>因为 Overwrite 优先级最高，它\"盖\"住一切同名文件——这正是你期望的行为（工具产物立即生效）。</li></ul>\n<h2>为什么要维护一个干净的 Overwrite</h2>\n<ul><li>若不清理，Overwrite 会越积越乱，文件名冲突、难以追溯\"这文件是哪来的\"。</li><li>它应是一个<strong>中转站</strong>，而不是长期仓库。</li></ul>\n<h2>维护流程</h2>\n<ol><li>定期打开 <code>Overwrite</code>，查看里面的文件。</li><li>把属于某个具体 mod 的产出，<strong>移动/归类</strong>到对应的正式 mod 文件夹里（必要时新建一个\"工具输出\"mod）。</li><li>只保留真正需要\"临时覆盖一切\"的文件在 Overwrite 中。</li><li>删除已归档的重复项，避免 Overwrite 与正式 mod 互相打架。</li></ol>\n<blockquote>Overwrite 与 <a href=\"../01-mechanism/virtual-delete.md\" target=\"_blank\" rel=\"noopener\">虚拟删除</a> 方向相反：一个是\"暴露工具写出的新文件\"，一个是\"隐藏某文件\"。</blockquote>",
       "_file": "05-usage/overwrite-dir.md",
-      "_chars": 897
+      "_chars": 900
     },
     {
       "id": "profile-switching",
@@ -350,9 +350,9 @@
       "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
       "summary": "每个 profile 保存独立的 mod 勾选与加载顺序，可在多套配置间无缝切换。",
       "kind": "tutorial",
-      "content": "<p>MO2 的 profile（档案）系统让你为同一游戏保存<strong>多套不同的 mod 组合与加载顺序</strong>，互不干扰。</p>\n<h2>profile 包含什么</h2>\n<ul><li>哪些 mod 被<strong>启用/禁用</strong>。</li><li>mod 的<strong>顺序（优先级）</strong>。</li><li>插件（ESP/ESM/ESL）的<strong>加载顺序</strong>。</li><li>各自的 INI/存档关联等。</li></ul>\n<h2>切换时发生了什么</h2>\n<ul><li>切换 profile 只是改变 MO2 接下来要喂给 usvfs 的\"视图定义\"。</li><li>下一次启动游戏/工具时，<a href=\"03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 按新 profile 重建映射——磁盘上的 mod 文件一个都没动。</li></ul>\n<h2>实用提示</h2>\n<ul><li>新建空白 profile 时可选 <code>DefaultGameSettings</code>，用于排查\"是不是 mod 导致的故障\"。</li><li>排错时：先在空 profile 跑通，再逐步加 mod，能快速定位是哪个 mod 惹的祸。</li></ul>\n<blockquote>切换 profile 偶尔会让 MO2 崩溃？先排查安全软件与 <a href=\"06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS 排错</a> 中的\"Windows Event Log 服务\"。</blockquote>",
+      "content": "<p>MO2 的 profile（档案）系统让你为同一游戏保存<strong>多套不同的 mod 组合与加载顺序</strong>，互不干扰。</p>\n<h2>profile 包含什么</h2>\n<ul><li>哪些 mod 被<strong>启用/禁用</strong>。</li><li>mod 的<strong>顺序（优先级）</strong>。</li><li>插件（ESP/ESM/ESL）的<strong>加载顺序</strong>。</li><li>各自的 INI/存档关联等。</li></ul>\n<h2>切换时发生了什么</h2>\n<ul><li>切换 profile 只是改变 MO2 接下来要喂给 usvfs 的\"视图定义\"。</li><li>下一次启动游戏/工具时，<a href=\"../03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 按新 profile 重建映射——磁盘上的 mod 文件一个都没动。</li></ul>\n<h2>实用提示</h2>\n<ul><li>新建空白 profile 时可选 <code>DefaultGameSettings</code>，用于排查\"是不是 mod 导致的故障\"。</li><li>排错时：先在空 profile 跑通，再逐步加 mod，能快速定位是哪个 mod 惹的祸。</li></ul>\n<blockquote>切换 profile 偶尔会让 MO2 崩溃？先排查安全软件与 <a href=\"../06-reference/troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS 排错</a> 中的\"Windows Event Log 服务\"。</blockquote>",
       "_file": "05-usage/profile-switching.md",
-      "_chars": 827
+      "_chars": 833
     },
     {
       "id": "mod-isolation",
@@ -368,9 +368,9 @@
       "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
       "summary": "每个 mod 独立存放，游戏目录保持原样；启用/禁用不会互相破坏。",
       "kind": "concept",
-      "content": "<p>MO2 的官方特性之一就是 <strong>mod isolation（游戏目录保持干净）</strong>。</p>\n<h2>它为什成立</h2>\n<ul><li>每个 mod 是 <code>mods\\</code> 下的独立文件夹，互不叠加在磁盘上。</li><li>真正的\"合并视图\"只存在于被 usvfs 注入的进程的<strong>内存</strong>里（见 <a href=\"01-mechanism/process-local-links.md\" target=\"_blank\" rel=\"noopener\">进程级可见的虚拟链接</a>）。</li><li>因此没有哪个 mod 会\"踩\"到另一个 mod 的文件，游戏原文件也不会被覆盖。</li></ul>\n<h2>带来的能力</h2>\n<ul><li>随便启用/禁用/重排序 mod，磁盘零改动。</li><li>出错时只需调整 MO2 里的勾选与顺序，不必去游戏目录里翻找、删除残留。</li><li>与 Steam/平台\"验证游戏文件完整性\"完全兼容（游戏目录没被动过）。</li></ul>\n<blockquote>工具（如 BodySlide、xEdit）写出的新文件不会进游戏目录，而是进 <a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a>。</blockquote>",
+      "content": "<p>MO2 的官方特性之一就是 <strong>mod isolation（游戏目录保持干净）</strong>。</p>\n<h2>它为什成立</h2>\n<ul><li>每个 mod 是 <code>mods\\</code> 下的独立文件夹，互不叠加在磁盘上。</li><li>真正的\"合并视图\"只存在于被 usvfs 注入的进程的<strong>内存</strong>里（见 <a href=\"../01-mechanism/process-local-links.md\" target=\"_blank\" rel=\"noopener\">进程级可见的虚拟链接</a>）。</li><li>因此没有哪个 mod 会\"踩\"到另一个 mod 的文件，游戏原文件也不会被覆盖。</li></ul>\n<h2>带来的能力</h2>\n<ul><li>随便启用/禁用/重排序 mod，磁盘零改动。</li><li>出错时只需调整 MO2 里的勾选与顺序，不必去游戏目录里翻找、删除残留。</li><li>与 Steam/平台\"验证游戏文件完整性\"完全兼容（游戏目录没被动过）。</li></ul>\n<blockquote>工具（如 BodySlide、xEdit）写出的新文件不会进游戏目录，而是进 <a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a>。</blockquote>",
       "_file": "05-usage/mod-isolation.md",
-      "_chars": 675
+      "_chars": 678
     },
     {
       "id": "downloads-and-nexus",
@@ -446,9 +446,9 @@
       "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
       "summary": "同名文件冲突时，mod 列表中靠下者（优先级高）覆盖靠上者；BSA 亦参与排序。",
       "kind": "tutorial",
-      "content": "<p>当多个启用 mod（或 mod 与游戏原文件）提供<strong>同一相对路径</strong>的文件，就产生冲突。MO2 用\"优先级\"裁决谁被读取。</p>\n<h2>核心规则</h2>\n<ul><li>在左侧 mod 列表中，<strong>越靠下优先级越高</strong>，会覆盖（盖住）上面的 mod。</li><li>对该路径，优先级最高的来源即\"赢家\"，被进程读取；其余来源被隐藏（但 MO2 会在 UI 标红提示冲突）。</li><li>这与底层 <a href=\"03-architecture/fileentry-priority.md\" target=\"_blank\" rel=\"noopener\">FileEntry 多来源优先级冲突</a> 是同一套规则——叠加 + 排序。</li></ul>\n<h2>BSA 与 loose file</h2>\n<ul><li>BSA 内容也被拉进虚拟目录（见 <a href=\"03-architecture/bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 的优先级解析</a>），参与同一套排序。</li><li>想用 loose file 盖过某个 BSA 内的资源：让该 loose file 所在 mod 优先级高于 BSA 所属 mod 即可。</li><li>反之高优先级 mod 的 BSA 会压过低优先级 mod 的 loose file——注意\"存档失效（archive invalidation）\"与 BSA 加载顺序的影响。</li></ul>\n<h2>操作步骤</h2>\n<ol><li>在 mod 列表里上下拖动调整顺序（或右键设置优先级）。</li><li>用 MO2 的冲突筛选/高亮确认谁覆盖谁。</li><li>必要时把想\"永久胜出\"的文件放进高优先级 mod，或利用 <a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a>。</li></ol>\n<blockquote>想看 usvfs 实际把请求重定向到了哪个文件？开 <a href=\"04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 日志。</blockquote>",
+      "content": "<p>当多个启用 mod（或 mod 与游戏原文件）提供<strong>同一相对路径</strong>的文件，就产生冲突。MO2 用\"优先级\"裁决谁被读取。</p>\n<h2>核心规则</h2>\n<ul><li>在左侧 mod 列表中，<strong>越靠下优先级越高</strong>，会覆盖（盖住）上面的 mod。</li><li>对该路径，优先级最高的来源即\"赢家\"，被进程读取；其余来源被隐藏（但 MO2 会在 UI 标红提示冲突）。</li><li>这与底层 <a href=\"../03-architecture/fileentry-priority.md\" target=\"_blank\" rel=\"noopener\">FileEntry 多来源优先级冲突</a> 是同一套规则——叠加 + 排序。</li></ul>\n<h2>BSA 与 loose file</h2>\n<ul><li>BSA 内容也被拉进虚拟目录（见 <a href=\"../03-architecture/bsa-priority-resolution.md\" target=\"_blank\" rel=\"noopener\">BSA 的优先级解析</a>），参与同一套排序。</li><li>想用 loose file 盖过某个 BSA 内的资源：让该 loose file 所在 mod 优先级高于 BSA 所属 mod 即可。</li><li>反之高优先级 mod 的 BSA 会压过低优先级 mod 的 loose file——注意\"存档失效（archive invalidation）\"与 BSA 加载顺序的影响。</li></ul>\n<h2>操作步骤</h2>\n<ol><li>在 mod 列表里上下拖动调整顺序（或右键设置优先级）。</li><li>用 MO2 的冲突筛选/高亮确认谁覆盖谁。</li><li>必要时把想\"永久胜出\"的文件放进高优先级 mod，或利用 <a href=\"overwrite-dir.md\" target=\"_blank\" rel=\"noopener\">Overwrite 目录</a>。</li></ol>\n<blockquote>想看 usvfs 实际把请求重定向到了哪个文件？开 <a href=\"../04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 日志。</blockquote>",
       "_file": "05-usage/conflict-resolution.md",
-      "_chars": 1003
+      "_chars": 1012
     },
     {
       "id": "load-mechanism",
@@ -788,9 +788,9 @@
       "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
       "summary": "MO2 在游戏进程启动的瞬间用 VFS 合并 mod，磁盘上的游戏目录始终未被修改。",
       "kind": "tutorial",
-      "content": "<p>MO2 的核心体验是：<strong>mod 从不写进游戏目录</strong>。所有合并都发生在\"运行时\"。</p>\n<h2>流程</h2>\n<ol><li>你把 mod 装进 MO2 的 <code>mods\\</code> 目录（各自独立文件夹）。</li><li>你勾选要启用的 mod，调整顺序决定优先级。</li><li>点\"运行游戏\"——此时 <a href=\"03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 把合并视图交给 usvfs，注入游戏进程。</li><li>游戏进程\"看到\"的 <code>Data\\</code> 是几十个 mod 叠加后的结果；<strong>磁盘上的真实游戏目录一字未改</strong>。</li><li>关闭 MO2 / 退出游戏，虚拟链接消失，游戏目录恢复如初。</li></ol>\n<h2>好处</h2>\n<ul><li>游戏目录始终干净、可验证（Verify integrity 不会报\"被改过\"）。</li><li>启用/禁用 mod 只是改视图，不碰文件，不会破坏其它 mod 或游戏本身。</li><li>同一游戏可同时拥有多套互不相干的配置（profile）。</li></ul>\n<blockquote>这与 <a href=\"mod-isolation.md\" target=\"<em>blank\" rel=\"noopener\">mod 隔离</a> 是一体两面；冲突如何裁决见 <a href=\"conflict-resolution.md\" target=\"</em>blank\" rel=\"noopener\">冲突解决与优先级</a>。</blockquote>",
+      "content": "<p>MO2 的核心体验是：<strong>mod 从不写进游戏目录</strong>。所有合并都发生在\"运行时\"。</p>\n<h2>流程</h2>\n<ol><li>你把 mod 装进 MO2 的 <code>mods\\</code> 目录（各自独立文件夹）。</li><li>你勾选要启用的 mod，调整顺序决定优先级。</li><li>点\"运行游戏\"——此时 <a href=\"../03-architecture/usvfs-connector.md\" target=\"_blank\" rel=\"noopener\">UsvfsConnector</a> 把合并视图交给 usvfs，注入游戏进程。</li><li>游戏进程\"看到\"的 <code>Data\\</code> 是几十个 mod 叠加后的结果；<strong>磁盘上的真实游戏目录一字未改</strong>。</li><li>关闭 MO2 / 退出游戏，虚拟链接消失，游戏目录恢复如初。</li></ol>\n<h2>好处</h2>\n<ul><li>游戏目录始终干净、可验证（Verify integrity 不会报\"被改过\"）。</li><li>启用/禁用 mod 只是改视图，不碰文件，不会破坏其它 mod 或游戏本身。</li><li>同一游戏可同时拥有多套互不相干的配置（profile）。</li></ul>\n<blockquote>这与 <a href=\"mod-isolation.md\" target=\"<em>blank\" rel=\"noopener\">mod 隔离</a> 是一体两面；冲突如何裁决见 <a href=\"conflict-resolution.md\" target=\"</em>blank\" rel=\"noopener\">冲突解决与优先级</a>。</blockquote>",
       "_file": "05-usage/runtime-deploy.md",
-      "_chars": 789
+      "_chars": 792
     },
     {
       "id": "third-party-executables",
@@ -828,9 +828,9 @@
       "source": "https://github.com/ModOrganizer2/modorganizer/wiki/Troubleshooting",
       "summary": "注入被拦、HVCI/Core Isolation 阻止受保护 exe、Windows 事件日志服务异常、系统日志被清等排查。",
       "kind": "reference",
-      "content": "<p>usvfs 靠<strong>注入</strong>工作，所以很多\"怪问题\"其实是注入没成功或被干扰。</p>\n<h2>1. 杀软 / 反恶意软件拦截注入</h2>\n<ul><li>usvfs 的 hook 技术与部分恶意软件相似，易被拦截且<strong>常常毫无提示</strong>。</li><li><strong>把整个 MO2 安装目录</strong>（不只是 exe）加入排除/例外项；顽固者可能需彻底卸载。</li><li>已知会干扰的（非穷举）：Acronis（含反勒索模块）、Avast、Bitdefender、Malwarebytes、VIPRE、Windows Defender。</li></ul>\n<h2>2. HVCI / Core Isolation（硬件强制栈保护）阻止受保护 exe</h2>\n<ul><li>Windows 的 <strong>Hardware-enforced Stack Protection（需 Intel CET / AMD Shadow Stack 硬件）</strong> 可能阻止受保护的可执行文件通过 usvfs 运行。</li><li>用户侧解决：Windows 安全中心 → 应用和浏览器控制 → 漏洞利用保护设置 → 程序设置 → 添加该程序 → 找到 exe → 关闭\"硬件强制栈保护\"（Override system settings → Off）。</li><li>开发者侧：用 <code>/CETCOMPAT:NO</code> 编译，或 .NET 项目设 <code>&lt;CETCompat&gt;false&lt;/CETCompat&gt;</code>。</li></ul>\n<h2>3. Windows Event Log 服务异常</h2>\n<ul><li>未知原因下，该服务对正确 hook 像 LOOT/Wrye Bash/xEdit 这类程序<strong>至关重要</strong>。MO2 2.1.4+ 会在运行可执行文件时警告服务异常。</li><li>检查\"Windows Event Log\"服务状态应为\"正在运行\"、启动类型\"自动\"；若拒绝启动，可能是 Windows 日志损坏（超出本 wiki 范围）。</li></ul>\n<h2>4. 清空了 Windows 系统日志</h2>\n<ul><li>系统日志被清（手动或 CCleaner 的\"Windows Event Logs\"）后，必须<strong>重启</strong>（用\"重启\"而非\"关机\"）MO2 才能恢复正常。CCleaner 可关闭该项避免。</li></ul>\n<h2>5. 通用排查顺序</h2>\n<ul><li>在 MO2 之外测试该程序是否正常。</li><li>新建<strong>空白 profile</strong>（选 DefaultGameSettings）测试。</li><li>确认游戏目录/Data 里没有残留 mod。</li><li>确认脚本扩展器（SKSE 等）版本匹配且为最新。</li><li>关闭杀软、完成 Windows 更新、真正\"重启\"电脑。</li></ul>\n<blockquote>想确认 usvfs 到底有没有在重定向，开 <a href=\"04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 看日志。</blockquote>",
+      "content": "<p>usvfs 靠<strong>注入</strong>工作，所以很多\"怪问题\"其实是注入没成功或被干扰。</p>\n<h2>1. 杀软 / 反恶意软件拦截注入</h2>\n<ul><li>usvfs 的 hook 技术与部分恶意软件相似，易被拦截且<strong>常常毫无提示</strong>。</li><li><strong>把整个 MO2 安装目录</strong>（不只是 exe）加入排除/例外项；顽固者可能需彻底卸载。</li><li>已知会干扰的（非穷举）：Acronis（含反勒索模块）、Avast、Bitdefender、Malwarebytes、VIPRE、Windows Defender。</li></ul>\n<h2>2. HVCI / Core Isolation（硬件强制栈保护）阻止受保护 exe</h2>\n<ul><li>Windows 的 <strong>Hardware-enforced Stack Protection（需 Intel CET / AMD Shadow Stack 硬件）</strong> 可能阻止受保护的可执行文件通过 usvfs 运行。</li><li>用户侧解决：Windows 安全中心 → 应用和浏览器控制 → 漏洞利用保护设置 → 程序设置 → 添加该程序 → 找到 exe → 关闭\"硬件强制栈保护\"（Override system settings → Off）。</li><li>开发者侧：用 <code>/CETCOMPAT:NO</code> 编译，或 .NET 项目设 <code>&lt;CETCompat&gt;false&lt;/CETCompat&gt;</code>。</li></ul>\n<h2>3. Windows Event Log 服务异常</h2>\n<ul><li>未知原因下，该服务对正确 hook 像 LOOT/Wrye Bash/xEdit 这类程序<strong>至关重要</strong>。MO2 2.1.4+ 会在运行可执行文件时警告服务异常。</li><li>检查\"Windows Event Log\"服务状态应为\"正在运行\"、启动类型\"自动\"；若拒绝启动，可能是 Windows 日志损坏（超出本 wiki 范围）。</li></ul>\n<h2>4. 清空了 Windows 系统日志</h2>\n<ul><li>系统日志被清（手动或 CCleaner 的\"Windows Event Logs\"）后，必须<strong>重启</strong>（用\"重启\"而非\"关机\"）MO2 才能恢复正常。CCleaner 可关闭该项避免。</li></ul>\n<h2>5. 通用排查顺序</h2>\n<ul><li>在 MO2 之外测试该程序是否正常。</li><li>新建<strong>空白 profile</strong>（选 DefaultGameSettings）测试。</li><li>确认游戏目录/Data 里没有残留 mod。</li><li>确认脚本扩展器（SKSE 等）版本匹配且为最新。</li><li>关闭杀软、完成 Windows 更新、真正\"重启\"电脑。</li></ul>\n<blockquote>想确认 usvfs 到底有没有在重定向，开 <a href=\"../04-debugging/debugging-usvfs.md\" target=\"_blank\" rel=\"noopener\">调试 usvfs</a> 看日志。</blockquote>",
       "_file": "06-reference/troubleshooting-vfs.md",
-      "_chars": 1466
+      "_chars": 1469
     },
     {
       "id": "faq",
@@ -846,9 +846,9 @@
       "source": "https://stepmodifications.org/wiki/Guide:Mod_Organizer",
       "summary": "关于 VFS/USVFS 的高频疑问：mod 不显示、profile 崩溃、与符号链接区别等。",
       "kind": "reference",
-      "content": "<h2>mod 在游戏里不显示 / LOOT、xEdit、Wrye Bash 看不到？</h2>\n<ul><li>确认你是<strong>通过 MO2 启动</strong>游戏或工具（直接双击 exe 看不到虚拟视图）。</li><li>确认 mod 已勾选启用、且顺序正确（见 <a href=\"05-usage/conflict-resolution.md\" target=\"_blank\" rel=\"noopener\">冲突解决</a>）。</li><li>检查是否被安全软件拦截（见 <a href=\"troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS 排错</a>）。</li></ul>\n<h2>为什么游戏目录里找不到我的 mod 文件？</h2>\n<ul><li>正常。mod 物理上在 <code>mods\\</code>，通过 VFS 只在被注入的进程内\"可见\"（见 <a href=\"01-mechanism/process-local-links.md\" target=\"_blank\" rel=\"noopener\">进程级可见</a>）。资源管理器看到的是真实目录。</li></ul>\n<h2>这和 NTFS 符号链接有什么不同？</h2>\n<ul><li>见 <a href=\"02-features/vs-ntfs-symlink.md\" target=\"_blank\" rel=\"noopener\">USVFS vs NTFS 符号链接</a>：进程级/会话级/免权限/跨文件系统/可叠加可隐藏。</li></ul>\n<h2>切换 profile 时 MO2 崩溃？</h2>\n<ul><li>见排错：禁用杀软、检查 Windows Event Log 服务、重启（而非关机）。</li></ul>\n<h2>会不会有性能影响？</h2>\n<ul><li>会有少量内存/CPU 开销（见 <a href=\"02-features/usvfs-drawbacks.md\" target=\"_blank\" rel=\"noopener\">USVFS 的代价与风险</a>），通常可忽略。</li></ul>\n<h2>关闭 MO2 后 mod 还在吗？</h2>\n<ul><li>虚拟链接随会话消失；mod 文件本身仍在 <code>mods\\</code>，下次启动照常生效。</li></ul>",
+      "content": "<h2>mod 在游戏里不显示 / LOOT、xEdit、Wrye Bash 看不到？</h2>\n<ul><li>确认你是<strong>通过 MO2 启动</strong>游戏或工具（直接双击 exe 看不到虚拟视图）。</li><li>确认 mod 已勾选启用、且顺序正确（见 <a href=\"../05-usage/conflict-resolution.md\" target=\"_blank\" rel=\"noopener\">冲突解决</a>）。</li><li>检查是否被安全软件拦截（见 <a href=\"troubleshooting-vfs.md\" target=\"_blank\" rel=\"noopener\">VFS 排错</a>）。</li></ul>\n<h2>为什么游戏目录里找不到我的 mod 文件？</h2>\n<ul><li>正常。mod 物理上在 <code>mods\\</code>，通过 VFS 只在被注入的进程内\"可见\"（见 <a href=\"../01-mechanism/process-local-links.md\" target=\"_blank\" rel=\"noopener\">进程级可见</a>）。资源管理器看到的是真实目录。</li></ul>\n<h2>这和 NTFS 符号链接有什么不同？</h2>\n<ul><li>见 <a href=\"../02-features/vs-ntfs-symlink.md\" target=\"_blank\" rel=\"noopener\">USVFS vs NTFS 符号链接</a>：进程级/会话级/免权限/跨文件系统/可叠加可隐藏。</li></ul>\n<h2>切换 profile 时 MO2 崩溃？</h2>\n<ul><li>见排错：禁用杀软、检查 Windows Event Log 服务、重启（而非关机）。</li></ul>\n<h2>会不会有性能影响？</h2>\n<ul><li>会有少量内存/CPU 开销（见 <a href=\"../02-features/usvfs-drawbacks.md\" target=\"_blank\" rel=\"noopener\">USVFS 的代价与风险</a>），通常可忽略。</li></ul>\n<h2>关闭 MO2 后 mod 还在吗？</h2>\n<ul><li>虚拟链接随会话消失；mod 文件本身仍在 <code>mods\\</code>，下次启动照常生效。</li></ul>",
       "_file": "06-reference/faq.md",
-      "_chars": 928
+      "_chars": 940
     }
   ]
 }

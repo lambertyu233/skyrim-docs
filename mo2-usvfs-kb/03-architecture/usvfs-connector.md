@@ -25,4 +25,4 @@ kind: reference
 - 此前所有工作（[DirectoryRefresher 建树](directory-refresher.md)、[FileEntry 定优先级](fileentry-priority.md)、[BSA 拉入](bsa-priority-resolution.md)）都是为了产出这份映射。
 - 映射一旦交付，进程对自己打开的是"别处"的文件**毫无察觉**。
 
-> 注入与重定向的实际行为，可用 [调试 usvfs](04-debugging/debugging-usvfs.md) 的日志亲眼看到。
+> 注入与重定向的实际行为，可用 [调试 usvfs](../04-debugging/debugging-usvfs.md) 的日志亲眼看到。

@@ -41,6 +41,6 @@ Creation Kit 采用多窗口（dockable panel）布局。熟悉各面板职责�
 
 - [快捷键映射](keyboard-mapping.md)
 - [术语表](glossary.md)
-- [Creation Kit 界面教程](06-tutorials/ck-interface-tutorial.md)
+- [Creation Kit 界面教程](../06-tutorials/ck-interface-tutorial.md)
 
 > 来源：[UESP Bethesda Tutorial Creation Kit Interface](https://ck.uesp.net/wiki/Bethesda_Tutorial_Creation_Kit_Interface)

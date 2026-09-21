@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-gen_features.py — 生成 Community Shaders 功能特性条目
+gen_features.py — 生成 Community Shaders 功能特性条目（遗留脚手架）
 
-设计目标（可维护性）：
-- 所有功能以「数据」形式集中在此脚本的 FEATURES 列表中。
-- 新增 / 删除 / 修改一个功能，只需编辑 FEATURES，然后重新运行本脚本
-  （或运行 build_index.py 仅刷新索引）。
-- 每个功能生成独立 markdown 文件（含 frontmatter），可单独增删改查。
+⚠️ 已降级为「脚手架」工具，不再是 02-features 的真相来源。
+   自 2.1.0 起，02-features 下的条目已按官方来源手工精修（补入工作原理、
+   参数/调试开关、需求与兼容性、相关 MOD、贡献者等深度内容），
+   FEATURES 里的 summary/details 已明显落后于实际条目正文。
 
-运行：managed python gen_features.py
+   因此本脚本默认**只补缺**：已存在的文件一律跳过，不会覆盖。
+   如需用模板重建某个条目，显式加 --force。
+
+运行：
+    managed python gen_features.py            # 只创建缺失的条目
+    managed python gen_features.py --force    # 强制按 FEATURES 重写（会丢精修内容）
 """
 import os
+import sys
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KB_VERSION = "1.0.0"
@@ -255,16 +260,23 @@ summary: {f['summary']}
 
 
 def main():
+    force = "--force" in sys.argv[1:]
     out_core = os.path.join(BASE, "02-features", "core")
     out_add = os.path.join(BASE, "02-features", "additional")
-    count = 0
+    created = 0
+    skipped = 0
     for f in FEATURES:
         sub = out_core if f["kind"] == "core" else out_add
         path = os.path.join(sub, f"{f['id']}.md")
+        if os.path.exists(path) and not force:
+            skipped += 1
+            continue
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(render(f))
-        count += 1
-    print(f"Generated {count} feature entries under 02-features/")
+        created += 1
+    print(f"Created {created} feature entrie(s) under 02-features/; skipped {skipped} existing.")
+    if skipped and not force:
+        print("提示：已存在的条目被跳过（它们含手工精修内容）。要按 FEATURES 重写请加 --force。")
 
 
 if __name__ == "__main__":

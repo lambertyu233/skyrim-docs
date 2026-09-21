@@ -13,7 +13,7 @@ kind: reference
 
 # Creation Kit 界面速查表
 
-一页式速查，编辑时随手对照。完整说明见[编辑器界面](02-features/editor-interface.md)与[快捷键映射](02-features/keyboard-mapping.md)。
+一页式速查，编辑时随手对照。完整说明见[编辑器界面](../02-features/editor-interface.md)与[快捷键映射](../02-features/keyboard-mapping.md)。
 
 ## 窗口速查
 

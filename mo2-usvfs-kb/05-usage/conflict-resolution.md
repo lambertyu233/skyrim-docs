@@ -18,11 +18,11 @@ kind: tutorial
 
 - 在左侧 mod 列表中，**越靠下优先级越高**，会覆盖（盖住）上面的 mod。
 - 对该路径，优先级最高的来源即"赢家"，被进程读取；其余来源被隐藏（但 MO2 会在 UI 标红提示冲突）。
-- 这与底层 [FileEntry 多来源优先级冲突](03-architecture/fileentry-priority.md) 是同一套规则——叠加 + 排序。
+- 这与底层 [FileEntry 多来源优先级冲突](../03-architecture/fileentry-priority.md) 是同一套规则——叠加 + 排序。
 
 ## BSA 与 loose file
 
-- BSA 内容也被拉进虚拟目录（见 [BSA 的优先级解析](03-architecture/bsa-priority-resolution.md)），参与同一套排序。
+- BSA 内容也被拉进虚拟目录（见 [BSA 的优先级解析](../03-architecture/bsa-priority-resolution.md)），参与同一套排序。
 - 想用 loose file 盖过某个 BSA 内的资源：让该 loose file 所在 mod 优先级高于 BSA 所属 mod 即可。
 - 反之高优先级 mod 的 BSA 会压过低优先级 mod 的 loose file——注意"存档失效（archive invalidation）"与 BSA 加载顺序的影响。
 
@@ -32,4 +32,4 @@ kind: tutorial
 2. 用 MO2 的冲突筛选/高亮确认谁覆盖谁。
 3. 必要时把想"永久胜出"的文件放进高优先级 mod，或利用 [Overwrite 目录](overwrite-dir.md)。
 
-> 想看 usvfs 实际把请求重定向到了哪个文件？开 [调试 usvfs](04-debugging/debugging-usvfs.md) 日志。
+> 想看 usvfs 实际把请求重定向到了哪个文件？开 [调试 usvfs](../04-debugging/debugging-usvfs.md) 日志。

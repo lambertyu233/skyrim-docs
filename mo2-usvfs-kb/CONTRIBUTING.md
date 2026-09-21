@@ -22,7 +22,8 @@
 2. 修改：编辑文件 → 递增该条目 `version` → 在 `CHANGELOG.md` 记录。
 3. 删除：直接删文件（如有他处引用，一并更新链接）。
 4. 每次增删改后运行：`python scripts/build_index.py`，确认 `index.json` / `index.html` 刷新无误。
-5. 提交 PR（或合并）前，确认 `index.html` 无残留占位符、分类统计正确。
+5. 提交 PR（或合并）前跑三项校验，都过才算完成：`python scripts/validate_kb.py`（结构）、`python scripts/check_index_ui.py`（索引页交互回归，20 项断言）、`python scripts/check_links.py`（站内相对链接；**新增/移动条目后必跑**——`validate_kb.py` 不查正文链接）。
+6. 再确认 `index.html` 无残留占位符、分类统计正确。
 
 ## 版本化
 

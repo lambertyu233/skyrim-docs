@@ -22,6 +22,6 @@ USVFS 能把**多个目录叠加（overlay）到同一个目标目录上**——
 
 ## 这与冲突解决是同一件事
 
-叠加 + 优先级 = MO2 的**冲突解决**规则。优先级由 mod 列表顺序、profile、BSA 等因素决定（见 [冲突解决与优先级](05-usage/conflict-resolution.md) 与 [FileEntry 优先级冲突](03-architecture/fileentry-priority.md)）。
+叠加 + 优先级 = MO2 的**冲突解决**规则。优先级由 mod 列表顺序、profile、BSA 等因素决定（见 [冲突解决与优先级](../05-usage/conflict-resolution.md) 与 [FileEntry 优先级冲突](../03-architecture/fileentry-priority.md)）。
 
-> 启动游戏时，这份"虚拟路径→真实来源"的映射由 [UsvfsConnector](03-architecture/usvfs-connector.md) 交给 usvfs。
+> 启动游戏时，这份"虚拟路径→真实来源"的映射由 [UsvfsConnector](../03-architecture/usvfs-connector.md) 交给 usvfs。

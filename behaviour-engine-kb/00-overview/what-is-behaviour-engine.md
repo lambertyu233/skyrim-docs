@@ -53,7 +53,7 @@ Pandora 官方 wiki 对"行为补丁器（Behaviour Patcher）"的定义给出�
 | 新增动画 / 新增动作系统（翻滚、处决、闪避等） | FNIS / Nemesis / Pandora | 需要更新"动画数据库" |
 | 把**已有**动画按条件换成别的（站姿、姿态、武器风格） | DAR / OAR | 不新增命令，只做条件替换 |
 
-详见 [Patcher 与 Replacer 的区别](patcher-vs-replacer.md)。
+详见 [Patcher 与 Replacer 的区别](../01-principles/patcher-vs-replacer.md)。
 
 ## 延伸阅读
 

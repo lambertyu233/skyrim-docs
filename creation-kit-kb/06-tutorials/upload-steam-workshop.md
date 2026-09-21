@@ -17,8 +17,8 @@ kind: tutorial
 
 ## 发布前检查
 
-- MOD 应已[清理](05-tools/tes5edit.md)（移除 ITM / UDR），减少冲突。
-- 资源尽量打包（见 [Archive.exe](02-features/archive-exe.md)），但注意工坊上传对文件组合的**限制**。
+- MOD 应已[清理](../05-tools/tes5edit.md)（移除 ITM / UDR），减少冲突。
+- 资源尽量打包（见 [Archive.exe](../02-features/archive-exe.md)），但注意工坊上传对文件组合的**限制**。
 - 确认 `.esp` 的 `Author` / `Description` 等元数据填写完整。
 
 ## 工坊上传的限制（官方提示）
@@ -43,6 +43,6 @@ kind: tutorial
 ## 提示
 
 - 首次发布建议先以「私有/好友」测试，确认加载无误再公开。
-- 资源打包与版本更新流程，结合 [Archive.exe](02-features/archive-exe.md) 使用更稳妥。
+- 资源打包与版本更新流程，结合 [Archive.exe](../02-features/archive-exe.md) 使用更稳妥。
 
 > 来源：[UESP Uploading To Steam Workshop](https://ck.uesp.net/wiki/Uploading_To_Steam_Workshop)

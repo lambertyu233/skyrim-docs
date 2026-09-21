@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "198e53bc744d3b24",
+        "id": "b971af9974eeeee3",
         "type": "tabs",
         "children": [
           {
-            "id": "269bd9e22a50e2ad",
+            "id": "5a819b87962432bb",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "OAR/OAR-补充文档.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "OAR-补充文档"
+              "title": "新标签页"
             }
           }
         ]
@@ -171,7 +167,6 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "OAR/OAR-补充文档.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -202,18 +197,24 @@
   },
   "active": "ef2599f6876595e1",
   "lastOpenFiles": [
+    "mo2-usvfs-kb/scripts/fix_links.py",
+    "mo2-usvfs-kb/scripts/check_links.py",
+    "creation-kit-kb/scripts/fix_links.py",
+    "creation-kit-kb/scripts/check_links.py",
+    "behaviour-engine-kb/scripts/fix_links.py",
+    "behaviour-engine-kb/scripts/check_links.py",
+    "OAR/oar改了动作要刷动作吗.md",
+    "community-shaders-kb/scripts/fix_links.py",
+    "community-shaders-kb/scripts/check_links.py",
+    "community-shaders-kb/06-community/community-resources.md",
+    "community-shaders-kb/06-community/common-pitfalls.md",
+    "community-shaders-kb/06-community",
+    "community-shaders-kb/04-development/testing-and-debugging.md",
+    "community-shaders-kb/00-overview/version-and-support.md",
+    "community-shaders-kb/00-overview/feature-matrix.md",
+    "OAR/OAR-补充文档.md",
     "creation-kit-kb/_raw/legacy-creation-kit-2026-09-21/manifest.json.legacy",
     "creation-kit-kb/_raw/legacy-creation-kit-2026-09-21/build_index.py.legacy",
-    "creation-kit-kb/_raw/legacy-creation-kit-2026-09-21",
-    "community-shaders-kb/_raw/legacy-community-2026-09-21/manifest.json.legacy",
-    "community-shaders-kb/_raw/legacy-community-2026-09-21/build_index.py.legacy",
-    "community-shaders-kb/_raw/legacy-community-2026-09-21",
-    "community-shaders-kb/_raw",
-    "_patch_changelogs.py",
-    "mo2-usvfs-kb/scripts/check_index_ui.py",
-    "creation-kit-kb/scripts/check_index_ui.py",
-    "community-shaders-kb/scripts/check_index_ui.py",
-    "OAR/oar改了动作要刷动作吗.md",
     "behaviour-engine-kb/CHANGELOG.md",
     "behaviour-engine-kb/CONTRIBUTING.md",
     "behaviour-engine-kb/README.md",
@@ -228,7 +229,6 @@
     "behaviour-engine-kb/05-ecosystem/oar-dar.md",
     "behaviour-engine-kb/04-pandora/pandora-troubleshooting.md",
     "behaviour-engine-kb/04-pandora/pandora-patch-format.md",
-    "behaviour-engine-kb/04-pandora/pandora-install.md",
-    "OAR/OAR-补充文档.md"
+    "behaviour-engine-kb/04-pandora/pandora-install.md"
   ]
 }

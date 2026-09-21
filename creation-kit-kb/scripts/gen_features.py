@@ -150,7 +150,8 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     for e in SCRIPTS:
         path = os.path.join(OUT, e["id"] + ".md")
-        with open(path, "w", encoding="utf-8") as f:
+        # newline="\n" —— 资料库约定 LF 换行；默认文本模式在 Windows 上会把 \n 静默转成 CRLF
+        with open(path, "w", encoding="utf-8", newline="\n") as f:
             f.write(render(e))
         print(f"[GEN] {e['id']}.md  ({len(e['functions'])} functions)")
     print(f"Done: {len(SCRIPTS)} script-object entries.")

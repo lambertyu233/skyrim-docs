@@ -23,7 +23,7 @@ CS 与 ENB 的 DLL **同时安装会导致游戏崩溃**。ENB 二进制位于�
 
 ### 步骤 2：移除 ENB 专属 / 不兼容 MOD
 
-CS 会在检测到某些不兼容 MOD 时**自我禁用**。先查 [FAQ](../../03-reference/faq.md) 最新清单。常见需移除：
+CS 会在检测到某些不兼容 MOD 时**自我禁用**。先查 [FAQ](../03-reference/faq.md) 最新清单。常见需移除：
 
 - EVLaS/AELaS（被 CS Sky Sync 替代）
 - KiLoader、ENB Worldspace Weatherlists、ENB Input Disabler、ENB Helper Plus、ENB AO Toggler、ENB Custom UI Color

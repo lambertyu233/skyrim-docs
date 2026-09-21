@@ -2,6 +2,44 @@
 
 本文件记录资料库整体演进。条目级版本见各 `.md` 的 `version` / `updated` 字段。
 
+## [2.1.0] - 2026-09-21
+
+### 新增（脚本）
+
+- 新增 `scripts/check_links.py`：扫描全部条目的 Markdown **站内相对链接**，报告解析不到实际文件的失效链接，并附带**换行一致性提示**。
+  此前没有任何脚本覆盖正文链接 —— `validate_kb.py` 只查 frontmatter 与索引，坏链可长期潜伏而构建一路绿灯。
+- 新增 `scripts/fix_links.py`：把目标路径的前导 `../` 剥掉得到「尾部路径」，在本库根目录反查实际文件，再用 `os.path.relpath`
+  反算正确相对路径 —— **不信人写的 `../` 层数**。读写用 `newline=""`，修链接不会顺带改动 CRLF/LF。
+- 两者与 `build-maintainable-kb` 技能的 stock 版**逐字节一致**。
+
+### 修复（站内链接 29 处 / 15 个文件）
+
+- **全部是同一类错误**：引用**同级或下级分类目录**下的条目时漏了 `../`。本库条目都在 `0X-分类/` 这一层深，正确写法几乎总是 `../0X-分类/xxx.md`。
+  例：`02-features/archive-exe.md` → `../02-features/archive-exe.md`。
+- 按文件分布：`06-tutorials/basic-quest-scripting.md` 4 处；`06-tutorials/ck-interface-tutorial.md` 3 处；
+  `00-overview/creation-kit.md`、`01-installation/data-files.md`、`02-features/glossary.md`、`03-game-systems/quests.md`、
+  `05-tools/blender-skyrim-art-tools.md`、`05-tools/skse-plugin-dev.md`、`05-tools/tes5edit.md`、
+  `06-tutorials/ck-interface-cheat-sheet.md`、`06-tutorials/upload-steam-workshop.md` 各 2 处；
+  `02-features/archive-exe.md`、`02-features/editor-interface.md`、`03-game-systems/packages.md`、`03-game-systems/radiant-story.md` 各 1 处。
+- 这类错误**不会让构建失败**，只会在 `index.html` 里点不开。
+
+### 修复（换行一致性）
+
+- `04-scripting/script-object-{actor,debug,game,objectreference}.md` 4 个文件由 **CRLF 归一为 LF**（共 185 处）。
+- **根因已修**：这 4 个是 `scripts/gen_features.py` 生成的，而它用文本模式 `open(path, "w", encoding="utf-8")` 写文件，
+  Windows 上会把 `\n` 静默翻译成 `\r\n`。现已改为 `open(..., newline="\n")`；否则下次重跑生成器又会把 CRLF 写回来。
+
+### 变更（文档）
+
+- `manifest.json`：`tooling` 补录 `check_links.py` / `fix_links.py`，`gen_features.py` 说明补上「已改为写 LF」；`version` → 2.1.0。
+- `README.md`：`scripts/` 目录树补两个脚本；「校验」步骤由两项改为三项。
+- `CONTRIBUTING.md`：合并前校验由两项改为三项（加 `check_links.py`）。
+
+### 验证
+
+- `validate_kb.py` → **0 错误**；`check_index_ui.py` → **20 项断言全过**；`check_links.py` → **70 条站内链接全部有效**、换行全部 LF。
+- 29 个条目、7 个分类未增删，**条目正文一字未改**（仅换行归一）。
+
 ## [2.0.0] - 2026-09-21
 
 ### 变更（结构对齐）

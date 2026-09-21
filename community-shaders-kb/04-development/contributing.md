@@ -24,11 +24,11 @@ Community Shaders 是社区驱动项目，欢迎对**代码、文档、测试、
 - **功能请求**：Discord `#cs-feature-request` 频道（勿直接发 GitHub Issues，除非开发者要求）。
 - **加入开发**：Fork / PR，阅读官方 CONTRIBUTING；可加入 `#cs-development-discussion`。AI 辅助可行，未经验证的 vibe coding 不行。
 - **测试开发中功能**：Discord `#cs-testing`（测试构建不提供常规支持，常为 AIO，须卸旧 CS/功能且无冲突；反馈回原线程）。
-- **文档**：本资料库即社区文档成果之一——见根目录 [CONTRIBUTING.md](../../CONTRIBUTING.md) 了解如何协同维护。
+- **文档**：本资料库即社区文档成果之一——见根目录 [CONTRIBUTING.md](../CONTRIBUTING.md) 了解如何协同维护。
 
 ## 本资料库的贡献约定
 
-- 每个条目独立成 `.md` 文件，带统一 `frontmatter`（见 [manifest.json](../../manifest.json) 的 schema）。
+- 每个条目独立成 `.md` 文件，带统一 `frontmatter`（见 [manifest.json](../manifest.json) 的 schema）。
 - 新增/删除条目后运行 `scripts/build_index.py` 刷新 `index.json` 与 `index.html`。
 - 功能类条目统一由 `scripts/gen_features.py` 的 `FEATURES` 列表生成，编辑该列表后重跑。
-- 任何内容变更须在 [CHANGELOG.md](../../CHANGELOG.md) 记录版本与摘要，并递增版本号。
+- 任何内容变更须在 [CHANGELOG.md](../CHANGELOG.md) 记录版本与摘要，并递增版本号。

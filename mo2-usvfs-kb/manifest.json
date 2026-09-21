@@ -2,8 +2,8 @@
   "name": "Mod Organizer 2 · USVFS 资料库",
   "description": "围绕 Mod Organizer 2 虚拟文件系统（USVFS）的机制、特性、源码架构、调试排错与使用运维的可维护知识库。",
   "source_name": "USVFS / MO2 官方文档 + STEP 指南 + DeepWiki 源码解析",
-  "version": "1.1.0",
-  "generated_at": "2026-09-20",
+  "version": "1.2.0",
+  "generated_at": "2026-09-21",
   "kb": {
     "name": "Mod Organizer 2 · USVFS 资料库",
     "description": "机制、特性、源码架构、调试排错与使用运维（含 STEP 非官方 MO 指南的完整操作知识）",
@@ -110,6 +110,11 @@
     "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
   },
   "tooling": {
-    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html"
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接 lint：报告解析不到实际文件的失效链接，并提示非 LF 换行的文件",
+    "scripts/fix_links.py": "按「目标尾部路径在本库反查实际文件」反算正确相对路径，一次性修复链接深度错误",
+    "scripts/fetch_mediawiki.py": "通用 MediaWiki 抓取器（本库用于抓取 STEP Mod Organizer 指南，存档于 _raw/）"
   }
 }

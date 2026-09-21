@@ -4,7 +4,7 @@
     "description": "基于 UESP Creation Kit Wiki 整理的可维护、分层、版本化资料库，覆盖 Creation Kit 的概览、安装、编辑器功能、游戏系统、Papyrus 脚本、工具与教程。",
     "locale": "zh-CN"
   },
-  "version": "2.0.0",
+  "version": "2.1.0",
   "generated_at": "2026-09-21",
   "maintainers": ["社区协作"],
   "sources": [
@@ -68,9 +68,11 @@
   },
   "tooling": {
     "scripts/fetch_ck.py": "从 UESP API 抓取原始 wikitext 到 _raw/（上游同步用）",
-    "scripts/gen_features.py": "由 FEATURES 列表生成 04-scripting 下的脚本对象条目（遗留工具：写出的 frontmatter 含 kind/status，页面已不呈现；新增条目仍可用它生成模板）",
+    "scripts/gen_features.py": "由 FEATURES 列表生成 04-scripting 下的脚本对象条目（遗留工具：写出的 frontmatter 含 kind/status，页面已不呈现；新增条目仍可用它生成模板。已改为 newline=\"\\n\" 写 LF 换行）",
     "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
     "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、占位符残留",
-    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索"
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接 lint：报告解析不到实际文件的失效链接，并提示非 LF 换行的文件",
+    "scripts/fix_links.py": "按「目标尾部路径在本库反查实际文件」反算正确相对路径，一次性修复链接深度错误"
   }
 }

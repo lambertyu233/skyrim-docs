@@ -34,11 +34,11 @@ kind: reference
 
 - 资源尽量打包为 `.bsa` 而非零散 loose files：更易安装/卸载、便于排查问题。
 - 修改前先做 **可写副本**，并用版本控制（Git）跟踪 `.esp` 的变更。
-- 清理插件（移除 ITM、撤销误删记录）参见工具链的 [TES5Edit 清理](05-tools/tes5edit.md)。
+- 清理插件（移除 ITM、撤销误删记录）参见工具链的 [TES5Edit 清理](../05-tools/tes5edit.md)。
 
 ## 相关条目
 
 - [INI 文件体系](ini-files.md)
-- [Archive.exe 打包](02-features/archive-exe.md)
+- [Archive.exe 打包](../02-features/archive-exe.md)
 
 > 来源：[UESP Data file](https://ck.uesp.net/wiki/Data_file)

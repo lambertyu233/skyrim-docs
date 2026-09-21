@@ -25,8 +25,8 @@ kind: concept
 
 ## 与 MO2 其它子系统的关系
 
-- **DirectoryRefresher**：在 mod 变动时后台多线程重建虚拟目录树（见 [DirectoryRefresher](03-architecture/directory-refresher.md)）。
-- **UsvfsConnector**：启动游戏时把"虚拟路径 → 真实路径"的映射表交给 usvfs（见 [UsvfsConnector](03-architecture/usvfs-connector.md)）。
-- **VFS 节点类**：DirectoryEntry / FileEntry / FilesOrigin 等描述虚拟目录树（见 [VFS 节点类](03-architecture/vfs-node-classes.md)）。
+- **DirectoryRefresher**：在 mod 变动时后台多线程重建虚拟目录树（见 [DirectoryRefresher](../03-architecture/directory-refresher.md)）。
+- **UsvfsConnector**：启动游戏时把"虚拟路径 → 真实路径"的映射表交给 usvfs（见 [UsvfsConnector](../03-architecture/usvfs-connector.md)）。
+- **VFS 节点类**：DirectoryEntry / FileEntry / FilesOrigin 等描述虚拟目录树（见 [VFS 节点类](../03-architecture/vfs-node-classes.md)）。
 
 > USVFS 自身仍是"进行中（alpha）"状态，但作为 MO2 核心组件接受了大量真实世界测试。当前许可为 GPLv3。

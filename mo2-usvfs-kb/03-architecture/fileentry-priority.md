@@ -27,4 +27,4 @@ kind: reference
 - **BSA 归档**也有自己的优先级，且可与 loose file 混合参与排序（见 [BSA 的优先级解析](bsa-priority-resolution.md)）。
 - **Overwrite** 目录通常优先级最高，直接"盖"住一切。
 
-> 这套规则在实际使用层面就是 [冲突解决与优先级](05-usage/conflict-resolution.md)。正是叠加 + 优先级（[多目录叠加](01-mechanism/overlay-links.md)）让 MO2 既能合并又能解决冲突。
+> 这套规则在实际使用层面就是 [冲突解决与优先级](../05-usage/conflict-resolution.md)。正是叠加 + 优先级（[多目录叠加](../01-mechanism/overlay-links.md)）让 MO2 既能合并又能解决冲突。

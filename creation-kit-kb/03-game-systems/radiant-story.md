@@ -44,6 +44,6 @@ kind: tutorial
 ## 相关条目
 
 - [任务系统](quests.md)
-- [基础任务脚本教程](06-tutorials/basic-quest-scripting.md)
+- [基础任务脚本教程](../06-tutorials/basic-quest-scripting.md)
 
 > 来源：[UESP Bethesda Tutorial Story Manager](https://ck.uesp.net/wiki/Bethesda_Tutorial_Story_Manager)

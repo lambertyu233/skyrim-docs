@@ -25,4 +25,4 @@ BSA（Bethesda Archive）是 Bethesda 游戏把资源打包成的归档文件。
 - 想用 loose file 覆盖某 BSA 内的资源？只要让该 loose file 所在 mod 优先级更高即可。
 - 反之，高优先级 mod 的 BSA 会盖过低优先级 mod 的 loose file——这正是 STEP 指南里"BSA Priorities"要讲清楚的坑。
 
-> 使用层面的冲突处理见 [冲突解决与优先级](05-usage/conflict-resolution.md)；mod 隔离与游戏目录干净见 [mod 隔离](05-usage/mod-isolation.md)。
+> 使用层面的冲突处理见 [冲突解决与优先级](../05-usage/conflict-resolution.md)；mod 隔离与游戏目录干净见 [mod 隔离](../05-usage/mod-isolation.md)。

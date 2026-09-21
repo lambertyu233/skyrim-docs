@@ -19,4 +19,4 @@ USVFS 强大，但也有明确代价（来自官方 README）：
 - **新的 bug 源**：注入式 hook 会引入一类"难以诊断"的问题，可能让受影响进程出现诡异故障。
 - **杀软误报**：所用技术与部分恶意软件相似，**容易被杀软/反恶意软件拦截或干扰**（且常常毫无提示）。需要把整个 MO2 安装目录加入排除项，必要时甚至要卸载某些顽固杀软。
 
-> 实际排错与缓解见 [VFS/USVFS 常见排错](06-reference/troubleshooting-vfs.md)，以及杀软清单与 HVCI 章节。
+> 实际排错与缓解见 [VFS/USVFS 常见排错](../06-reference/troubleshooting-vfs.md)，以及杀软清单与 HVCI 章节。

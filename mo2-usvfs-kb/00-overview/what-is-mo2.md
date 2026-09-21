@@ -27,4 +27,4 @@ kind: concept
 
 传统方案（如直接覆盖游戏文件，或是 NTFS 符号链接/连接点）要么污染游戏目录、要么需要管理员权限、要么全局可见。MO2 的 VFS（由 **USVFS** 实现）解决了这些痛点——它才是 MO2 的"心脏"。
 
-> 想理解 VFS 本身的工作原理，见 [USVFS 在 MO2 中的角色](usvfs-role.md) 与 [核心机制：API Hooking](01-mechanism/api-hooking.md)。
+> 想理解 VFS 本身的工作原理，见 [USVFS 在 MO2 中的角色](usvfs-role.md) 与 [核心机制：API Hooking](../01-mechanism/api-hooking.md)。

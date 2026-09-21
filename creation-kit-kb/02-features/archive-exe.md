@@ -38,7 +38,7 @@ kind: tool
 
 ## 相关条目
 
-- [Data 目录与插件格式](01-installation/data-files.md) — .bsa 的定位
+- [Data 目录与插件格式](../01-installation/data-files.md) — .bsa 的定位
 - [编辑器界面](editor-interface.md)
 
 > 来源：[UESP Archive.exe](https://ck.uesp.net/wiki/Archive.exe)

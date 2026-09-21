@@ -30,7 +30,9 @@ creation-kit-kb/
     ├── gen_features.py   # 数据驱动生成 04-scripting 下的脚本对象条目（遗留生成器）
     ├── build_index.py    # 扫描全部 frontmatter → index.json + index.html
     ├── validate_kb.py    # 结构 + 索引 + 索引页模板的机械校验
-    └── check_index_ui.py # 索引页交互回归（Node + DOM 桩，不需要浏览器）
+    ├── check_index_ui.py # 索引页交互回归（Node + DOM 桩，不需要浏览器）
+    ├── check_links.py    # 站内相对链接 lint（附带换行一致性提示）
+    └── fix_links.py      # 修复链接深度错误（按目标尾部路径反查，不靠手写 ../ ）
 ```
 
 分类目录名带 `00-`~`06-` 序号前缀，便于排序；每个条目一个 `.md` 文件，互不耦合。
@@ -45,10 +47,11 @@ creation-kit-kb/
    ```bash
    python scripts/build_index.py
    ```
-4. **校验**（提交前建议执行，两项都过再算完成）：
+4. **校验**（提交前建议执行，三项都过再算完成）：
    ```bash
    python scripts/validate_kb.py     # 结构校验，退出码 0 通过
    python scripts/check_index_ui.py  # 索引页交互回归，20 项断言
+   python scripts/check_links.py     # 站内相对链接 lint，退出码 0 通过
    ```
 5. **抓取最新原文**（可选，用于同步上游）：
    ```bash

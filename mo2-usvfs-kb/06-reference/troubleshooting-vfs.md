@@ -43,4 +43,4 @@ usvfs 靠**注入**工作，所以很多"怪问题"其实是注入没成功或�
 - 确认脚本扩展器（SKSE 等）版本匹配且为最新。
 - 关闭杀软、完成 Windows 更新、真正"重启"电脑。
 
-> 想确认 usvfs 到底有没有在重定向，开 [调试 usvfs](04-debugging/debugging-usvfs.md) 看日志。
+> 想确认 usvfs 到底有没有在重定向，开 [调试 usvfs](../04-debugging/debugging-usvfs.md) 看日志。

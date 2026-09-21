@@ -27,7 +27,13 @@ mo2-usvfs-kb/
 ├── 05-usage/              # 使用与运维：运行时部署、隔离、profile、冲突、Overwrite
 ├── 06-reference/          # 参考：FAQ、VFS/USVFS 排错
 ├── _raw/                  # 上游来源抓取/摘要存档（索引构建忽略）
-└── scripts/              # 生成器：build_index.py
+└── scripts/
+    ├── build_index.py    # 扫描全部 frontmatter → index.json + index.html
+    ├── validate_kb.py    # 结构 + 索引 + 索引页模板的机械校验
+    ├── check_index_ui.py # 索引页交互回归（Node + DOM 桩，不需要浏览器）
+    ├── check_links.py    # 站内相对链接 lint（附带换行一致性提示）
+    ├── fix_links.py      # 修复链接深度错误（按目标尾部路径反查，不靠手写 ../ ）
+    └── fetch_mediawiki.py# 通用 MediaWiki 抓取器（抓取 STEP 指南，存档于 _raw/）
 ```
 
 ## 快速使用
@@ -40,7 +46,8 @@ mo2-usvfs-kb/
 
 1. 在对应分类目录新建 `your-id.md`，填写统一 `frontmatter`（字段见 `manifest.json → schema`）。
 2. 运行 `scripts/build_index.py` 刷新索引。
-3. 任何内容变更：递增相关条目 `version`，并在 `CHANGELOG.md` 记录；资料库整体版本号维护在 `manifest.json` 与 `CHANGELOG.md`。
+3. 跑三项校验，都过再算完成：`python scripts/validate_kb.py`（结构）、`python scripts/check_index_ui.py`（索引页交互回归）、`python scripts/check_links.py`（站内相对链接）。
+4. 任何内容变更：递增相关条目 `version`，并在 `CHANGELOG.md` 记录；资料库整体版本号维护在 `manifest.json` 与 `CHANGELOG.md`。
 
 ## 设计原则
 
@@ -52,4 +59,4 @@ mo2-usvfs-kb/
 
 ---
 
-*资料库版本 1.1.0 · 生成于 2026-09-20 · 内容整理自 MO2 / USVFS 官方文档、[STEP 非官方 Mod Organizer 指南](https://stepmodifications.org/wiki/Guide:Mod_Organizer) 与 DeepWiki 源码解析（USVFS 当前 GPLv3）。*
+*资料库版本 1.2.0 · 生成于 2026-09-21 · 内容整理自 MO2 / USVFS 官方文档、[STEP 非官方 Mod Organizer 指南](https://stepmodifications.org/wiki/Guide:Mod_Organizer) 与 DeepWiki 源码解析（USVFS 当前 GPLv3）。*

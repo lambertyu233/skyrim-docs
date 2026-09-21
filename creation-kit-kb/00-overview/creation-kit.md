@@ -33,7 +33,7 @@ kind: concept
 ## 相关条目
 
 - [导航枢纽](navigation-hubs.md) — 五大内容板块入口
-- [获取与启动](01-installation/install-and-launch.md) — 安装与首次启动
-- [编辑器界面](02-features/editor-interface.md) — 主要窗口与面板
+- [获取与启动](../01-installation/install-and-launch.md) — 安装与首次启动
+- [编辑器界面](../02-features/editor-interface.md) — 主要窗口与面板
 
 > 来源：[UESP Creation Kit Wiki](https://ck.uesp.net/wiki/Creation_Kit)

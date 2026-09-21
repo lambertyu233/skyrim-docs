@@ -29,4 +29,4 @@ USVFS 的链接相比 NTFS 符号链接，有三项关键便利：
 
 NTFS 符号链接是文件系统中真实存在的对象（需要创建/删除权限与目标写权限）。USVFS 纯在进程内重定向，**不落任何真实链接对象**，所以没有这些限制。
 
-> 代价与边界见 [USVFS 的代价与风险](02-features/usvfs-drawbacks.md)。
+> 代价与边界见 [USVFS 的代价与风险](../02-features/usvfs-drawbacks.md)。

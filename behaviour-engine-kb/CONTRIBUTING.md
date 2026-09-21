@@ -33,7 +33,7 @@ summary: 一句话摘要
 2. 填 frontmatter（`category` = 目录名）；
 3. 写正文，关键结论处用 `> 来源：…` 标注出处；
 4. 运行构建：`python scripts/build_index.py`；
-5. 运行校验：`python scripts/validate_kb.py`（exit 0 为通过）；
+5. 运行校验（三项都过）：`python scripts/validate_kb.py`（exit 0 为通过）、`python scripts/check_index_ui.py`（20 项断言）、`python scripts/check_links.py`（站内相对链接，exit 0 为通过）；
 6. 按"四、自检清单"核对。
 
 ### 修改条目
@@ -63,6 +63,8 @@ summary: 一句话摘要
 
 - [ ] 每个条目 `id == 文件名`、`category == 目录名`、必填字段非空
 - [ ] 已运行 `python scripts/build_index.py` 且无报错
+- [ ] 已运行 `python scripts/validate_kb.py` 与 `python scripts/check_index_ui.py`，两项都过
+- [ ] 已运行 `python scripts/check_links.py`，**0 条失效站内链接**（新增/移动条目后尤其必跑——`validate_kb.py` 不查正文链接）
 - [ ] `index.json` 的 `by_category` 计数与目录内条目一致
 - [ ] `index.html` 的 `<title>` 是本库名（非默认"资料库"）
 - [ ] `index.html` 中无残留占位符（如 `__ENTRIES__`）

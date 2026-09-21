@@ -30,7 +30,7 @@ kind: reference
 1. 在 Object Window 新建 `Quest` 记录，设置 ID 与类型。
 2. 规划 **Stages** 与 **Objectives**，定义进度节点。
 3. 用 **Aliases** 绑定动态引用，避免硬编码具体物体。
-4. 编写 **Stage / Quest Fragment** 脚本（见 [基础任务脚本教程](06-tutorials/basic-quest-scripting.md)）。
+4. 编写 **Stage / Quest Fragment** 脚本（见 [基础任务脚本教程](../06-tutorials/basic-quest-scripting.md)）。
 5. 连接对话与场景，测试各阶段跳转。
 
 ## 相关条目
@@ -38,6 +38,6 @@ kind: reference
 - [对话系统](dialogue.md)
 - [AI 包](packages.md)
 - [Radiant Story](radiant-story.md)
-- [Papyrus 脚本概览](04-scripting/papyrus-overview.md)
+- [Papyrus 脚本概览](../04-scripting/papyrus-overview.md)
 
 > 来源：[UESP CreationKit:Quests](https://ck.uesp.net/wiki/CreationKit:Quests)

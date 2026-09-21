@@ -13,7 +13,7 @@ kind: tutorial
 
 # 教程：基础任务脚本
 
-本教程（Bethesda 官方）演示如何创建一个**简单任务**，并用 **Papyrus 片段（Fragment）** 驱动其阶段与目标的推进。是连接[任务系统](03-game-systems/quests.md)与[Papyrus](04-scripting/papyrus-overview.md)的实操桥梁。
+本教程（Bethesda 官方）演示如何创建一个**简单任务**，并用 **Papyrus 片段（Fragment）** 驱动其阶段与目标的推进。是连接[任务系统](../03-game-systems/quests.md)与[Papyrus](../04-scripting/papyrus-overview.md)的实操桥梁。
 
 ## 你会学到
 
@@ -38,7 +38,7 @@ kind: tutorial
 
 ## 延伸
 
-- 想进一步控制脚本生命周期，见 [Papyrus 语言要素](04-scripting/papyrus-language.md)。
-- 想做动态生成内容，见 [Radiant Story](03-game-systems/radiant-story.md)。
+- 想进一步控制脚本生命周期，见 [Papyrus 语言要素](../04-scripting/papyrus-language.md)。
+- 想做动态生成内容，见 [Radiant Story](../03-game-systems/radiant-story.md)。
 
 > 来源：[UESP Bethesda Tutorial Basic Quest Scripting](https://ck.uesp.net/wiki/Bethesda_Tutorial_Basic_Quest_Scripting)

@@ -28,13 +28,13 @@ kind: tutorial
 2. 打开 **Object Window**，在左侧分类中浏览（Actor、Weapon、Static、Statics 等）。
 3. 打开 **Cell View**，双击进入一个室外/室内 Cell。
 4. 从 Object Window 拖拽一个 Static 物体到 **Render Window**。
-5. 用位移/旋转/缩放 Gizmo 调整其位置（快捷键见[快捷键映射](02-features/keyboard-mapping.md)）。
+5. 用位移/旋转/缩放 Gizmo 调整其位置（快捷键见[快捷键映射](../02-features/keyboard-mapping.md)）。
 6. 保存为新的 `.esp` 插件。
 
 ## 配套资源
 
-- [编辑器界面（参考）](02-features/editor-interface.md) — 各窗口详解
+- [编辑器界面（参考）](../02-features/editor-interface.md) — 各窗口详解
 - [Creation Kit 界面速查表](ck-interface-cheat-sheet.md) — 快速查阅
-- [获取与启动](01-installation/install-and-launch.md)
+- [获取与启动](../01-installation/install-and-launch.md)
 
 > 来源：[UESP Bethesda Tutorial Creation Kit Interface](https://ck.uesp.net/wiki/Bethesda_Tutorial_Creation_Kit_Interface)

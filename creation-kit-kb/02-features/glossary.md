@@ -20,7 +20,7 @@ MOD 开发中的高频术语。完整术语见官方 [Glossary](https://ck.uesp.
 - **Form**：编辑器中的任意数据对象（武器、法术、NPC、单元格等），均有唯一标识。
 - **Form ID**：Form 的唯一编号，由「加载顺序索引 + 对象编号」组成（如 `00012345`）。
 - **Record**：插件中以 Form ID 存储的一条记录。
-- **Master (.esm) / Plugin (.esp)**：主文件与插件，详见[插件格式](01-installation/data-files.md)。
+- **Master (.esm) / Plugin (.esp)**：主文件与插件，详见[插件格式](../01-installation/data-files.md)。
 - **Load Order**：插件加载顺序，后者覆盖前者。
 
 ## 世界与布局
@@ -47,6 +47,6 @@ MOD 开发中的高频术语。完整术语见官方 [Glossary](https://ck.uesp.
 ## 相关条目
 
 - [编辑器界面](editor-interface.md)
-- [Papyrus 语言要素](04-scripting/papyrus-language.md)
+- [Papyrus 语言要素](../04-scripting/papyrus-language.md)
 
 > 来源：[UESP Glossary](https://ck.uesp.net/wiki/Glossary)

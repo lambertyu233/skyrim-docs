@@ -41,6 +41,6 @@ kind: reference
 
 - [任务系统](quests.md)
 - [Radiant Story](radiant-story.md)
-- [术语表](02-features/glossary.md)
+- [术语表](../02-features/glossary.md)
 
 > 来源：[UESP Packages](https://ck.uesp.net/wiki/Packages)

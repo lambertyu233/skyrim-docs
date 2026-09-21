@@ -20,7 +20,7 @@ kind: tool
 - 在 Blender 中创建/编辑静态与可装备网格。
 - 配置碰撞（Collision）、骨骼（Skeleton）与顶点权重。
 - 导出为 Skyrim 兼容的 `.nif` 格式，供 CK 的 Object Window 引用。
-- 配合 [Archive.exe](02-features/archive-exe.md) 将模型与贴图打包为 `.bsa`。
+- 配合 [Archive.exe](../02-features/archive-exe.md) 将模型与贴图打包为 `.bsa`。
 
 ## 与 CK 的衔接
 
@@ -36,7 +36,7 @@ kind: tool
 
 ## 相关条目
 
-- [Archive.exe 打包](02-features/archive-exe.md)
-- [术语表（NIF / DDS）](02-features/glossary.md)
+- [Archive.exe 打包](../02-features/archive-exe.md)
+- [术语表（NIF / DDS）](../02-features/glossary.md)
 
 > 来源：[UESP Blender Skyrim Art Tools](https://ck.uesp.net/wiki/Blender_Skyrim_Art_Tools)

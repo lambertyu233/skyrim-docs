@@ -28,7 +28,7 @@
   - `community-shaders-kb` 与 `creation-kit-kb` 都按维护者要求**整体换成 stock 脚本**，各自私有功能（`CATS` 数组、`category_label`/`path` 字段、status 徽章与 `.b-*` 样式、侧栏「状态过滤」、硬编码页头标题）已全部移除；两者的 `manifest.json` 也转成 stock 形状（`kb.{name,description,locale}` + `schema` + `categories[].dir/title/desc` + `version/generated_at/sources/tooling`）。**条目正文与 frontmatter 一字未改**，旧脚本与旧 manifest 备份在各自 `_raw/legacy-*-2026-09-21/`。
   - frontmatter 的 `kind`/`status` 仍作为**数据保留**（照常写进 `index.json`），只是页面不再呈现徽章；`gen_features.py`（生成器）与 `fetch_*.py`（上游抓取）作为遗留工具保留。
   - stock 脚本两个行为要点：页头标题/副标题**从 manifest 注入**（`kb.description` 里别再重复写 `source_name` 那句，否则副标题重复）；正文开头的 `# H1` 会被 `_strip_leading_h1()` 剥掉（详情面板已单独显示标题）。
-- 四库都有 `scripts\validate_kb.py`（结构+索引+模板校验）+ `scripts\check_index_ui.py`（索引页交互回归，Node + DOM 桩、不需要浏览器）。改完模板必须重建并跑这两个，都过才算完成。
+- 四库都有完整**五件套**：`build_index.py` + `validate_kb.py`（结构+索引+模板校验）+ `check_index_ui.py`（索引页交互回归，Node + DOM 桩、不需要浏览器）+ `check_links.py`（站内相对链接 lint，附带换行提示）+ `fix_links.py`（修链）。**这 5 个脚本在技能与四库中共 20 份副本、每个脚本指纹数均为 1（逐字节同源）**。改完模板必须重建并跑 validate + check_ui；**动过条目或目录后必须加跑 check_links**。
 - **`category` 必须与所在目录名严格相等**（如 `02-features`）。`build_index.py` 是拿 frontmatter 的 `category` 去 `CAT_LABELS` 查中文标签的，写成 `features` 这类短名会**静默**变成空标签。2026-09-21 发现 community-shaders-kb 的 47 个功能条目真的写错了，已修正；同时把 `validate_kb.py` 里「允许省略 `NN-` 前缀」的宽容校验改成严格相等，并新增「每个有条目的目录必须在 `manifest.categories[].dir` 里声明过」的交叉校验。**宽容校验比没有校验更危险。**
 - 改资料库页面一律改 `scripts\build_index.py` 的模板再重建，**不要手改 `index.html`**。
 
@@ -39,3 +39,25 @@
 4. **想让「移动不打断一次性动作」**：按 `AttackState` 阶段拆成多个 submod，共用同一批移动事件名、各放不同阶段动画，靠 `interruptible` 自动交接。
 5. 学 `config.json` 字段名最快的办法：Shift+O 作者模式改一个设置 → diff 文件找新增字段。
 6. 专业 OAR 动画包（如 Gunslicer 的 `Bow` / `Bow_Sneak`）的分包方式 = vanilla 行为结构的镜像，是最好的参照物。
+
+
+## 工具使用教训（跨项目通用，务必遵守）
+- **同一文件不要在同一条消息里并行发多个 Edit**：会互相覆盖，只有最后一次落盘，但每个都返回 success（静默丢写入）。改同一文件要**串行**发 Edit；不同文件可以并行。改完用 grep 抽查关键标记。
+- **站内相对链接的 `../` 层数由目录深度决定**，手写极易错（`02-features/core/x.md` 引根目录要 `../../`）。`validate_kb.py` 只查 frontmatter 与索引，**完全不查正文链接** → 坏链能长期潜伏。**改目录结构或批量写条目后务必跑 `check_links.py`。**
+- 本机 Bash 的 PATH 被破坏，命令前须 `export PATH="/usr/bin:/bin:$PATH"`。托管 Python：`C:/Users/laptopyu/.workbuddy/binaries/python/versions/3.13.12/python.exe`。
+- **无 git 的库怎么复盘历史改动**：`index.json` **内联了每条渲染后的 HTML 正文**；若它的 mtime 早于某次 md 修改，它就是天然的「修改前快照」。做法：按 `_file` 把快照里的 `href="..."` 与当前 md 的 `](...)` 求差集，即可还原那次改动动了哪些链接。本次据此算出三库共修 **61 处**坏链（先前口头报的 31/31 是错的）。**mtime 也能佐证**：三库 15:38 被改动的 md 文件数（1/15/19）与差集算出的文件数完全吻合。
+- **生成器脚本写文件必须 `newline="\n"`**：默认文本模式在 Windows 上会把 `\n` **静默**转成 `\r\n`。creation-kit 的 `gen_features.py` 就这样产出了 4 个 CRLF 条目。**只归一化产物而不修生成器，下次重跑又会被写回去。**
+
+## community-shaders-kb 现状（2.1.0，2026-09-21）
+- 分类 7 个：`00-overview` / `01-installation` / `02-features` / `03-reference` / `04-development` / `05-tools` / **`06-community`（本版新增）**。共 64 条目。
+- 已精修 **15 个**功能条目（含工作原理/参数/需求/兼容/贡献者）：cloud-shadows、dynamic-cubemaps、extended-materials、extended-translucency、grass-collision、grass-lighting、inverse-square-lighting、light-limit-fix、screen-space-shadows、sky-sync、subsurface-scattering、terrain-shadows、water-effects、skylighting、upscaling。**其余 32 个仍是摘要级**（官方只给一句话，下轮应从 Nexus 各附加 MOD 页取材）。
+- **脚本五件套**：`build_index.py` / `validate_kb.py` / `check_index_ui.py` / `check_links.py` / `fix_links.py` —— 已于 2026-09-21 **全部进技能 stock 版并推广到四库**（此前的「待办」已完成，无残留分叉）。
+- `gen_features.py` 已降级为脚手架：**默认跳过已存在文件**，需 `--force` 才重写；**不要误跑**，否则 15 个精修条目会退回模板。它仍用文本模式 `open(path,"w",encoding="utf-8")` 写文件（Windows 上会产出 CRLF），且仍写 `category: features`（2.0.0 修掉的老坑）——**下次动它要一并修**。
+- 全部 md 换行已统一为 **LF**（2.1.0 归一 35 个文件）。
+
+## Community Shaders 硬事实（上游口径，2026-09）
+- 版本：稳定 **1.8.x**（1.8.4 = 2026-08-26）；开发 **1.9.0**（2026-09-20 PR 构建）。**Nexus 是唯一受支持渠道**。
+- 支持游戏版本：**1.6.1170(Steam) / 1.6.1179(GOG) / 1.5.97**；1.6.640、1.7.99、1.7.104 均不支持；除 1.5.97 外无 LTS。GPU 口径 **Vulkan 1.4+**。
+- **VR 停止支持** → Open Shaders；**Linux 不官方支持** → Fluorine。
+- **Upscaling 不支持 XeSS**；**帧生成仅 ≥120Hz**，需 Windowed/Borderless。
+- **进阶资料在 GitHub Developer Wiki**（`community-shaders/skyrim-community-shaders/wiki`）：全功能 CS/ENB/VR 对照矩阵、A/B 测试、`TESTCUBEMAP`/`LLFDEBUG`。用户 wiki 上没有这些。

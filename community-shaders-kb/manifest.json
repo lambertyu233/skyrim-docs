@@ -1,23 +1,27 @@
 {
   "kb": {
     "name": "Community Shaders 资料库",
-    "description": "基于 modding.wiki 官方文档整理的 Community Shaders 可维护资料库，分层组织、便于增删改查与版本化协作。",
+    "description": "基于官方用户 wiki（modding.wiki）、官方仓库与 Developer Wiki、Nexus 发布页整理的可维护 Community Shaders 资料库，分层组织、便于增删改查与版本化协作。",
     "locale": "zh-CN"
   },
-  "version": "2.0.0",
-  "generated_at": "2026-09-20",
+  "version": "2.1.0",
+  "generated_at": "2026-09-21",
   "maintainers": ["社区协作"],
   "sources": [
     {
-      "name": "Modding.wiki - Community Shaders",
+      "name": "Modding.wiki - Community Shaders（官方用户 wiki）",
       "url": "https://modding.wiki/en/skyrim/developers/community-shaders"
     },
     {
-      "name": "GitHub - skyrim-community-shaders",
+      "name": "GitHub - skyrim-community-shaders（官方仓库）",
       "url": "https://github.com/community-shaders/skyrim-community-shaders"
     },
     {
-      "name": "Nexus Mods - Community Shaders",
+      "name": "GitHub Developer Wiki（官方开发者 wiki，进阶信息）",
+      "url": "https://github.com/community-shaders/skyrim-community-shaders/wiki"
+    },
+    {
+      "name": "Nexus Mods - Community Shaders（官方发布页）",
       "url": "https://www.nexusmods.com/skyrimspecialedition/mods/86492"
     }
   ],
@@ -42,21 +46,24 @@
     }
   },
   "categories": [
-    { "dir": "00-overview", "title": "概览", "desc": "定位、架构、缓存系统" },
+    { "dir": "00-overview", "title": "概览", "desc": "定位、架构、缓存系统、功能对照矩阵、版本与支持策略" },
     { "dir": "01-installation", "title": "安装", "desc": "需求、安装、Vanilla 设置、ENB 迁移" },
     { "dir": "02-features", "title": "功能", "desc": "核心特性与附加特性（每特性一文件，分 core / additional 子目录）" },
     { "dir": "03-reference", "title": "参考", "desc": "不兼容 MOD、FAQ" },
-    { "dir": "04-development", "title": "开发", "desc": "PBR 美术师指南、贡献" },
-    { "dir": "05-tools", "title": "工具", "desc": "Light Placer、PGPatcher" }
+    { "dir": "04-development", "title": "开发", "desc": "PBR 美术师指南、测试与调试、贡献" },
+    { "dir": "05-tools", "title": "工具", "desc": "Light Placer、PGPatcher" },
+    { "dir": "06-community", "title": "社区", "desc": "实战经验与常见坑、可信信息源与支持渠道" }
   ],
   "index_files": {
     "index.json": "完整索引：元数据 + 内联渲染后的正文 HTML（可程序化消费 / 外部工具）",
     "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
   },
   "tooling": {
-    "scripts/gen_features.py": "由 FEATURES 列表生成功能条目（遗留工具：写出的 frontmatter 含 kind/status，页面已不呈现；新增功能条目仍可用它生成模板）",
+    "scripts/gen_features.py": "遗留生成器：已改为**默认跳过**已存在文件（需 --force 才重写）。02-features 下的条目现已手工精修并补充官方深度内容，勿再批量重跑，否则会退回摘要级模板。",
     "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
     "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、占位符残留",
-    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索"
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接校验：扫描全部条目的 Markdown 相对链接，报告解析不到实际文件的失效链接",
+    "scripts/fix_links.py": "链接深度一次性修复：按目标尾部路径在根目录反查实际文件，反算正确相对路径（不信人写的 ../ 层数）"
   }
 }

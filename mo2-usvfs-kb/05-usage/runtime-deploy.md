@@ -18,7 +18,7 @@ MO2 的核心体验是：**mod 从不写进游戏目录**。所有合并都发�
 
 1. 你把 mod 装进 MO2 的 `mods\` 目录（各自独立文件夹）。
 2. 你勾选要启用的 mod，调整顺序决定优先级。
-3. 点"运行游戏"——此时 [UsvfsConnector](03-architecture/usvfs-connector.md) 把合并视图交给 usvfs，注入游戏进程。
+3. 点"运行游戏"——此时 [UsvfsConnector](../03-architecture/usvfs-connector.md) 把合并视图交给 usvfs，注入游戏进程。
 4. 游戏进程"看到"的 `Data\` 是几十个 mod 叠加后的结果；**磁盘上的真实游戏目录一字未改**。
 5. 关闭 MO2 / 退出游戏，虚拟链接消失，游戏目录恢复如初。
 

@@ -2,6 +2,35 @@
 
 本资料库遵循[语义化版本](https://semver.org/lang/zh-CN/)。每条目自身也有 `version` 字段。
 
+## [1.1.0] - 2026-09-21
+
+### 新增（脚本）
+
+- 新增 `scripts/check_links.py`：扫描全部条目的 Markdown **站内相对链接**，报告解析不到实际文件的失效链接，并附带**换行一致性提示**。
+  此前没有任何脚本覆盖正文链接 —— `validate_kb.py` 只查 frontmatter 与索引，所以坏链可以长期潜伏、构建一路绿灯。
+- 新增 `scripts/fix_links.py`：**不信人写的 `../` 层数** —— 把目标路径的前导 `../` 剥掉得到「尾部路径」，在本库根目录反查实际文件，
+  再用 `os.path.relpath` 反算正确的相对路径，因此不论条目在几层深都成立。
+- 两者与 `build-maintainable-kb` 技能的 stock 版**逐字节一致**；至此本库五个脚本（`build_index.py` / `validate_kb.py` /
+  `check_index_ui.py` / `check_links.py` / `fix_links.py`）全部与技能同步。
+
+### 修复（站内链接）
+
+- 修正 **1 处**失效链接：`00-overview/what-is-behaviour-engine.md` 引用同一级分类目录下的条目时漏了 `../`
+  （`patcher-vs-replacer.md` → `../01-principles/patcher-vs-replacer.md`）。
+- 这类错误**不会让构建失败**，只会在 `index.html` 里点不开，属于此前工具链的盲区。
+
+### 变更（文档）
+
+- `manifest.json`：`tooling` 补录 `check_index_ui.py`（此前遗漏）、`check_links.py`、`fix_links.py`；
+  `version` 由 `1.0.0` 修正为 **1.1.0** —— 此前未随 1.0.1 / 1.0.2 递增，一直落后于本 CHANGELOG。
+- `README.md`：`scripts/` 目录树展开为逐脚本说明；「怎么维护」补上三项校验命令。
+- `CONTRIBUTING.md`：新增条目流程与「四、自检清单」加入 `check_index_ui.py` 与 `check_links.py`。
+
+### 验证
+
+- `validate_kb.py` → **0 错误**；`check_index_ui.py` → **20 项断言全过**；`check_links.py` → **97 条站内链接全部有效**、换行全部 LF。
+- 28 个条目、8 个分类未增删，**条目正文一字未改**。
+
 ## [1.0.2] - 2026-09-21
 
 ### 变更（脚本对齐）

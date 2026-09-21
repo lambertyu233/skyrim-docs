@@ -17,7 +17,7 @@ USVFS 的本质是 **API hooking（应用程序接口挂钩）**：在目标进�
 ## 它是怎么骗过文件访问函数的
 
 1. 当 MO2 启动游戏（或工具）时，usvfs 被注入该进程。
-2. 进程调用 `CreateFileW`、`GetFileAttributesW`、`FindFirstFileW` 等文件 API 时，会先经过 usvfs 的 **hook**（所有 hook 函数统一命名为 `hook_<原函数名>`，见 [调试 usvfs](04-debugging/debugging-usvfs.md)）。
+2. 进程调用 `CreateFileW`、`GetFileAttributesW`、`FindFirstFileW` 等文件 API 时，会先经过 usvfs 的 **hook**（所有 hook 函数统一命名为 `hook_<原函数名>`，见 [调试 usvfs](../04-debugging/debugging-usvfs.md)）。
 3. hook 检查请求的路径是否落在被管理的虚拟目录里：
    - 命中 → 把路径**重定向**到该文件真实所在的 mod 文件夹，再调用底层原生函数。
    - 未命中 → 原样放行。

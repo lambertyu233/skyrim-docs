@@ -2,6 +2,42 @@
 
 本文件记录资料库整体与各条目的版本化演进。条目级 `version` 字段随内容变更递增。
 
+## [1.2.0] - 2026-09-21
+
+### 新增（脚本）
+
+- 新增 `scripts/check_links.py`：扫描全部条目的 Markdown **站内相对链接**，报告解析不到实际文件的失效链接，并附带**换行一致性提示**。
+  此前没有任何脚本覆盖正文链接 —— `validate_kb.py` 只查 frontmatter 与索引，坏链可长期潜伏而构建一路绿灯。
+- 新增 `scripts/fix_links.py`：把目标路径的前导 `../` 剥掉得到「尾部路径」，在本库根目录反查实际文件，再用 `os.path.relpath`
+  反算正确相对路径 —— **不信人写的 `../` 层数**。读写用 `newline=""`，修链接不会顺带改动 CRLF/LF。
+- 两者与 `build-maintainable-kb` 技能的 stock 版**逐字节一致**。
+
+### 修复（站内链接 31 处 / 19 个文件）
+
+- **全部是同一类错误**：引用**同级或下级分类目录**下的条目时漏了 `../`。本库条目都在 `0X-分类/` 这一层深，正确写法几乎总是 `../0X-分类/xxx.md`。
+  例：`01-mechanism/api-hooking.md` → `../01-mechanism/api-hooking.md`。
+- 按分类分布：`05-usage/` 5 文件 8 处、`01-mechanism/` 5 文件 7 处、`06-reference/` 2 文件 5 处、`03-architecture/` 3 文件 5 处、
+  `00-overview/` 2 文件 4 处、`02-features/` 与 `04-debugging/` 各 1 文件 1 处。单文件最多的是 `06-reference/faq.md`（4 处）。
+- 这类错误**不会让构建失败**，只会在 `index.html` 里点不开。
+
+### 修复（换行一致性）
+
+- **22 个条目由 CRLF 归一为 LF**（共 714 处），与另外三个资料库及「统一 LF」的约定一致。
+  此前不影响 `index.html` / `index.json` 的渲染，但混用换行会让未来 diff 噪音变大。
+
+### 变更（文档）
+
+- `manifest.json`：`tooling` 此前**只登记了 `build_index.py` 一项**，而 `scripts/` 下实有 6 个脚本 —— 现补全
+  `fetch_mediawiki.py`、`validate_kb.py`、`check_index_ui.py`、`check_links.py`、`fix_links.py`；
+  `version` → 1.2.0（此前停在 1.1.0，落后于本 CHANGELOG 的 1.1.1）。
+- `README.md`：`scripts/` 目录树展开为逐脚本说明；「如何维护」补上构建 + 三项校验的完整流程；页脚版本号同步。
+- `CONTRIBUTING.md`：把「每次增删改后运行 build_index」扩为「构建 + 三项校验」。
+
+### 验证
+
+- `validate_kb.py` → **0 错误**；`check_index_ui.py` → **20 项断言全过**；`check_links.py` → **144 条站内链接全部有效**、换行全部 LF。
+- 43 个条目、7 个分类未增删，**条目正文一字未改**（仅换行归一）。
+
 ## [1.1.1] - 2026-09-21
 
 ### 修复（离线浏览器 index.html）

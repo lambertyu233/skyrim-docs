@@ -45,7 +45,7 @@ kind: reference
 
 ## 相关条目
 
-- [Papyrus 脚本概览](04-scripting/papyrus-overview.md)
-- [Archive.exe 打包](02-features/archive-exe.md)
+- [Papyrus 脚本概览](../04-scripting/papyrus-overview.md)
+- [Archive.exe 打包](../02-features/archive-exe.md)
 
 > 来源：[UESP SKSE Plugin Development](https://ck.uesp.net/wiki/SKSE_Plugin_Development)
