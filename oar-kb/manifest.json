@@ -1,0 +1,81 @@
+{
+  "kb": {
+    "name": "上古卷轴5 OAR 资料库",
+    "description": "Open Animation Replacer 的官方口径、条件参考、配置结构、编辑器调试、插件生态与实战改造方法，分层组织、便于增删改查与协作维护。",
+    "source_name": "官方仓库与 Nexus 发布页、作者开发日志、社区一手帖",
+    "locale": "zh-CN"
+  },
+  "version": "1.0.0",
+  "generated_at": "2026-09-21",
+  "maintainers": ["社区协作"],
+  "sources": [
+    {
+      "name": "OAR 官方源码仓库（ersh1/OpenAnimationReplacer）",
+      "url": "https://github.com/ersh1/OpenAnimationReplacer"
+    },
+    {
+      "name": "OAR Nexus 发布页（描述 + 完整条件/函数清单 + 更新日志）",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/92109"
+    },
+    {
+      "name": "作者 Ersh 的 Patreon 开发日志（OAR 迭代史一手记录）",
+      "url": "https://www.patreon.com/Ershin"
+    },
+    {
+      "name": "Detection Plugin（Nonameron）",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/104806"
+    },
+    {
+      "name": "Math Plugin（Ersh）",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/92607"
+    },
+    {
+      "name": "IED Conditions（SlavicPotato）",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/98308"
+    }
+  ],
+  "license_note": "OAR 本体为 GPL-3.0-or-later（含 Modding Exception 与 Linking Exception）；各扩展插件版权归各自作者。本资料库为结构化整理，仅供学习与协作维护，关键数值均标注出处。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind"],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 03-conditions），索引据此过滤",
+        "kind": "concept / reference / tutorial / tool",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "官方来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    { "dir": "00-overview", "title": "概览", "desc": "OAR 定位、与 DAR/FNIS 等的关系、版本迭代史" },
+    { "dir": "01-installation", "title": "安装与前置", "desc": "前置需求、支持版本、ini 位置、安装卸载与兼容性" },
+    { "dir": "02-structure", "title": "结构与配置", "desc": "目录结构、路径插入规则、config.json、优先级、变体、预设" },
+    { "dir": "03-conditions", "title": "条件参考", "desc": "条件系统总览、全清单、容器条件、DAR 旧条件对照" },
+    { "dir": "04-functions", "title": "函数与事件", "desc": "OnTrigger 函数清单、OAR 自定义动画事件" },
+    { "dir": "05-editor", "title": "编辑器与调试", "desc": "游戏内编辑器三模式、动画日志、排错对照表" },
+    { "dir": "06-plugins", "title": "插件生态", "desc": "SKSE 插件 API、Detection / Math / IED 扩展" },
+    { "dir": "07-migration", "title": "迁移（DAR → OAR）", "desc": "手动迁移流程与转换工具" },
+    { "dir": "08-practices", "title": "实战", "desc": "替换心智模型、改造别人动作包、编辑器工作流、坑与代价" },
+    { "dir": "09-sources", "title": "来源与辨析", "desc": "官方/社区来源清单与不可信来源警示" }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/fetch_sources.py": "本库专用：抓取 OAR 相关一手来源（GitHub 原文 / 网页正文）到 _raw/",
+    "scripts/fetch_mediawiki.py": "通用 MediaWiki 抓取器（本库暂未用，留作后续同步）",
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接 lint：报告解析不到实际文件的失效链接，并提示非 LF 换行的文件",
+    "scripts/fix_links.py": "按「目标尾部路径在本库反查实际文件」反算正确相对路径，一次性修复链接深度错误"
+  }
+}

@@ -1,0 +1,180 @@
+SOURCE:
+  - https://forums.nexusmods.com/topic/13487504-for-animations-what-is-the-difference-between-fnisnemesis-and-oar/
+  - https://forums.nexusmods.com/topic/13497416-open-animation-replacer-a-pose/
+  - https://forums.nexusmods.com/topic/13506665-need-answer-with-oar-how-it-actually-works/
+TITLE: Nexus Mods 论坛关于 OAR 的一手讨论（存档，逐字摘录关键回帖）
+FETCHED: 2026-09-21
+
+===============================================================
+[1] "For animations, what is the difference between FNIS/Nemesis and OAR Open Animation Replacer
+    (rewrite of DAR)?"  — Skyrim SE 论坛，2024-05 起
+
+--- 原帖 (Guest deleted208900056, May 22 2024) ---
+So Nemesis is a better kind of FNIS, and OAR is a better kind of DAR?
+But I read their entire descriptions and none seem to mention the other (kind).
+Are these two competing ways to animate characters or can you combine them or did I misunderstand
+something completely?
+
+--- 回帖 ---
+Nemesis and FNIS basically do the same thing, with the exception that FNIS is the only one of the two
+that has creature compatibility.
+DAR is the outdated version of OAR. You shouldn't be using DAR anymore, as any mod that used DAR will
+run with OAR.
+Nemesis and FNIS are generally used for things like combat animations and new behaviors [...]
+OAR does a bit of both. Most of my idle animations, like weapon stance, sitting, etc... are run through OAR.
+[...] Basically, Nemesis and FNIS change behaviors, which allows you to create NEW animations more
+freely. [...] OAR allows you to set conditions on animations.
+
+--- scorrp10 (May 24 2024) —— 本库引用的那段核心解释 ---
+The distinction is simple. FNIS or Nemesis are tools for adding entirely new animation events to the
+game. I.e. if your script has:
+    Debug.SendAnimationEvent(actor, "AnimationEventName"),
+Skyrim's animation database must contain "AnimationEventName" string key, linking it to a particular
+.hkx file. FNIS and Nemesis add new items to this database, thus allowing definition of entirely new
+animation events.
+
+DAR/OAR allow redirection of existing animation events, so that they use a different hkx file, based
+on specific conditions.
+
+I.e. in vanilla animation DB, the "ChairIdle" animation event for female actors links to
+meshes/actors/character/animations/female/chair_idlebasevar1.hkx
+
+DAR or OAR, when certain conditions are satisfied, might use a different .hkx file when a "ChairIdle"
+animation is invoked.
+
+--- 后续回帖 (June 1 2024) ---
+"Wow thank you guys, that makes it real clear, I wonder why they can't write this stuff on the
+description pages."
+
+--- 后续 (September 5 2024, WaxenFigure) ---
+I think it should be pointed out that Pandora now replaces both FNIS and Nemesis both. Just as OAR
+replaces DAR but also adds new features and options Pandora replaces Nemesis by both including the
+creatures that Nemesis ignored AND extends and improves the options available for animators.
+Note that while it's still marked as "beta" so were FNIS and Nemesis. What's really nice is that it's
+blazingly fast too, it runs in seconds instead of minutes.
+
+--- 后续 (September 6 2024, fraquar) ---
+If you read the description on those pages - it tells you what they do. [...]
+FNIS SE: "FNIS Behaviors allows other mods to add different types of animations to the game: idles/poses,
+sequenced, arm offset, furniture, and paired animations, killmoves, and creature animations."
+OAR: "A SKSE framework plugin that replaces animations depending on configurable conditions."
+Take your time to READ the friendly description pages [...]
+
+--- 关键社区发现（同帖，后期回帖）——预览按钮的前置条件 ---
+"Speaking of OAR and how to use it, there's one thing I spent several hours across weeks trying to
+figure out in OAR and couldn't find in any documentation or tutorials. I wanted to preview animations
+so I could eliminate one I didn't like from the Dynamic Random Female Idles (OAR) mod. [...]
+
+In tutorials for OAR and in the posts it said you can preview animations, but I couldn't get the
+preview button to show up. And I didn't want to eliminate the wrong animation.
+
+Yesterday I figured out that to get the preview button to show up you must first select yourself as
+a target (prid 14).
+
+Once you're selected, when you browse the animations you get a preview button, and from there it's
+easy to make any changes you want.
+
+But none of the tutorials and none of the posts on that mod page I found actually tell you that you
+must select yourself to get that button."
+
+===============================================================
+[2] "Open Animation Replacer A pose" — Skyrim SE 论坛，2024-08-27 起
+
+--- 原帖 (DP1021, Aug 27 2024) ---
+I've been having an issue with OAR where none of the OAR animation packs I installed will load. They
+all appear in the UI, but on the loading bar, I get 244/244 animations loaded (I have more than 244).
+I have everything that needs to be installed for OAR; I use Pandora (yes, I've run it), and I can't
+find any fix. I've tried switching back to nemesis/FNIS, and I've deleted every mod I have related to
+OAR and reinstalling, but no matter what I do, my character and every single other character is stuck
+in an A pose [...]
+
+--- scorrp10 (December 30 2024) —— 本库引用的第二段核心解释 ---
+Why are you even TALKING about FNIS/Nemesis/Pandora in connection with OAR? They are entirely
+different animals that have practically nothing to do with each other.
+
+The game essentially has a database of animations, where a given string ultimately corresponds to an
+hkx file under meshes\actors\character\animations. I.e. "IdleWallLeanStart" animation event plays
+meshes\actors\character\animations\wall_idlebackloop.hkx file, which is the vanilla wall lean animation.
+
+With DAR or OAR, when an animation command is issued, the file that will be played can be different,
+depending if conditions are met. For example, in my case, if the actor is female and not a child, and
+a random(0.5) roll is satisfied, the game will, in response to "IdleWallLeanStart", play
+Meshes\actors\character\animations\DynamicAnimationReplacer\_CustomConditions\90046500\wall_idlebackloop.hkx
+instead.
+
+However, some mods add entirely NEW animations to the game. Such as posers, dance mods, adult mods,
+etc. These require the animation database to be updated in order to add new command strings,
+corresponding to new animation files (i.e. "7GOM34" -> meshes\actors\character\animations\GomaPeroPero1\7GOM34.hkx)
+- and then these new animation commands will be invoked via mod scripts as necessary. Updating of the
+database is what FNIS/Nemesis/Pandora does.
+
+DAR or OAR, in response to an EXISTING animation command, will play an alternate file, if the
+conditions are satisfied. That is, mods that provide alternate animations via DAR/OAR do not NEED new
+commands added, therefore, they do not require FNIS or such. Sure, it is possible for one mod to add
+NEW animations, and then another mod to provide alternates to those new animations via OAR, but I
+don't recall ever seeing anything of the sort.
+
+Bottom line, if OAR animation replacements are not working for you, chances are some of the mods have
+botched conditions or potentially conflicts. Did you check OAR log in
+Documents\My Games\Skyrim Special Edition\SKSE?
+
+--- 另一条有用的现场记录 (Entity019930, May 15) ---
+Not sure if you found a fix for this yet, but I ran in to the same issue and came across this mod
+(A Pose Bug Fix: https://www.nexusmods.com/skyrimspecialedition/mods/168903) which fixed it for me.
+
+The problem?: After installing custom animation mods that required OAR, they would show up in the
+"Replacer Mods" tab in OAR, but OAR wouldn't load the animations (the animations wouldn't show up in
+the "Replacement Animations" tab), and as a result, all characters in game would A Pose. Installing
+A Pose Bug fix finally got OAR to load the animations [...] and animations are working again.
+
+I've had the same issue once before when I tried to use OAR, but at that point I was using FNIS. FNIS
+was producing "32bit Animations incompatible with the current version of the game" errors.
+
+--- 另一条关于 Vortex/Pandora 的现场记录 (December 30 2024) ---
+[关于 Pandora 早期不生成 FNIS data file 的 workaround：先装 FNIS 跑一次，让 Pandora 接管数据文件]
+
+===============================================================
+[3] "Need answer with OAR, how it actually works?" — Creation Kit and Modders 论坛，2025-01
+
+--- 原帖 (Agevairs, Jan 19 2025) ---
+I have a question about Open Animation Replacer. My team is currently working on our debut mod [...]
+If using OAR I do not understand, how can I mark different phrases as "conditions" during the dialogue,
+so it cause animation to work? For example, I'm writing dialogue line for NPC "Bla-bla-bla, and now we
+should go.... *thinking*.... to the right!". What do i need to do with My Dialogue, so when he is
+"thinking", this NPC wil use some OAR "Scratching Head" animation?
+
+--- scorrp10 (Jan 20 2025) ---
+R in OAR stands for Replacer. Means that in this situation, this NPC needs to perform SOME idle
+animation. And there needs to be a rule in OAR to replace that animation with another one. Say, if you
+make a rule that for this specific NPC, a shrug is replaced with a head scrstch. and for that dialogue
+piece, you indicate a shrug idle.
+
+--- 详解帖 (Jan 23 2025) ---
+Basically, when you are creating dialogue, when in TopicInfo window you go to add or edit a specific
+line of response, the Edit Response window lets you choose an Idle animation to be played by the
+speaker and/or by the listener.
+
+In CK Gameplay menu, if you choose Animations, and expand the Actors\Character\Behaviors\ tree, it has
+a LOOSE category in the end. You might notice that animations under that category are the ones you can
+pick in the Edit Response window to play along with that response. For example "IdleCiceroDance1".
+
+Animations window will tell you that IdleCiceroDance1 idle in fact uses "IdleCiceroDance1" Anim Event.
+
+Now, I personally use Nemesis, so in my case when I go to meshes\actors\character\behaviors, I got
+Nemesis_*.xml files in there. And if I grep for 'Cicero' I can see that it is found in
+Nemesis_mt_behavior.xml,
+And looking in there, I see that 'CiceroDance1' corresponds to 'Animations\Special_CiceroDance3.HKX'
+(that would be under meshes\actors\character\) So yeah, figuring these things out can be a bit hard.
+
+Now, if you want to go OAR route, you can set up in OAR to replace specifically that .hkx file, and
+put up a rule to replace it only for that NPC.
+
+Another option, of course, would be to add that head scratch animation file into your mod (as well as
+any other animations you wish to use), along with behavior files for either FNIS or Nemesis (see their
+documentation), which would add your animations as entirely new Anim Events to the game. For example,
+you add it under 'MyMod_HeadScratch'.
+
+Then, in CK, with your mod's esp loaded, you go into the familiar Animations window, under
+Actors\Character\Behaviors, and in LOOSE, you right-click and 'Insert Child'. Give it a meaningful
+ID (like IdleHeadScratch), and select 'MyMod_HeadScratch' in Anim Event. Then, when you do the dialogue,
+you can select this idle for the response.

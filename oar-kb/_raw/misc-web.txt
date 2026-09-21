@@ -1,0 +1,204 @@
+SOURCE: 多个站点（见各节）
+TITLE: 其他一手/社区来源摘录（存档）
+FETCHED: 2026-09-21
+
+===============================================================
+[1] LoversLab — "How to have both follower and PC play idle animations with OAR conditions?"
+    https://www.loverslab.com/topic/245858-how-to-have-both-follower-and-pc-play-idle-animations-with-oar-conditions
+    2025-02-10 起
+
+--- 原帖 (SmokeKing) ---
+Can't figure how to make this happen with this: Gunslicer Animations All in One OAR
+The idles are in the Dialogue folder along with a .json that contains this-
+
+{
+    "name": "Dialogue",
+    "priority": 800053,
+    "replaceOnLoop": false,
+    "conditions": [
+        {
+            "condition": "IsFemale",
+            "requiredVersion": "1.0.0.0"
+        },
+        {
+            "condition": "HasKeyword",
+            "requiredVersion": "1.0.0.0",
+            "negated": true,
+            "Keyword": {
+                "editorID": "ElderNPC"
+            }
+        },
+        {
+            "condition": "IsChild",
+            "requiredVersion": "1.0.0.0",
+            "negated": true
+        }
+    ]
+}
+
+With this followers and npcs are using the idles but PC is not. I've tried fiddling with
+"isactorbase7" "isform14" "and "or" "player"conditions but haven't found anything that triggers the PC
+to use the idles and adding any of these cause followers to stop using them too.
+My "logic" tells me isFemale OR isactorbase or isform should work, but the OAR gui doesn't seem to
+allow adding a child condition to isfemale
+
+--- 回帖 (spoonsinger) ---
+You could try "Open Animation Replacer - Detection Plugin" (mods/104806). Your followers should be in a
+'followers' faction, be that the normal one or what ever something like Nethers puts them in, so you
+could use in "InFaction" and there is a "IsPlayer" for yourself.
+
+--- 回帖 (MTB) —— 本库引用的核心规律 ---
+> the OAR gui doesn't seem to allow adding a child condition to isfemale
+That is because the parent condition should be the OR, with all options being children of the OR
+condition. If PC is female then that condition should already apply (can see that in the GUI, just
+select the player in the console and it will show you which conditions hold); is nothing overriding
+it (for specifically the PC)? (If you want it for male PC add an OR above with above and the condition
+spoonsinger mentioned below it.)
+
+--- 楼主最终解法（2025-02-12） ---
+I found a solution using Dynamic Random Female Idle Animations
+Simply placing the idles from the Gunslicer mod into the "basicidle" folder of DRFIA works!
+With both mods installed everyone applicable is using the idles.
+
+【本库注】楼主最终并未在 OAR 条件层面解决，而是绕道另一个 mod。因此只采信该帖的
+「条件结构规律」与「真实 config.json 字段样本」，不要采信它的结论。
+
+===============================================================
+[2] LoversLab — "Making an idle animation"
+    https://www.loverslab.com/topic/229457-making-an-idle-animation
+    2024-04
+
+--- 回帖要点 ---
+From my limited knowledge if it's already in .hkx format, you just need to rename it to mt_idle.hkx
+and then just place it in CustomConditions folder or whatever OAR uses to fire those up. [...]
+Both DAR and OAR claim you do not need to run FNIS/Nemesis, but I always do FNIS [...]
+
+--- 另一回帖（关于 FNIS 定义 idle 的 -h 选项） ---
+FNIS has some... lets call them "options" when you define animations in the FNIS*_List.txt files.
+s PsycheTrollRape_A2_S1 PsycheTrollRape_A2_S1.hkx b -h,md GS1 GS1.hkx
+The first one is (obviously) a SL animation, the second one is an idle animation. [...]
+After this, the playidle console command, and probably the equivalent Papyrus functions, look for a
+IDLE record when told to play an animation.
+
+--- 后续确认 ---
+@belegost is correct. None of the stuff I mentioned above is needed in this case.
+[...] So, it really is as simple as renaming the HKX. I'll try again!
+
+===============================================================
+[3] Gate to Sovngarde Wiki — Animations（整合文档，仅作流程参考）
+    https://gatetosovngarde.wiki.gg/wiki/Animations
+
+Animations: GTS uses Nemesis as its behavior engine and Open Animation Replacer (OAR) to dynamically
+replace animations. [...]
+
+Changing Animations in OAR
+You can tweak conditions, priority of the animations and even disable some animations you don't
+like/want by using its menu. To access it, press Shift + O while in game. In the menu, you can filter
+the mod/animation's folder name or look for the folder number and check under "Legacy"(for mods that
+were made using Dynamic Animation Replacer structure).
+
+Example on how to search and tweak/disable certain idles using OAR:
+Select your character/NPC with console; Press Shift + O to open OAR;
+Click on "Animation Log", at the bottom, to enable the logger.
+Now "play" the animation you want to disable or tweak. If it's an attack animation, attack. If it's a
+jump animation, jump. And so on. Note down the folder number/name appearing in the Logger.
+Example using the Running animation for First person: Filter for 98999 (Folder number/name found
+previously); Use User mode; Disable/tweak the animation folder and save
+
+--- Major Issue Detected with OAR ---
+This error could be caused by some incompatibility between OAR and the software on your computer or
+because you're not using Hardlink deployment method or not using an NTFS drive for the Mods Staging
+folder (of Vortex). To fix this, try to change deployment method to hardlink in the Vortex settings. [...]
+In your Skyrim's folder, go to Data, then SKSE, then Plugins and check if you have the following files:
+OpenAnimationReplacer-IEDConditionExtensions.dll
+ImmersiveEquipmentDisplays.dll
+SimpleDualSheath.dll
+
+===============================================================
+[4] Nexus mod 93359 — DAR to OAR Converter
+    https://www.nexusmods.com/skyrimspecialedition/mods/93359
+    allycat1031 and V3kta | v1.0.8 (2023-06-14)
+
+What it does
+This tool can convert DAR mods to the new OAR structure. It copies all the files from the
+DynamicAnimationReplacer folder to the OpenAnimationReplacer folder, then generates the JSON files
+needed at each level.
+To keep things simple, the numbered folders of DAR are preserved, which also makes determining priority
+in config generation much easier.
+
+How to use
+- Select the root folder of the DAR mod you want to convert (the folder where the meshes folder are located).
+- After selecting the DAR mod, you can customize the OAR output folder and/or the OAR Mod name used in
+  the OAR project config.json
+- Click Convert.
+
+What is planned
+- better UI / fixing bugs / full fledged editor feature
+
+===============================================================
+[5] GitHub — SARDONYX-sard/dar-to-oar (GUI & CLI)，原 C# 版 v1.0.8 的 Rust 重写
+    https://github.com/SARDONYX-sard/dar-to-oar  |  Wiki: .../wiki
+    v1.1.0 (2026-04-29) | License: MIT OR Apache-2.0
+
+Features
+DAR to OAR conversion (CLI & GUI applications)
+DAR Syntax error reporting
+Implemented sub commands (Remove OAR dir, Unhide DAR files)
+Mapping table complements OAR's readability on GUI
+Localization system (Could be customized)
+Could edit JavaScript & CSS
+
+What is the mapping file?
+You can rename the DAR priority folder name to a specific name corresponding to the priority, instead
+of using the section name, by passing the path in the correspondence table as shown below.
+
+Sample mapping_table.txt
+8000000 Combat
+8000001
+8000002
+8000005
+8000005 Female
+8001000
+8001000 Unarmed
+8001010
+8001010 Sword
+
+parse to (As you can see, if there is no corresponding priority folder name, a sequential number will
+be added at the end.)
+8000000 Combat
+8000001 Combat_1
+8000002 Combat_2
+8000005 Female
+8001000 Unarmed
+8001010 Sword
+
+CLI Usage
+dar2oar cli --src "./data/Smooth Moveset" --mapping-file "./settings/mapping_table.txt"
+Options: --src (Required) DAR source dir path / --dist OAR destination dir path /
+         --name mod name in config.json & folder name / --author mod author in config.json /
+         --mapping-file path to section name table
+
+===============================================================
+[6] CSDN —— 反面教材：已逐条验证为编造的文章（原文片段，用于对照）
+    原标题示例："OAR动画注入原理与实战避坑指南" / "OAR开放动画替换器:天际Mod动画精准调度原理与实战"
+
+被编造的内容（原文片段）：
+- "它们以原始格式躺在 Data\OAR\ 目录下，由 OAR 的 C++ DLL 在运行时动态解析､重定向骨骼绑定､
+  重映射动画曲线"
+- "你改完一个 .fbx，不用重启游戏，按 Ctrl+Shift+R 就能刷新——因为 OAR 监听的是文件系统变更事件"
+- "我最早在 2019 年测试 OAR v1.3 时也栽过这个跟头"
+- "FNIS 生成的是预编译的 .kf 序列帧文件" / "NISS 更进一步，用脚本控制骨骼偏移"
+- "OAR 直接操作 Animation Graph 的 Node Tree，可以插入 Blend Space､State Machine､Transition Rule"
+- "编辑 OAR.json：用文本编辑器打开 SkyrimSE/Data/OAR.json，在 "animations" 数组里添加新对象：
+   { "path": "Meshes/Animations/Player/RunForward.nif", "type": "RunForward", "priority": 100,
+     "conditions": { "actor": "Player", "weapon": "None" } }"
+- "按 ~ 打开控制台，输入 oar list，应看到 RunForward 条目状态为 Active｡再输入 oar log，
+   日志里会出现 Matched RunForward for Player with priority 100"
+
+【事实对照】
+- 目录是 Data\Meshes\...\OpenAnimationReplacer\<Mod>\<Submod>\，没有 Data\OAR\ 或 Data\OAR.json
+- OAR 没有控制台命令；入口是 Shift + O
+- 动画文件是 .hkx，不是 .kf / .nif / .fbx
+- OAR 没有热刷新快捷键；运行时不能物理增删动画文件，改动只在重启后生效
+- 当前版本 3.2.1，从未有 5.0；首发日期 2023-06-01，2019 年不存在 OAR
+- 没有 State Override 功能；OAR 不编辑 Animation Graph 节点树

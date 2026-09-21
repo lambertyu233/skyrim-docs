@@ -1,0 +1,198 @@
+SOURCE:
+  - https://www.nexusmods.com/skyrimspecialedition/mods/104806  (Detection Plugin)
+  - https://www.nexusmods.com/skyrimspecialedition/mods/92607   (Math Plugin)
+  - https://www.nexusmods.com/skyrimspecialedition/mods/98308   (IED Conditions)
+TITLE: OAR 配套插件页面描述（存档，逐字摘录英文原文）
+FETCHED: 2026-09-21
+
+===============================================================
+[104806] Open Animation Replacer - Detection Plugin
+Author: Nonameron | Version 2.1.5 (2026-09-03) | Original upload 2023-11-15
+
+About this mod
+Adds conditions related to detection of actors to OAR.
+
+Adds two conditions to the Open Animation Replacer that can be used to trigger animations.
+They are:
+DETECTED_BY
+DETECTS
+in addition, there are three subconditions that can be used with (and only with) these conditions.
+DetectionDistance
+DetectionRelationship
+DetectionAngle
+
+How the conditions work
+
+DETECTED_BY
+This triggers whenever an actor that matches the subconditions detects the player. (I use the word
+player, but this works for npcs just as well)
+
+Example:
+The following condition will trigger whenever the player (or NPC, whoever this is evaluated for) is
+detected by a female guard.
+    DETECTED_BY
+        IsFemale
+        IsInFaction 00086EEE (GuardFaction)
+
+DETECTS
+This triggers whenever the player (or npc) sees an actor that matches the subconditions.
+Example:
+The following condition will trigger whenever an actor detects the player.
+    DETECTS
+        IsPlayer                      <-- NOTE: 本库已核实 IsPlayer 不存在于 OAR 或本插件源码
+
+DetectionDistance
+Restricts detection by distance.
+This need to be placed directly below DETECTS or DETECTED_BY. Otherwise it does nothing.
+
+Example
+The following triggers whenever the player (or npc) sees a female within 5 meters of themselves.
+    DETECTS
+        IsFemale
+        DetectionDistance < 500
+The following triggers whenever the player (or npc) is seen by a guard who is over 10 meters away.
+    DETECTED_BY
+        IsInFaction 00086EEE (GuardFaction)
+        DetectionDistance > 1000
+
+DetectionRelationship
+Restricts detection by relationship.
+This need to be placed directly below DETECTS or DETECTED_BY. Otherwise it does nothing.
+The relationship values are:
+-4 Archnemesis
+-3 Enemy
+-2 Foe
+-1 Rival
+0 Acquaintance
+1 Friend
+2 Confidant
+3 Ally
+4 Lover
+
+Example
+The following triggers whenever the player (or npc) sees (one of) their lover(s).
+    DETECTS
+        DetectionRelationship() = 4.0
+
+DetectionAngle
+Restricts detection by angle. The angle is the deviation from the direction the detector is looking at
+in the condition DETECTS, and from the one being detected in the condition DETECTED_BY.
+You can use the flag "Swap actor" to change the angle to be from the other actor. (The actor detecting
+in the DETECTED_BY condition, or the actor being detected in the DETECTS condition.)
+This need to be placed directly below DETECTS or DETECTED_BY. Otherwise it does nothing.
+For example, if the detection angle is set to "< 45", and the player was looking at east, the condition
+would trigger whenever they see an actor that is between north-east and south-east directions from the
+player.
+
+Example
+The following triggers when the player (or npc) is seen by a guard who is within 30 degrees (to either
+direction) of where the player (or npc) is looking at.
+    DETECTED_BY
+        IsInFaction 00086EEE (GuardFaction)
+        DetectionAngle < 30
+
+Example use cases
+You can make the player flip their finger whenever they see a guard.
+You can make the player move more sneakily whenever they see a creature.
+You can make the player show disgust whenever they see Nazeem.
+You can make npcs avert their gaze whenever they see the player.
+You can make the player look into the distance when they see someone that is far away. Or close away
+if you character is shortsighted.
+This would also work great for when you want the player to react to your custom NPC in an unique way.
+Move more coyly when around them or something.
+
+Credits:
+Powerof3 for the original detection function.
+Ersh for the logic of the subconditions and the easy to use API. Also for the fixes that were made to
+the API specifically for this mod.
+
+--- 本库源码核对（2026-09-21）---
+Repo: github.com/matiasmakipelto/OpenAnimationReplacer-DetectionConditions
+src/Conditions.h 中出现的条件名：
+  DETECTED_BY, DETECTS
+  组件键：Comparison, Distance, DetectionDistance, Comparison, DetectionRelationship,
+          "Swap actor", Comparison, "Angle in degrees",
+          "Limit detection to right side", "Limit detection to left side", DetectionAngle
+src/Conditions.cpp 中出现的字符串：
+  DetectionDistance, DetectionRelationship, DetectionAngle, ManakinRace
+=> 结论：本插件注册的条件只有 5 个（DETECTED_BY / DETECTS / DetectionDistance /
+   DetectionRelationship / DetectionAngle），**没有 IsPlayer**。
+=> OAR 本体 src/Conditions.h 的 GetName() 共 125 个名字，也不含 IsPlayer。
+
+===============================================================
+[92607] Open Animation Replacer - Math Plugin
+Author: Ersh | Version 1.0.5 (2026-08-31)
+
+A plugin utilizing Open Animation Replacer's API to add a new complex custom condition. Mostly
+supposed to serve as an example for programmers, but might find use in some replacer mods.
+
+This plugin adds a new condition to Open Animation Replacer. At first it was a part of the original
+plugin, but including the math expression library (exprtk) literally quadrupled the plugin's size.
+It felt wrong to have the majority of the plugin's size come from one single feature. I've decided to
+remove the condition, but later on figured that it might be a good example of a more complex condition
+being added through the Open Animation Replacer API.
+
+It's mostly useful as an example for programmers, and as a proof of it being possible to add new,
+decently complex conditions through other plugins. The condition itself works and is pretty cool,
+although I can't come up with real use cases where other existing conditions aren't enough. Maybe
+someone finds a good use case for it, worth installing an additional plugin.
+
+No real reason to install the plugin if none of the replacer mods you're using require it - unless
+you're curious, or you are a replacer mod author and have a use for the condition.
+
+The plugin adds a new condition called MathStatement. It lets you write a math expression
+(e.g. x + y > 20) in the text box in the editor, and then it automatically creates a numeric value
+component for every variable in that math statement. The numeric values work like numeric values in
+all other conditions, so they can be a static value, a reference to a global variable, an Actor Value,
+or a behavior graph variable.
+The condition simply evaluates the result of the expression and checks if it's something else than 0 -
+so, with an actual math statement, it means that it checks whether the statement is true.
+
+The used math library, exprtk, is very powerful and you can create really complex expressions. Like I
+mentioned before, however, I struggle to see a real use case. But it's pretty cool.
+
+Requirements: SKSE, Open Animation Replacer
+
+===============================================================
+[98308] Open Animation Replacer - IED Conditions
+Author: SlavicPotato | Version 1.0.2 (2023-09-02)
+
+A SKSE64 plugin that adds new conditions to Open Animation Replacer for use with Immersive Equipment
+Displays and Simple Dual Sheath.
+
+The main use case right now is playing different draw/sheathe animations based on where the gear is
+sheathed (style-fitting animations)
+
+Mod users: If you're here because this mod is listed as a requirement of an OAR mod, read below.
+If you stumbled onto it by chance, turn back, this isn't for you.
+
+Install Open Animation Replacer and its requirements, then install this plugin via your mod manager or
+manually by dropping it in the Data folder. It should work on any game version that OAR supports.
+Install Immersive Equipment Displays (1.7.1 or higher) or Simple Dual Sheath (1.5.3 or higher) as
+required by the animation replacer(s) you're using. Technically this doesn't depend on either IED or
+SDS, however if a plugin isn't found its respective conditions won't be made available to OAR. Some
+conditions aren't bound to either plugin and are always available.
+
+Mod authors: Available conditions:
+- IED_GearNodePlacementHint - Checks if the gear node's current placement hint matches the
+  'Weapon placement ID' parameter according to the selected 'Comparison' operator. The gear node is
+  specified by the 'Gear node ID' parameter.
+- IED_GearNodeEquippedPlacementHint - Same as IED_GearNodePlacementHint except that it determines
+  the gear node from the equipped weapon type.
+- IED_GearNodeParentName - Checks if the gear node's current parent node name equals the text in
+  'Node name' parameter. The gear node is specified by the 'Gear node ID' parameter. Case insensitive.
+- IED_PluginOption - Checks various IED settings.
+- SDS_IsShieldOnBackEnabled - Checks if the target ref has shield on back enabled in Simple Dual Sheath.
+
+General conditions (despite the prefix, these aren't bound to either IED or SDS):
+- IED_HasEquipSlot - Checks if the item equipped in the target ref's hand has the specified equip slot
+  configured.
+- IED_IsBoundWeaponEquipped - Checks if the item equipped in the target ref's hand is a bound weapon.
+
+Changelogs
+1.0.2  Fixed an issue that could cause a crash while interfacing with old IED/SDS versions.
+1.0.1  Added IED_IsBoundWeaponEquipped condition
+
+Credits: SKSE team, Ryan (commonlib), ersh (OAR), GiraPomba for bugging me to make something like this
+and helping the development process.
+Source is on GitHub: github.com/SlavicPotato/OpenAnimationReplacer-IEDConditionExtensions

@@ -1,0 +1,410 @@
+SOURCE: https://www.nexusmods.com/skyrimspecialedition/mods/92109
+TITLE: Open Animation Replacer — Nexus Mods 发布页描述（存档）
+FETCHED: 2026-09-21 via WebFetch（原文为英文，逐字摘录；此处保留官方英文原文要点与完整条件/函数清单）
+VERSION AT FETCH: 3.2.1（Last updated 01 September 2026）
+
+===============================================================
+[SUMMARY / About this mod]
+A SKSE framework plugin that replaces animations depending on configurable conditions.
+In-game editor. Backwards compatible with more features. Extensible by other SKSE plugins.
+Supports SE/AE/VR. Open source.
+
+Created by Ersh | Uploaded by Ershin | Original upload 01 June 2023
+
+===============================================================
+[BACKGROUND]
+
+I started working on this plugin while Dynamic Animation Replacer wasn't updated for the most
+recent Skyrim version, and nobody knew whether it would ever be. [...] DAR is also closed source,
+so nobody else can update it when the original author is missing, which has already proven to
+cause quite a mess [...] Being closed source also meant that nobody else could contribute to the
+plugin. Felisky (DAR's author) has stated that they don't have time to mod anymore [...]
+Dynamic animation replacement is an incredibly powerful concept that enabled so many cool mods,
+and I believe it deserves to be iterated on and developed further.
+
+This plugin is not a reverse engineered modification of Dynamic Animation Replacer. It does not
+include any of Dynamic Animation Replacer's code, aside from the parts that interact with the
+game code itself and can only be done in one way. It is my own work, based mostly on my own
+research into the game.
+
+Open Animation Replacer has a SKSE plugin API that lets other plugins add new conditions, thus
+allowing other authors to extend the possibilities without having it all depend on the original
+author.
+
+While this plugin is intended to be a successor of Dynamic Animation Replacer, with full
+backwards compatibility and new features, please consider downloading and endorsing DAR if you
+haven't before. The original idea was Felisky's.
+
+===============================================================
+[FEATURES]
+
+- Dynamic replacement of animations based on configurable conditions.
+- Full backward compatibility with Dynamic Animation Replacer based mods.
+- Many new conditions as well as improvements to existing ones (e.g. support for keyword EditorIDs).
+- Paired animations are supported.
+- Non-actor animations are supported.
+- Correctly replaces animations on animation loop and echo.
+- Filters out duplicated replacer animations that contribute to the animation limit, without
+  affecting the results.
+- Animation variants for easy randomization or sequential variations.
+- Mod-wide condition presets that can be used in submods to minimize unnecessary condition duplication.
+- Replacer submods can have additional settings, allowing things such as:
+  - Constant polling of required conditions while the animation is playing, resulting and immediate
+    replacement when the situation changes, with proper blending between the previous and new animation.
+  - Keeping the results of random conditions on animation loop, useful for movement mods so the
+    animation isn't replaced every few steps.
+  - Sharing random results throughout the whole submod, so the whole animation set is randomized together.
+  - Custom blend times when animations get interrupted and replaced.
+  - Ignoring the No Triggers animation clip flag which is enabled on some animation clips in vanilla,
+    which normally causes annotated animation events to be ignored.
+  - Setting a required project name (e.g. so a particular submod only loads for DefaultMale or
+    DefaultFemale etc.)
+  - Setting the name of the folder that contains animations, so multiple submods can include the
+    same animations without duplicating them.
+- In-game editor that lets you inspect and edit conditions, priority and other features of replacer
+  mods while in-game, and immediately see and test the changes.
+- Preview any replacer animation in the in-game editor.
+- Animation log UI that helps identify the most recently played animations.
+- Animation event log UI that can be useful in live debugging for behavior modders.
+- Animations can start preloading while in the main menu.
+- A small progress bar that displays animation preloading progress.
+- Increased animation limit up to 32767 per project.
+- Increased Havok heap size for better stability with lots of animations.
+- API for other SKSE plugins to add new custom conditions.
+- Everything is done through SKSE and can be installed or uninstalled anytime.
+
+===============================================================
+[STRUCTURE] (verbatim)
+
+The replacer mod structure tries to keep things neatly organized. Since version 2.0.0, the replacer
+mods will be recognized anywhere inside Data\Meshes. An easy way of figuring out the correct way to
+place the replacer mod is to think of it as interrupting the original animation path with a block of
+OpenAnimationReplacer\MyMod\MySubmod\.
+
+This means, for a replacer mod that is supposed to replace an animation originally placed in
+Data\Meshes\actors\character\animations\male\mt_idle.hkx, the replacer mod should be placed like any
+of the following examples:
+
+- Data\Meshes\OpenAnimationReplacer\MyMod\MySubmod\actors\character\animations\male\mt_idle.hkx
+- Data\Meshes\actors\OpenAnimationReplacer\MyMod\MySubmod\character\animations\male\mt_idle.hkx
+- Data\Meshes\actors\character\OpenAnimationReplacer\MyMod\MySubmod\animations\male\mt_idle.hkx
+- etc...
+
+The structure is based on the concept of a replacer mod containing multiple submods.
+
+Each replacer mod contains one or more submods, and a configuration .json file that currently just
+contains the mod name and description. Each submod contains replacer animations and a configuration
+.json file that contains all the information about the animations contained within, like the submod
+name, description, priority, conditions and other features.
+
+   OpenAnimationReplacer
+   ├── Replacer mod 1
+   │      ├── Submod A
+   │      │      ├── [animation files]
+   │      │      └── config.json   <- the submod configuration file
+   │      ├── Submod B
+   │      │      ├── [animation files]
+   │      │      └── config.json
+   │      └── config.json          <- the replacer mod configuration file
+   └── Replacer mod 2
+          ├── Submod C
+          │      ├── [animation files]
+          │      └── config.json
+          └── config.json
+
+Unlike DAR, the priority is not defined by the folder names. They can be named however you want!
+(although please avoid using non-english characters/symbols because they will probably not be read
+correctly).
+
+You do not have to edit the .json files manually in a text editor. While it can be done, the in-game
+editor lets you do everything and is much easier and safer to use.
+
+As for backwards compatibility, every mod placed in the DynamicAnimationReplacer folder is also read
+and converted to the new structure when loaded into the game. Because they were missing the new
+features, these new features are all off by default [...] There's no concept of a Replacer mod->Submod
+in DAR, so all DAR mods are treated as submods to one big replacer mod called Legacy in the editor.
+Their names are just their folder names.
+
+Please remember that you can't physically add new or remove animation files from a mod, or add/remove
+mods themselves while the game is running, it will only take effect after you restart. You can however
+disable animations or submods inside the editor.
+
+===============================================================
+[VARIANTS]
+
+Since 1.2.0 a replacement animation can have multiple variants. [...] To add variants to an animation
+in a submod, create a subfolder where the animation would normally be placed. Name the subfolder
+"_variants_[animNameWithoutExtension]" (so, for "mt_idle.hkx", the folder should be named
+"_variants_mt_idle" and placed in the same location). [...] The filename does not matter. However, I
+suggest using something short (even 1.hkx, 2.hkx and so on) to avoid potential issues with long paths.
+
+You can configure the weight used for the randomization for each variant in the in-game editor [...]
+setting a weight of 2 on a variant will make it twice as likely to play as variants with a weight of 1.
+
+[...] It's just an optional step that will run after conditions are evaluated. The only difference is
+that instead of a single replacement animation being selected and played, one animation is selected
+from the possible variants.
+
+Since 2.2.0 variants have an additional mode: Sequential. [...] a variant can also be marked as
+"Play once" which means it won't play again in this sequence, even after it wraps around.
+
+===============================================================
+[PRESETS]
+
+Since 2.2.0 there's a new feature called PRESETS. Multiple presets can be defined in the replacer mod,
+and can then be selected in a special condition called PRESET. [...] Please have in mind that presets
+are not copied to the submod configs. The only thing that is saved is the preset name. The actual
+contents of the preset are saved in the replacer mod config.
+
+===============================================================
+[IN-GAME EDITOR]
+
+The in-game UI, accessible by pressing Shift + O by default [...]
+
+- Inspect mode: editing functionality is disabled, providing a read-only view.
+- Author mode: changes are saved directly to the config.json file.
+- User mode: a user.json file is created, which overrides everything from the config.json file
+  except for the submod's name and description. [...] The user config file can be safely deleted,
+  and the original config.json will be used instead.
+
+You can select an actor in the console, or type their FormID in the editor, in the upper left corner.
+This will select it as the current evaluation target. When a target is selected, each condition will
+display an icon indicating whether its requirements are currently met. In certain cases, relevant
+conditions will also provide an additional field showing the current value that is being checked.
+
+There is an additional tab that provides a list of all replacements for each animation, sorted by
+priority. This tab is designed for easy inspection and does not allow direct editing [...]
+
+The editor will display a warning if multiple submods share the same priority, and display an error
+when a submod has a condition that requires another plugin, or a newer version. You can read detailed
+information by clicking the error bar at the bottom of the editor.
+
+===============================================================
+[ANIMATION LOG]
+
+Ever wanted to know which animation just played? Ever wanted to know where did it come from? [...]
+Enable it by clicking the button inside the main UI. You can close the UI and the animation log will
+remain on screen while you play the game.
+[...] You can also enable logging to the SKSE log file in settings [...]
+
+Since 2.1.0 there's an animation event log as well. This is mainly useful for behavior modders and
+will list all the animation events that happen on the tracked reference.
+
+===============================================================
+[AVAILABLE CONDITIONS] (verbatim, grouped by "Added in" as on the page)
+
+Base list (no version tag on the page):
+IsForm, OR, AND, IsEquipped, IsEquippedType, IsEquippedHasKeyword, IsEquippedPower, IsWorn,
+IsWornHasKeyword, IsFemale, IsChild, IsPlayerTeammate, IsInInterior, IsInFaction, HasKeyword,
+HasMagicEffect, HasMagicEffectWithKeyword, HasPerk, HasSpell, CompareValues, Level, IsActorBase,
+IsRace, CurrentWeather, CurrentGameTime, Random, IsUnique, IsClass, IsCombatStyle, IsVoiceType,
+IsAttacking, IsRunning, IsSneaking, IsSprinting, IsInAir, IsInCombat, IsWeaponDrawn, IsInLocation,
+HasRefType, IsParentCell, IsWorldSpace, FactionRank, IsMovementDirection, IsEquippedShout,
+HasGraphVariable, SubmergeLevel, IsReplacerEnabled, IsCurrentPackage, IsWornInSlotHasKeyword, Scale,
+Height, Weight, MovementSpeed, CurrentMovementSpeed, WindSpeed, WindAngleDifference, CrimeGold
+
+Added in 1.1.0:
+IsBlocking, IsCombatState, InventoryCount, FallDistance, FallDamage, CurrentPackageProcedureType,
+IsOnMount, IsRiding, IsRidingHasKeyword, IsBeingRidden, IsBeingRiddenBy, CurrentFurniture,
+CurrentFurnitureHasKeyword, HasTarget, CurrentTargetDistance, CurrentTargetRelationship
+
+Added in 1.2.0:
+EquippedObjectWeight, CurrentCastingType, CurrentDeliveryType, IsQuestStageDone, CurrentWeatherHasFlag,
+InventoryCountHasKeyword, CurrentTargetRelativeAngle, CurrentTargetLineOfSight, CurrentRotationSpeed,
+IsTalking, IsGreetingPlayer, IsInScene, IsInSpecifiedScene, IsScenePlaying, IsDoingFavor
+
+Added in 1.3.0:
+AttackState, IsMenuOpen, TARGET, PLAYER
+
+Added in 2.0.0:
+LightLevel, LocationHasKeyword
+
+Added in 2.1.0:
+LifeState, SitSleepState, XOR
+
+Added in 2.2.0:
+PRESET, MOUNT, IsAttackTypeKeyword, IsAttackTypeFlag, MovementSurfaceAngle, LocationCleared,
+IsSummoned, IsEquippedHasEnchantment, IsEquippedHasEnchantmentWithKeyword
+
+Added in 2.3.0:
+IsOnStairs, SurfaceMaterial, IsOverEncumbered, IsTrespassing, IsGuard, IsCrimeSearching,
+IsCombatSearching, IdleTime
+
+Added in 3.0.0:
+IsAboveWater, MagicEffectElapsedTime, IsWornInSlot, InventoryWeight, IsGhost, IsSwimming
+
+Added in 3.1.0:
+IsStaggered, CastingSpell
+
+Added in 3.2.0:
+HasBoundWeaponEquipped
+
+NOTE: 本库对 src/Conditions.h 的 GetName() 做正则抽取，得到 125 个注册名（含 `! INVALID !`、
+`! DEPRECATED !` 与全部容器），与上面这份清单逐条比对，**无遗漏**。
+
+DAR condition renames (verbatim):
+- IsEquippedShout -> IsEquippedPower (because that's what it actually checked in DAR)
+- IsEquippedRight, IsEquippedLeft -> IsEquipped, with an additional boolean condition component
+  signifying the left hand
+- IsEquippedRightType, IsEquippedLeftType -> IsEquippedType (同上)
+- IsEquippedRightHasKeyword, IsEquippedLeftHasKeyword -> IsEquippedHasKeyword (同上)
+- ValueEqualTo, ValueLessThan, IsActorValueEqualTo, IsActorValueLessThan, IsActorValueBaseEqualTo,
+  IsActorValueBaseLessThan, IsActorValueMaxEqualTo, IsActorValueMaxLessThan,
+  IsActorValuePercentageEqualTo, IsActorValuePercentageLessThan -> CompareValues
+- IsFactionRankEqualTo, IsFactionRankLessThan -> FactionRank
+- IsLevelLessThan -> Level
+- CurrentGameTimeLessThan -> CurrentGameTime
+
+===============================================================
+[AVAILABLE FUNCTIONS] (verbatim)
+
+Functions are essentially game events that can be triggered by a submod. Functions can run when an
+animation starts, ends, or on a specified animation event.
+[...] There are function sets, just like condition sets, and multifunctions that can contain child
+function sets. There's also a multifunction that contains a condition set, and its child functions
+will only run if the conditions pass.
+
+Open Animation Replacer also adds a custom animation event to the game called "OAR". It does not
+require a behavior patch to be recognized. [...] Want to play two sounds during your animation? Add
+an OAR.sound1 and OAR.sound2 event to your animation (the payload - that part after the dot - can be
+any text), and add PlaySound functions to the OnTrigger set [...]
+
+PlaySound, ModActorValue, SetGraphVariable, SendAnimEvent, CastSpell, DispelSpell, SpawnParticle,
+UnequipSlot, CONDITION, RANDOM, ONE
+
+Added in 3.1.0: ModifyGraphVariable, FILENAME
+Added in 3.2.0: SetPlaybackSpeedMultiplier
+
+===============================================================
+[EXPERIMENTAL FEATURES] (verbatim)
+
+- Increased animation limit up to 65534 per project.
+  A technical description for those interested: A Havok behavior animation clip has a 16-bit signed
+  integer variable (int16) that represents the index of the entry in a huge animation binding array
+  that should be read when the clip is activated. The maximum range of an int16 value is -32768 to
+  32767. However, almost the entire negative part of the possible values is unused. Only -1 is used
+  as a special value for situations such as when the animation clip is uninitialized. The experimental
+  setting patches all the places in the game code I could find where the value is treated as a signed
+  integer, and changes the instructions so it's treated as an unsigned integer instead (uint16). An
+  unsigned integer can have values from 0 to 65535. The value that was previously -1 is still
+  reserved, hence the maximum of 65534 animations. [...]
+- Disabling preloading animations.
+  This setting appears to work just fine for me, but some testers have previously reported seeing
+  short T-Poses with it enabled. [...] generally I don't recommend using this setting.
+
+===============================================================
+[REQUIREMENTS]
+
+- SKSE
+- Address Library for SKSE Plugins
+- Animation Queue Fix (if you're not using the experimental setting that skips preloading animations.)
+- Paired Animation Improvements (so annotations inside paired animations work correctly.)
+- Latest Visual C++ redistributable (off-site requirement)
+
+[COMPATIBILITY]
+- Should be compatible with any non-ancient Skyrim version, including 1.5.97, 1.6+ and VR.
+- Incompatible with Dynamic Animation Replacer itself.
+- Fully backwards compatible with any animation replacer mods created for Dynamic Animation Replacer.
+  "It just works".
+- MergeMapper support is included.
+
+===============================================================
+[FAQ] (verbatim)
+
+- Legendary Edition version?
+  I'm sorry, but no. Special Edition's engine is much more stable and frameworks like CommonLibSSE
+  allow much easier implementation of advanced plugins. It's really, really time to move on. [...]
+- Is it compatible with [SE/AE/VR]?
+  Yes.
+- Can I install/uninstall this in the middle of a playthrough?
+  Yes. The plugin has no lasting impact on your game and can be installed/uninstalled anytime.
+- The settings reset!
+  Don't remove the .ini files created by the plugin (it ends up in the overwrite folder by default,
+  if you're using Mod Organizer 2).
+- I believe this mod caused my game to crash!
+  Please post a .NET Script Framework / Crash Logger crash log. [...]
+  If you're crashing in the main menu, try setting bLoadDefaultBehaviorsInMainMenu = false in
+  OpenAnimationReplacer.ini that's in Data\SKSE\Plugins.
+- Some replacer animations/mods seem not to be picked up by the plugin!
+  Check if the full file paths aren't longer than 260 characters, and if so, try to shorten it in
+  some way by changing the folder names, or moving the game/mod organizer folder somewhere up the
+  folder tree. That's a known issue with some Windows versions and/or Mod Organizer(?) that seems
+  completely out of my control.
+
+===============================================================
+[MISCELLANEOUS NOTES] (verbatim, 关键段)
+
+I've already explained the basic layout in the STRUCTURE section. The miscellaneous files contain an
+example replacer mod that you can use as a starting structure for your replacer.
+I strongly discourage trying to manually edit the .json files. Just use the in-game editor instead.
+
+When porting a DAR mod to OAR, you can save a config file from the legacy submod in the in-game editor
+while in author mode. That file won't be read by the plugin, but you can manually move it to the new
+properly structured folder. This should save you some time from re-making conditions. However please
+consider the new conditions and/or features, you might be able to simplify your conditions or improve
+them. There's also a button that lets you copy the config to clipboard instead.
+
+If your mod contains many duplicated animations [...], consider using the optional submod setting that
+lets you override the animation folder.
+
+Consider the "Interruptible" setting for your submods - this one is nice for any sort of looping
+animation that requires specific conditions, because it'll get replaced immediately when they change
+[...] However don't enable it on submods that don't need it - it comes at a potential performance cost
+(unnoticeable, but it might possibly add up over multiple actors and many replacement animations) as
+the settings causes conditions to be continuously evaluated while the animation is playing.
+
+Be mindful of the character limit of file paths in Windows. Don't make your folder names too long,
+or some users might start having issues with the files not getting recognized by mod managers if they
+have Skyrim installed a bit deeper in the folder structure. Make folder names recognizable, but keep
+them short - the full name is defined in the .json file anyway.
+
+There's a thread in the forum section where you can suggest new conditions.
+
+===============================================================
+[VERSION CHANGELOG excerpts] (from the mod page Changes area / search index)
+
+Version 3.1.0
+- Added optional comments to conditions and functions. Mod authors can set comments by right clicking
+  the condition/function and selecting "Edit comment". Existing plugins implementing custom conditions
+  have to be recompiled with the new OAR Condition API version to have this functionality.
+- Fixed a bug introduced in 3.0.0 that would change the IsEquippedShout condition to IsEquippedPower on runtime.
+- Massively refactored and optimized the initial mod parsing code. Reduced the worker threads used during
+  initial mod parsing [...] Added a setting to configure the worker count [...]
+- Changed the hashing algorithm used for filtering duplicate animations to a cheaper one.
+- Added a new condition: "IsStaggered". Added a new condition: "CastingSpell".
+- Added a new function: "ModifyGraphVariable". Added a new multifunction: "FILENAME".
+- (API) Updated the condition type API. (API) Updated the function type API.
+
+Version 3.0.2 / 3.0.1
+- Fixed another crash in animation log. / Fixed a crash in the animation log.
+
+Version 3.0.0
+- Added FUNCTIONS.
+- Added "essential state" to custom conditions - if marked as non-essential, the user won't be notified
+  with an error about a missing condition if they don't have the required plugin, and the condition will
+  return either true or false depending on the selected option. Existing plugins implementing custom
+  conditions have to be recompiled with the new OAR Condition API version to have this functionality.
+- Added a "show trace" button to the animation log, which will display all the conditions in order of
+  their evaluation that were checked until the final animation was selected.
+- Added a dummy animation event called "OAR".
+- Fixed IdleTime condition resetting its timer when it shouldn't. (Sorry!)
+- Fixed paired animation desynchronization issues. Fixed VR crash (thanks alandtse!)
+- Added new conditions: IsAboveWater, MagicEffectElapsedTime, IsWornInSlot, InventoryWeight, IsGhost, IsSwimming
+- Added new functions: PlaySound, ModActorValue, SetGraphVariable, SendAnimEvent, CastSpell, DispelSpell,
+  SpawnParticle, UnequipSlot
+- Added new multifunctions: CONDITION, RANDOM, ONE
+- Renamed the CurrentPackageProcedureType condition to CurrentPackageType to match CommonLibSSE.
+- (API) Updated the condition type API. (API) Added the function type API.
+
+Version 2.3.6
+- Fixed a major issue with condition state data not resetting in some cases.
+- Fixed paired animation variants playing the wrong animation when the involved actors have different
+  behavior projects.
+- Fixed deleting a preset marking all submods containing PRESET conditions as dirty, not just those
+  utilizing that particular preset.
+
+Version 2.3.5
+- Variants marked as Play Once no longer start with a blend time offset when blending in.
+- Blending out clips no longer process triggers (animation events).
+- Fixed paired animations that don't involve a third behavior graph not getting replaced.
+- Fixed sequential variant blending issues at end of sequence.

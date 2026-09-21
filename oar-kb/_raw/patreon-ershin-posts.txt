@@ -1,0 +1,210 @@
+SOURCE: https://bakemono.app/p/patreon/25643772/{79535580,80271137,80648390,77654433,81916525,86003539,83900406}
+TITLE: Ersh（OAR 作者）的 Patreon 开发日志（存档）
+NOTE: bakemono.app 是 Patreon 的公开镜像站。以下为逐字摘录（英文原文）。
+      主页：https://www.patreon.com/Ershin ; 频道：https://bakemono.app/p/patreon/25643772/
+
+===============================================================
+[79535580] Open Animation Replacer status update
+
+Hey! I'm still working on the new OAR mod structure and the ingame editor. There's no point
+releasing a version with a half done editor because it's not going to have any practical use.
+The next version will have full support for the new structure, .json config file loading/saving
+and also user configuration files so you can selectively edit some conditions or priorities
+without affecting the original mod. After that's done I'll add the requested new conditions and
+it should be ready for a public release.
+
+Developing the UI with ImGui is pretty easy and fun, but I keep running into issues where I want
+something to work in a certain way and it turns out it can't actually be done without changing
+a lot/adding a lot of new code. And making the conditions editable also has resulted in me having
+to refactor them again and again a few times. Which is why it's taking so long. Here's a sneak
+peek of the updated UI, although it's still missing some stuff and is going to change a bit more.
+
+===============================================================
+[77654433] Open Animation Replacer 0.3; A breakthrough?
+
+Hey! While trying to double the 32k animation limit I stumbled upon a ridiculously simple change
+that seems to make actors not use the animation queue AT ALL. No more having to manually load all
+the replacement animations, no more waiting for the animation queue, no more T-Pose, I couldn't
+find any drawbacks. It just works. It's very experimental as I'm not sure whether this affects
+anything else [...]
+
+The 32k limit is still not doubled yet but I guess I can see the light in the tunnel now?
+At this point I managed to load more than 32k animations that seemed to work correctly, but the
+killmoves stopped working, so yeah. Still not ready. If the animation queue removal really is what
+it seems to be, I'll probably remake Animation Queue Fix to do that instead, so DAR can benefit
+as well, while I keep working on OAR.
+
+EDIT: So some of you are having issues with the change in 0.3.0, it doesn't really seem like it's
+animation specific. [...] The change is just a single bool (that changes A LOT somewhere down the
+line) [...]
+
+EDIT 0.3.1: Please try out 0.3.1 if you've had any issues with 0.3.0. I now only change once place
+where that bool was used, instead of changing the bool itself [...]
+
+EDIT: Removed 0.3.1 as it's definitely broken. Not the way to go.
+EDIT 0.3.2: Reverted to 0.3.0 and added a mutex. Could help if this is a multithreading messup.
+
+===============================================================
+[80271137] Open Animation Replacer 0.5.1
+
+Hey! It's finally ready, I think. The big update. OAR now has its own structure for replacer mods
+that has significant advantages over DAR. DAR mods are of course still fully supported and treated
+as "legacy" mods. The in-game editor has been massively overhauled. You can now add/remove/edit
+conditions, change their order, change the mod priority etc. while in game. Remember that you can
+also type the FormID in the UI or select the actor in console to see which condition is currently
+passing or not. Legacy mods can't be edited ingame yet, but I think there's nothing really stopping
+me from letting you do that. [...]
+
+I've included a readme file inside the archive that explains things a bit more. It's quite
+disorganized, sorry for that, I'll try to have something much better when the mod is released.
+I've also uploaded an example OAR mod folder, and, with permission, a converted version of EVG
+Conditional Idles's meshes folder that I've used to test the new OAR structure.
+
+[!!] NOTE: 上面这句 "I've included a readme file inside the archive" 指的是 2023 年的测试版，
+     对现在的 3.x 版本不适用（正式版没有这个 readme）。
+
+New features, as of 0.5.0:
+
+New conditions:
+- IsEquippedShout - because the original IsEquippedShout in DAR was actually IsEquippedPower -
+  legacy mods will be treated as if they actually meant IsEquippedPower. This also fixes the issue
+  where some DAR mods weren't working correctly before.
+- HasGraphVariable[Float/Int/Bool] - checks if the actor has the specified graph variable
+- GraphVariable[Float/Int/Bool]EqualTo - checks if the ref's graph variable is equal to the specified value
+- GraphVariable[Float/Int/Bool]LessThan - checks if the ref's graph variable is less than the specified value
+
+Multiconditions (OR/AND conditions) can be easily nested inside each other. The outer list of
+conditions is essentially just one AND condition.
+
+New values per submod:
+- Required Project Name - by default left empty so it's ignored, but you can type a behavior project
+  name (DefaultMale / DefaultFemale for humans) so the submod is only loaded for that project.
+  Useful if the animations in the submod are only ever going to be played on a character of a
+  specific gender, so the animations aren't even loaded and don't count towards the per-project
+  animation limit.
+- Ignore No Triggers Flag - this is a bit technical. Some vanilla animation clips have a specific
+  flag set, for whatever reason, that causes any annotations with a trigger (animation event) to be
+  ignored. This applies for replacement animations as well, so if you're replacing a vanilla animation
+  that has this flag, and include animation events in the annotations, they won't run anyway. With
+  this enabled, the flag will be ignored so the animation events included in the annotations will now
+  run as expected. I could theoretically just ignore this flag everywhere, but I assume there's some
+  reason that Bethesda set this flag.
+
+EDIT 0.5.1: The experimental setting bIncreaseAnimationLimit wasn't actually respected and that
+functionality was always enabled, which is what might have broken mounting animations.
+
+===============================================================
+[80648390] Open Animation Replacer 0.6.1
+
+Hey! This time, I've fixed a major bug that existed since the beginning of OAR and added a way to
+save an user config for legacy mods. The bug was causing synchronized animations to fail - killmoves,
+horse mounting - depending on the animation count in DefaultMale and DefaultFemale projects. Because
+of a game bug/assumption done by Bethesda, in the case one of them had more animations, the one that
+loaded later (which was always DefaultFemale with the setting 'Load Default Behaviors in Main Menu')
+had messed up animation binding indexes. It does not happen with DAR as it always fills the entire
+animation array with empty strings to the maximum, so the animation counts are technically equal -
+I have to handle this cleanly because of the optional animation limit increase not leaving any free
+space for synchronized anim indexes, so I had to do some tricks to solve it. [...]
+
+You can now save user configs for legacy mods. You can also reload them when you want to undo your
+changes, or delete the user config entirely to reload the original one (all through the in-game UI).
+
+I've also added a new experimental setting, enabled by default, that practically skips the animation
+queue. We'll see how it goes. You can disable it in the settings menu ('Hook Animation Manager') if
+you encounter any weirdness. Don't enable the old 'Disable Animation Queue' setting, that one will
+most likely be retired because of the rare animation corruption.
+
+EDIT 0.6.1: Fixed the new Hook Animation Manager setting breaking animations with a Random condition
+(the randomness was causing the animation to not match the expected one)
+
+===============================================================
+[81916525] Open Animation Replacer 0.8.0
+
+DESCRIPTION
+Hey! This version unfortunately has a breaking change that will require recreating all the .json files.
+Hopefully won't happen again, but it was necessary. Conditions underwent a major rework yet again,
+this time vastly improving their flexibility to allow creating new conditions through the OAR plugin
+API. This will let other SKSE plugin authors create new conditions. I will also provide the source code
+of an example plugin to make it easier.
+
+Notable changes and additions:
+
+Animation log: This is a debug overlay that shows up in the upper right corner of your screen and
+displays all the recent activated/interrupted animation clips. You can open the overlay by clicking
+the Animation Log button next to the Settings button in the ingame UI. Then either select the
+character by clicking them with the console open, or type the actor's FormID in the OAR ingame UI.
+You can configure some settings of the animation log in the Settings menu.
+
+New submod parameter: "override animations folder" - this will cause the submod to load animations
+from the specified folder, instead of its own directory. This was added because many animation
+replacer mods duplicate the same animations in each submod so they have different condition sets.
+This lets you use the same animations in multiple submods without duplicating them.
+
+Duplicate animation filtering: This feature calculates a checksum hash of every replacement animation
+file before adding it to the animation list inside the behavior project. The hashes are supposed to be
+unique, so if another animation has the same hash, it's the same file - and it won't be loaded again,
+the replacer mod will just use the first loaded one. This has the potential to massively cut down on
+the amount of loaded replacement animations [...] The hashes are cached in a .bin file stored next to
+the plugin so the relatively expensive hash calculation doesn't need to happen every time you launch
+the game. The file can be safely deleted, either manually or by clicking a button in the Settings menu.
+
+SKSE Plugin API: While not useful right now, this is a major feature that I wanted to have ready for
+public release. It's fully functional now and I've tested it with an example plugin.
+
+Replacing animations on Echos: (Brought to my attention by Maxsu) Some animation clips that aren't
+technically looping animations, but can loop into themselves (a good example is the left handed dual
+wielding attack - it combos into itself) don't actually Deactivate/Activate the clip, but instead add
+something that Havok calls Echo. It's basically a way to allow a clip to blend into a copy of itself.
+The fact that the Activate function wasn't running meant that the animation wouldn't be re-evaluated
+for replacements on Echo. This has now been fixed [...]
+
+Convenience editor buttons: There are new buttons letting you copy and paste a condition set, and you
+can now right click on a condition to copy/paste it somewhere else.
+
+Random condition fix: The previous version had a major logic error, the condition should work as
+expected now.
+
+Please remember that THIS UPDATE REQUIRES DELETION AND RECREATION OF ALL THE .JSON FILES [...]
+
+EDIT 0.8.1: Fixed the issue with controls being unresponsive after closing the menu.
+
+===============================================================
+[86003539] Paired Animation Annotation Fix test
+
+Hey! I'm still working on some stuff for OAR - namely paired animation replacements. I'm happy to say
+that I've finally cracked the puzzle and figured out how the damn things work. Along the way I learned
+about a vanilla issue where the paired animations wouldn't play triggers (animation events) included
+in the animation as annotations. Which kinda sucks if you want to do dynamic replacement. I've dug deep
+and figured out what's the issue, I'll make a longer writeup on release about what was wrong and how
+I've fixed it.
+
+I've isolated the fix to a separate plugin as it doesn't only benefit OAR, but any new paired
+animations, like killmove replacers. The fix itself does change quite a bit of the internal workings
+of synchronized clips, so I need it to be tested properly first, in normal gameplay. [...]
+
+If you notice anything different about paired animations, please let me know and upload the log located
+in Documents\My Games\Skyrim Special Edition\SKSE\PairedAnimationAnnotationFix.log (it's quite verbose)
+
+The triggers created from annotations in the animation will be merged with the triggers hardcoded in
+behavior, which is expected. When I add paired animation replacement support to OAR [...] I'll add a
+submod option to instead override the hardcoded triggers with those from the animation [...]
+For animators: the annotations need to be prefixed with the usual prefix (2_ or NPC) and be on the
+respective actor roots, not the paired root.
+
+EDIT 0.2.0: Fixed a crash.
+
+===============================================================
+[83900406] Open Animation Replacer Released!
+
+Hey everyone! I've just clicked the publish button on the Nexus page! [...]
+
+Some conditions and their components have been renamed for release, so the .json files will be broken
+again. But that's the last time, I'll make sure to maintain compatibility from now on if I need to
+change something.
+
+There's also an optional plugin that some might find useful, I didn't want it to be a part of the main
+mod because the math library is like 3 times as large as Open Animation Replacer itself
+(-> Open Animation Replacer - Math Plugin) [...]
+
+[Also relates to:] Open Animation Replacer 2.0.0 and Paired Animation Improvements
+(https://www.patreon.com/posts/open-animation-2-88513587, Patreon 原文需订阅；标题与日期 2023-08-31)
