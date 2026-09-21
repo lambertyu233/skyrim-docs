@@ -20,23 +20,8 @@
               "icon": "lucide-file",
               "title": "OAR-补充文档"
             }
-          },
-          {
-            "id": "9f104c9631f560c7",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "OAR/oar改了动作要刷动作吗.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "oar改了动作要刷动作吗"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -93,8 +78,19 @@
               "icon": "lucide-bookmark",
               "title": "书签"
             }
+          },
+          {
+            "id": "b47e5c9d641abad4",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -185,7 +181,8 @@
               "title": "大纲"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -200,12 +197,36 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "bases:新建数据库": false
+      "bases:新建数据库": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "ef2599f6876595e1",
+  "active": "b47e5c9d641abad4",
   "lastOpenFiles": [
-    "OAR/OAR-补充文档.md",
-    "OAR/oar改了动作要刷动作吗.md"
+    "未命名.base",
+    "OAR/oar改了动作要刷动作吗.md",
+    "behaviour-engine-kb/scripts/validate_kb.py",
+    "behaviour-engine-kb/index.html",
+    "behaviour-engine-kb/index.json",
+    "behaviour-engine-kb/_raw/fore-2012-hkx-archive.txt",
+    "behaviour-engine-kb/_raw/scorrp10-patcher-vs-replacer.txt",
+    "behaviour-engine-kb/_raw/pandora-wiki-performance-notes.txt",
+    "behaviour-engine-kb/_raw/pandora-wiki-home.txt",
+    "behaviour-engine-kb/CHANGELOG.md",
+    "behaviour-engine-kb/CONTRIBUTING.md",
+    "behaviour-engine-kb/README.md",
+    "behaviour-engine-kb/07-sources/unreliable-sources.md",
+    "behaviour-engine-kb/07-sources/official-sources.md",
+    "behaviour-engine-kb/07-sources/community-sources.md",
+    "behaviour-engine-kb/06-practices/install-workflow.md",
+    "behaviour-engine-kb/06-practices/troubleshooting-common.md",
+    "behaviour-engine-kb/06-practices/choosing-engine.md",
+    "behaviour-engine-kb/05-ecosystem/related-tools.md",
+    "behaviour-engine-kb/05-ecosystem/amr.md",
+    "behaviour-engine-kb/05-ecosystem/oar-dar.md",
+    "behaviour-engine-kb/04-pandora/pandora-troubleshooting.md",
+    "behaviour-engine-kb/04-pandora/pandora-patch-format.md",
+    "behaviour-engine-kb/04-pandora/pandora-install.md",
+    "OAR/OAR-补充文档.md"
   ]
 }

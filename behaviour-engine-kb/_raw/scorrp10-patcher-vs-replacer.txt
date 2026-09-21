@@ -1,0 +1,22 @@
+# 上游原文存档：scorrp10 对 Patcher vs Replacer 的解释
+
+来源：Nexus 论坛 https://forums.nexusmods.com/topic/13497416-open-animation-replacer-a-pose/
+作者：scorrp10（资深玩家，非官方）
+日期：2024-12-30
+抓取日期：2026-09-21
+
+> 社区总结，被反复转引；引用时请标注"（社区）"。
+
+---
+
+Why are you even TALKING about FNIS/Nemesis/Pandora in connection with OAR? They are entirely different animals that have practically nothing to do with each other.
+
+The game essentially has a database of animations, where a given string ultimately corresponds to an hkx file under meshes\actors\character\animations. I.e. "IdleWallLeanStart" animation event plays meshes\actors\character\animations\wall_idlebackloop.hkx file, which is the vanilla wall lean animation.
+
+With DAR or OAR, when an animation command is issued, the file that will be played can be different, depending if conditions are met. For example, in my case, if the actor is female and not a child, and a random(0.5) roll is satisfied, the game will, in response to "IdleWallLeanStart", play Meshes\actors\character\animations\DynamicAnimationReplacer\_CustomConditions\90046500\wall_idlebackloop.hkx instead.
+
+However, some mods add entirely NEW animations to the game. Such as posers, dance mods, adult mods, etc. These require the animation database to be updated in order to add new command strings, corresponding to new animation files (i.e. "7GOM34" -> meshes\actors\character\animations\GomaPeroPero1\7GOM34.hkx) - and then these new animation commands will be invoked via mod scripts as necessary. Updating of the database is what FNIS/Nemesis/Pandora does.
+
+DAR or OAR, in response to an EXISTING animation command, will play an alternate file, if the conditions are satisfied. That is, mods that provide alternate animations via DAR/OAR do not NEED new commands added, therefore, they do not require FNIS or such. Sure, it is possible for one mod to add NEW animations, and then another mod to provide alternates to those new animations via OAR, but I don't recall ever seeing anything of the sort.
+
+Bottom line, if OAR animation replacements are not working for you, chances are some of the mods have botched conditions or potentially conflicts. Did you check OAR log in Documents\My Games\Skyrim Special Edition\SKSE?

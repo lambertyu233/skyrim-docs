@@ -1,0 +1,43 @@
+# 上游原文存档：Pandora 官方 Wiki · Performance Notes
+
+来源：https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki/Performance-Notes
+页面信息：Min T. edited this page Oct 21, 2024 · 2 revisions
+抓取日期：2026-09-21
+
+---
+
+## Overview
+
+Pandora Behavior Engine Plus is described as "fast" by users because of a variety of factors. It's not magic, nor are there any big shortcuts being taken that detract from the quality of the output for the sake of speed. This article explains the reasoning behind Pandora's design and how it contributes to the appearance of running "faster" than other engines.
+
+## Preloading: Moving the Finish Line Closer
+
+Pandora preloads all the behaviour project data that it needs in the background, as soon as the program is opened. Why? Because it's reasonable to make the assumption that if the program is open, than the user intends to run the engine after changing the active behavior mods list. Therefore, the engine preloads in the time that the user is selecting their patches. This can shave anywhere from a few seconds to half a minute of time that the user needs to wait after launching the engine, depending on the hardware and number of behavior projects present. If the launch button is clicked before preloading finishes, the engine waits for the preloading to finish, in which case this design doesn't do anything for performance.
+
+## Mapping: The Bare Minimum
+
+Behavior trees are huge finite state automata that can't be fully mapped without a large processing overhead. Moreover, the engine doesn't know which parts of the tree will be changed or which parts will stay unused. Therefore, what the engine does in the preloading phase is do a "shallow" map; in other words, the name of all the nodes of the tree and a reference to those nodes are preserved.
+
+Then, when a specific node needs to be changed, the engine first looks up the name of the target node, then pops the node to the xml layer where its parameters can be mapped.
+
+## Incremental (De)serialization
+
+2.0.0-alpha and later versions of Pandora use a design that I like to call incremental (de)serialization. In short, there are two logical layers in the engine; native and xml.
+
+The native layer represents first class behavior objects in memory. This comes with all the usual benefits like strong type safety and cheap operations on the data. When a behavior file is opened, all the xml inside are deserialized into a tree of objects in the native layer.
+
+Then, when an object needs to be modified by a patch, only that object is serialized into the xml layer as an XML element. The XML layer has none of the safety of the native layer, it's just a common medium for patches to represent their edits. The XML element is mapped locally into something similar to XPaths.
+
+Afterwards, after the XML objects have been fully edited, they're deserialized back onto the native layer as new objects, and replace the original native objects in memory. In this step, if the deserialization fails because of illegal edits, the replacement doesn't happen and the unedited native object stays, making the patching extremely error tolerant.
+
+Finally, the entire tree of native objects are serialized directly into a binary packfile. This includes both native objects that were untouched since deserialization and native objects that were recently serialized back from xml after being edited by mods.
+
+There are some steps omitted from this explanation for the sake of simplicity such as duplicate event/variable pruning, handling parent-child references, and FNIS patching (which is done in the native layer, at the step before export). But it's evident how much more efficient it is compared to prior versions of Pandora, which used to translate every tree from XML -> Native -> XML -> Binary.
+
+## No Data Marshalling/Wrapped Processes
+
+The very first iteration of Pandora used to run multiple hkxcmd processes in parallel, which was fast for short loads but became exponentially slower as the modlist grew. Pandora+ avoids hkxcmd or the havok sdk for (de)serialization, instead preferring to use a modified version of HKX2 library by ret2end, which is written with .NET. Using a library of the same language ensures marshalling (and the accompanying performance hit) is kept to a minimum.
+
+## Parallelization: In Moderation
+
+The behavior engine does try to parallelize its operations, but only the very heavy components where applicable. This is from a lession learned, because the first iteration of Pandora overparallelized its data and ended up causing freezes on processors with less multithreading capability. Each mod patch is parsed on its own thread, and applied in parallel. Ensuring the data is thread-safe is critical. For minor or mainly IO-bound operations, parallelization is not used.

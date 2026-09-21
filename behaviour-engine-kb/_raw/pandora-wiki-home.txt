@@ -1,0 +1,41 @@
+# 上游原文存档：Pandora 官方 GitHub Wiki · Home
+
+来源：https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki
+抓取日期：2026-09-21
+
+> 注：本文件为抓取存档，供后续同步核对。条目正文以本存档为准。
+
+---
+
+## Overview
+
+Pandora Behavior Engine is a specialized software program designed to patch the behavior files in Skyrim Special Edition, specifically those in the Havok 2010 .hkx format.
+
+Built on the knowledge of dedicated modders and programmers, this tool enables Skyrim modders to create a better gameplay experience by patching and optimizing behavior files for humans and creatures within the game.
+
+## What is Havok Behavior™?
+
+Havok Behavior is a proprietary middleware software for controlling animation logic in video games through non-deterministic finite state automata. These automata are serialized in pack files with the `hkx` extension using a custom binary format, which hkxcmd and hkx2 can unpack.
+
+Thanks to the work of modders, these pack files can be edited using various tools, the most prominent being Zartar's Behaviour Tool (https://github.com/BrannigansLaw/Skyrim-Behavior-Editor-) and Haviour (https://github.com/Pentalimbed/Haviour).
+
+## What is a Behaviour Patcher?
+
+A behaviour patcher is a program that reads the edits to the various pack files and merges the edits into a final output. This is necessary to have multiple mods making edits to the same files without conflicts.
+
+First pioneered by Fore through FNIS for Skyrim, then further developed through Nemesis, Pandora is the latest culmination of the decade of work that has gone into the relatively underrecognized field of behaviour.
+
+## Engine Comparison
+
+| | Pandora | Nemesis | FNIS |
+|---|---|---|---|
+| OS | Windows/Linux/MacOS | Windows/Linux | Windows |
+| Game | Skyrim SE/AE | Skyrim SE/AE | Skyrim SE/AE/LE |
+| Support | Humans & creatures | Humans & some creatures | Humans & creatures |
+| Patching | Behavior, Imperative | Behavior, Imperative | Behavior, Declarative |
+| Export | HKX2E | HKXCMD | HKXCMD |
+| Cross-Compatibility | Most FNIS mods & all Nemesis mods* | Almost all FNIS Mods | Own Format Only |
+| Source | Open Source (GPL v3) | Open Source (GPL v3) | Closed Source |
+| Animations | Add via behavior or animlist | Add via behavior or animlist | Add via animlist |
+
+*Pandora does not support FNIS/Nemesis features for which a modern alternative exists, e.g Sexy Move, PCEA replaced by OAR and baked motion data obsolete by AMR

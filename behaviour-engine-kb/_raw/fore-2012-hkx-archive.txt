@@ -1,0 +1,32 @@
+# 上游原文存档：fore 一手帖（hkx 的两种含义）
+
+来源：Nexus 论坛 https://forums.nexusmods.com/topic/747532-dawnguard-dlc-crossbow-questions/
+作者：fore（FNIS 作者）
+日期：2012-08-06
+抓取日期：2026-09-21
+
+> 本段是"hkx 有两种"说法的一手来源，全文照录。
+
+---
+
+reaper, you are incorrect in 2 things:
+
+- behavior files (most of them in "behaviors", "character/characters", "character/characters female") are NOT animation files (under "animations" and below). Behavior files are needed so that animation files can work properly.
+- .hkx is only an archive format. There is even a skeleton compressed in .hkx - if you "disable" anim mods (their plugins ?) you will not deacrivate behavior files. You have to delete or overwrite outdated behavior files.
+
+Most crossbow animation problems I have seen are caused by outdated behavior files, installed by old versions of animation mods (e.g. Fore's New Idles in Skyrim - FNIS 1.0 or 1.5, or AP), or some other animation mods, which were simply not updated to the newest skyrim versions by their authors). There also seem to be some more DLC specific problems, and in some cases I don't know, if users simply didn't understand how to remove the behavior files.
+
+You can fix the crossbow "behavior based" problems in 2 ways
+
+1) FNIS (RE-)INSTALLATION FIX (should work in most cases):
+- remove data/meshes/actors/character/behaviors/mt_behavior.hkx
+- (re-)install Fore's New Idles in Skyrim - FNIS. Make sure GenerateFNISforUsers.exe is run
+FNIS will overwrite the most common cause of animation glitches (due to old defaultmale.hkx, and defaultfemale.hkx)
+
+2) BEHAVIOR CLEAN-UP:
+delete the following files, or move them to a different folder:
+- data/meshes/actors/character/*.hkx
+- data/meshes/actors/character/behaviors/*.hkx
+- data/meshes/actors/character/characters/defaultmale.hkx
+- data/meshes/actors/character/characters female/defaultfemale.hkx
+Now of course all animation mods which need behavior files need to be re-installed

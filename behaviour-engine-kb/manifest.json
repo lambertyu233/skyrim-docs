@@ -1,0 +1,71 @@
+{
+  "kb": {
+    "name": "上古卷轴5 动作引擎资料库",
+    "description": "FNIS / Nemesis / Pandora 三大行为引擎（Behaviour Engine）的原理、对比、安装与排错，分层组织、便于增删改查与协作维护。",
+    "source_name": "官方文档与社区一手来源",
+    "locale": "zh-CN"
+  },
+  "version": "1.0.0",
+  "generated_at": "2026-09-21",
+  "maintainers": ["社区协作"],
+  "sources": [
+    {
+      "name": "Pandora 官方 GitHub Wiki（最推荐的原理来源）",
+      "url": "https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/wiki"
+    },
+    {
+      "name": "Pandora 仓库 README（技术描述 + 作者向补丁格式）",
+      "url": "https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/blob/main/README.md"
+    },
+    {
+      "name": "Nemesis Nexus 描述页（复杂度分级）",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/60033"
+    },
+    {
+      "name": "FNIS Nexus 页面（fore 的官方描述与兼容性警告）",
+      "url": "https://www.nexusmods.com/skyrim/mods/11811"
+    },
+    {
+      "name": "Pandora Nexus 页面",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/133232"
+    }
+  ],
+  "license_note": "各引擎/文档版权归其原作者所有（Pandora、Nemesis 为 GPLv3，FNIS 闭源）。本资料库为结构化整理，仅供学习与协作维护，关键数值均标注出处。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind"],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 02-fnis），索引据此过滤",
+        "kind": "concept / reference / tutorial / tool",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "官方来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    { "dir": "00-overview", "title": "概览", "desc": "动作引擎定位、三引擎脉络与官方对比表" },
+    { "dir": "01-principles", "title": "原理", "desc": "Havok Behavior、hkx、补丁器机制、动画数据库、Patcher vs Replacer" },
+    { "dir": "02-fnis", "title": "FNIS", "desc": "第一代引擎：机制、兼容性与淘汰原因" },
+    { "dir": "03-nemesis", "title": "Nemesis", "desc": "第二代引擎：模板化补丁、复杂度分级与局限" },
+    { "dir": "04-pandora", "title": "Pandora", "desc": "第三代引擎：架构、补丁格式、安装与排错" },
+    { "dir": "05-ecosystem", "title": "生态与相关工具", "desc": "OAR/DAR、AMR、hkx 工具链与战斗框架" },
+    { "dir": "06-practices", "title": "实战", "desc": "选型决策、标准刷补丁流程、常见报错" },
+    { "dir": "07-sources", "title": "来源与辨析", "desc": "官方/社区来源清单与不可信来源警示" }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/fetch_mediawiki.py": "通用 MediaWiki 抓取器（本库暂未用，留作后续同步）",
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、占位符残留"
+  }
+}
