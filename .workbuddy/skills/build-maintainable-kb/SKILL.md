@@ -1,6 +1,6 @@
 ---
 name: build-maintainable-kb
-description: 将任意来源（wiki/文档/网页）整理为可维护、分层、版本化的 Markdown 资料库：每主题单文件 + 统一 frontmatter + 自动索引生成器（index.json / 离线可搜索 index.html，两栏布局 + 内联渲染后的 HTML 正文）。附通用脚本（MediaWiki 抓取 + 索引构建 + 索引页机械校验与交互回归测试）。适用于"整理并构建资料库/知识库/文档站"类请求。
+description: 将任意来源（wiki/文档/网页）整理为可维护、分层、版本化的 Markdown 资料库：每主题单文件 + 统一 frontmatter + 自动索引生成器（index.json / 离线可搜索 index.html，两栏布局 + 内联渲染后的 HTML 正文）。附通用脚本（MediaWiki 抓取 + 索引构建 + 索引页机械校验与交互回归测试 + aliases 清理 + 引用链接化）。适用于"整理并构建资料库/知识库/文档站"类请求。
 agent_created: true
 ---
 
@@ -108,10 +108,15 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - **别抄 tags**：tags 已经单独计 40 分，重复写等于白占一项（`validate_kb.py` 会以 NOTE 提示）。
   写完后自检一遍"删掉与 tags 同名的项，是否每条还剩 ≥3 个"。
 
-**搜索端的两条归一化（决定别名该怎么写）**：
+**搜索端的三条归一化（决定别名该怎么写）**：
 
 - **空格不敏感**：`kb.py find` 会先去掉查询与别名中的所有空白再比对，
   `怎么装mod` 与 `怎么装 mod` 等价。**同一个说法不必为空格写两条。**
+- **大小写不敏感**：`find` 对查询与别名都做 `.lower()`。
+  **所以绝对不要为了兼容小写查询而同时写 `DynDOLOD` 与 `dyndolod`** ——
+  这类变体在 `find` 端完全冗余，而在 `validate_kb.py` 端会被判为
+  「aliases 有重复项」**直接报 ERROR**（`skyrim-tools-kb` 初稿因此报 8 个 ERROR）。
+  即"大小写变体既没用、又有害"。同理不要写 `Base Object Swapper` + `base object swapper`。
 - **中文长串反向包含**：查询是无空格的中文长串（≥4 字）时，会拿库里**较短的**别名去反向匹配。
   所以中文别名应写**更短的核心说法**（`光太多闪烁`），而不是把用户可能说的整句都列上去
   —— 长句既切不中，又挤占 16 项上限。
@@ -202,6 +207,11 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - 只检查站内相对链接（跳过 `http(s)` / `mailto` / 纯锚点）；目标可以是文件也可以是**目录**（`../02-features/core` 合法）。
 - 附带报告**非 LF 换行的文件**（MIXED / CRLF），仅提示、不计入退出码。
 - 用法：`python scripts/check_links.py`，退出码 0 / 1。
+- ⚠️ **它只认 markdown 链接 `](...)`**。把交叉引用写成反引号纯文本
+  （`` `09-diagnostics/x.md` ``）**不会被校验**，而且渲染出来不可点击 ——
+  等于"自认为在做交叉引用，实际是一段死文本"。实测 `skyrim-tools-kb` 初稿 352 处全写成反引号，
+  `check_links` 报"检查站内相对链接: 0 / 链接全部有效"，看起来像通过，其实是**空跑**。
+  写条目时一律用 `[条目标题](../NN-cat/x.md)`；已有纯文本引用用 `linkify_refs.py` 批量转换。
 
 ### scripts/fix_links.py
 - `check_links.py` 的修理工。**不信人写的层数**：把目标路径的前导 `../` 全部剥掉得到"尾部路径"，在库根目录下反查实际文件，再用 `os.path.relpath` 反算正确相对路径——所以条目在几层深都成立。
@@ -209,6 +219,30 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - **换行必须原样保留**：以 `open(..., encoding="utf-8", newline="")` 读写（读写都不做换行翻译）。若写成"通用换行读入 + `newline=""` 写出"，会**静默把 CRLF 全变成 LF**，修一个链接却炸出整文件级 diff。
 - 依然遵循"先全量校验、再统一写盘"的纪律：只有 `new_text != text` 才落盘。
 - 用法：`python scripts/fix_links.py`，退出码 0 / 1。
+
+### scripts/linkify_refs.py（把反引号纯文本引用批量转成 markdown 链接）
+- 适用场景：条目初稿把交叉引用写成 `` `NN-cat/x.md` `` 纯文本 —— 不可点击，且是 `check_links.py` 的盲区。
+- 解析策略（**命中即用，解析不到就不动**）：按序尝试 `entry_dir/../<token>`（同库）→
+  `entry_dir/../../<token>`（工作区根 / 其它库）→ `entry_dir/<token>`（同目录）。
+  解析不到实际文件/目录的 token 原样保留，所以 `github.com/xxx`、`x.osmenoga.com/xxx` 这类
+  **URL 片段不会被误转成链接**。
+- 链接文字自动取目标条目 frontmatter 的 `title`；目标是目录时取所属库 `manifest.json` 里该分类的 title。
+- **安全设计（血泪）**：必须**按围栏代码块切段**，只对代码块外的片段做替换。
+  第一版用"等长占位盖住围栏 + 替换后按位还原"，结果替换本身改变长度、按位还原失效——
+  脚本自己断言到长度变化而中止（这个断言救了场）。**不要用等长占位方案。**
+- 每文件断言：行数不变、反引号总数恰减少 2×替换数、围栏数量不变；读写用 `newline=""`。
+- 用法：`python scripts/linkify_refs.py <kb-dir>`（dry-run）→ `--apply` 实际写盘。
+  转换后**必须重跑 `build_index.py` 并用条目数做端到端校验**，再跑 `check_links.py`。
+
+### scripts/fix_aliases.py（清理 aliases 冗余项）
+- 一次性清掉三类**冗余且有害**的别名，判定键统一为 `re.sub(r"\s+", "", s.lower())`：
+  ① 归一化后重复的项（**这是 `validate_kb.py` 的 ERROR 来源**，如 `DynDOLOD`+`dyndolod`）；
+  ② 与 `tags` 归一化后相同的项（tags 已单独计 40 分）；
+  ③ 与自身 `id` 相同的项（id 精确命中已计 100 分）。
+- 只改 `aliases:` 那一行；每文件断言"恰好 1 行发生变化"（用 `old.split("\n")` 与 `new.split("\n")` 逐行 diff 计数），
+  读写 `newline=""`。
+- 会打印清理后 **<3 条别名**的条目，供人工补写。
+- 用法：`python scripts/fix_aliases.py <kb-dir>`。写完重跑 `validate_kb.py`（须 0 ERROR / 0 NOTE）与 `build_index.py`。
 
 ### scripts/kb.py（多库工作区：agent 检索入口）
 - 跨库检索入口，零依赖单文件。子命令：`list` / `toc <kb>` / `find <kw>` / `grep <正则>` / `show <id>` / `read <id>` / `check`，均支持 `--json`。
@@ -290,6 +324,18 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
   行首检查与"字段存在"检查**全都抓不到**（第一版修复脚本因此误判成"已经是干净的"）。
   要断言**每个非空行都匹配 `^[A-Za-z_]+:`**，或用 `build_index.py` 的**条目数**做端到端校验
   —— 数量对不上是最早、最可靠的报警信号。
+- **⚠️ 不要用「等长占位」屏蔽不需要改的区域**（2026-09-22 实测翻车）：把围栏代码块用等长占位
+  盖住、替换完再按位还原 —— 这个方案**必然失效**，因为**替换本身会改变字符串长度**，
+  后续位置全部错位、按位还原也就错位。正确做法是**按区域切段**：用
+  `re.finditer(r"^```.*?^```\s*$", re.S|re.M)` 切出「代码段 / 围栏段」交替的片段，
+  只对代码段做替换，围栏段原样 append 拼回。同理，**任何"先遮蔽、后还原"的批量改写都该被怀疑**。
+- **⚠️ 批量改写必须自带断言，让错误自己暴露**：即使只改 1 行也要断言（行数不变、
+  「恰好 1 行变化」、「语法记号减少量 == 替换数」、「围栏数量不变」）。
+  上面那次翻车就是**被脚本自己的长度断言拦下的** —— 没有断言就会静默写坏一批文件。
+- **PowerShell 的 `Add-Type` 可能被本机安全策略禁止**（"compiles and loads .NET code at runtime"）：
+  需要调 Win32 API（如走回收站的 `shell32.SHFileOperationW`）时改用**托管 Python + ctypes**。
+  ⚠️ 且沙箱下 `SHFileOperationW` 可能返回非 0、`C:\$Recycle.Bin` 里也查不到条目 ——
+  **动用户目录的文件，备份必须自己做，别把回收站当保险。**
 - 索引构建与抓取都要用 UTF-8 读写，避免中文乱码。
 - **`md_to_html()` 的代码围栏必须顶格**：`re.match(r"^```(\w*)\s*$", line)` 允许零个前导空格，所以**缩进在列表项里的 ``` 块不会被识别**（会当普通段落渲染）。但把围栏顶格又会打断列表，使后续 `ol` 重新从 1 编号。因此：**列表项内的配置/代码片段一律用行内 `` `code` `` 表达**，需要整块围栏代码时放到列表之外。
 - **新增/改完条目后做一次机械校验**：直接跑 `scripts/validate_kb.py`（已断言 `id == 文件名`、`category` 与目录名相符、必填字段非空、`index.json` 条目数与正文非空）；必要时再抽查 `<h2>` / `<table>` 计数。避免"写完了但没进索引/没渲染"这类静默失败。
@@ -325,3 +371,8 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - `scripts/kb.py`：跨库检索入口（可复制到工作区 `scripts/` 下直接用）。
 - `scripts/sync_scripts.py`：把 stock 脚本同步到各库，防止副本分叉。
 - `scripts/selftest_new_kb.py`：自检「从技能复制脚本新建的库是否继承当前索引页 UI」（temp 里造库、跑完即删）。
+- `scripts/linkify_refs.py`：把条目里的反引号纯文本引用批量转成 markdown 链接（`check_links.py` 的盲区修补）。
+- `scripts/fix_aliases.py`：清理 `aliases` 的重复项 / 与 tags 同名项 / 与 id 同名项（validate 报 ERROR 的根源）。
+
+> 后两个是**技能级维护工具，不参与 `sync_scripts.py` 同步**（后者按显式 `SYNC_FILES` 列表工作），
+> 因此不会影响各库脚本指纹的一致性。用法均为 `<script> <kb-dir> [--apply]`。

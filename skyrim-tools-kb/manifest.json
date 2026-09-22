@@ -1,0 +1,81 @@
+{
+  "kb": {
+    "name": "上古卷轴5 工具集资料库",
+    "description": "Skyrim SE/AE 模改工具链的结构化知识库：运行时框架与脚本前置（SKSE64 / Address Library / Papyrus 工具族）、模组管理器与整合安装、排序与冲突解决（LOOT / xEdit / Synthesis / zMerge）、资产与归档工具（NifSkope / CAO / BSA 工具）、远景 LOD 生成（xLODGen / DynDOLOD / TexGen）、创作与本地化、诊断与稳定性（Crash Logger / Engine Fixes / FallrimTools）、语音与音频。分层组织、便于增删改查与协作维护。",
+    "source_name": "官方 wiki 与官方文档、GitHub 官方仓库 README、Nexus 发布页描述正文、作者本人说明与官方论坛",
+    "locale": "zh-CN"
+  },
+  "version": "1.0.0",
+  "generated_at": "2026-09-22",
+  "maintainers": ["社区协作"],
+  "sources": [
+    { "name": "Skyrim Script Extender（官方站，含 archived builds）", "url": "https://skse.silverlock.org/" },
+    { "name": "LOOT 官方文档（Introduction To Load Orders）", "url": "https://loot.github.io/docs/help/Introduction-To-Load-Orders" },
+    { "name": "LOOT 官方仓库", "url": "https://github.com/loot/loot" },
+    { "name": "xEdit 官方文档站（tes5edit.github.io）", "url": "https://tes5edit.github.io/" },
+    { "name": "xEdit 官方仓库（TES5Edit）", "url": "https://github.com/TES5Edit/TES5Edit" },
+    { "name": "Wrye Bash 官方文档（General / Advanced / Technical Readme）", "url": "http://wrye-bash.github.io/docs/Wrye%20Bash%20General%20Readme.html" },
+    { "name": "Wrye Bash 官方仓库", "url": "https://github.com/wrye-bash/wrye-bash" },
+    { "name": "Synthesis / Mutagen 官方仓库与 wiki", "url": "https://github.com/Mutagen-Modding/Synthesis" },
+    { "name": "zEdit / zMerge 官方仓库", "url": "https://github.com/z-edit/zedit" },
+    { "name": "NifSkope 官方仓库与 wiki", "url": "https://github.com/niftools/nifskope" },
+    { "name": "Cathedral Assets Optimizer 官方仓库", "url": "https://github.com/Guekka/Cathedral-Assets-Optimizer" },
+    { "name": "DynDOLOD 官方站与 Reference 手册", "url": "https://dyndolod.info/DynDOLOD-Reference" },
+    { "name": "STEP Modifications Wiki（xLODGen / DynDOLOD / TexGen 官方推荐流程）", "url": "https://stepmodifications.org/wiki/SkyrimSE:2.2.0" },
+    { "name": "Wabbajack 官方站与官方 wiki", "url": "https://wiki.wabbajack.org/" },
+    { "name": "Wabbajack 官方仓库", "url": "https://github.com/wabbajack-tools/wabbajack" },
+    { "name": "Crash Logger SSE 官方仓库（alandtse）", "url": "https://github.com/alandtse/CrashLoggerSSE" },
+    { "name": "Phostwood's Skyrim Crash Log Analyzer（官方站）", "url": "https://phostwood.github.io/crash-analyzer/skyrim.html" },
+    { "name": "FaceFXWrapper 官方仓库（Nukem9）", "url": "https://github.com/Nukem9/FaceFXWrapper" },
+    { "name": "xVASynth 官方仓库（DanRuta）", "url": "https://github.com/DanRuta/xVA-Synth" },
+    { "name": "Spell Perk Item Distributor 官方仓库（powerof3）", "url": "https://github.com/powerof3/Spell-Perk-Item-Distributor" },
+    { "name": "Nexus Mods Wiki（SKSE64 / Vortex 官方说明）", "url": "https://wiki.nexusmods.com/" },
+    { "name": "Nexus Mods 发布页描述正文（各工具主页，逐条在条目 source 字段标注）", "url": "https://www.nexusmods.com/skyrimspecialedition/" }
+  ],
+  "license_note": "各工具、mod 与文字版权归各自作者所有（LOOT 为 GPL-3.0、Wrye Bash 为 GPL-3.0、Synthesis/Mutagen 为 GPL-3.0、NifSkope 为 BSD 系、Cathedral Assets Optimizer 为 GPL-3.0、xVASynth 为 GPL-3.0、Crash Logger SSE 为 GPL-3.0 with Modding Exception）。本资料库为结构化整理与出处汇编，关键数值均标注来源，仅供学习与协作维护。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind", "aliases"],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 04-loadorder），索引据此过滤",
+        "kind": "concept / reference / tutorial / tool",
+        "aliases": "检索别名数组（他人会用的俗称/英文术语/错拼），不与 tags 重复",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "主要来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    { "dir": "00-overview", "title": "总览", "desc": "工具链全景、按任务选工具、术语表" },
+    { "dir": "01-frameworks", "title": "运行时框架与前置", "desc": "SKSE64、Address Library、CommonLibSSE-NG、Papyrus 工具族、UI/MCM 前置" },
+    { "dir": "02-distribution", "title": "运行时分发框架", "desc": "SPID / KID / Base Object Swapper 等免插件冲突的分发机制" },
+    { "dir": "03-managers", "title": "管理器与安装", "desc": "MO2、Vortex、Wrye Bash、Wabbajack 整合安装" },
+    { "dir": "04-loadorder", "title": "排序、清理与冲突解决", "desc": "LOOT、xEdit、脏编辑清理、Bash Patch、Synthesis、zMerge、ESL 化" },
+    { "dir": "05-assets", "title": "模型、贴图与归档", "desc": "NifSkope、Cathedral Assets Optimizer、BSA 归档工具、Blender 插件、DDS 贴图工具" },
+    { "dir": "06-lod", "title": "远景与地形生成", "desc": "xLODGen、DynDOLOD、TexGen、地形遮挡（Occlusion）" },
+    { "dir": "07-behaviour", "title": "动画与行为工具", "desc": "动画工具链总览（指向动作引擎与 OAR 库）、hkx 工具、动画补充插件" },
+    { "dir": "08-creation", "title": "创作、脚本与本地化", "desc": "Creation Kit、Papyrus 编译与反编译、xEdit 脚本、编辑器插件、翻译工具" },
+    { "dir": "09-diagnostics", "title": "诊断、稳定性与存档", "desc": "Crash Logger、Crash Log Analyzer、Engine Fixes、Scrambled Bugs、显示与脚本调优、FallrimTools" },
+    { "dir": "10-audio", "title": "语音与音频", "desc": "xVASynth、xVATrainer、FaceFXWrapper、Yakitori、lip/fuz 工作流" },
+    { "dir": "11-config", "title": "配置与 INI", "desc": "BethINI、PrivateProfileRedirector、游戏设置文件体系" },
+    { "dir": "12-sources", "title": "来源与辨析", "desc": "一手来源清单、不可信来源警示、常见错误认知" }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、别名规范、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接 lint：报告解析不到实际文件的失效链接，并提示非 LF 换行的文件",
+    "scripts/fix_links.py": "按「目标尾部路径在本库反查实际文件」反算正确相对路径，一次性修复链接深度错误"
+  }
+}

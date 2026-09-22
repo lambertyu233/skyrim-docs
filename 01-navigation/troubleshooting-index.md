@@ -3,17 +3,17 @@ id: troubleshooting-index
 title: 排错索引：从症状找答案
 category: 01-navigation
 kind: reference
-version: 1.0.0
-updated: 2026-09-21
+version: 1.1.0
+updated: 2026-09-22
 tags: [排错, 索引, 症状, 导航, 入口]
 aliases: [排错索引, 症状索引, 症状对照, 问题排查, 从症状找, 故障对照, troubleshooting, error, issue]
-source: 本工作区七库汇总（条目路径见下）
+source: 本工作区八库汇总（条目路径见下）
 summary: 全工作区的排错入口——按"你看到的现象"组织，每条症状直接给出该读哪个库的哪一条，并标出最容易误判的分叉点。
 ---
 
 # 排错索引：从症状找答案
 
-本工作区七个资料库按**主题**组织（捏脸与身形 / OAR / 动作引擎 / Community Shaders / Creation Kit / MO2，外加一个入口索引）。
+本工作区八个资料库按**主题**组织（捏脸与身形 / OAR / 动作引擎 / Community Shaders / Creation Kit / MO2，外加工具集与本次入口索引）。
 但你出问题时手里拿的是**症状**，不是主题。这页就是那座桥。
 
 > 用法：直接搜你的现象（如"T-Pose""贴图糊""改了没反应"）。
@@ -93,6 +93,25 @@ summary: 全工作区的排错入口——按"你看到的现象"组织，每条
 
 ---
 
+## 七、工具链本身（前置、排序、生成器、诊断）
+
+主题库在 `skyrim-tools-kb`。这里只列症状，原理与版本矩阵见该库条目。
+
+| 你看到的 | 该读 | 关键分叉 |
+| --- | --- | --- |
+| **启动就提示 SKSE 版本旧 / 游戏直接不启动** | `skyrim-tools-kb/01-frameworks/skse64.md` | SKSE 版本必须与**游戏本体版本精确对应**（1.5.97→2.0.20 / 1.6.640→2.2.3 / 1.6.1170→2.2.6）。**不是"装最新版就好"**——升级游戏本体前先确认 SKSE 与全部 .dll 插件都有对应版本 |
+| **一堆 SKSE 插件（`.dll`）集体不工作** | `skyrim-tools-kb/01-frameworks/address-library.md` | 先查 Address Library：**SE 版与 AE 版二选一**，装错会静默失效（不报错、只是插件什么都不做） |
+| **LOOT 排完序反而崩 / LOOT 说没问题但有冲突** | `skyrim-tools-kb/04-loadorder/loot.md`<br>`skyrim-tools-kb/12-sources/common-misconceptions.md` | LOOT 只管**插件（esp/esm）顺序**，**不管资源（贴图/网格）覆盖顺序**——后者归 MO2 左栏。两套顺序是独立的两件事 |
+| **该不该清理 ITM / UDR？** | `skyrim-tools-kb/04-loadorder/dirty-edits-cleaning.md` | **不是所有 mod 都该清**。作者可能是**故意**保留那条记录来实现功能；清错会坏档。官方 master 的 dirty edits 才是常规清理对象 |
+| **插件数到 255 上限了 / 想把 esp 转 ESL** | `skyrim-tools-kb/04-loadorder/esl-flagging.md` | ESL 有**容量前提**（记录数超限就转不成）；转换会改 FormID 高位，**老存档可能认不出**该插件 |
+| **崩溃日志看不懂 / 只有一堆无意义堆栈** | `skyrim-tools-kb/09-diagnostics/crash-log-analyzer.md`<br>`skyrim-tools-kb/09-diagnostics/crash-logger-sse.md` | 顺序：先装 Crash Logger SSE 拿到**带符号**的日志 → 再用分析器读。没有符号的日志基本没价值 |
+| **远景一闪一闪 / 远处的树忽隐忽现** | `skyrim-tools-kb/06-lod/dyndolod.md`<br>`skyrim-tools-kb/06-lod/occlusion.md` | DynDOLOD 建立在 **xLODGen 已先跑过**的前提上；顺序反了等于白跑。闪烁还常是**遮挡数据**没生成 |
+| **存档越来越大 / 读档越来越慢** | `skyrim-tools-kb/09-diagnostics/fallrimtools-resaver.md` | 先分辨是**脚本实例膨胀**（脚本挂起）还是**悬空引用**（卸载 mod 的残留）——两者的清理方式不同 |
+| **配音没声音 / 台词无声** | `skyrim-tools-kb/10-audio/lip-fuz-workflow.md` | `.fuz` 是 `.xwm`（音频）与 `.lip`（口型）的**打包**。少一样或路径没对上都会**静默**失败（不报错、只是没声） |
+| **不知道该用哪个管理器 / 想从 Vortex 换到 MO2** | `skyrim-tools-kb/00-overview/choose-a-tool.md`<br>`skyrim-tools-kb/03-managers/mo2-tool.md` | MO2 与 Vortex 的**部署机制不同**（USVFS 虚拟文件系统 vs 硬链接/部署），迁移不是换个壳那么简单 |
+
+---
+
 ## 通用排查纪律（跨库都适用）
 
 1. **先读日志，再猜原因**。每个子系统都有唯一的权威日志：
@@ -100,6 +119,8 @@ summary: 全工作区的排错入口——按"你看到的现象"组织，每条
    - Pandora → `Engine.log`
    - MO2 / usvfs → 开调试日志看 `hook_*` 与 `reroute.fileName()`
    - Community Shaders → 见 `community-shaders-kb/04-development/testing-and-debugging.md`
+   - 崩溃 / SKSE 插件 → `Documents\My Games\Skyrim Special Edition\SKSE\`（Crash Logger SSE 的输出目录）
+     —— 详见 `skyrim-tools-kb/09-diagnostics/crash-logger-sse.md`
    **没有日志证据的结论只是猜测。**
 2. **区分"没加载"和"加载了但没生效"**。这两类的修法完全不同：前者查文件/路径/冲突，后者查条件/优先级。日志是唯一能区分的手段。
 3. **别跨层归因**。OAR 的问题不会靠重刷补丁器解决，补丁器的问题也不会靠改 OAR 条件解决；MO2 的覆盖问题更不归 LOOT 管。

@@ -1,7 +1,7 @@
 # AGENTS.md — 上古卷轴5 模改工作区
 
-本工作区是一个**结构化知识库**（不是代码仓库）：7 个独立资料库 + 入口索引，
-共 242 条目，全部为「每主题一个 Markdown + 统一 frontmatter」。
+本工作区是一个**结构化知识库**（不是代码仓库）：8 个独立资料库 + 入口索引，
+共 309 条目，全部为「每主题一个 Markdown + 统一 frontmatter」。
 本文件是 agent 的入口契约：**先看这里，再决定读什么。**
 
 ---
@@ -43,6 +43,7 @@ $KB read <id>                 #    确认相关才读正文（也可用 Read 工
 | 你在处理什么 | 去哪个库 | 常见入口 |
 |---|---|---|
 | **出故障了，但不知道归谁管** | `01-navigation` | `troubleshooting-index.md` |
+| **工具本身：装哪个 / 怎么装 / 版本对不对**（SKSE64、Address Library、MO2、LOOT、xEdit、DynDOLOD、BodySlide 之外的整套工具链） | `skyrim-tools-kb` | `00-overview`（选工具）、`01-frameworks`（前置）、`09-diagnostics`（崩溃与存档） |
 | OAR 条件 / `config.json` / submod / 优先级 / 游戏内编辑器 / DAR 迁移 | `oar-kb` | `03-conditions`、`08-practices` |
 | FNIS / Nemesis / Pandora 行为补丁、hkx、动画数据库 | `behaviour-engine-kb` | `01-principles`、`06-practices` |
 | Community Shaders 功能、ENB 迁移、画质与着色器 | `community-shaders-kb` | `02-features`、`01-installation` |
@@ -51,11 +52,14 @@ $KB read <id>                 #    确认相关才读正文（也可用 Read 工
 | 改造某个 mod 动画的实战方法论 | `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库） | 心智模型 + 六步改造法 |
 | **捏脸 / 身形 / 骨骼 / 物理 / NPC 身材分配** | `character-appearance-kb` | `02-face`、`03-body`、`04-physics`、`06-troubleshooting` |
 
-跨库问题通常要同时查多个库，别只查一个就下结论。三个高频组合：
+跨库问题通常要同时查多个库，别只查一个就下结论。四个高频组合：
 
 - "我的拉弓动画被覆盖了" → `mo2-usvfs-kb`（覆盖规则）+ `oar-kb`（替换逻辑）
 - "捏的脸进游戏变黑了" → `character-appearance-kb`（黑脸成因与四种修法）+ `mo2-usvfs-kb`（左栏/右栏不一致）
 - "身形装了但滑块不出现" → `character-appearance-kb`（morph 未构建）+ `mo2-usvfs-kb`（构建产物被覆盖）
+- **"游戏启动就崩 / 报 SKSE 版本旧"** → `skyrim-tools-kb`（SKSE64 与 Address Library 版本矩阵）+ `01-navigation`（症状分类）
+- **"该用哪个工具干活"** → `skyrim-tools-kb/00-overview/choose-a-tool.md`（按任务选），
+  再落到具体机制库（如排序原理看 `mo2-usvfs-kb`，动画替换原理看 `oar-kb`）
 
 ## 三、证据纪律（本工作区的硬规矩）
 
@@ -65,9 +69,12 @@ $KB read <id>                 #    确认相关才读正文（也可用 Read 工
    - 一手源（源码 / Nexus 官方描述 / 作者日志）→ 可直接采信；
    - 社区经验（论坛帖、他人 `config.json`）→ 标注"社区经验"；
    - 本工作区实测 → 标"本机实测"。
-3. **先查 `07-sources/unreliable-sources.md` / `09-sources/`**：库内已逐条记录过
+3. **先查各库的 sources 目录**：库内已逐条记录过
    不可信来源与编造内容（如 CSDN 的 12 处编造、"OAR 有 wiki"、"`IsPlayer` 条件存在"）。
-   踩过的坑不要踩第二遍。
+   踩过的坑不要踩第二遍。集中处：
+   - `oar-kb/09-sources/unreliable-sources.md`
+   - `skyrim-tools-kb/12-sources/unreliable-sources.md`（工具领域的不可信来源）
+   - `skyrim-tools-kb/12-sources/common-misconceptions.md`（**18 条工具常见错误认知**，如"LOOT 一键排序就万事大吉"）
 4. **版本敏感性**：结论绑定上游版本（OAR 2.3.6 / CS 1.8.x 等）。
    条目 `updated` 距今较远、或用户环境版本不同时，**明说"可能已过期，建议核实"**，
    不要当作现状陈述。
@@ -96,13 +103,16 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 `find` 的加权：id 精确 100 > 别名精确 60 > tag 精确 40 > 别名模糊 26 > tag 模糊 22 > 标题 20 > 摘要 8。
 实测：条目标题是「条件全清单」，用英文提 `conditions list` 原本基本淹没，加了别名后排第一。
 
-**全库 241 条已全部补齐 aliases**（2026-09-21 完成 198 条；2026-09-22 新增
-`character-appearance-kb` 43 条时已同步，并把与 `tags` 完全重复的项清掉）。**
+**全库 309 条已全部补齐 aliases**（2026-09-21 完成 198 条；2026-09-22 新增
+`character-appearance-kb` 43 条、`skyrim-tools-kb` 67 条时已同步，并把与 `tags` 完全重复的项清掉）。**
 新增条目请照上面的规则一并写，写完自检「删掉与 tags 同名的项，是否每条还剩 ≥3 个」。
 写的时候注意搜索端的两条归一化，能省掉一堆无效别名：
 
 - **空格不敏感**：`find` 会先去掉查询与别名里的所有空白再比对。
   所以 `怎么装mod` / `怎么装 mod` 等价，**别名不用为了兼容空格写法多写几条**。
+- **大小写不敏感**：`find` 对查询与别名都做 `.lower()`。
+  **因此不要为了兼容小写查询而同时写 `DynDOLOD` 与 `dyndolod`** —— 这类变体会被
+  `validate_kb.py` 判为「aliases 有重复项」而**直接报 ERROR**（本库初稿曾因此报 8 个 ERROR）。
 - **中文长串会做反向包含**：你输入 `光源太多闪烁`（一个词、库里没有完全一样的别名）时，
   会拿库里较短的别名 `光太多闪烁` 去反向匹配加分。**所以中文别名写"更短的核心说法"比写长句更划算**
   —— 长的口语整句既占名额，也容易切不中。
@@ -113,17 +123,23 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 ```bash
 $KB check                                  # AGENTS.md 是否覆盖全部库（新增库后必跑）
 python scripts/sync_scripts.py --check     # 各库的 stock 脚本是否还有分叉
-python oar-kb/scripts/validate_kb.py       # 条目结构 + 索引 + 别名规范 + 脚本存在性
-python oar-kb/scripts/check_index_ui.py    # 索引页交互回归（动过索引页 UI 必跑）
-python oar-kb/scripts/check_links.py       # 站内相对链接
+python <kb>/scripts/validate_kb.py         # 条目结构 + 索引 + 别名规范 + 脚本存在性
+python <kb>/scripts/check_index_ui.py      # 索引页交互回归（动过索引页 UI 必跑）
+python <kb>/scripts/check_links.py         # 站内相对链接（含跨库的 ../../ 链接）
 ```
 
 改页面一律改 `scripts/build_index.py` 的模板再重建，**不要手改 `index.html`**。
-七个库的脚本与技能 `.workbuddy/skills/build-maintainable-kb/scripts/` 的 stock 版逐字节一致——
+八个库的脚本与技能 `.workbuddy/skills/build-maintainable-kb/scripts/` 的 stock 版逐字节一致——
 改完**必须**跑 `scripts/sync_scripts.py` 推送到全部库，否则会产生
 "技能是这行为、库是那行为"的隐性分叉。
+新建库后还应跑技能自带的 `selftest_new_kb.py`，确认新库继承了当前索引页 UI。
 
 > 目录布局约束（踩过坑）：**每个资料库的条目必须放在 `NN-` 前缀的分类子目录里**。
 > `build_index.py` 的 `if rel == "."` 会跳过库根层，条目写在根层会被**静默丢掉**
 > （构建显示 `0 entries` 却不报错）。根层只放 `manifest.json` / `index.*` / `README.md`。
 > 分类目录名**必须带 `NN-` 前缀**，`category` 字段与目录名严格相等。
+>
+> 交叉引用一律写成 **markdown 相对链接**，不要写成反引号纯文本：
+> 同库用 `[条目标题](../NN-cat/entry.md)`，跨库用 `[条目标题](../../other-kb/NN-cat/entry.md)`。
+> `check_links.py` **只校验 markdown 链接**——纯文本引用等于链接 lint 的盲区，
+> 改目录后坏链不会报错。（`skyrim-tools-kb` 初稿就这么写过 352 处，已批量修正。）

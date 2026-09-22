@@ -1,16 +1,16 @@
 {
   "kb": {
     "name": "上古卷轴5 模改工作区",
-    "description": "五个资料库（OAR / 动作引擎 / Community Shaders / Creation Kit / MO2-USVFS）的统一入口与跨库排错索引。",
+    "description": "七个资料库（工具集 / OAR / 动作引擎 / Community Shaders / Creation Kit / MO2-USVFS / 捏脸与身形）的统一入口与跨库排错索引。",
     "source_name": "各子资料库的官方与社区来源"
   },
-  "version": "1.0.0",
-  "generated_at": "2026-09-21",
+  "version": "1.1.0",
+  "generated_at": "2026-09-22",
   "maintainers": ["社区协作"],
   "sources": [
     {
       "name": "各子资料库 manifest.json 内声明的来源",
-      "url": "见 oar-kb / behaviour-engine-kb / community-shaders-kb / creation-kit-kb / mo2-usvfs-kb 各自 manifest"
+      "url": "见 skyrim-tools-kb / oar-kb / behaviour-engine-kb / community-shaders-kb / creation-kit-kb / mo2-usvfs-kb / character-appearance-kb 各自 manifest"
     }
   ],
   "license_note": "本目录只放跨库索引类条目；各主题的权威内容始终在其所属子资料库中。",
