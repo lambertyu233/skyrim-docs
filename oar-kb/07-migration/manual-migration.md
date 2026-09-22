@@ -105,7 +105,7 @@ mkdir -p "$MOD/_备份_原DAR结构"
 mv "$MOD/meshes/actors/character/animations/DynamicAnimationReplacer" "$MOD/_备份_原DAR结构/"
 ```
 
-> 来源（这条是本工作区实测的硬结论）：`oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源（这条是本工作区实测的硬结论）：[实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 ### Step 7 · 重启游戏验证
 

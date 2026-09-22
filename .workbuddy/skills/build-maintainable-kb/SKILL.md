@@ -222,17 +222,50 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 
 ### scripts/linkify_refs.py（把反引号纯文本引用批量转成 markdown 链接）
 - 适用场景：条目初稿把交叉引用写成 `` `NN-cat/x.md` `` 纯文本 —— 不可点击，且是 `check_links.py` 的盲区。
+- **要认两种写法**：① 不带前缀的 `09-diagnostics/x.md`、`oar-kb/08-practices/`；
+  ② **已带相对前缀的** `` `../02-face/racemenu.md` ``。只认①会**大幅漏报** ——
+  实测某库真实待转 34 处，只认①时只报 2 处。
 - 解析策略（**命中即用，解析不到就不动**）：按序尝试 `entry_dir/../<token>`（同库）→
-  `entry_dir/../../<token>`（工作区根 / 其它库）→ `entry_dir/<token>`（同目录）。
-  解析不到实际文件/目录的 token 原样保留，所以 `github.com/xxx`、`x.osmenoga.com/xxx` 这类
-  **URL 片段不会被误转成链接**。
+  `entry_dir/../../<token>`（工作区根 / 其它库）→ `entry_dir/<token>`（同目录）；
+  带 `../` 前缀的则直接按 `entry_dir/<token>` 核验。解析不到实际文件/目录的 token 原样保留，
+  所以 `github.com/xxx`、`src/Conditions.h`、`meshes/...` 这类**仓库路径/URL 片段不会被误转**。
 - 链接文字自动取目标条目 frontmatter 的 `title`；目标是目录时取所属库 `manifest.json` 里该分类的 title。
-- **安全设计（血泪）**：必须**按围栏代码块切段**，只对代码块外的片段做替换。
-  第一版用"等长占位盖住围栏 + 替换后按位还原"，结果替换本身改变长度、按位还原失效——
-  脚本自己断言到长度变化而中止（这个断言救了场）。**不要用等长占位方案。**
-- 每文件断言：行数不变、反引号总数恰减少 2×替换数、围栏数量不变；读写用 `newline=""`。
+- **⚠️⚠️ 绝不能碰「既有 markdown 链接」内部的 token（2026-09-22 实测损坏 33 行）**：
+  库里存在这种写法 —— **label 用代码字体写的既有链接**：
+  ```markdown
+  [`04-physics/physics-overview.md`](../04-physics/physics-overview.md)
+  ```
+  若只按反引号匹配，就会把 label 里的路径也换掉，产出**嵌套坏链**：
+  ```markdown
+  [[物理方案总览与选型](../04-physics/physics-overview.md)](../04-physics/physics-overview.md)
+  ```
+  **最危险的是它一路绿灯**：`validate_kb.py` 过、`check_links.py` 过（外层的 href 有效）、
+  `check_index_ui.py` 过、`build_index.py` 条目数不变 —— **四个校验全过，坏链静默留下**。
+  正确做法：**按既有链接 `\[[^\]]*\]\([^)]*\)` 再切一层段**，只对链接之外的片段做替换
+  （与围栏同理，用**切段**而不是遮蔽）。
+- **安全设计（血泪）**：
+  - 必须**按围栏代码块切段**，只对代码块外的片段做替换。
+    第一版用"等长占位盖住围栏 + 替换后按位还原"，结果替换本身改变长度、按位还原失效 ——
+    脚本自己断言到长度变化而中止。**不要用等长占位方案。**
+  - 每文件断言：行数不变、反引号总数恰减少 `2×替换数`、**`[` 与 `]` 各恰增加 `替换数`**
+    （这条能直接兜住"误改既有链接 label"）、围栏数量不变；读写用 `newline=""`。
 - 用法：`python scripts/linkify_refs.py <kb-dir>`（dry-run）→ `--apply` 实际写盘。
-  转换后**必须重跑 `build_index.py` 并用条目数做端到端校验**，再跑 `check_links.py`。
+- **转换后必须三步验收**（缺一不可）：
+  1. `verify_linkify.py` —— 证明改动**只是**反引号↔链接（见下节）；
+  2. 重跑 `build_index.py` 并**核对条目数不变**（端到端）；
+  3. 跑 `check_links.py`，且**留意链接总数应等于「原数 + 替换数」**。
+
+### scripts/verify_linkify.py（批量改写的语义等价核验）
+- 动机：上条那种"四个校验全过、坏链静默留下"的情况，说明**结构性校验不足以证明批量改写正确**。
+- 做法：定义归一化 `h()`，把两种写法折叠成同一个"纯目标路径"：
+  `[label](href)` → `(href)`，`` `code` `` → `(code)`，再抹掉目标上的 `../` 前缀
+  （原文本里的 `oar-kb/08-practices/` 是给人看的工作区相对路径，转换后必然变成能点的
+  `../../oar-kb/08-practices/`，逻辑目标相同，不该判成差异）。
+  对同一文件的 **HEAD 版本**与**工作区版本**分别求 `h()`，**逐字节相同才算通过**。
+- 两侧施加同样的归一化，所以文件里本来就有的链接不会造成假阴性。
+- 用法：`python scripts/verify_linkify.py [<file>...]`；不给参数则自动取
+  `git diff --name-only -- '*.md'`。退出码 0 / 1。
+- 这是**批量改写类操作的可复用范式**：与其断言"我没改坏"，不如**证明"改前改后语义等价"**。
 
 ### scripts/fix_aliases.py（清理 aliases 冗余项）
 - 一次性清掉三类**冗余且有害**的别名，判定键统一为 `re.sub(r"\s+", "", s.lower())`：
@@ -347,6 +380,10 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - **改索引页模板等于改产品**：改完必须重建 + 跑 `validate_kb.py` + `check_index_ui.py`，否则很容易出现"新库少个功能、老库点不动"这类静默回归。
 - **改完 stock 脚本必须同步**：`python scripts/sync_scripts.py`。只改技能或只改某个库，都会造成"技能一个行为、库另一个行为"的隐性分叉。
 - **坏链是"不会报错的错误"**：新增/移动目录或批量写条目后，务必跑 `check_links.py`；用 `fix_links.py` 修，别手改 `../` 层数。
+- **批量改写要用"语义等价"证明，而不是靠结构性校验兜底**：`validate_kb.py` + `check_links.py` +
+  `check_index_ui.py` + 条目数，四道校验**可以同时全过而内容已被改坏**
+  （实测：linkify 把既有链接的 label 换成嵌套坏链，四道全过）。
+  凡是"整批文件机械改写"，改完都要跑 `verify_linkify.py`（或同类的等价核验）**证明语义未变**。
 - **换行统一为 LF**：库内混用 LF/CRLF 会让 diff 噪音巨大。批量改动一律按字节处理并保留原换行（见"环境坑"），但从零新建的条目就写 LF；发现混用时用脚本一次性归一化并记进 CHANGELOG。
 - **生成器脚本自身必须写 `newline=""`**：`open(p, "w", encoding="utf-8", newline="")`。
   默认文本模式在 Windows 上会把 `\n` **静默**翻译成 `\r\n`。
@@ -373,6 +410,8 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - `scripts/selftest_new_kb.py`：自检「从技能复制脚本新建的库是否继承当前索引页 UI」（temp 里造库、跑完即删）。
 - `scripts/linkify_refs.py`：把条目里的反引号纯文本引用批量转成 markdown 链接（`check_links.py` 的盲区修补）。
 - `scripts/fix_aliases.py`：清理 `aliases` 的重复项 / 与 tags 同名项 / 与 id 同名项（validate 报 ERROR 的根源）。
+- `scripts/verify_linkify.py`：批量改写后的**语义等价核验** —— 证明"改前改后只有写法变了、内容没变"，
+  补上结构性校验（validate / check_links / UI）查不出的那一层。
 
-> 后两个是**技能级维护工具，不参与 `sync_scripts.py` 同步**（后者按显式 `SYNC_FILES` 列表工作），
+> 后三个是**技能级维护工具，不参与 `sync_scripts.py` 同步**（后者按显式 `SYNC_FILES` 列表工作），
 > 因此不会影响各库脚本指纹的一致性。用法均为 `<script> <kb-dir> [--apply]`。

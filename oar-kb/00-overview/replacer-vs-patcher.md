@@ -53,7 +53,7 @@ summary: 补丁器给游戏的动画数据库"新增命令"，OAR 只对"已有�
 | 换掉 hkx 文件、增删 OAR 子模块 | **要重启** | 仍不用 |
 | 加**全新**动画（poser、舞蹈这类要新命令的） | 要重启 | **必须跑** |
 
-> 来源（生效方式）：本工作区 `oar-kb/00-overview/replacer-vs-patcher.md`，与本库的官方口径一致。
+> 来源（生效方式）：本工作区 [Replacer 与 Patcher：OAR 与 FNIS/Nemesis/Pandora 的分工](../../oar-kb/00-overview/replacer-vs-patcher.md)，与本库的官方口径一致。
 
 ## 一个高频误判
 

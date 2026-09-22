@@ -82,7 +82,7 @@ IsActorBase("Skyrim.esm" | 0x00000007) AND IsSneaking()
 - 取反用 `"negated": true`；
 - 组合条件用 `"condition": "OR"` + 大写 `Conditions` 子数组。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 ## 迁移时顺手做的事
 

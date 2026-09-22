@@ -29,7 +29,7 @@ summary: 按"症状 → 优先排查"组织的排错表；含 T-Pose/A-Pose 的�
 | **预览按钮不出现** | **没有选中求值目标**——先控制台点自己（`prid 14`） |
 | **配置改了但编辑器里没变** | 忘了按保存（User 模式看左上角有没有橙色 `*`） |
 
-> 来源（症状表骨架）：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）；官方 FAQ 部分见 <https://www.nexusmods.com/skyrimspecialedition/mods/92109>
+> 来源（症状表骨架）：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）；官方 FAQ 部分见 <https://www.nexusmods.com/skyrimspecialedition/mods/92109>
 
 ## T-Pose / A-Pose 专项诊断
 
@@ -43,7 +43,7 @@ summary: 按"症状 → 优先排查"组织的排错表；含 T-Pose/A-Pose 的�
 
 **关键判断**：**OAR 的锅不会靠刷 Pandora 解决，反之亦然。**
 
-> 来源：本工作区实测记录 `oar-kb/00-overview/replacer-vs-patcher.md`；社区同一现象见 <https://forums.nexusmods.com/topic/13497416-open-animation-replacer-a-pose/>
+> 来源：本工作区实测记录 [Replacer 与 Patcher：OAR 与 FNIS/Nemesis/Pandora 的分工](../../oar-kb/00-overview/replacer-vs-patcher.md)；社区同一现象见 <https://forums.nexusmods.com/topic/13497416-open-animation-replacer-a-pose/>
 
 ### 社区里真实出现过的成因
 

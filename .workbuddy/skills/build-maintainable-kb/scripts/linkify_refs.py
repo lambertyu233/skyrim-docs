@@ -47,8 +47,18 @@ import re
 import sys
 
 FENCE_RE = re.compile(r"^```.*?^```\s*$", re.S | re.M)
-# 反引号内、含斜杠的候选（首段合法性在 resolve 前单独判定）
-TOKEN_RE = re.compile(r"`([A-Za-z0-9._-]+/[A-Za-z0-9._/-]+)`")
+# 反引号内的候选引用，两种写法都要认：
+#   ① 已带相对前缀：`../02-face/racemenu.md`、`../../oar-kb/08-practices/x.md`
+#   ② 不带前缀的库内/跨库路径：`09-diagnostics/x.md`、`oar-kb/08-practices/`
+TOKEN_RE = re.compile(
+    r"`((?:\.\./)+[A-Za-z0-9._-]+/[A-Za-z0-9._/-]+"
+    r"|[A-Za-z0-9._-]+/[A-Za-z0-9._/-]+)`")
+LEAD_RE = re.compile(r"^(?:\.\./)+")
+# 已有的 markdown 链接（连 label 一起）。**必须**整体跳过：
+# 库里存在 `[`../x.md`](../x.md)` 这种「label 用代码字体写的」既有链接，
+# 若只按反引号匹配就会把 label 里的路径也换掉，产出嵌套坏链
+# `[[标题](../x.md)](../x.md)` —— 2026-09-22 实测踩到。
+LINK_FULL_RE = re.compile(r"\[[^\]]*\]\([^)]*\)")
 FM_TITLE_RE = re.compile(r"^---\n.*?^title:\s*(.+?)\s*$.*?^---\n", re.S | re.M)
 
 
@@ -137,6 +147,7 @@ def main():
     libs, files = load_targets(root)
 
     total_rep, touched, skipped, problems = 0, 0, {}, []
+    samples = []
 
     for fp in files:
         entry_dir = os.path.dirname(fp)
@@ -147,14 +158,22 @@ def main():
 
         def sub(m):
             token = m.group(1)
-            head = token.split("/", 1)[0]
+            head = LEAD_RE.sub("", token).split("/", 1)[0]
             if head not in libs:                     # 首段不是真实库/分类目录 → 不动
                 return m.group(0)
-            r = resolve(entry_dir, token)
-            if not r:
-                skipped[token] = skipped.get(token, 0) + 1
-                return m.group(0)
-            abs_t, href = r
+            if token.startswith(".."):
+                # 已带相对前缀：该路径本身就是相对 entry_dir 的，直接核验存在性
+                abs_t = os.path.normpath(os.path.join(entry_dir, token))
+                if not os.path.exists(abs_t):
+                    skipped[token] = skipped.get(token, 0) + 1
+                    return m.group(0)
+                href = token
+            else:
+                r = resolve(entry_dir, token)
+                if not r:
+                    skipped[token] = skipped.get(token, 0) + 1
+                    return m.group(0)
+                abs_t, href = r
             if os.path.isdir(abs_t):
                 label = dir_title(abs_t) or os.path.basename(abs_t.rstrip("/\\"))
             else:
@@ -163,12 +182,25 @@ def main():
             reps.append((m.group(0), rep))
             return rep
 
+        def sub_outside_links(seg, fn):
+            """只对「不在既有 markdown 链接内部」的片段做替换，链接整体原样保留。
+
+            与围栏一样用**切段**而不是"遮蔽后还原"——后者在长度变化时必然错位。
+            """
+            out, last = [], 0
+            for lm in LINK_FULL_RE.finditer(seg):
+                out.append(TOKEN_RE.sub(fn, seg[last:lm.start()]))
+                out.append(lm.group(0))          # 既有链接原样保留
+                last = lm.end()
+            out.append(TOKEN_RE.sub(fn, seg[last:]))
+            return "".join(out)
+
         out, last = [], 0
         for m in FENCE_RE.finditer(text):            # 围栏原样保留
-            out.append(TOKEN_RE.sub(sub, text[last:m.start()]))
+            out.append(sub_outside_links(text[last:m.start()], sub))
             out.append(m.group(0))
             last = m.end()
-        out.append(TOKEN_RE.sub(sub, text[last:]))
+        out.append(sub_outside_links(text[last:], sub))
         new_text = "".join(out)
 
         if not reps:
@@ -181,17 +213,32 @@ def main():
         if new_text.count("`") != text.count("`") - 2 * len(reps):
             problems.append("%s: 反引号数不符" % rel)
             continue
+        # 每处替换恰好新增一个 [ 与一个 ]；若在既有链接 label 内误改会多加，这里兜住
+        if new_text.count("[") != text.count("[") + len(reps):
+            problems.append("%s: '[' 数量不符（疑似改动了既有链接的 label）" % rel)
+            continue
+        if new_text.count("]") != text.count("]") + len(reps):
+            problems.append("%s: ']' 数量不符（疑似改动了既有链接的 label）" % rel)
+            continue
         if len(FENCE_RE.findall(text)) != len(FENCE_RE.findall(new_text)):
             problems.append("%s: 围栏数变化" % rel)
             continue
 
         total_rep += len(reps)
         touched += 1
+        if len(samples) < 8:
+            samples.append((rel, reps[:4]))
         if apply_:
             with open(fp, "w", encoding="utf-8", newline="") as f:
                 f.write(new_text)
 
     print("%s: %d 处替换 / %d 个条目文件" % ("APPLIED" if apply_ else "DRY-RUN", total_rep, touched))
+    if samples:
+        print("\n样例（前 %d 个文件）：" % len(samples))
+        for p, rs in samples:
+            print(" %s" % p)
+            for a, b in rs:
+                print("    %s  ->  %s" % (a, b))
     if skipped:
         print("\n首段合法但解析不到目标（保持原样）：")
         for k, v in sorted(skipped.items(), key=lambda x: -x[1])[:20]:

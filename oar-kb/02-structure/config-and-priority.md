@@ -38,7 +38,7 @@ summary: replacer mod 级 config.json 只存名字与描述，submod 级存优�
 
 字段名、值的格式（什么时候用 `{}`、什么时候用数组）全都一目了然，比查文档快且准。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 ## 优先级：数字越大越优先
 
@@ -50,7 +50,7 @@ summary: replacer mod 级 config.json 只存名字与描述，submod 级存优�
 
 同名动画被多个 submod 命中时 → **取优先级最高的那个**。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）；官方描述提到 DAR 侧"priority is not defined by the folder names"（即 DAR 是文件夹名定优先级）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）；官方描述提到 DAR 侧"priority is not defined by the folder names"（即 DAR 是文件夹名定优先级）。
 
 ## 什么时候会"顶掉"别人
 
@@ -70,7 +70,7 @@ find "…/mods" -iname "bow_idledrawn.hkx" -printf "%10s  %p\n"
 - **想让自己的改动赢** → 保持高优先级；
 - **只想在别人没覆盖的状态下生效**（例如只想管潜行、不想影响站姿）→ 应该**收窄条件**，而不是靠优先级硬顶。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 ## 冲突排查的正确姿势
 

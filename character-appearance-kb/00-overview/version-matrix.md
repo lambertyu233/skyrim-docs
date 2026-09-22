@@ -61,6 +61,6 @@ summary: 以游戏版本为主键，列出 SKSE64 / RaceMenu / Faster HDT-SMP �
 - RaceMenu changelog（0.4.19.16 对应 1.6.1170）：`https://www.nexusmods.com/skyrimspecialedition/mods/19080?tab=files` —— **一手**
 - Faster HDT-SMP FOMOD 档位与游戏版本对应：`https://www.nexusmods.com/skyrimspecialedition/mods/57339` 文件页 —— **一手**
 - Address Library：`https://www.nexusmods.com/skyrimspecialedition/mods/32444` —— **一手**
-- 1.6.640 / 1.7.9x 不被 CS 支持：见本工作区 `community-shaders-kb/01-installation/` —— **一手（CS 官方）**
+- 1.6.640 / 1.7.9x 不被 CS 支持：见本工作区 [安装](../../community-shaders-kb/01-installation/) —— **一手（CS 官方）**
 
 > ⚠️ **时效提醒**：本表随上游发版变化。表内 `updated` 距今较远时，请以各 mod 的 Files 页为准。

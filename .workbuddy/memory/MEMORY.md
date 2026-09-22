@@ -20,7 +20,9 @@
   （按"含 manifest.json 的一级目录"发现库，不按 `*-kb` 后缀）。技能另有**不同步**工具：
   `linkify_refs.py` / `fix_aliases.py` / `selftest_new_kb.py`。
 - 自检：`build_index` → `validate_kb` → `check_index_ui`；动过条目/目录加 `check_links`；
-  动过脚本加 `sync_scripts.py --check`。结论必带条目路径，区分 一手源/社区经验/本机实测。
+  动过脚本加 `sync_scripts.py --check`。**批量机械改写（如 linkify_refs）加 `verify_linkify.py`
+  证明语义等价**——validate + check_links + UI + 条目数**四道全过也可能是坏的**（实测踩到）。
+  结论必带条目路径，区分 一手源/社区经验/本机实测。
 
 ## 环境
 - git：`ssh://git@ssh.github.com:443/lambertyu233/skyrim-docs.git`（**必须 443 端口**：本机代理劫持 22，

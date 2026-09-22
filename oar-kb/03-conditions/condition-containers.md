@@ -99,7 +99,7 @@ IsFemale
 }
 ```
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）（`Conditions` 大写、`{"value": N}` 包裹、`Left hand` 布尔组件均经实测）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）（`Conditions` 大写、`{"value": N}` 包裹、`Left hand` 布尔组件均经实测）。
 
 ## 实战建议：为什么"左右手要各写一条 OR"
 

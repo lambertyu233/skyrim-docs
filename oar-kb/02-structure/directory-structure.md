@@ -50,7 +50,7 @@ OpenAnimationReplacer
 
 > 意味着你可以用**嵌套结构**给同一套动作做多个变体，各自带独立条件——这是 DAR 那种"一个优先级文件夹一套条件"做不到的。
 
-> 来源（判据）：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）；结构与官方的 "config.json <- the submod configuration file" 注解一致。
+> 来源（判据）：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）；结构与官方的 "config.json <- the submod configuration file" 注解一致。
 
 ## 路径插入规则（自 2.0.0）
 
@@ -70,7 +70,7 @@ Data\Meshes\actors\character\OpenAnimationReplacer\MyMod\MySubmod\animations\mal
 
 **实际最省事的做法**：插在 `animations\` 这一层——因为行为文件里的引用是以 `Animations\` 开头的，动画本体也确实住在 `...\character\animations\` 下，这一层最不容易记错。
 
-> 来源（"最实用"这条）：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源（"最实用"这条）：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 ## 命名规则（与 DAR 的重大差异）
 

@@ -24,7 +24,7 @@ summary: OAR 的能力边界与常见坑：替换是换文件不是改逻辑，�
 | **会盖掉同文件名的其他 mod** | 同一事件名、同一优先级区间时，高优先级的赢 | 收窄条件，或删掉对应的子模块文件夹 |
 | **运行时不能物理增删动画文件** | 官方明确说明 | 改动只在**重启游戏后**生效；运行时只能在编辑器里**禁用** submod |
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）；运行时限制见官方 STRUCTURE 节 <https://www.nexusmods.com/skyrimspecialedition/mods/92109>
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）；运行时限制见官方 STRUCTURE 节 <https://www.nexusmods.com/skyrimspecialedition/mods/92109>
 
 ## 二、条件相关的坑
 
@@ -37,7 +37,7 @@ summary: OAR 的能力边界与常见坑：替换是换文件不是改逻辑，�
 | 潜行**持弓但没拉弦**走路，姿势也被冻住 | 只判了"潜行 + 有弓"，没判"弓已拉开" | 加"弓已拉开"条件 |
 | 拉弓**拉到一半**一移动，瞬间跳成拉满弓的姿势 | 用 **`IsAttacking`** 当"弓已拉开"的判据——它在**整段弓攻击过程都为真** | 改用 **`AttackState`** 精确到阶段 |
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 > ⚠️ **`IsAttacking` 不区分阶段。** 想判"弦已拉满"，用 `AttackState == 10 (Bow drawn)`。
 

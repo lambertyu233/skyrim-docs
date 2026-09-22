@@ -58,7 +58,7 @@ summary: 条件决定"什么时候用这套替换动画"；外层列表本身就
 - **`formID` 在 JSON 里写插件内的 FormID**，不带 `0x` 前缀（实测写成字符串 `"7"` 可用）；对应文本语法的 `0x00000007`。
 - 关键字可以用 `{ "editorID": "ElderNPC" }` 这种形式，不必查 formID。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）；`negated` / `editorID` 的形态见社区配置样本 <https://www.loverslab.com/topic/245858-how-to-have-both-follower-and-pc-play-idle-animations-with-oar-conditions>
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）；`negated` / `editorID` 的形态见社区配置样本 <https://www.loverslab.com/topic/245858-how-to-have-both-follower-and-pc-play-idle-animations-with-oar-conditions>
 
 ## 两个必知的坑
 
@@ -68,7 +68,7 @@ summary: 条件决定"什么时候用这套替换动画"；外层列表本身就
 
 > 补充：OAR 注册的 `HasGraphVariable` 只有一个，早期 0.5.0 曾有 `HasGraphVariable[Float/Int/Bool]` 与 `GraphVariable*EqualTo/LessThan` 这一族条件；到发布版最终收敛为 `HasGraphVariable` + `CompareValues` 的组合。写法以你所用版本的编辑器显示为准。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）；0.5.0 条件清单见 <https://bakemono.app/p/patreon/25643772/80271137>
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）；0.5.0 条件清单见 <https://bakemono.app/p/patreon/25643772/80271137>
 
 ### 坑 2：抄别人的条件时要连 `requiredVersion` 一起抄
 
@@ -76,7 +76,7 @@ summary: 条件决定"什么时候用这套替换动画"；外层列表本身就
 
 **最安全的做法**：别手写，直接在 `Shift+O` 的**作者模式**里加条件，编辑器会自动填好所有字段。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 ## 三级来源的可靠性排序
 

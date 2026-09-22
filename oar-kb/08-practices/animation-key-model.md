@@ -38,7 +38,7 @@ summary: OAR 替换的键是"路径+文件名"；想知道游戏请求哪个文�
 
 > 旁证：整合里专业动画包 `女性动作补充包Gunslicer OAR Animations Pack` 的 `Bow_Sneak` 子模块，正是把 `sneakbow_*`（3 个）+ `sneakwalk_*` / `sneakrun_*` / `sneak_turn*` / `sneakmtidle`（21 个）**放在同一个 submod、同一套条件下**。**专业作者的打包方式和 vanilla 的行为结构完全对得上。**
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 ## 二、怎么查「游戏到底请求哪个文件名」
 
@@ -148,7 +148,7 @@ od -A x -t x1z -N 64 "已知可用.hkx"
 
 > 拿一个**你确定游戏能正常播放**的 SSE 动画当基准，两份文件逐字节比对；一致就能用。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 **旁证**：社区里那位 A-pose 玩家提到的 FNIS 报错 `"32bit Animations incompatible with the current version of the game"` 就是位宽不对的典型信号。
 > 来源：<https://forums.nexusmods.com/topic/13497416-open-animation-replacer-a-pose/>
@@ -161,7 +161,7 @@ od -A x -t x1z -N 64 "已知可用.hkx"
 2. **会盖掉同文件名的其他 mod。**
 3. **移动会"滑行"**（如果替换的是个静态姿势）——见 [坑与代价](pitfalls-and-costs.md)。
 
-> 来源：本工作区实测记录 `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库）。
+> 来源：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
 ## 相关
 
