@@ -310,19 +310,29 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .stat{background:rgba(255,255,255,.15);padding:4px 10px;border-radius:20px;font-size:12px}
   .wrap{display:flex;min-height:calc(100vh - 116px)}
-  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto;
-        transition:width .16s ease,flex-basis .16s ease}
-  aside.collapsed{width:78px;flex:0 0 78px;padding:14px 10px}
-  aside.collapsed .sidehead{flex-direction:column;gap:8px;align-items:stretch;margin:0}
-  aside.collapsed .sidehead-title{display:none}
-  aside.collapsed .navtoggle{padding:6px 4px;width:100%}
+  aside{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto}
+  /* 收起 = 侧栏整条消失（不再留窄条），改由左侧半圆悬浮按钮 #navfab 唤出 */
+  aside.collapsed{display:none}
   .sidehead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
   .sidehead-title{font-size:12px;color:var(--muted);white-space:nowrap}
-  .navtoggle{background:none;border:1px solid var(--line);border-radius:6px;color:var(--muted);
-             font-size:11px;padding:2px 8px;cursor:pointer;line-height:1.5;white-space:nowrap}
-  .navtoggle:hover{color:var(--accent);border-color:var(--accent)}
   #navbox.hidden{display:none}
-  main{flex:1;padding:20px 24px;overflow:auto}
+  /* 收起/展开共用同一个半圆把手外形：展开态在侧栏右缘（‹），收起态在视口左缘（›） */
+  .navfab{position:fixed;top:50%;transform:translateY(-50%);z-index:60;
+          align-items:center;justify-content:center;width:26px;height:58px;padding:0;margin:0;
+          border:1px solid var(--line);border-left:none;border-radius:0 30px 30px 0;
+          background:var(--panel);color:var(--accent);cursor:pointer;font-size:20px;line-height:1;
+          font-family:inherit;box-shadow:2px 0 10px rgba(15,23,42,.12);
+          transition:background .15s,color .15s,border-color .15s}
+  .navfab span{display:block;margin-left:-3px}
+  .navfab:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  /* 收起把手贴在侧栏右缘（230px = aside 的固定宽度）；侧栏收起时由 aside 的 display:none 一并隐藏 */
+  #navtoggle{left:230px;display:flex}
+  /* 展开把手贴视口左缘，只在收起态出现 */
+  #navfab{left:0;display:none}
+  #navfab.show{display:flex}
+  main{flex:1;padding:20px 24px;overflow:auto;transition:padding-left .16s ease}
+  /* 侧栏收起后给左侧让位，避免半圆悬浮按钮压住正文首列 */
+  aside.collapsed + main{padding-left:44px}
   .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
   input[type=search]{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px}
   select{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
@@ -385,8 +395,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   <aside>
     <div class="sidehead">
       <span class="sidehead-title">分类过滤</span>
-      <button id="navtoggle" class="navtoggle" type="button" aria-expanded="true"
-              aria-controls="navbox" title="收起/展开分类过滤">‹ 收起</button>
+      <button id="navtoggle" class="navfab" type="button" aria-expanded="true"
+              aria-controls="navbox" title="收起分类过滤" aria-label="收起分类过滤"><span>‹</span></button>
     </div>
     <div id="navbox">
       <button class="navbtn active" data-cat="all" type="button">全部 <span class="cnt" id="allcnt"></span></button>
@@ -405,6 +415,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <div id="view"></div>
   </main>
 </div>
+<button id="navfab" class="navfab" type="button" aria-controls="navbox" aria-expanded="false"
+        title="展开分类过滤" aria-label="展开分类过滤"><span>›</span></button>
 <script>
 const ENTRIES = __ENTRIES__;
 const CATS = __CATS__;
@@ -491,11 +503,13 @@ function selectCat(cat,btn){
   renderGrid();
 }
 function setNavCollapsed(collapsed){
-  const box=document.getElementById('navbox'), btn=document.getElementById('navtoggle'), side=document.querySelector('aside');
+  const box=document.getElementById('navbox'), btn=document.getElementById('navtoggle'),
+        fab=document.getElementById('navfab'), side=document.querySelector('aside');
   box.classList.toggle('hidden',collapsed);
   if(side) side.classList.toggle('collapsed',collapsed);
-  btn.textContent=collapsed?'展开 ›':'‹ 收起';
-  btn.setAttribute('aria-expanded',String(!collapsed));
+  // 侧栏内的按钮只在侧栏可见时有意义：文案恒为「‹ 收起」，收起态的唤出入口交给 #navfab
+  if(btn) btn.setAttribute('aria-expanded',String(!collapsed));
+  if(fab){ fab.classList.toggle('show',collapsed); fab.setAttribute('aria-expanded',String(!collapsed)); }
   try{localStorage.setItem('kb-nav-collapsed',collapsed?'1':'0');}catch(e){}
 }
 function toggleNav(){
@@ -520,6 +534,8 @@ function renderStats(){
 document.getElementById('q').oninput=e=>{curQ=e.target.value;renderGrid();};
 document.getElementById('sort').onchange=e=>{sortBy=e.target.value;renderGrid();};
 document.getElementById('navtoggle').onclick=toggleNav;
+// 用 IIFE 包一层：TESTS 里也有同名变量，顶层重名会 SyntaxError（check_index_ui 会把两段拼在一起跑）
+(function(){ const f=document.getElementById('navfab'); if(f) f.onclick=()=>setNavCollapsed(false); })();
 renderStats();renderNav();renderGrid();
 // 恢复上次的收起/展开状态
 (function(){

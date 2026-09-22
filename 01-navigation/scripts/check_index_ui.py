@@ -8,7 +8,8 @@ check_index_ui.py — 索引页 index.html 的交互回归检查（不需要浏�
   1. 侧栏「全部」按钮存在且**已绑定 onclick**（历史 bug：写死在 HTML 里但漏绑 → 选进分类后切不回全部）；
   2. 所有分类按钮都绑定了 onclick；
   3. 点某个分类只显示该分类条目，再点「全部」恢复全部条目且高亮回到「全部」；
-  4. 分类过滤可收起/展开（#navbox 隐藏、aside 收窄、按钮文案切换、状态写入 localStorage）；
+  4. 分类过滤可收起/展开（#navbox 隐藏、aside 整条隐藏、#navfab 半圆把手出现/消失、两个把手共用
+     .navfab 外形、状态写入 localStorage）；
   5. 页面不含已删除的冗余说明文案。
 
 用法：
@@ -160,20 +161,27 @@ if(pick){
 }
 ok(allBtn.classList.contains("active"), "『全部』按钮处于高亮态");
 
-console.log("\n[3] 分类过滤收起 / 展开");
-ok(!!navtoggle, "存在收起/展开按钮");
-if(navtoggle){
+console.log("\n[3] 分类过滤收起 / 展开（收起后由半圆悬浮按钮唤出）");
+const navfab = document.getElementById("navfab");
+ok(!!navtoggle, "存在收起把手 #navtoggle（DOM 上仍位于 <aside> 内，靠 fixed 挪到侧栏右缘）");
+ok(!!navfab, "存在展开把手 #navfab（收起态贴视口左缘）");
+ok(!!navtoggle && navtoggle.classList.contains("navfab"),
+   "收起把手与展开把手共用 .navfab 外形（半圆样式统一）");
+if(navtoggle && navfab){
   const box = document.getElementById("navbox");
+  const side = document.querySelector("aside");
   ok(!box.classList.contains("hidden"), "初始为展开");
+  ok(!navfab.classList.contains("show"), "展开态下悬浮按钮不显示");
   navtoggle.onclick();
   ok(box.classList.contains("hidden"), "收起后 #navbox 隐藏");
-  ok(document.querySelector("aside").classList.contains("collapsed"), "收起后 aside 收窄");
-  ok(navtoggle.textContent === "展开 ›", "按钮文案变为『展开 ›』（实际 " + navtoggle.textContent + "）");
+  ok(side.classList.contains("collapsed"), "收起后侧栏整条消失（aside.collapsed）");
+  ok(navfab.classList.contains("show"), "收起后半圆悬浮按钮出现");
   ok(localStorage.getItem("kb-nav-collapsed") === "1", "收起状态写入 localStorage");
   ok(cards().length === TOTAL, "收起不影响列表内容");
-  navtoggle.onclick();
-  ok(!box.classList.contains("hidden"), "再次点击恢复展开");
-  ok(!document.querySelector("aside").classList.contains("collapsed"), "aside 恢复宽度");
+  navfab.onclick();
+  ok(!box.classList.contains("hidden"), "点半圆悬浮按钮恢复展开");
+  ok(!side.classList.contains("collapsed"), "侧栏重新出现");
+  ok(!navfab.classList.contains("show"), "展开后悬浮按钮再次隐藏");
   ok(localStorage.getItem("kb-nav-collapsed") === "0", "展开状态已持久化");
 }
 

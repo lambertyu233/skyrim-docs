@@ -138,12 +138,23 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - 抓来的原文存到 `_raw/`，阅读后据此写条目；**条目里的关键数值（版本号/路径/参数）务必对照原文，勿凭记忆改写**。
 
 ## 离线浏览器设计（最新效果参考 behaviour-engine-kb）
+> **单一真相源**：`index.html` 的外观与交互**全部写在技能 stock 版 `scripts/build_index.py` 的
+> `HTML_TEMPLATE` 字符串里**。新建库时把这个脚本复制过去，就自动继承当前 UI（含下面说的两个半圆把手）；
+> 要改 UI 就改这一处，然后 `sync_scripts.py` 推送到各库、再逐库重建。
+> **永远不要手改任何 `index.html`**（它是产物，下次重建即丢），也不要在某个库里单独改副本
+> （下次同步就被 stock 覆盖）—— 已经在库里改过的那份，先把它并回技能再同步。
+
 `build_index.py` 产出的 `index.html` 采用：
 - **渐变页眉 + 统计胶囊**：标题 + 各分类计数。
 - **两栏布局**：左侧分类侧栏（中文标签来自 `manifest.json`），右侧工具栏（搜索/排序）+ 卡片网格。
 - **卡片 → 详情**：点卡片在页面内弹出详情面板，**整篇正文渲染为排版好的 HTML 内联展示**（`.article` 容器，标题/列表/表格/代码块/引用/行内均正常显示），并保留「打开本地 .md」「官方来源」按钮。
 - **分类中文标签**：由 `manifest.json` 的 `categories[].title` 自动读取，UI 与资料库定义一致。
-- **分类过滤可收起**：侧栏顶部是「‹ 收起 / 展开 ›」按钮，收起后隐藏筛选列表并把侧栏收窄（`aside.collapsed`），状态存 `localStorage`，下次打开保持上次选择。**以后新增筛选分组（如状态过滤）时，要把整组一起放进 `#navbox`**，收起才会一并生效。
+- **分类过滤可收起（收起 = 侧栏整条消失）**：**收起把手与展开把手共用同一个 `.navfab` 外形**（26×58、右半圆 `border-radius:0 30px 30px 0`、白底蓝字、hover 变实心蓝、`position:fixed;top:50%` 垂直居中）——
+  - **展开态**：`#navtoggle`（`‹`）贴在**侧栏右缘**（`left:230px`，即 `aside` 的固定宽度），点它 → `aside.collapsed{display:none}` 使侧栏**整条让位**（早期版本只收窄到 78px 窄条，已废弃）；
+  - **收起态**：`#navfab`（`›`）出现在**视口左缘**（`left:0`），`.navfab.show` 才 `display:flex`，点它重新展开。
+  - ⚠️ **`#navtoggle` 必须留在 `<aside>` 的 DOM 子树里**（只用 `fixed` 把它挪到侧栏右缘，不要移到 `</aside>` 之外）：① 侧栏收起时它随 `aside{display:none}` **自动隐藏**，不需要额外 JS；② `check_index_ui.py` 只静态解析 `<aside>` 内的按钮，移到外面就取不到、断言会假失败。
+  - `aside.collapsed + main{padding-left:44px}` 给正文让位，避免把手压住首列。状态存 `localStorage`。
+  **以后新增筛选分组（如状态过滤）时，要把整组一起放进 `#navbox`**，收起才会一并生效。
 - **安全**：内联 JSON 对 `</` 做 `</`→`<\/` 转义，避免 `</script>` 提前闭合。
 
 > **正文默认即为排版好的文章**：构建期用纯标准库极简 `md_to_html()` 渲染器（覆盖标题 / 有序·无序列表 / 嵌套列表 / 表格含对齐 / 代码块 / 引用 / 行内粗体·斜体·代码·链接）把 `.md` 正文转成 HTML 内联进详情面板——**零依赖、完全离线、可移植**，无需任何前端 JS 库或网络。
@@ -165,7 +176,7 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 ### scripts/validate_kb.py
 - 机械校验，0 错误才算过：`id == 文件名`；**`category` 与目录名严格相等**；必填字段非空；`updated` 形如 `YYYY-MM-DD`；
   **每个有条目的目录都在 `manifest.categories[].dir` 里声明过**（否则页面分类标签渲染成空）；`index.json` 条目数与磁盘一致（若该库内联正文，则每条 `content` 非空）；`index.html` 无残留占位符；
-  `<title>` 与 `manifest.kb.name` 一致；**索引页含 `#navbox` / `#navtoggle`，且 `data-cat="all"` 的按钮确实落在 `#navbox` 内**（模板被改坏的哨兵）。
+  `<title>` 与 `manifest.kb.name` 一致；**索引页含 `#navbox` / `#navtoggle` / `#navfab`，且 `data-cat="all"` 的按钮确实落在 `#navbox` 内**（模板被改坏的哨兵）；少 `#navfab` 说明回退到了「收起只收窄、没有唤出按钮」的旧版模板。
 - **兼容旧库**：按 `index.json` 里实际存在的字段决定检查范围（早期库是 `meta + entries` 且不内联正文），不会对旧库误报一堆假错误。
   ⚠️ 但「`category` 允许省略 `NN-` 前缀」这条宽容已在 2026-09-21 取消 —— 它放过了某库 47 个条目 `category: features` 的真实错误（页面一片空标签却一路绿灯）。宽容校验比没有校验更危险。
 - 用法：`python scripts/validate_kb.py`，退出码 0 / 1。
@@ -175,7 +186,9 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - 做法：抽出 `index.html` 内联的 `<script>`，套一层最小 DOM 桩（`El` 实现 `classList` / `innerHTML` / `querySelectorAll` / `dataset`；
   `document` 只支持用到的那几个选择器；`localStorage` 用内存对象），在 Node 里**真实执行页面脚本**，再模拟点击，断言：
   「全部」按钮已绑定 onclick、所有分类按钮已绑定、点某分类只显示该分类且点「全部」恢复全部、
-  收起/展开的类名·文案·`localStorage`、页面不含已删除的冗余文案。
+  收起/展开的类名（`#navbox.hidden` / `aside.collapsed` / `#navfab.show`）·`localStorage`、页面不含已删除的冗余文案。
+  ⚠️ 收起按钮与半圆悬浮按钮的**顶层变量名不能重名**：`check_index_ui.py` 会把页面 `<script>` 与断言段拼成**同一个文件**执行，
+  同名 `const` 会直接 `SyntaxError`（页面里绑定 `#navfab` 因此用 IIFE 包住局部变量）。
 - 用法：`python scripts/check_index_ui.py [库目录]`，退出码 0 / 1；环境里没有可用的 node 时打印 `SKIPPED` 并以 0 退出（不误报为失败）。
 - ⚠️ **这个脚本用 `python` 跑，不是用 `node` 跑**（它内部才去调 Node 执行 DOM 桩）。若误用
   `node scripts/check_index_ui.py`，Node 会读到第 2 行的 `# -*- coding: utf-8 -*-` 而报
@@ -211,6 +224,16 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - 用法：`python scripts/sync_scripts.py`（同步）、`--check`（只检查，退出码非 0 表示有分叉）、`--kb <name>`（单个库）。
 - 纪律：**改完技能里的任何 stock 脚本，必须跑一次同步**，否则下一次构建就会产生分叉。
 
+### scripts/selftest_new_kb.py（自检：新建库是否继承当前索引页 UI）
+- **"新库自动带上当前 UI"的唯一途径是从技能 `scripts/` 复制五件套**，而这件事没有任何默认报错：
+  新库里若另写或从旧库抄了一份 `build_index.py`，构建成功、校验通过，**UI 却是旧样子**，静默得很。
+- 本脚本把这条变成可执行断言：在**系统 temp 目录**造一个最小库（manifest + 1 条目 + 复制来的五件套），
+  依次跑 `build_index` / `validate_kb` / `check_index_ui`，再对产物断言「含 `#navtoggle` 与 `#navfab`、
+  两者都带 `.navfab` 类、无已废弃的 `.navtoggle{}` 与 `78px` 窄条、产物全 LF」，
+  **跑完即删临时目录，不碰任何真实资料库**。
+- 用法：`python <skill>/scripts/selftest_new_kb.py`。**新建资料库后、或改过索引页模板后跑一次。**
+- 给索引页加新 UI 特性时**顺手在这里补一条断言** —— 它是"新库会不会继承"的唯一自动化保障。
+
 > 💡 注意 `build_index.py` / `validate_kb.py` 的**根因**都在本目录的 `scripts/` 下（stock 版），
 > 各库里的是副本。要改行为就改技能里的，再同步 —— 直接改库里的那份，下次同步就被覆盖。
 
@@ -223,11 +246,18 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 1. 用 `fetch_mediawiki.py`（或 WebFetch）**并行**抓取来源内容，存 `_raw/`。
 2. 先建目录结构与 `manifest.json`（分类 dir + 中文 title + 来源信息）。
    **目录名一律带 `NN-` 前缀，条目全部放进分类子目录**（见"标准产出结构"里的硬约束）。
+   同时**从技能 `scripts/` 复制五件套**到新库的 `scripts/` —— 这是"新库自动带上当前索引页 UI"
+   的唯一途径（索引页模板就在 `build_index.py` 的 `HTML_TEMPLATE` 里），**不要另写一份副本**：
+   ```bash
+   cp <skill>/scripts/{build_index,validate_kb,check_index_ui,check_links,fix_links}.py <new-kb>/scripts/
+   ```
 3. 写内容页（概览/安装/参考/开发/工具），功能类用生成器。给每个条目补 `aliases`。
 4. 写 `README.md` / `CHANGELOG.md` / `CONTRIBUTING.md`。
 5. 生成与校验：跑 `build_index.py` 生成 `index.json` / `index.html`，再依次跑 `validate_kb.py`（结构 + 索引 + 模板）与
    `check_index_ui.py`（交互回归）—— **两个都过才算完成**。改索引页模板后必须重建；**不要手改 `index.html`，下次重建就丢**。
    若本步新增/移动过条目或分类目录，**再跑一次 `check_links.py`**（坏链不报错、构建照样过，只有这个脚本能发现）。
+   若是**新建的库**（或刚改过索引页模板），再跑一次技能的 `selftest_new_kb.py`，
+   确认新库确实继承了当前索引页 UI —— 它只在系统 temp 目录里造临时库，不会碰你的资料库。
 6. **多库工作区**：在工作区根写 `AGENTS.md`（模板 `references/agents-md-template.md`），
    放 `scripts/kb.py` 与 `scripts/sync_scripts.py`，跑一次 `kb.py check` 确认入口覆盖全部库，
    跑 `sync_scripts.py` 让各库脚本与 stock 一致。
@@ -294,3 +324,4 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 - `references/agents-md-template.md`：多库工作区的 agent 入口契约模板（含三条设计铁律与踩坑记录）。
 - `scripts/kb.py`：跨库检索入口（可复制到工作区 `scripts/` 下直接用）。
 - `scripts/sync_scripts.py`：把 stock 脚本同步到各库，防止副本分叉。
+- `scripts/selftest_new_kb.py`：自检「从技能复制脚本新建的库是否继承当前索引页 UI」（temp 里造库、跑完即删）。

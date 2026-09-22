@@ -82,6 +82,10 @@
   或直接用 `build_index` 的条目数做端到端校验。这也说明技能里那条
   「先逐文件断言锚点恰好命中 1 次、**再逐行比对证明只有目标行变化、字节增量等于替换差值**」
   的纪律，光守住前半句不够。
+- **PowerShell 的 `Add-Type` 被本机安全策略禁止**（"compiles and loads .NET code at runtime"）
+  → 要调 Win32 API 就改用**托管 Python + ctypes**（如 `shell32.SHFileOperationW` 做回收站删除）。
+  ⚠️ 且沙箱下 SHFileOperation 可能返回非 0、`C:\$Recycle.Bin` 里也查不到条目 ——
+  **动用户目录的文件，备份必须自己做，别把回收站当保险。**
 
 ## 已有的库（现状）
 - `01-navigation`：跨库排错索引（症状 → 条目路径 + 最易误判的分叉点）。
@@ -113,7 +117,27 @@
   CBPC 管不了头发衣服、九大猫/醉梦/陶德查无实据、
   RaceMenu 滑块不是 -1~+1、BodySlide 预设不能当 RaceMenu 预设用、拖滑块改不了 NPC 身材）
   与 **17 项未确认事项**。
-- 六库的 stock 脚本行为要点：页头标题/副标题**从 manifest 注入**（`kb.description` 里别再重复写
+- 各库（现 7 个）的 stock 脚本行为要点：页头标题/副标题**从 manifest 注入**（`kb.description` 里别再重复写
   `source_name` 那句）；正文开头的 `# H1` 会被 `_strip_leading_h1()` 剥掉。
+- 索引页侧栏交互（2026-09-22 改造）：**两个把手共用同一个 `.navfab` 外形**（26×58 右半圆
+  `border-radius:0 30px 30px 0`、白底蓝字、hover 实心蓝、`position:fixed;top:50%` 垂直居中）：
+  展开态 `#navtoggle`（‹）贴**侧栏右缘** `left:230px`；收起态 `#navfab`（›）贴**视口左缘** `left:0`，
+  只有 `.navfab.show` 才 `display:flex`。**收起 = 整条消失**（`aside.collapsed{display:none}`，
+  旧的「收窄到 78px 窄条」已废弃），配 `aside.collapsed + main{padding-left:44px}` 给正文让位。
+  ⚠️ `#navtoggle` **必须留在 `<aside>` 的 DOM 子树内**（只用 `fixed` 把位置挪到侧栏右缘）：
+  ① 收起时它随 `aside{display:none}` **自动隐藏**，不需要额外 JS；
+  ② `check_index_ui.py` 只**静态解析 `<aside>` 内的 button**，把它移到 `</aside>` 之外就取不到元素 → 断言会假失败。
+  `check_index_ui.py` 覆盖 `.collapsed` / `.show` / 两个把手同 class / localStorage；
+  `validate_kb.py` 的 `REQUIRED_PAGE_IDS` 已含 `navfab`（缺它 = 模板回退到旧版）。
+  ⚠️ 该脚本把页面 `<script>` 与断言段**拼成同一个文件**执行，顶层变量重名会直接 `SyntaxError`
+  → 页面里绑定 `#navfab` 用 IIFE 包住局部变量。
 - `category` 必须与所在目录名严格相等 —— 宽容校验比没有校验更危险（曾放过 47 个 `category: features`）。
 - 改资料库页面一律改 `scripts\build_index.py` 的模板再重建，**不要手改 `index.html`**。
+- **技能是项目级**（`D:\game\上古卷轴5\.workbuddy\skills\build-maintainable-kb\`；用户 2026-09-22
+  明确选择**不**复制到用户级，避免两份 stock 副本互相分叉）。技能 `scripts/` 就是 stock 源：
+  **新建库时从那里复制五件套**（索引页模板即 `build_index.py` 的 `HTML_TEMPLATE`），新库自动继承当前 UI。
+- **技能的 `scripts/selftest_new_kb.py`**：在系统 temp 里从零造一个最小库并断言它继承了当前索引页 UI
+  （两个半圆把手、旧样式零残留、全 LF），**跑完即删、不碰真实库** —— 新建库后、或改过索引页模板后跑一次；
+  给索引页加新特性时顺手在里面补一条断言（这是"新库会不会继承"的唯一自动化保障）。
+- 已删除的 `~/.workbuddy/skills/_t_kb/`（旧的试渲染测试库，含一份过期的 `build_index.py`，易被误抄）；
+  备份仍在 `%TEMP%\_t_kb-backup-20260922-112233\`。

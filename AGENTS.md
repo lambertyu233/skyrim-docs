@@ -114,6 +114,7 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 $KB check                                  # AGENTS.md 是否覆盖全部库（新增库后必跑）
 python scripts/sync_scripts.py --check     # 各库的 stock 脚本是否还有分叉
 python oar-kb/scripts/validate_kb.py       # 条目结构 + 索引 + 别名规范 + 脚本存在性
+python oar-kb/scripts/check_index_ui.py    # 索引页交互回归（动过索引页 UI 必跑）
 python oar-kb/scripts/check_links.py       # 站内相对链接
 ```
 

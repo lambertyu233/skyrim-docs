@@ -63,6 +63,7 @@ $KB list / toc <kb> / find <kw> / grep <正则> / show <id> / read <id>
 $KB check                              # 入口文件是否覆盖全部库
 python scripts/sync_scripts.py --check # 各库脚本是否还有分叉
 python <kb>/scripts/validate_kb.py     # 条目结构 + 别名规范
+python <kb>/scripts/check_index_ui.py  # 索引页交互回归（动过索引页 UI 必跑）
 python <kb>/scripts/check_links.py     # 站内相对链接
 ```
 ````

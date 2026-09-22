@@ -10,7 +10,7 @@ validate_kb.py — 资料库机械校验（结构 + 索引 + 索引页模板）
 4. 每个有条目的目录都在 manifest.categories 里声明过（否则页面分类标签会渲染成空）；
 5. index.json 条目数与磁盘一致；若该库内联正文，则每条 content 非空；
 6. index.html 无残留占位符，<title> 与 manifest 的 kb.name 一致；
-7. index.html 含升级后的侧栏结构（id="navbox" / id="navtoggle"），且不含已删除的冗余说明；
+7. index.html 含升级后的侧栏结构（id="navbox" / id="navtoggle" / id="navfab"），且不含已删除的冗余说明；
 8. 可选字段 aliases（检索别名）：必须是数组、无重复、不与自身 tags/id 重复
    —— 别名是 agent/用户提问词与条目标题之间的桥梁，写脏了会让检索悄悄失准。
 
@@ -36,7 +36,7 @@ REQUIRED = ["id", "title", "category", "version", "updated", "tags", "source", "
 FM_RE = re.compile(r"^---\s*$(.*?)^---\s*$", re.DOTALL | re.MULTILINE)
 PLACEHOLDERS = ["__ENTRIES__", "__CATS__", "__CAT_LABELS__", "__TITLE__", "__SUBTITLE__", "__GENERATED__", "__TOTAL__"]
 # 索引页模板必须包含的结构（缺失说明模板被改坏/回退到了出问题的旧版）
-REQUIRED_PAGE_IDS = ["navbox", "navtoggle"]
+REQUIRED_PAGE_IDS = ["navbox", "navtoggle", "navfab"]
 # 可选字段 aliases（检索别名）：不填合法，填了就要干净
 OPTIONAL_FM_LIST = ["aliases"]
 # 各库必须存在的 stock 脚本副本由 scripts/sync_scripts.py 统一核对指纹；
