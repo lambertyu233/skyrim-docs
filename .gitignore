@@ -12,3 +12,4 @@ __pycache__/
 
 # ---- 工作区临时目录（脚本草稿、一次性探针）----
 .workbuddy/tmp/
+.codebuddy/

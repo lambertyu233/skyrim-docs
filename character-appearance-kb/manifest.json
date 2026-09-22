@@ -1,0 +1,124 @@
+{
+  "kb": {
+    "name": "上古卷轴5 捏脸与身形资料库",
+    "description": "Skyrim SE/AE 的人物外貌改造知识库：捏脸（RaceMenu / 高模头 / 表情 morph）、身形（CBBE / UNP / 3BA）、骨骼与物理（XPMSE / HDT-SMP / CBPC）、NPC 身形分配、安装次序与排错，分层组织、便于增删改查与协作维护。",
+    "source_name": "Nexus 发布页与描述正文、GitHub 官方仓库、UESP 与 Creation Kit wiki、作者本人说明",
+    "locale": "zh-CN"
+  },
+  "version": "1.0.0",
+  "generated_at": "2026-09-22",
+  "maintainers": ["社区协作"],
+  "sources": [
+    {
+      "name": "RaceMenu（expired6978）Nexus 发布页",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/19080"
+    },
+    {
+      "name": "RaceMenu 源码（expired6978/SKSE64Plugins，含 skee64）",
+      "url": "https://github.com/expired6978/SKSE64Plugins"
+    },
+    {
+      "name": "BodySlide and Outfit Studio（ousnius）官方仓库与 wiki",
+      "url": "https://github.com/ousnius/BodySlide-and-Outfit-Studio"
+    },
+    {
+      "name": "CBBE（Caliente / Ousnius）Nexus 发布页",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/198"
+    },
+    {
+      "name": "CBBE 3BA（Acro）Nexus 发布页",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/30174"
+    },
+    {
+      "name": "BHUNP（Bakafactory & Haeun）Nexus 发布页",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/31126"
+    },
+    {
+      "name": "HDT-SMP（hydrogensaysHDT）原始仓库",
+      "url": "https://github.com/HydrogensaysHDT/hdt-skyrimse-mods"
+    },
+    {
+      "name": "Faster HDT-SMP（DaymareOn/hdtSMP64）仓库与 Nexus 页",
+      "url": "https://github.com/DaymareOn/hdtSMP64"
+    },
+    {
+      "name": "CBPC（Shizof）Nexus 发布页",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/21224"
+    },
+    {
+      "name": "XP32 Maximum Skeleton Special Extended（Team XPMSE）",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/1988"
+    },
+    {
+      "name": "OBody NG（Aietos）Nexus 发布页",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/77016"
+    },
+    {
+      "name": "AutoBody（napmouse/autoBodyAE）仓库",
+      "url": "https://github.com/napmouse/autoBodyAE"
+    },
+    {
+      "name": "Face Discoloration Fix（Parapets/Exit-9B）仓库与 Nexus 页",
+      "url": "https://github.com/Exit-9B/Face-Discoloration-Fix"
+    },
+    {
+      "name": "UESP：Skyrim Mod 文件格式（RACE / NPC / HDPT）",
+      "url": "https://en.uesp.net/wiki/Skyrim_Mod:Mod_File_Format/RACE"
+    },
+    {
+      "name": "Creation Kit wiki（ck.uesp.net）：HeadPart / HeadPart Script",
+      "url": "https://ck.uesp.net/wiki/HeadPart"
+    },
+    {
+      "name": "SKSE64（ianpatt / behippo）Nexus 发布页与文档",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/30379"
+    },
+    {
+      "name": "Wabbajack 官方文档",
+      "url": "https://wiki.wabbajack.org/"
+    }
+  ],
+  "license_note": "各 mod、工具、贴图与文字版权归各自作者所有（BodySlide 为 GPLv3+、HDT-SMP 为 MIT、Face Discoloration Fix 为 MIT）。本资料库为结构化整理与出处汇编，关键数值均标注来源，仅供学习与协作维护。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind", "aliases"],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 03-body），索引据此过滤",
+        "kind": "concept / reference / tutorial / tool",
+        "aliases": "检索别名数组（他人会用的俗称/英文术语），不与 tags 重复",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "主要来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    { "dir": "00-overview", "title": "总览", "desc": "生态地图、术语表、版本对照、学习路径" },
+    { "dir": "01-prerequisites", "title": "前置与框架", "desc": "SKSE64、Address Library、SKSE 插件框架与版本敏感链路" },
+    { "dir": "02-face", "title": "捏脸（脸部）", "desc": "RaceMenu、高模头、表情 morph、FaceGen 管线、眼眉发须、脸部补光、预设" },
+    { "dir": "03-body", "title": "身形（体模）", "desc": "CBBE / UNP / BHUNP / 3BA、BodySlide 与 Outfit Studio、身形预设与皮肤" },
+    { "dir": "04-physics", "title": "骨骼与物理", "desc": "XPMSE 骨骼节点、HDT-SMP / Faster HDT-SMP、CBPC、选型与共存" },
+    { "dir": "05-distribution", "title": "NPC 身形分配", "desc": "RaceMenu BodyGen、OBody NG、AutoBody 等分发机制" },
+    { "dir": "06-troubleshooting", "title": "排错", "desc": "黑脸、脖缝、穿模、物理失效、滑块缺失、预设不生效" },
+    { "dir": "07-workflow", "title": "安装实务", "desc": "安装次序、MO2 覆盖规则、Wabbajack、整合包与教程" },
+    { "dir": "08-sources", "title": "来源与辨析", "desc": "一手来源清单、未确认事项、不可信来源警示" }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/fetch_mediawiki.py": "通用 MediaWiki 抓取器（用于 UESP / Creation Kit wiki，需浏览器 UA 避免 403）",
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、别名规范、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接 lint：报告解析不到实际文件的失效链接，并提示非 LF 换行的文件",
+    "scripts/fix_links.py": "按「目标尾部路径在本库反查实际文件」反算正确相对路径，一次性修复链接深度错误"
+  }
+}

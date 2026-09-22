@@ -1,7 +1,7 @@
 # AGENTS.md — 上古卷轴5 模改工作区
 
-本工作区是一个**结构化知识库**（不是代码仓库）：6 个独立资料库 + 改造实战文档，
-共 198 条目，全部为「每主题一个 Markdown + 统一 frontmatter」。
+本工作区是一个**结构化知识库**（不是代码仓库）：7 个独立资料库 + 入口索引，
+共 242 条目，全部为「每主题一个 Markdown + 统一 frontmatter」。
 本文件是 agent 的入口契约：**先看这里，再决定读什么。**
 
 ---
@@ -49,9 +49,13 @@ $KB read <id>                 #    确认相关才读正文（也可用 Read 工
 | Creation Kit、Papyrus 脚本、ESP/编辑器操作 | `creation-kit-kb` | `04-scripting`、`03-game-systems` |
 | MO2 / USVFS / 虚拟文件系统 / 冲突覆盖 / 实例管理 | `mo2-usvfs-kb` | `05-usage` |
 | 改造某个 mod 动画的实战方法论 | `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库） | 心智模型 + 六步改造法 |
+| **捏脸 / 身形 / 骨骼 / 物理 / NPC 身材分配** | `character-appearance-kb` | `02-face`、`03-body`、`04-physics`、`06-troubleshooting` |
 
-跨库问题（如"我的拉弓动画被覆盖了"）通常同时涉及 MO2 覆盖规则 + OAR 替换逻辑，
-**两个库都要查**，别只查一个就下结论。
+跨库问题通常要同时查多个库，别只查一个就下结论。三个高频组合：
+
+- "我的拉弓动画被覆盖了" → `mo2-usvfs-kb`（覆盖规则）+ `oar-kb`（替换逻辑）
+- "捏的脸进游戏变黑了" → `character-appearance-kb`（黑脸成因与四种修法）+ `mo2-usvfs-kb`（左栏/右栏不一致）
+- "身形装了但滑块不出现" → `character-appearance-kb`（morph 未构建）+ `mo2-usvfs-kb`（构建产物被覆盖）
 
 ## 三、证据纪律（本工作区的硬规矩）
 
@@ -92,7 +96,9 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 `find` 的加权：id 精确 100 > 别名精确 60 > tag 精确 40 > 别名模糊 26 > tag 模糊 22 > 标题 20 > 摘要 8。
 实测：条目标题是「条件全清单」，用英文提 `conditions list` 原本基本淹没，加了别名后排第一。
 
-**全库 198 条已全部补齐 aliases**（2026-09-21 完成，每条 3~7 个）。新增条目请照上面的规则一并写。
+**全库 241 条已全部补齐 aliases**（2026-09-21 完成 198 条；2026-09-22 新增
+`character-appearance-kb` 43 条时已同步，并把与 `tags` 完全重复的项清掉）。**
+新增条目请照上面的规则一并写，写完自检「删掉与 tags 同名的项，是否每条还剩 ≥3 个」。
 写的时候注意搜索端的两条归一化，能省掉一堆无效别名：
 
 - **空格不敏感**：`find` 会先去掉查询与别名里的所有空白再比对。
@@ -106,13 +112,13 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 
 ```bash
 $KB check                                  # AGENTS.md 是否覆盖全部库（新增库后必跑）
-python scripts/sync_scripts.py --check     # 六库的 stock 脚本是否还有分叉
+python scripts/sync_scripts.py --check     # 各库的 stock 脚本是否还有分叉
 python oar-kb/scripts/validate_kb.py       # 条目结构 + 索引 + 别名规范 + 脚本存在性
 python oar-kb/scripts/check_links.py       # 站内相对链接
 ```
 
 改页面一律改 `scripts/build_index.py` 的模板再重建，**不要手改 `index.html`**。
-六个库的脚本与技能 `.workbuddy/skills/build-maintainable-kb/scripts/` 的 stock 版逐字节一致——
+七个库的脚本与技能 `.workbuddy/skills/build-maintainable-kb/scripts/` 的 stock 版逐字节一致——
 改完**必须**跑 `scripts/sync_scripts.py` 推送到全部库，否则会产生
 "技能是这行为、库是那行为"的隐性分叉。
 

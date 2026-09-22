@@ -7,13 +7,13 @@ version: 1.0.0
 updated: 2026-09-21
 tags: [排错, 索引, 症状, 导航, 入口]
 aliases: [排错索引, 症状索引, 症状对照, 问题排查, 从症状找, 故障对照, troubleshooting, error, issue]
-source: 本工作区五库汇总（条目路径见下）
+source: 本工作区七库汇总（条目路径见下）
 summary: 全工作区的排错入口——按"你看到的现象"组织，每条症状直接给出该读哪个库的哪一条，并标出最容易误判的分叉点。
 ---
 
 # 排错索引：从症状找答案
 
-本工作区五个资料库按**主题**组织（OAR / 动作引擎 / Community Shaders / Creation Kit / MO2）。
+本工作区七个资料库按**主题**组织（捏脸与身形 / OAR / 动作引擎 / Community Shaders / Creation Kit / MO2，外加一个入口索引）。
 但你出问题时手里拿的是**症状**，不是主题。这页就是那座桥。
 
 > 用法：直接搜你的现象（如"T-Pose""贴图糊""改了没反应"）。
@@ -75,6 +75,21 @@ summary: 全工作区的排错入口——按"你看到的现象"组织，每条
 | **读档 CTD** | `behaviour-engine-kb/06-practices/troubleshooting-common.md` |
 | **FNIS / Nemesis / Pandora 该选哪个** | `behaviour-engine-kb/06-practices/choosing-engine.md` |
 | **Pandora 输出只有 txt** | `behaviour-engine-kb/04-pandora/pandora-troubleshooting.md`（查 .NET 7 Desktop Runtime 与 `Engine.log`） |
+
+---
+
+## 六、捏脸与身形
+
+| 你看到的 | 该读 | 关键分叉 |
+| --- | --- | --- |
+| **捏的脸进游戏是黑的** | `character-appearance-kb/06-troubleshooting/dark-face.md` | 真因常是**左栏资产优先级与右栏插件顺序不一致**，不是某个美化 mod 坏了。先用 Face Discoloration Fix 应急，再用 CK 的 `Ctrl+F4` 正本清源 |
+| **脖子/手腕一圈接缝** | `character-appearance-kb/06-troubleshooting/neck-seam.md` | 先查**头/手/身体是不是同一套皮肤同一档**，再查皮肤与身形是否同族（CBBE 与 UNP 的 UV 不通用）。**脖缝修补 mod 是创可贴，不是解法** |
+| **裸体调好了，穿上衣服又变样** | `character-appearance-kb/03-body/morph-runtime-vs-bake.md` | 那件衣服**没被 3BA 化、不带同名 morph**，所以运行时它不动。不是你的操作错了，是那件衣服不支持 |
+| **换了 BodySlide 预设后衣服穿模** | `character-appearance-kb/06-troubleshooting/clipping.md`<br>`character-appearance-kb/03-body/morph-runtime-vs-bake.md` | **根因是「构建是烘焙、滑块是运行时」**：换预设只重烘了身体。正解是 Zeroed Sliders + Build Morphs + Batch Build 全部服装 |
+| **RaceMenu 里没有身形滑块** | `character-appearance-kb/06-troubleshooting/racemenu-sliders-missing.md` | 顺序：① SKSE 版本是否匹配 ② BodySlide 有没有勾 `Build Morphs` ③ `RaceMenuMorphs*.esp` 是否启用 ④ 构建产物是否被别的 mod 覆盖 |
+| **身形装了但完全没物理** | `character-appearance-kb/06-troubleshooting/physics-not-working.md` | 先跑 `smp report`；再查**身形装的是不是 physics 变体**（最易忽略）；再查 SMP 与 CBPC 是否在抢同一批骨骼 |
+| **NPC 身材全都一样** | `character-appearance-kb/05-distribution/obody-ng.md` | 运行时 morph **只作用于玩家**。NPC 需要分配工具，且它要求你先做过 Zeroed Sliders 的基础构建 |
+| **黑脸 / 穿模 / 脖缝同时出现** | `mo2-usvfs-kb/05-usage/conflict-resolution.md`<br>`character-appearance-kb/07-workflow/mo2-override-rules.md` | **跨库问题**：这些症状共同的**上游**是 MO2 的覆盖关系。先理顺左右栏，再回各专项条目 |
 
 ---
 
