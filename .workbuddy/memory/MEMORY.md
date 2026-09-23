@@ -27,8 +27,11 @@
 ## 环境
 - git：`ssh://git@ssh.github.com:443/lambertyu233/skyrim-docs.git`（**必须 443 端口**：本机代理劫持 22，
   报 `Connection closed by 198.18.0.59 port 22`）。文本一律 LF，靠根 `.gitattributes`。
-- **活动实例 = `D:\game\JIZIYU J5.0`**（mods 约 1627，OAR v2.3.6）；`E:\game\JIZIYU Y5.0` 是另一实例。
-  OAR 日志 `C:\Users\Lambert\Documents\My Games\Skyrim Special Edition\SKSE\OpenAnimationReplacer.log`。
+- **活动实例 = `D:\game\PureLOTD`**（1920 mods，2026-09-23 核实）。旧记录里的
+  `D:\game\JIZIYU J5.0` 与 `E:\game\JIZIYU Y5.0` **都已不在盘上**（`E:` 盘整体不存在，`F:` 亦不可访问）
+  ——**写任何路径前先 `ls` 一次**，别信旧记录。另有 `D:\game\Steam`。
+  OAR 的 ini/日志：`C:\Users\laptopyu\Documents\My Games\Skyrim Special Edition\SKSE\`
+  与整合根 `overwrite\SKSE\Plugins\OpenAnimationReplacer(.ini|_ImGui.ini)`（当前用户 laptopu）。
 - 工具坑：Bash PATH 被破坏 → 前置 `export PATH="/usr/bin:/bin:/c/Windows/System32:$PATH"`；
   无 `strings`/`grep` 二进制；**`python -c` 不可靠 → 一律写成脚本文件再跑**。
 
@@ -36,9 +39,9 @@
 - 权威条目（**不要在此重复以下事实**）：`oar-kb/08-practices/animation-key-model.md`（弓箭事件名表、
   `AttackState` 弓枚举、`hk_2010.2.0-r1` **LE/SE 共用**、判"弓已拉开"必须用 `AttackState` 而非
   `IsAttacking`、hkx 权威来源文件）+ `oar-kb/08-practices/authoring-workflow.md`（改造流程）。
-- 项目约定：obito 拉弓 mod 有**两份**——源
-  `F:\download\BaiduNetdiskDownload\obito定制拉弓动作-倒立拉弓-潜行版` 与 MO2 副本
-  `D:\game\JIZIYU J5.0\mods\` 同名，**改动画必须同时改这两份**。
+- 项目约定：obito 拉弓 mod 曾有**两份**（源 + MO2 副本）。**这两条路径 2026-09-23 均已失效**
+  （`F:` 不可访问；`D:\game\JIZIYU J5.0` 不存在；`PureLOTD\mods` 内无 obito 相关目录）。
+  **恢复该改造前先向用户确认它现在在哪**，别按旧路径写文件。
 
 ## 工具教训（跨项目通用）
 > **详细条目已归到技能里**：`.workbuddy/skills/build-maintainable-kb/SKILL.md` 的
@@ -48,16 +51,22 @@
 - 本机特有：**PowerShell `Add-Type` 被安全策略禁止** → 调 Win32 API 用托管 Python + ctypes；
   沙箱下回收站不可靠，**动用户目录的文件备份必须自己做**。
 
-## 已有库（8 库 / 309 条）
+## 已有库（8 库 / 310 条）
 - `01-navigation`（1）：跨库排错索引（症状 → 条目路径 + 最易误判的分叉点）。
+  ⚠️ 该文件通篇用**反引号纯文本**引用条目路径 → `check_links.py` 对它等于**空跑假通过**
+  （报"0 条 / 全部有效"），改它时必须人工核实路径存在。
 - `skyrim-tools-kb`（67 / 13 类，2026-09-22 新建）：模改**工具链**。硬事实：SKSE64 与本体
   **精确版本对应**（1.5.97→2.0.20 / 1.6.640→2.2.3 / 1.6.1170→2.2.6）、Address Library
   **SE/AE 二选一**装错静默失效、**LOOT 只管插件顺序不管资源覆盖**、**ESL 有记录数容量前提**。
   最重要产出 `12-sources/common-misconceptions.md`（**18 条错误认知**）与
   `12-sources/unreliable-sources.md`。来源纪律：只用官方 wiki / 官方仓库 / Nexus 发布页 /
   一手文档，**排除 CSDN、toolify 等内容农场与聚合站**。
-- `oar-kb`（33 / 10）：**OAR 没有 wiki**；从 `src/Conditions.h` 抽 `GetName()` 得 **125 个条件名**；
+- `oar-kb`（34 / 10）：**OAR 没有 wiki**（2026-09-23 二次复核：仓库无 wiki/docs 入口，README 只有
+  编译步骤，搜索结果全是内容聚合站转载）；从 `src/Conditions.h` 抽 `GetName()` 得 **125 个条件名**；
   **`IsPlayer` 条件不存在**。`09-sources/unreliable-sources.md` 取证 CSDN **12 处编造**。
+  **目录结构权威条目 = `02-structure/directory-layouts-catalog.md`**：源码级匹配规则（剥掉
+  `OpenAnimationReplacer\<Mod>\<Submod>\` 恰好三段后必须逐字等于 `data\meshes\` 下的原版路径）
+  + 本机 1920 mod 实测的 8 种插入点与 419 个 submod 分布。
 - `behaviour-engine-kb`（28 / 8）：Havok Behavior = 非确定性 FSM，序列化进 hkx；
   **Patcher（FNIS/Nemesis/Pandora，新增）vs Replacer（OAR/DAR，替换）**；FNIS 7.6 闭源停更；
   **Pandora 不是 Nemesis 的 fork**（社区常错）。

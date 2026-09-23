@@ -3,8 +3,8 @@ id: directory-structure
 title: 目录结构与路径插入规则
 category: 02-structure
 kind: reference
-version: 1.0.0
-updated: 2026-09-21
+version: 1.1.0
+updated: 2026-09-23
 tags: [OAR, 目录结构, replacer mod, submod, 路径]
 aliases: [OAR 目录怎么放, 动画放哪个文件夹, 路径规则, directory structure, meshes 放哪, mod 文件夹结构]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
@@ -72,6 +72,69 @@ Data\Meshes\actors\character\OpenAnimationReplacer\MyMod\MySubmod\animations\mal
 
 > 来源（"最实用"这条）：本工作区实测记录 [实战](../../oar-kb/08-practices/)（原 `OAR/` 目录的内容已并入本库）。
 
+## 实测：整合里真实存在的三种形态
+
+> 本节只留三种最典型的形态；**完整穷举（8 种入口插入点、submod 内部全部布局、
+> 源码级匹配规则）见 [目录结构全集：所有可能的摆放方式](directory-layouts-catalog.md)。**
+>
+> 来源：本机实测（2026-09-23，`D:\game\PureLOTD`，1920 个 mod 的整合；取样范围 = 该整合内全部含 `OpenAnimationReplacer\` 的 mod）。
+
+**形态 A · 标准原生（新做 mod 照这个）**——`Another Jump Animation Male CH-YZ`：
+
+```
+meshes\actors\character\animations\OpenAnimationReplacer\
+└── Another Jump Animation\          ← replacer mod
+    ├── config.json                  ← 只写 name / description
+    └── Male jump\                   ← submod
+        ├── config.json              ← 优先级 + 条件
+        ├── mt_jump.hkx
+        └── mt_jumpfast.hkx
+```
+
+**形态 B · 条件与动画分居两个 mod（CATA 模式，最容易被看懵）**：
+
+```
+Conditional Armor Type Animations\（主体：只有 json，没有 hkx）
+└── …\OpenAnimationReplacer\CATA\
+    ├── config.json
+    ├── Heavy Armor\config.json
+    ├── Light Armor\config.json      ← 条件写在这里
+    ├── No armor\config.json
+    └── No armor Mage\config.json
+
+CATA Addon - Vanargand II Male Idle Walk Run\（addon：只有 hkx，没有 json）
+└── …\OpenAnimationReplacer\CATA\
+    └── Light Armor\
+        └── male\mt_idle.hkx …       ← 同一个 submod 路径，只补进动画文件
+```
+
+**同一个 submod 目录可以被拆在多个 MO2 mod 文件夹里**：MO2 把两者的
+`CATA\Light Armor\` 合并成同一个虚拟目录，于是"条件来自主体、动画来自 addon"。
+所以遇到"某 mod 里没有 `config.json` 却照常生效"时，别急着判它坏
+——先去找同名路径的另一个 mod。（原理见 [VFS 节点类：一个目录可有多个来源](../../mo2-usvfs-kb/03-architecture/vfs-node-classes.md)。）
+
+**形态 C · DAR 迁移残留（submod 目录名是数字）**——`Dynamic Dodge Animation`：
+
+```
+…\OpenAnimationReplacer\Dynamic Dodge - DMCO-0.9.6\
+├── config.json
+├── 6000\config.json + MCO_Dodge*.hkx
+├── 6001\config.json + MCO_Dodge*.hkx
+└── 6002\ …
+```
+
+submod 目录名沿用 DAR 时代的**优先级数字**。OAR 照样认（目录名已无语义，
+优先级以 `config.json` 里的 `priority` 为准），但新做的 mod 没必要学这种写法。
+
+**hkx 放哪：要不要带性别目录**——实测两种都存在：
+
+- `CATA Addon…\Light Armor\male\mt_idle.hkx` → **保留性别目录**，男女可分别给不同文件；
+- `Another Jump Animation…\Male jump\mt_jump.hkx` → hkx **直接放 submod 根下**。
+
+官方规则是"后面保留**原始相对路径**"，其上三个示例也都带 `male\`。
+⚠️「省略性别目录仍会命中」这一点只在整合里观察到实例、**未在官方文档中找到明文**；
+需要区分男女动作时，按官方写法保留 `male\` / `female\` 是稳妥做法。
+
 ## 命名规则（与 DAR 的重大差异）
 
 - **优先级不再由文件夹名决定**！文件夹**可以任意命名**。
@@ -93,6 +156,7 @@ Data\Meshes\actors\character\OpenAnimationReplacer\MyMod\MySubmod\animations\mal
 
 ## 相关
 
+- [目录结构全集：所有可能的摆放方式](directory-layouts-catalog.md)
 - [`config.json`、`user.json` 与优先级](config-and-priority.md)
 - [替换的心智模型](../08-practices/animation-key-model.md)
 - [变体](../02-structure/variants.md)

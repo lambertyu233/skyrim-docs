@@ -3,8 +3,8 @@ id: troubleshooting-index
 title: 排错索引：从症状找答案
 category: 01-navigation
 kind: reference
-version: 1.1.0
-updated: 2026-09-22
+version: 1.2.0
+updated: 2026-09-23
 tags: [排错, 索引, 症状, 导航, 入口]
 aliases: [排错索引, 症状索引, 症状对照, 问题排查, 从症状找, 故障对照, troubleshooting, error, issue]
 source: 本工作区八库汇总（条目路径见下）
@@ -28,6 +28,7 @@ summary: 全工作区的排错入口——按"你看到的现象"组织，每条
 | --- | --- | --- |
 | **角色摆大字（T-Pose / A-Pose）** | `oar-kb/05-editor/troubleshooting.md`（T-Pose 专项诊断）<br>`behaviour-engine-kb/06-practices/troubleshooting-common.md` | **先分类再动手**：开局几秒 = 正常预加载；一直摆且 OAR 的 Replacement Animations 面板为空 = OAR 侧问题；一直摆且行为文件坏了 = 补丁器侧问题。**OAR 的锅不会靠刷 Pandora 解决，反之亦然** |
 | **换了动画完全没反应** | `oar-kb/05-editor/troubleshooting.md`<br>`oar-kb/08-practices/animation-key-model.md` | 顺序：①文件名是不是游戏请求的那个（换错文件名是头号原因）②旧 DAR 结构是否还在 `meshes\` 下③有没有重启游戏 |
+| **自己打包的 OAR mod 整个不生效**（游戏里也看不到它） | `oar-kb/02-structure/directory-layouts-catalog.md`<br>`oar-kb/02-structure/directory-structure.md` | 三条硬条件缺一不可：入口目录必须叫 `OpenAnimationReplacer`、**它下面恰好两层**（`<Mod>\<Submod>\`）、剥掉这三段后剩下的字符串要**逐字**等于原版路径。最常错的是**换了插入点却没换 submod 内的起点**（照抄 `animations\OpenAnimationReplacer\…` 的结构，却把包放在 `character\` 下）——拼不回原版路径就是永久静默失效 |
 | **动画换了，但某个状态掉回原版** | `oar-kb/08-practices/animation-key-model.md` | 那个状态请求的是**另一个文件名**。最常见的就是"一移动就掉回原版"——移动是独立的一套事件名 |
 | **不该换的状态也被换了** | `oar-kb/03-conditions/conditions-list.md`（`AttackState`）<br>`oar-kb/05-editor/troubleshooting.md` | 条件太宽。典型修法：用 `AttackState` 而不是 `IsAttacking`（后者在整个攻击过程都为真，不区分阶段） |
 | **拉弓拉一半移动就跳成满弓姿势** | `oar-kb/03-conditions/conditions-list.md`<br>`oar-kb/08-practices/authoring-workflow.md`（进阶技巧） | 需按 `AttackState` 阶段拆成多个 submod 并开 `interruptible: true`，靠阶段交接 |

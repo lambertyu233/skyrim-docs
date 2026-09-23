@@ -3,8 +3,8 @@ id: official-sources
 title: 官方来源清单
 category: 09-sources
 kind: reference
-version: 1.0.0
-updated: 2026-09-21
+version: 1.1.0
+updated: 2026-09-23
 tags: [OAR, 来源, 官方, 清单]
 aliases: [OAR 官方来源, Nexus 页面, official sources]
 source: https://github.com/ersh1/OpenAnimationReplacer
@@ -16,6 +16,16 @@ summary: OAR 没有 wiki——最权威的一手来源是源码仓库、Nexus �
 ## 首要事实：**OAR 没有 wiki**
 
 本库建立时确认：`ersh1/OpenAnimationReplacer` 仓库**没有 `docs/` 目录、没有 GitHub Wiki**。仓库里只有 `README.md`（很短，面向**编译者**）与 `src/` 源码。
+
+> **2026-09-23 复核**（起因：有人按"去查官方 wiki"的思路找了半天）：
+> ① 仓库首页无 Wiki / Discussions / docs 入口，文件树只有 `.github` / `cmake` / `extern` / `src` + 构建文件；
+> ② 逐字读完 `README.md`：只有 CMake / PowerShell / Vcpkg / VS2019 / CommonLibSSE-NG 的**编译步骤**
+> 与两条用户前置（Address Library / VR Address Library），**零使用说明**；
+> ③ 搜索 `"Open Animation Replacer" official wiki` 的命中**全部**是 Nexus 描述页的转载镜像
+> （aqxaromods、ali213 等内容聚合站，按本库纪律不采信），没有任何官方 wiki 站点。
+>
+> **结论：过去没有、现在也没有官方 wiki。** 找"官方说明"只有一条路——Nexus 描述页（使用者）
+> + 源码（事实出处）。**想知道目录结构的终极答案，读源码比读任何教程都快**，定位见下一节。
 
 所以「官方文档」实际由三块拼成：
 
@@ -65,7 +75,9 @@ summary: OAR 没有 wiki——最权威的一手来源是源码仓库、Nexus �
 | `src/API/OpenAnimationReplacer-FunctionTypes.h` | 函数组件类型与 `FunctionAPIVersion` |
 | `src/Variants.h` | 变体实现 |
 | `src/ReplacerMods.h` | replacer mod / submod 的数据结构 |
-| `src/Parsing.h` / `Parsing.cpp` | `config.json` 的**字段名真相**（想知道某个 JSON 键叫什么，搜这里） |
+| `src/Parsing.h` / `Parsing.cpp` | `config.json` 的**字段名真相** + **目录扫描与路径剥离的全部规则**：`CacheDirectoriesInternal`（在哪找入口目录）、`StripReplacerPath`（剥哪三段）、`ConvertVariantsPath`（`_variants_`）、`IsHiddenDirectoryName`（`.mohidden`）、`ParseModSubdirectory`（submod 判定与 `overrideAnimationsFolder`）。**目录结构问题的第一现场** |
+| `src/ReplacementAnimation.cpp` | `ReplacementAnimationFile::GetOriginalPath()` —— **动画匹配键到底怎么算出来的**（`ConvertVariantsPath(StripReplacerPath(fullPath))`） |
+| `src/OpenAnimationReplacer.cpp` | 查询端：把请求拼成 `data\meshes\<路径>` 再转小写查表（`CreateReplacementAnimations`、`CacheAnimationPathSubMods`）。**"为什么我放的文件没被匹配上"的终极答案在这里** |
 | `src/Settings.h` | ini 设置项 |
 | `src/OpenAnimationReplacer.h` | 主类，含设置与全局状态 |
 | `src/Hooks.cpp` | 拦截点（理解"它在哪一步介入"） |
