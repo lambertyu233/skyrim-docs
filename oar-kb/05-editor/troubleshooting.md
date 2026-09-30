@@ -17,7 +17,7 @@ summary: 按"症状 → 优先排查"组织的排错表；含 T-Pose/A-Pose 的�
 
 | 症状 | 优先排查 |
 | --- | --- |
-| **动画完全没换** | ① 文件名是不是游戏请求的那个（见 [心智模型](../08-practices/animation-key-model.md)）；② 旧 DAR 结构有没有移走；③ 改动后有没有重启游戏 |
+| **动画完全没换** | ① 文件名是不是游戏请求的那个（见 [OAR 替换的核心机制：文件名是键](../08-practices/animation-key-model.md)）；② 旧 DAR 结构有没有移走；③ 改动后有没有重启游戏 |
 | **动画换了，但某个状态掉回原版** | 那个状态请求的是**另一个文件名**——最常见的就是"移动掉回原版"（移动是另一套事件名） |
 | **不该换的状态也被换了** | **条件太宽**。逐条收紧（典型修法是加更精确的状态条件，例如用 `AttackState` 而不是 `IsAttacking`） |
 | **角色摆 T-Pose / A-Pose，或该动作不播放** | ① **hkx 版本/格式不对**（LE 的 32 位文件丢进 SE）；② **完整路径 > 260 字符**；③ OAR 根本没读到动画（看 Replacement Animations 面板是否为空） |
@@ -99,5 +99,5 @@ C:\Users\<用户名>\Documents\My Games\Skyrim Special Edition\SKSE\OpenAnimatio
 
 - [动画日志、事件日志与 trace](animation-log-and-debugging.md)
 - [游戏内编辑器](in-game-editor.md)
-- [替换的心智模型](../08-practices/animation-key-model.md)
+- [OAR 替换的核心机制：文件名是键](../08-practices/animation-key-model.md)
 - [坑与代价](../08-practices/pitfalls-and-costs.md)

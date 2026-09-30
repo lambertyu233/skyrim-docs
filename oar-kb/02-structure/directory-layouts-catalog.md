@@ -232,5 +232,5 @@ OpenAnimationReplacer/
 - [目录结构与路径插入规则](directory-structure.md)（官方规则的原始转述）
 - [`config.json`、`user.json` 与优先级](config-and-priority.md)
 - [动画变体（Variants）](variants.md)
-- [替换的心智模型：文件名的权威来源与 hkx 判定](../08-practices/animation-key-model.md)
+- [OAR 替换的核心机制：文件名是键](../08-practices/animation-key-model.md)
 - [实战：改造别人的动作包（六步法）](../08-practices/authoring-workflow.md)

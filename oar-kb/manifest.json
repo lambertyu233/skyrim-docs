@@ -62,7 +62,7 @@
     { "dir": "05-editor", "title": "编辑器与调试", "desc": "游戏内编辑器三模式、动画日志、排错对照表" },
     { "dir": "06-plugins", "title": "插件生态", "desc": "SKSE 插件 API、Detection / Math / IED 扩展" },
     { "dir": "07-migration", "title": "迁移（DAR → OAR）", "desc": "手动迁移流程与转换工具" },
-    { "dir": "08-practices", "title": "实战", "desc": "替换心智模型、改造别人动作包、编辑器工作流、坑与代价" },
+    { "dir": "08-practices", "title": "实战", "desc": "替换核心机制（文件名是键）、改造别人动作包、编辑器工作流、坑与代价" },
     { "dir": "09-sources", "title": "来源与辨析", "desc": "官方/社区来源清单与不可信来源警示" }
   ],
   "index_files": {

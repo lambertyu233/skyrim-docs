@@ -158,5 +158,5 @@ submod 目录名沿用 DAR 时代的**优先级数字**。OAR 照样认（目录
 
 - [目录结构全集：所有可能的摆放方式](directory-layouts-catalog.md)
 - [`config.json`、`user.json` 与优先级](config-and-priority.md)
-- [替换的心智模型](../08-practices/animation-key-model.md)
+- [OAR 替换的核心机制：文件名是键](../08-practices/animation-key-model.md)
 - [变体](../02-structure/variants.md)

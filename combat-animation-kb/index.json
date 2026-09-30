@@ -1,0 +1,1053 @@
+{
+  "generated": "2026-09-30",
+  "total": 39,
+  "by_category": {
+    "00-overview": 2,
+    "01-frameworks": 6,
+    "02-foundations": 6,
+    "03-dodge": 3,
+    "04-poise": 4,
+    "05-block-parry": 5,
+    "06-ai-camera": 4,
+    "07-movesets": 5,
+    "08-compatibility": 3,
+    "09-sources": 1
+  },
+  "entries": [
+    {
+      "id": "ecosystem-map",
+      "title": "动作系统五层生态地图",
+      "category": "00-overview",
+      "kind": "concept",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "生态",
+        "总览",
+        "分层",
+        "动作系统",
+        "战斗"
+      ],
+      "aliases": [
+        "combat ecosystem",
+        "动作系统全景",
+        "战斗系统有哪些部分",
+        "动作mod怎么分层",
+        "该装哪些动作mod"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/117052",
+      "summary": "老滚5 动作系统从下到上分五层——行为引擎、运行时插件、攻击框架、配套子系统、动作包——各层分工与代表 mod。",
+      "content": "<h2>一句话</h2>\n<p>原版天际的战斗是\"引擎层就写死的\"，所有动作 mod 都是往这五层里各自插一层东西。<strong>搞不清自己装的东西在哪一层，是兼容性事故的第一大来源。</strong></p>\n<h2>五层结构</h2>\n<table><thead><tr><th style=\"text-align:left\">层</th><th style=\"text-align:left\">干什么</th><th style=\"text-align:left\">代表 mod</th><th style=\"text-align:left\">详见</th></tr></thead><tbody><tr><td style=\"text-align:left\">① 行为引擎（补丁器）</td><td style=\"text-align:left\">往动画数据库里新增动画命令/事件，生成 behavior 补丁</td><td style=\"text-align:left\"><strong>Pandora</strong>（现役）、Nemesis（停更）、FNIS（淘汰）</td><td style=\"text-align:left\"><a href=\"../../behaviour-engine-kb/00-overview/engine-comparison.md\" target=\"_blank\" rel=\"noopener\">behaviour-engine-kb/00-overview/engine-comparison.md</a></td></tr><tr><td style=\"text-align:left\">② 运行时插件（SKSE 框架）</td><td style=\"text-align:left\">替换/解释/注入动画数据</td><td style=\"text-align:left\"><strong>OAR</strong>（替换）、Payload Interpreter（读注释）、BDI（注入变量）、AMR/AMF（位移修正）</td><td style=\"text-align:left\">本库 <code>02-foundations</code></td></tr><tr><td style=\"text-align:left\">③ 攻击动作框架</td><td style=\"text-align:left\">重写攻击行为逻辑（连招、蓄力、位移攻击）</td><td style=\"text-align:left\"><strong>BFCO</strong>（现役）、MCO（终版 1.6.0.6）、SkySA/ABR（淘汰）</td><td style=\"text-align:left\">本库 <code>01-frameworks</code></td></tr><tr><td style=\"text-align:left\">④ 配套子系统</td><td style=\"text-align:left\">闪避、韧性/硬直、格挡/弹反、AI、碰撞、视角</td><td style=\"text-align:left\">DMCO、MaxsuPoise、Elden Parry、SCAR、Precision、TDM</td><td style=\"text-align:left\">本库 <code>03</code>–<code>06</code></td></tr><tr><td style=\"text-align:left\">⑤ 动作包（moveset）</td><td style=\"text-align:left\">给框架喂\"招式库\"内容</td><td style=\"text-align:left\">Elden Rim、For Honor in Skyrim、ER Katana 等</td><td style=\"text-align:left\">本库 <code>07-movesets</code></td></tr></tbody></table>\n<h2>依赖方向</h2>\n<ul><li><strong>④③ 依赖 ①②</strong>：攻击框架和大部分子系统要求先跑 Pandora/Nemesis 打补丁，再由 SKSE 插件在运行时接管。</li><li><strong>⑤ 依赖 ③</strong>：动作包的 hkx 文件名和注释（annotation）必须匹配框架的命名规范——MCO 动作包认 <code>mco_*</code>，BFCO 认 <code>BFCO_*</code>，所以有 <a href=\"../01-frameworks/mco-to-bfco-converter.md\" target=\"_blank\" rel=\"noopener\">MCO to BFCO Converter</a>。</li><li><strong>③ 互斥</strong>：SkySA/ABR、MCO、BFCO 互相<strong>不兼容</strong>，三选一（见 <a href=\"./framework-choice.md\" target=\"_blank\" rel=\"noopener\">攻击框架选型</a>）。</li></ul>\n<h2>新手最常见的翻车点</h2>\n<p>装完动作包<strong>必须重跑一次 Pandora</strong>（在 Pandora 界面勾选对应 mod 的补丁项后 Launch），否则新增的动画命令不存在，表现为攻击无效、大字 T-Pose。机制解释见 <a href=\"../../behaviour-engine-kb/01-principles/behaviour-patcher.md\" target=\"<em>blank\" rel=\"noopener\">behaviour-engine-kb/01-principles/behaviour-patcher.md</a>；OAR/DAR 与补丁器是互补而非竞争关系，见 <a href=\"../../behaviour-engine-kb/01-principles/patcher-vs-replacer.md\" target=\"</em>blank\" rel=\"noopener\">behaviour-engine-kb/01-principles/patcher-vs-replacer.md</a>。</p>\n<h2>出处</h2>\n<ul><li>分层与依赖关系：综合各框架官方 Nexus description 的 Requirements 区块（BFCO、MCO、DMCO、TK Dodge Redux 等）【一手源】。</li></ul>",
+      "_file": "00-overview/ecosystem-map.md",
+      "_chars": 1919
+    },
+    {
+      "id": "framework-choice",
+      "title": "攻击框架选型：SkySA/ABR → MCO → BFCO",
+      "category": "00-overview",
+      "kind": "concept",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "选型",
+        "BFCO",
+        "MCO",
+        "SkySA",
+        "ABR",
+        "对比"
+      ],
+      "aliases": [
+        "攻击框架",
+        "combat framework",
+        "用MCO还是BFCO",
+        "三代框架",
+        "战斗框架怎么选",
+        "SkySA 还能装吗"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/117052",
+      "summary": "攻击框架三代演进——SkySA/ABR 已淘汰、MCO 停止演进、BFCO 现役且功能最全；新装一律选 BFCO。",
+      "content": "<h2>一句话</h2>\n<p><strong>新装一律选 BFCO。</strong> MCO 官方 Nexus 页已由作者 Distar 以告别口吻重新上传（1.6.0.6 为终版），SkySA/ABR 停更多年。</p>\n<h2>三代演进（均有官方页面佐证）</h2>\n<table><thead><tr><th style=\"text-align:left\">代</th><th style=\"text-align:left\">框架</th><th style=\"text-align:left\">现状</th><th style=\"text-align:left\">证据</th></tr></thead><tbody><tr><td style=\"text-align:left\">一</td><td style=\"text-align:left\">SkySA</td><td style=\"text-align:left\">Nexus 文件区<strong>全部 Archived</strong>（作者不再支持）；同系作者 DuffB 原话 \"Switch to MCO please as SkySA is deprecated and wont get anymore updates\"</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">一</td><td style=\"text-align:left\">ABR（Attack Behavior Revamp，非 \"Replacer\"）</td><td style=\"text-align:left\">Nexus 版停在 2021-04（v5.0），后续版本走 Patreon 后也停摆</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">二</td><td style=\"text-align:left\">MCO（ADXP\\</td><td style=\"text-align:left\">MCO，Distar）</td><td style=\"text-align:left\">现行页 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/175044\" target=\"_blank\" rel=\"noopener\">mods/175044</a>（2026-03 重新上传，1.6.0.6）；作者留言 \"It was such a fun run… Bye!\"——框架本体停止演进</td></tr><tr><td style=\"text-align:left\">三</td><td style=\"text-align:left\">BFCO（BF001）</td><td style=\"text-align:left\">2024-05 首发，3.100.x 持续更新中（最新 3.100.8，2026-09-03）</td><td style=\"text-align:left\">【一手源】</td></tr></tbody></table>\n<h2>BFCO 比 MCO 多什么（全部出自 BFCO 官方 description）【一手源】</h2>\n<ul><li>方向重击（WASD + 攻击键触发 <code>BFCO_PowerAttackA/B/L/R.hkx</code>）</li><li>跳跃攻击、游泳攻击、自定义蓄力攻击</li><li>弓弩 bash（<code>BFCO_BowBash.hkx</code>）</li><li>强力重击热键（MCM 内置，不必再装重击热键 mod）</li><li>NPC 连招支持、MCM 细调、原生兼容原版攻速与技能树</li><li>与 DMCO 任意版本兼容（官方原文 \"Fully compatible with DMCO (any version)\"）</li></ul>\n<p>详细功能与依赖见 <a href=\"../01-frameworks/bfco.md\" target=\"<em>blank\" rel=\"noopener\">BFCO 条目</a>；与 MCO 的冲突与迁移见 <a href=\"../08-compatibility/bfco-incompatibilities.md\" target=\"</em>blank\" rel=\"noopener\">BFCO 不兼容清单</a>。</p>\n<h2>什么时候还选 MCO</h2>\n<ul><li>你想用的<strong>特定动作包只有 MCO 版</strong>且转换后体验不佳（MCO 注释转换后方向重击只能变成\"伪方向重击\"，见 <a href=\"../01-frameworks/mco-to-bfco-converter.md\" target=\"_blank\" rel=\"noopener\">Converter 条目</a>）。</li><li>注意 MCO 的官方页面状态很乱：原页 mods/124806 已 <strong>Removed by staff</strong>，引用一律以 mods/175044 为准【一手源】。</li></ul>\n<h2>老框架还在的理由（仅存档价值）</h2>\n<p>老整合包（SkySA 时代的 ERC/Leviathan 系等）里会绑死 SkySA/ABR，这类整合要么整体保持原样，要么弃用——SkySA/ABR 与 MCO/BFCO <strong>不能共存</strong>。</p>",
+      "_file": "00-overview/framework-choice.md",
+      "_chars": 1811
+    },
+    {
+      "id": "mco",
+      "title": "ADXP|MCO——Modern Combat Overhaul（第二代）",
+      "category": "01-frameworks",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "MCO",
+        "ADXP",
+        "Distar",
+        "攻击框架",
+        "连招",
+        "蓄力"
+      ],
+      "aliases": [
+        "Modern Combat Overhaul",
+        "Attack Distar eXperience",
+        "mco 要求",
+        "MCO 滑步",
+        "迈步攻击"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/175044",
+      "summary": "Distar 的第二代攻击框架：消灭滑步攻击、带来连招链/蓄力/非线性派生；终版 1.6.0.6，作者已告别停更。",
+      "content": "<h2>一句话</h2>\n<p>装机量曾是最大的攻击框架：消灭原版\"滑冰式\"攻击（攻击中可自由平移），带来动画位移、连招链、蓄力与非线性招式派生。<strong>现已停止演进，终版 1.6.0.6。</strong></p>\n<h2>关键事实【一手源】</h2>\n<ul><li><strong>作者</strong>：Distar（distar66），动画由 MikeN1ke（Elder Souls）制作。</li><li><strong>现行 Nexus 页</strong>：<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/175044\" target=\"_blank\" rel=\"noopener\">mods/175044</a>（标题 \"Attack - MCO\"，2026-03-19 重新上传，v1.6.0.6）。<strong>原页 mods/124806 已 \"Removed by staff\"</strong>——引用一律用新页。</li><li><strong>ADXP = Attack Distar eXperience</strong>；MCO 版与 DXP 版是同一框架的两个 .esp 选择。</li><li><strong>未开源</strong>：Distar66 名下 GitHub 无 MCO 仓库；中文爱发电公告称已向 maxsu2017 等接管者内部授权 MCO/DMCO【社区经验】。</li><li>作者描述页结尾原文：\"It was such a fun run. Skyrim has been very good to me… Bye !\"——可解读为告别声明。</li></ul>\n<h2>解决什么问题（官方 description 原文）</h2>\n<blockquote>\"Skyrim uses the same mechanics in 1st and 3rd person. It results in a mechanic you don't see most modern games: <strong>the ice skating combat</strong>… Akin to Starfield and Fallout 4, MCO removes it.\"（攻击定身、迈步出招，\"Step &amp; Swing\"。）</blockquote>\n<h2>硬性要求（mods/175044 Requirements 区块）【一手源】</h2>\n<ul><li><strong>Pandora 或 Nemesis</strong>（二选一，\"use either Pandora or Nemesis. Not the two at once\"）</li><li><strong>OAR</strong>（Open Animation Replacer）</li><li><strong>Payload Interpreter</strong></li><li><strong>MCO Universal Support</strong>（1.6.0.6 起列为必需）</li><li><strong>重击键 mod 四选一</strong>（软性前置，不装则第一段重击无法触发）：One Click Power Attack NG / Elden Power Attack（+DXP Fix）/ Separate Power Attacks / Simple Power Attack</li></ul>\n<h2>与 Precision 的关系</h2>\n<p><strong>Precision 不在官方必需清单中</strong>；部分动画作者（如 Anchor）把 Precision 列为强烈推荐，因为其动画使用了 Precision 事件【社区经验】。</p>\n<h2>迁移</h2>\n<p>见 <a href=\"./mco-to-bfco-converter.md\" target=\"<em>blank\" rel=\"noopener\">MCO to BFCO Converter</a> 与 <a href=\"../08-compatibility/bfco-incompatibilities.md\" target=\"</em>blank\" rel=\"noopener\">BFCO 不兼容清单</a>。</p>",
+      "_file": "01-frameworks/mco.md",
+      "_chars": 1866
+    },
+    {
+      "id": "bfco",
+      "title": "BFCO——Attack Behavior Framework（第三代，现役）",
+      "category": "01-frameworks",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "BFCO",
+        "BF001",
+        "烽火",
+        "攻击框架",
+        "现役",
+        "3.100"
+      ],
+      "aliases": [
+        "Attack Behavior Framework",
+        "BFCO 要求",
+        "BFCO 方向重击",
+        "bfco 版本",
+        "BFCO NG"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/117052",
+      "summary": "BF001 的第三代攻击框架：MCO 全部能力之上新增方向重击/跳跃攻击/游泳攻击/弓弩 bash/强力重击热键/MCM，3.100.x 持续更新。",
+      "content": "<h2>一句话</h2>\n<p><strong>MCO 的扩展与再迭代，功能最全、仍在活跃更新</strong>（最新 3.100.8，2026-09-03 上传）——新装动作框架的默认答案。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>Nexus 页：<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/117052\" target=\"_blank\" rel=\"noopener\">mods/117052</a>（\"BFCO - Attack Behavior Framework (SSE AE VR)\"），作者 <strong>BF001</strong>，2024-05 首发。</li><li><strong>不是 MCO 官方续作</strong>，而是定位相同的新一代框架。官方 FAQ 原文：\"Q: How is it different from MCO? — BFCO supports vanilla attack speed and direction heavy attack…\"</li><li><strong>DLL 开源</strong>：官方 Credits 给出 <a href=\"https://github.com/vinymayan/BFCO/tree/og\" target=\"<em>blank\" rel=\"noopener\">vinymayan/BFCO</a> 与 <a href=\"https://github.com/sky199411/BFCO</em>Functions\" target=\"<em>blank\" rel=\"noopener\">sky199411/BFCO</em>Functions</a>。</li></ul>\n<h2>官方 description 核实过的功能（逐条对照原文）【一手源】</h2>\n<ul><li>✅ <strong>方向重击</strong>：WASD + 攻击键 → <code>BFCO_PowerAttackA/B/L/R.hkx</code></li><li>✅ <strong>跳跃攻击</strong>：jump + LMB → <code>BFCO_JumpAttack.hkx</code></li><li>✅ <strong>游泳攻击</strong>：<code>BFCO_SwimAttack1~3.hkx</code> 等</li><li>✅ <strong>弓弩 bash</strong>：<code>BFCO_BowBash.hkx</code> / <code>BFCO_BowPowerBash.hkx</code></li><li>✅ <strong>强力重击热键</strong>（PowerAttack-Comb：热键 或 轻击+ActionKey）</li><li>✅ <strong>MCM 菜单</strong>细调操作手感、自定义蓄力攻击、自定义派生注释</li><li>✅ NPC 连招支持；原生兼容原版攻速/技能树；与 DMCO 任意版本兼容</li><li>原版手感党可以整套不装：想保留原版战斗只换动作动画，BFCO 不是必需品。</li></ul>\n<h2>版本线【一手源】</h2>\n<p>3.3.11（2025-03）→ 3.6.1（2026-02）→ <strong>3.100</strong>（2026-04-16）→ 3.100.8（2026-09-03）。作者置顶帖：\"Version 3.100+ has almost done with my idea, enjoy :)\"；要更灵活的热键分配作者推荐 \"BFCO NG\"（细节未在可访问页面核实【未核实】）。</p>\n<h2>依赖</h2>\n<ul><li>FAQ 原文提到\"伪方向重击\"需要 <strong>dTry's Key Utilities</strong>【一手源】。</li><li><strong>Directional Movement Keys（DMK）</strong>：BFCO Requirements 页面列为方向重击前置（详见 <a href=\"../02-foundations/key-utils-and-dmk.md\" target=\"_blank\" rel=\"noopener\">Key Utils 与 DMK</a>）；但\"真方向重击\"是行为层原生实现，DMK 主要服务于伪方向/热键派生玩法——两层说法并存，以 Nexus 正文为准。</li><li>社区同步的前置清单（3DM 3.100 帖）【社区经验】：SKSE、AMR、OAR、PapyrusUtil、MCM Helper 必需；Payload Interpreter 可选。</li></ul>\n<h2>下一站</h2>\n<p>不兼容清单与迁移注意事项 → <a href=\"../08-compatibility/bfco-incompatibilities.md\" target=\"_blank\" rel=\"noopener\">BFCO 官方不兼容清单</a>。</p>",
+      "_file": "01-frameworks/bfco.md",
+      "_chars": 2031
+    },
+    {
+      "id": "cgo",
+      "title": "CGO——Combat Gameplay Overhaul",
+      "category": "01-frameworks",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "CGO",
+        "Combat Gameplay Overhaul",
+        "冲突",
+        "翻滚"
+      ],
+      "aliases": [
+        "dTry CGO",
+        "cgo 和 BFCO 冲突",
+        "战斗玩法大修",
+        "cgо"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/33766",
+      "summary": "CGO 给原版战斗加翻滚/握姿/空中攻击等，与 BFCO/MCO 功能重叠互斥——BFCO 官方明确列为不兼容。",
+      "content": "<h2>一句话</h2>\n<p>给<strong>原版</strong>战斗加\"动作补丁式\"功能（翻滚闪避、程序性倾斜、握姿切换、空中攻击、双持双手武器），并重做攻击动画混合——不做连招派生框架。</p>\n<h2>基本事实</h2>\n<ul><li>SE 页 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/33766\" target=\"_blank\" rel=\"noopener\">mods/33766</a>，页面署名 Dservant；社区认为后期由 dTry 接手维护【社区说法，未在官方页面正文核实】。</li></ul>\n<h2>与 BFCO 冲突（官方原文）【一手源】</h2>\n<p>BFCO description \"Incompatible with\" 清单明列：</p>\n<blockquote>\"CGO (Repetitive functions \\*Whenever player jumps to attack, it will cause stuck in a falling)\"</blockquote>\n<p>即跳攻会<strong>卡在坠落状态</strong>。原因：两者都改 1hm（单手武器）攻击行为且功能重叠。社区共识 \"you cannot use MCO, CGO and BFCO together\"【社区经验】。</p>\n<h2>定位选择</h2>\n<ul><li>要现代动作游戏的连招/方向重击体系 → 用 BFCO，<strong>别装 CGO</strong>。</li><li>只想在原版手感上补几个小动作（翻滚、握姿）→ CGO 仍是独立可行路线（此时别装 MCO/BFCO）。</li><li>ABR 曾官方提供 CGO 兼容版本，说明一代框架时代两者共存是常见组合【一手源】。</li></ul>",
+      "_file": "01-frameworks/cgo.md",
+      "_chars": 1018
+    },
+    {
+      "id": "mco-to-bfco-converter",
+      "title": "MCO to BFCO Converter——老动作包迁移工具",
+      "category": "01-frameworks",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "转换器",
+        "MCO",
+        "BFCO",
+        "迁移",
+        "hkx",
+        "注释"
+      ],
+      "aliases": [
+        "hkx 转换",
+        "动作包转换",
+        "MCO 转 BFCO",
+        "converter",
+        "批量转换注释"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/119926",
+      "summary": "Sukezzzzz 的官方级转换工具：批量把 MCO 的 hkx 文件名与注释转成 BFCO 规范；1.2.0 起无需 hkanno64。",
+      "content": "<h2>一句话</h2>\n<p>老动作包不用重找：MCO 的 hkx 可以批量转成 BFCO 规范。Nexus 页 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/119926\" target=\"_blank\" rel=\"noopener\">mods/119926</a>，作者 Sukezzzzz，v1.2.2（2025-01-02）。</p>\n<h2>官方说明它能干什么【一手源】</h2>\n<ol><li><strong>重命名文件</strong>：<code>mco_attack</code> → <code>BFCO_Attack</code>、<code>mco_powerattack</code> → <code>BFCO_PowerAttack</code>、<code>mco_weaponart</code> → <code>BFCO_PowerAttackComb</code> 等，让 BFCO 识别。</li><li><strong>替换/补写注释</strong>：<code>PIE.@SGVI|MCO_nextattack|1</code> → <code>BFCO_NextIsAttack1</code>、<code>MCO_WinOpen</code> → <code>BFCO_NextWinStart</code>、<code>MCO_WinClose</code> → <code>BFCO_DIY_EndLoop</code>、<code>MCO_Recovery</code> → <code>BFCO_DIY_recovery</code> 等。</li><li><strong>批量导出/更新注释</strong>（batch dump and update the annotations）。</li></ol>\n<h2>限制与注意</h2>\n<ul><li><strong>不要装进 MO2</strong>，放到干净目录单独运行；先备份【一手源，官方 description】。</li><li>≤1.1.8 版改注释需配合 hkanno64；<strong>≥1.2.0 无需</strong>【一手源】。</li><li>MCO 特有的方向派生注释转换后只能实现 BFCO 的<strong>\"伪方向重击\"</strong>——BFCO 官方说明转换包的方向重击均属伪方向重击【社区经验，见中文技术资料】。</li><li>BFCO 官方不兼容清单里\"Skysa/ABR/MCO\"一条原话即：\"people can easily convert the MCO hkx to BFCO by using MCO To BFCO Converter\"——所以这是<strong>官方认可的迁移路径</strong>【一手源】。</li></ul>",
+      "_file": "01-frameworks/mco-to-bfco-converter.md",
+      "_chars": 1295
+    },
+    {
+      "id": "ocpa",
+      "title": "One Click Power Attack（OCPA）——重击热键类",
+      "category": "01-frameworks",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "OCPA",
+        "One Click Power Attack",
+        "重击",
+        "热键",
+        "冲突"
+      ],
+      "aliases": [
+        "一键重击",
+        "ocpa 全称",
+        "power attack hotkey",
+        "单击重击"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/60878",
+      "summary": "全称 One Click Power Attack（单击触发重击）；是 MCO 的软性前置四选一，但被 BFCO 官方列为不兼容。",
+      "content": "<h2>一句话</h2>\n<p>单击一下就触发重击的 SKSE 插件（原版重击是长按）。<strong>全称是 One Click Power Attack</strong>（不是 \"Omni directional Power Attack\"）。</p>\n<h2>在两代框架里的身份完全相反</h2>\n<table><thead><tr><th style=\"text-align:left\">框架</th><th style=\"text-align:left\">身份</th><th style=\"text-align:left\">出处</th></tr></thead><tbody><tr><td style=\"text-align:left\">MCO 1.6.0.6</td><td style=\"text-align:left\"><strong>软性前置四选一</strong>之一（OCPA NG / Elden Power Attack / Separate Power Attacks / Simple Power Attack），不装则第一段重击无法触发</td><td style=\"text-align:left\">【一手源】mods/175044 Requirements</td></tr><tr><td style=\"text-align:left\">BFCO</td><td style=\"text-align:left\"><strong>不兼容</strong>：重击热键功能 MCM&gt;BFCO 已内置，装了功能重复</td><td style=\"text-align:left\">【一手源】mods/117052 Incompatible 清单原文 \"power attack hotkey mods (eg: One Click Power Attack NG, Elden Power Attack, For Honor Power Attack) The same function is available in MCM&gt;BFCO\"</td></tr></tbody></table>\n<h2>基本事实</h2>\n<ul><li>SE 原版 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/60878\" target=\"_blank\" rel=\"noopener\">mods/60878</a>，作者署名 Bingle，面向 1.5.97【一手源】。</li><li>AE 续作 <strong>One Click Power Attack NG</strong> 是 MCO 官方认可的四个方案之一；NG 维护者身份未核实【未核实】。</li><li>同类还有 Elden Power Attack、For Honor Power Attack——<strong>BFCO 用户一律不装</strong>这一类。</li></ul>",
+      "_file": "01-frameworks/ocpa.md",
+      "_chars": 1211
+    },
+    {
+      "id": "skysa-abr",
+      "title": "SkySA 与 ABR——第一代攻击框架（已淘汰）",
+      "category": "01-frameworks",
+      "kind": "concept",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "SkySA",
+        "ABR",
+        "第一代",
+        "停更",
+        "攻击框架"
+      ],
+      "aliases": [
+        "Attack Behavior Revamp",
+        "skysa 停更了吗",
+        "ABR 全称",
+        "老一代攻击框架",
+        "SGC"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/31390",
+      "summary": "SkySA（SGC）与 ABR（Attack Behavior Revamp）是第一代用行为文件重写攻击逻辑的框架，均已停更被 MCO/BFCO 取代。",
+      "content": "<h2>一句话</h2>\n<p>首次用行为文件重写攻击逻辑的祖师爷级框架，现已基本淘汰，只在老整合包里还能见到。</p>\n<h2>SkySA</h2>\n<ul><li>全称 (SGC) SkySA - Combat Behavior Compulsion，Nexus 页 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/31390\" target=\"_blank\" rel=\"noopener\">mods/31390</a>，团队署名含 BOTuser999、Distar、Shikyokira 等【一手源】。</li><li><strong>现状：Nexus 文件区全部 Archived</strong>（\"no longer supported by the mod author\"）【一手源】。</li><li>同系作者 DuffB 在 Distance Based Combat 页面明写：\"Switch to MCO please as SkySA is deprecated and wont get anymore updates\"【一手源】。</li></ul>\n<h2>ABR</h2>\n<ul><li>全称 <strong>Attack Behavior Revamp</strong>（常被误写成 \"Attack Behavior Replacer\"）【一手源】。</li><li>Nexus 页 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/45378\" target=\"_blank\" rel=\"noopener\">mods/45378</a>，作者 BOTuser999（Patreon 署名 ADRI）与 NickNack。</li><li>页面致谢原文 \"Distar for making the whole mod on his own\"——ABR 承袭 SkySA 血统，与 MCO 是<strong>平行分支</strong>而非同一作品【一手源】。</li><li>Nexus 版停在 2021-04-15（v5.0）；5.7/6.x 走 Patreon 分发后停摆【一手源+社区经验】。</li><li>依赖 DAR、Nemesis，曾官方提供 CGO 兼容版本【一手源】。</li></ul>\n<h2>关系图</h2>\n<pre class=\"code\"><code>SkySA (2020, 归档)\n  ├─ ABR (BOTuser999 续作, 2021-2022, 停摆)\n  └─ MCO (Distar 正统后继, 终版 1.6.0.6)\n        └─ BFCO (BF001, 定位相同的新一代, 现役)</code></pre>\n<h2>注意</h2>\n<ul><li>SkySA/ABR 与 MCO、BFCO <strong>互相不兼容</strong>（BFCO 官方不兼容清单明列 \"Skysa/ABR/MCO\"），三选一。</li><li>distar 的站点 distaranimation.com 曾有 SkySA 指南，但该域名抓取已异常（疑似失效/被劫持），内容不可引用【未核实】。</li></ul>",
+      "_file": "01-frameworks/skysa-abr.md",
+      "_chars": 1550
+    },
+    {
+      "id": "amr-amf",
+      "title": "AMR 与 AMF——动画位移修正（两个不同的 mod）",
+      "category": "02-foundations",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "AMR",
+        "AMF",
+        "位移",
+        "根运动",
+        "motion"
+      ],
+      "aliases": [
+        "Animation Motion Revolution",
+        "Animation Motion Fix",
+        "位移修正",
+        "攻击位移",
+        "根运动修复"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/145100",
+      "summary": "AMR（alexsylex，2022 停更）按注释注入真实位移；AMF（Maxsu，活跃）修引擎根运动缺陷——互补而非替代，常同时装。",
+      "content": "<h2>一句话</h2>\n<p><strong>AMR 和 AMF 不是同一个东西，也不是同一人写的</strong>。AMR 提供\"按注释注入位移\"的机制，AMF 修引擎根运动系统本身的缺陷；现代战斗包常两者同时要求。</p>\n<h2>AMR = Animation Motion Revolution</h2>\n<ul><li>Nexus <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/50258\" target=\"<em>blank\" rel=\"noopener\">mods/50258</a>，GitHub <a href=\"https://github.com/alexsylex/AnimationMotionRevolution\" target=\"</em>blank\" rel=\"noopener\">alexsylex/AnimationMotionRevolution</a>；<strong>作者是 alexsylex</strong>（Maxsu 仅在致谢中）【一手源】。</li><li>作用：读取动画注释 <code>animmotion [x][y][z]</code> / <code>animrotation [deg]</code>，把真实位移/旋转注入引擎——\"removes the mismatch between displacement and custom animations\"（MCO 的动画位移就建在它上面，官方原话 \"MCO is built around this mod\"）。</li><li>v1.5.3（2022-09-29）后停更；依赖 DAR（原话 \"this mod would make little sense without Dynamic Animation Replacer\"）、SKSE、Address Library【一手源】。</li><li>功能正被 AMF 与 OAR 系生态部分取代（社区共识【社区经验】），但 <strong>BFCO 3.100 系前置清单仍列 AMR 为必需</strong>【社区经验，3DM 同步帖】。</li></ul>\n<h2>AMF = Animation Motion Fix</h2>\n<ul><li>Nexus <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/145100\" target=\"<em>blank\" rel=\"noopener\">mods/145100</a>，GitHub <a href=\"https://github.com/max-su-2019/AnimationMotionFix\" target=\"</em>blank\" rel=\"noopener\">max-su-2019/AnimationMotionFix</a>；作者 <strong>Maxsu</strong>，AE/VR 移植 SkyHorizon3【一手源】。</li><li>作用：修复战斗中根运动动画<strong>位移缩减/卡住</strong>的问题；含 NPC 俯仰角位移修正、可禁用玩家旋转磁吸与攻击移动磁吸（ini 开关），兼容 TDM 等【一手源】。</li><li>v1.2.0（2026-08-30）明确支持 \"1.5.97, 1.6.640, 1.6.1170, 1.6.1179, 1.7.104, VR\"【一手源】。</li></ul>\n<h2>怎么记</h2>\n<ul><li>动作包位移<strong>不生效/漂移</strong> → 查 AMR 是否装了、注释是否被转换工具改坏。</li><li>攻击动画<strong>被吸回去/卡住</strong> → 查 AMF 的磁吸开关。</li></ul>",
+      "_file": "02-foundations/amr-amf.md",
+      "_chars": 1671
+    },
+    {
+      "id": "animation-queue-fix",
+      "title": "Animation Queue Fix——动画队列过载修复",
+      "category": "02-foundations",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Animation Queue Fix",
+        "队列",
+        "T-Pose",
+        "Ersh",
+        "修复"
+      ],
+      "aliases": [
+        "AQF",
+        "动画队列",
+        "进图加载慢",
+        "tpose 修复",
+        "动画加载慢"
+      ],
+      "source": "https://github.com/ersh1/AnimationQueueFix",
+      "summary": "Ersh 的修复插件：解决 DAR/OAR 大量动画同时入队导致的加载慢与 T-Pose——OAR 官方 Requirements 之一。",
+      "content": "<h2>一句话</h2>\n<p>Nexus 描述原文：\"Fixes the queue getting overloaded when a lot of animations are queued for loading at the same time.\"——游戏同一时刻只允许一个动画\"排队\"加载且两个负责函数不同步；本插件让第二个函数紧跟第一个执行。</p>\n<h2>为什么装动作包要装它（作者原话）【一手源】</h2>\n<blockquote>\"The issue isn't normally visible in the vanilla game… This slow loading issue only starts to show up when you have a lot of animations added by plugins like Dynamic Animation Replacer or Open Animation Replacer.\"</blockquote>\n<p>即：原版看不出来，装了 DAR/OAR 后大量动画突然进队列才暴露——表现为<strong>进图动画加载慢、偶发 T-Pose</strong>。OAR 的 Nexus Requirements 直接要求它（除非启用\"跳过动画预加载\"实验性设置）。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>作者 Ersh（ersh1），GitHub：<a href=\"https://github.com/ersh1/AnimationQueueFix\" target=\"<em>blank\" rel=\"noopener\">ersh1/AnimationQueueFix</a>，Nexus <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/82395\" target=\"</em>blank\" rel=\"noopener\">mods/82395</a>，v1.0.1（2023-01-10）。</li><li>要求 SKSE + Address Library；作者原话 \"compatible with any non-ancient Skyrim version, including <strong>1.5.97, 1.6+ and VR</strong>\"；无 LE 版（作者：\"It's really time to move on.\"）。</li></ul>\n<h2>相关条目</h2>\n<p><a href=\"./behaviour-engine-choice.md\" target=\"<em>blank\" rel=\"noopener\">OAR 生态定位</a> · <a href=\"../08-compatibility/install-workflow.md\" target=\"</em>blank\" rel=\"noopener\">装完动作包的刷新流程</a></p>",
+      "_file": "02-foundations/animation-queue-fix.md",
+      "_chars": 1400
+    },
+    {
+      "id": "behavior-data-injector",
+      "title": "Behavior Data Injector（BDI）——免补丁注入动画变量",
+      "category": "02-foundations",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "BDI",
+        "Behavior Data Injector",
+        "注入",
+        "json",
+        "Maxsu"
+      ],
+      "aliases": [
+        "动画变量注入",
+        "免补丁注入",
+        "bdi 前置",
+        "Dropkicker"
+      ],
+      "source": "https://github.com/max-su-2019/BehaviorDataInjector",
+      "summary": "Maxsu 与 Dropkicker 的 SKSE 插件：用 json 配置注入新动画变量与事件，免写行为补丁；MaxsuPoise 与 DMCO 的硬前置。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"SKSE plugin that allow you to add new animation variables &amp; events via json config files <strong>without behavior patch</strong>.\"——动画作者不用写 Nemesis/FNIS/Pandora 补丁就能引入自定义 graph 变量与事件，降低补丁冲突面。</p>\n<h2>基本事实</h2>\n<ul><li><strong>作者不是 Dtry</strong>：Nexus 页 \"Created by <strong>Maxsu and Dropkicker</strong>\"（maxsu2017 上传）【一手源】。</li><li>GitHub：<a href=\"https://github.com/max-su-2019/BehaviorDataInjector\" target=\"_blank\" rel=\"noopener\">max-su-2019/BehaviorDataInjector</a>；doodlum 有 AE 适配 fork【一手源】。</li><li><strong>版本分游戏版本</strong>：v0.13（2022-11）文件说明原文 \"Supports only v1.5.97\"；1.6+ 用 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/78159\" target=\"_blank\" rel=\"noopener\">mods/78159</a>【一手源】。主仓库提交停在 2022-2023，对 1.6.1170+ 的持续维护状态<strong>未核实</strong>。</li><li>附带 <strong>\"Payload Interpreter - Nemesis Less Patch\"</strong> 配置：可让 <a href=\"./payload-interpreter.md\" target=\"_blank\" rel=\"noopener\">Payload Interpreter</a> 免装 Nemesis 补丁【一手源，文件页说明】。</li></ul>\n<h2>谁需要它</h2>\n<ul><li><strong>MaxsuPoise</strong>（硬性要求：BDI / BDI Universal Support / DMenu / Modern Stagger Lock Framework）</li><li><strong>DMCO 新版</strong>（Requirements 列 BDI + BDI Universal Support）</li><li>普通玩家不用理解它：某 mod 的 Requirements 里写了，装就是了。</li></ul>\n<h2>相关条目</h2>\n<p><a href=\"../04-poise/maxsu-poise.md\" target=\"<em>blank\" rel=\"noopener\">MaxsuPoise</a> · <a href=\"../03-dodge/dmco.md\" target=\"</em>blank\" rel=\"noopener\">DMCO</a></p>",
+      "_file": "02-foundations/behavior-data-injector.md",
+      "_chars": 1457
+    },
+    {
+      "id": "payload-interpreter",
+      "title": "Payload Interpreter——动画注释解释器",
+      "category": "02-foundations",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Payload Interpreter",
+        "注释",
+        "annotation",
+        "dTry",
+        "PIE"
+      ],
+      "aliases": [
+        "payload",
+        "注释解释器",
+        "PIE 事件",
+        "动画指令",
+        "D7ry"
+      ],
+      "source": "https://github.com/D7ry/PayloadInterpreter",
+      "summary": "dTry 的 SKSE 插件：把动画 payload 注释在触发瞬间翻译成指令（施法/粒子/存变量等），现代动作包的地基之一。",
+      "content": "<h2>一句话</h2>\n<p>把动画标注（annotation）里\"无意义\"的 payload 字符串翻译成指令并在该标注触发瞬间执行——作者原话 \"it works just like python, but for Skyrim animations\"。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>GitHub：<a href=\"https://github.com/D7ry/PayloadInterpreter\" target=\"<em>blank\" rel=\"noopener\">D7ry/PayloadInterpreter</a>（Nexus 署名 dTry），Nexus 页 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/65089\" target=\"</em>blank\" rel=\"noopener\">mods/65089</a>。</li><li>最新 <strong>v1.0.1（2023-06-02）</strong>：借助 clib-ng 支持所有天际版本（含 VR），明确支持 1.6.640。</li><li>v1.0.1 changelog：自带一个 Nemesis 补丁，注入无害的虚拟事件 <strong>PIE</strong> 作为宿主——\"from now on, the only animation event whose payload will get interpreted will be 'PIE'\"。</li><li>指令示例：<code>weaponSwing.@CAST|0x12FD0|Skyrim.esm|...</code>（挥剑瞬间施法）、<code>@SETGHOST</code>、<code>@PLAYPARTICLE</code>、<code>@SGVB/F/I</code> 等；支持 ini 自定义指令（<code>$</code> 开头）。</li></ul>\n<h2>依赖与现状</h2>\n<ul><li>Nexus Requirements：Address Library、<strong>Project New Reign - Nemesis（需运行其行为补丁）</strong>、VC++ 2022【一手源】。</li><li><strong>dTry 本人不更新了</strong>：doodlum 的 dTry Plugin Updates 页原话 \"dTry is too busy at the moment to update his plugins\"【一手源】。</li><li>与 Pandora 的搭配：社区构建（Schaken Mods / Nexus 190740 等）让 DLL 适配 1.6.1170+ 并兼容 Pandora 环境【社区经验】；或用 BDI 附带的 \"Payload Interpreter - Nemesis Less Patch\" 配置免装 Nemesis 补丁【一手源，BDI 文件页说明】。</li></ul>\n<h2>谁在用它</h2>\n<p>MCO 把它列为硬性前置；BFCO 3.100 系动作包注释也大量走 PIE 宿主（<code>BFCO_NextIsAttack1</code> 等派生注释）；Elden Counter 依赖它。相关：<a href=\"./key-utils-and-dmk.md\" target=\"_blank\" rel=\"noopener\">Key Utils 与 DMK</a>。</p>",
+      "_file": "02-foundations/payload-interpreter.md",
+      "_chars": 1589
+    },
+    {
+      "id": "key-utils-and-dmk",
+      "title": "按键输入底层：dTry's Key Utils 与 DMK",
+      "category": "02-foundations",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Key Utils",
+        "DMK",
+        "按键",
+        "输入检测",
+        "方向重击"
+      ],
+      "aliases": [
+        "dTry Key Utilities",
+        "Directional Movement Keys",
+        "按键检测插件",
+        "方向键注入"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/174499",
+      "summary": "两个\"把按键输入喂给行为图\"的底层插件：dTry's Key Utils（一代，魔法效果检测）与 DMK（二代，图变量检测）。",
+      "content": "<h2>一句话</h2>\n<p>动作 mod 要知道\"玩家正按着哪个方向/哪个键\"，靠的就是这两个底层插件。<strong>DMK 是 dTry's Key Utils 的继任者</strong>，两者都是被动底座、装上即可，几乎无冲突面。</p>\n<h2>dTry's Key Utils（一代）</h2>\n<ul><li>Nexus <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/69944\" target=\"<em>blank\" rel=\"noopener\">mods/69944</a>，GitHub <a href=\"https://github.com/D7ry/DtryKeyUtil\" target=\"</em>blank\" rel=\"noopener\">D7ry/DtryKeyUtil</a>【一手源】。</li><li>官方描述原文：\"A simple SKSE key utility plugin. Currently supports movement input trace &amp; button ID input trace &amp; user input event trace through spells/magic effects. Script: none.\"——把输入转成魔法效果，供 OAR/DAR 的 <code>HasMagicEffect</code> 条件或其它 mod 读取。</li><li>依赖 Address Library；dTry 停更后由 doodlum 的 <strong>dTry Plugin Updates</strong>（Nexus 85740）提供 1.6.640/NG 的 FOMOD 移植【一手源】。</li><li>使用场景：BFCO 的伪方向重击（官方 FAQ 原文提到需要它）、TK Dodge RE 的第一人称八向可选文件等【一手源】。</li></ul>\n<h2>DMK = Directional Movement Keys（二代）</h2>\n<ul><li>Nexus <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/174499\" target=\"_blank\" rel=\"noopener\">mods/174499</a>，作者 Viny（上传名 xYZeroYx，也是 BFCO 官方 Credits 里 \"Help update BFCO.dll\" 的人），2026-03-11 首发【一手源】。</li><li>作者原话：\"basically its Dtry Keys without the use of magic effects and stuck problems\"——改用<strong>行为图变量</strong>（<code>DirecionalCycleMoveset</code> 0-8 八向、<code>CameraMovementCMF</code> 等）注入方向，无魔法效果、无卡顿问题；支持任意键盘布局与手柄，可随时装卸【一手源】。</li><li><strong>与 BFCO 的关系</strong>：BFCO Requirements 页面把 DMK 列为方向重击前置；用 CFM（Combat Movement Framework，内置同类功能）者无需 DMK【一手源】。注意：BFCO 的\"真方向重击\"是行为层原生实现，DMK 主要服务于伪方向重击/热键派生类玩法与按 DMK 制作的动作包（如 For Honor 社区转换包）【一手源+推断】。</li><li>2026-07 曾短暂出现新 runtime 适配空窗，后更新【社区经验】。</li></ul>",
+      "_file": "02-foundations/key-utils-and-dmk.md",
+      "_chars": 1743
+    },
+    {
+      "id": "behaviour-engine-choice",
+      "title": "行为引擎选型：Pandora 是现役答案",
+      "category": "02-foundations",
+      "kind": "concept",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Pandora",
+        "Nemesis",
+        "FNIS",
+        "选型",
+        "行为引擎"
+      ],
+      "aliases": [
+        "行为引擎怎么选",
+        "pandora 和 nemesis",
+        "FNIS 过时",
+        "补丁器选择",
+        "engine choice"
+      ],
+      "source": "https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus",
+      "summary": "FNIS（2020 停更）→ Nemesis（2021 停更）→ Pandora（现役）；本条只给结论，机制详见 behaviour-engine-kb。",
+      "content": "<h2>一句话</h2>\n<p>三选一：FNIS <strong>7.6（2020-02）后停更</strong>、Nemesis <strong>0.84-beta（2021-12）后归档</strong>、<strong>Pandora 活跃（v4.4.0-beta，2026-08）</strong>。新装选 Pandora，且与 FNIS/Nemesis 不要同时运行。</p>\n<h2>结论速览（均有官方页面佐证）</h2>\n<table><thead><tr><th style=\"text-align:left\">引擎</th><th style=\"text-align:left\">状态</th><th style=\"text-align:left\">关键证据</th></tr></thead><tbody><tr><td style=\"text-align:left\">FNIS</td><td style=\"text-align:left\">淘汰</td><td style=\"text-align:left\">LE 页最终文件 \"FNIS Behavior 7_6\"（2020-02-22）；BFCO 官方原话 \"FNIS is outdated, please use Pandora\"【一手源】</td></tr><tr><td style=\"text-align:left\">Nemesis</td><td style=\"text-align:left\">停更</td><td style=\"text-align:left\">GitHub README：仓库已归档、\"being written from scratch\"；Nexus 最后更新 2021-12-13（0.84-beta）【一手源】</td></tr><tr><td style=\"text-align:left\">Pandora</td><td style=\"text-align:left\">现役</td><td style=\"text-align:left\">官方仓库 <a href=\"https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus\" target=\"_blank\" rel=\"noopener\">Monitor221hz/Pandora-Behaviour-Engine-Plus</a>；作者原话 \"A modular and lightweight behavior patching engine… including creatures and humanoids\"、向下兼容 Nemesis 与 FNIS 两种补丁格式【一手源】</td></tr></tbody></table>\n<h2>常被搞错的两点</h2>\n<ul><li><strong>Pandora 作者不是 shikyZ</strong>：官方仓库在 <strong>Monitor221hz</strong>（Nexus 署名 Pandora Behaviour Engine Team）名下——与 Nemesis 作者 ShikyoKira 拼写相近容易混【一手源】。</li><li>Pandora 是外部补丁工具，在它自己的界面里勾选要打补丁的 mod 后 Launch；<strong>各动画 mod 的 FOMOD 安装器里才需要选 \"Pandora\" 选项</strong>。MO2 下建议输出到专门的 \"Pandora Output\" 空 mod（README Quickstart）【一手源】。</li></ul>\n<h2>深入阅读（机制、格式、排错）</h2>\n<ul><li>三引擎对比与时间线：<a href=\"../../behaviour-engine-kb/00-overview/engine-comparison.md\" target=\"_blank\" rel=\"noopener\">behaviour-engine-kb/00-overview/engine-comparison.md</a></li><li>Pandora 安装与排错：<a href=\"../../behaviour-engine-kb/04-pandora/pandora-install.md\" target=\"_blank\" rel=\"noopener\">behaviour-engine-kb/04-pandora/pandora-install.md</a></li><li>补丁器与替换器的分工：<a href=\"../../behaviour-engine-kb/01-principles/patcher-vs-replacer.md\" target=\"_blank\" rel=\"noopener\">behaviour-engine-kb/01-principles/patcher-vs-replacer.md</a></li></ul>",
+      "_file": "02-foundations/behaviour-engine-choice.md",
+      "_chars": 1802
+    },
+    {
+      "id": "dmco",
+      "title": "DMCO——Dodge MCO（反应最快的闪避）",
+      "category": "03-dodge",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "DMCO",
+        "闪避",
+        "Dodge Framework",
+        "Ersh",
+        "BFCO"
+      ],
+      "aliases": [
+        "dodge mco",
+        "mco 闪避",
+        "闪避攻击",
+        "distar dodge",
+        "最快闪避"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/175129",
+      "summary": "Distar 系闪避，基于 Ersh 的 Dodge Framework；BFCO 官方声明任意版本兼容，闪避攻击可直接过渡进 MCO 攻击链。",
+      "content": "<h2>一句话</h2>\n<p>Distar（MCO 作者）系的闪避 mod，基于 <strong>Ersh 的 Dodge Framework</strong>；官方原话 \"The most reactive dodge mod. … Snappy and elegant\"，闪避攻击可直接过渡进 MCO 攻击链。<strong>BFCO 官方 description 明确 \"Fully compatible with DMCO (any version)\"</strong>——BFCO 玩家的默认闪避选择。</p>\n<h2>基本事实</h2>\n<ul><li>全名 <strong>\"Dodge - MCO (DMCO)\"</strong>，描述自称 \"Dodge MCO-DXP\"；MCO 指 Distar 自家的 Modern Combat Overhaul，<strong>不是</strong> \"Dodges Mod - Combat Overhaul\"【一手源】。</li><li>现行 Nexus 页 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/175129\" target=\"_blank\" rel=\"noopener\">mods/175129</a>（官方站点 distaranimation.com/mods/dodge——注意该域名抓取曾异常，引用以 Nexus 为准）。</li><li>框架作者 Ersh，后由 doodlum、EliasReplay 维护【一手源】。</li><li>最新 v2.1.21（2026-03-20，AE 1.6.640 支持）【一手源】。</li></ul>\n<h2>硬性要求（mods/175129 Requirements）【一手源】</h2>\n<ul><li><strong>Behavior Data Injector + BDI Universal Support</strong></li><li><strong>IFrame Generator RE（+AE Support）</strong>——见 <a href=\"./iframe-generator.md\" target=\"_blank\" rel=\"noopener\">IFrame Generator</a></li><li><strong>MCO Universal Support</strong></li><li><strong>Pandora 或 Nemesis</strong>（二选一）</li><li>AE 1.6.1130+ 另需 Hellblade Timed Block AE Support</li></ul>\n<p>是否硬性要求装 MCO 主框架：新页面未写死，闪避攻击过渡到 MCO 属\"完整体验\"项【未核实】。</p>\n<h2>注意</h2>\n<ul><li>与 TK Dodge 系互斥（同类功能）——见 <a href=\"./tk-dodge-family.md\" target=\"_blank\" rel=\"noopener\">TK Dodge 家族</a>。</li><li>需要 MCO 攻击链的（闪避攻击）才联动 MCO；纯闪避独立工作。</li></ul>",
+      "_file": "03-dodge/dmco.md",
+      "_chars": 1445
+    },
+    {
+      "id": "iframe-generator",
+      "title": "IFrame Generator RE——动画无敌帧框架",
+      "category": "03-dodge",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "IFrame",
+        "无敌帧",
+        "dodge",
+        "Maxsu",
+        "doodlum"
+      ],
+      "aliases": [
+        "无敌帧生成",
+        "闪避无敌帧",
+        "MaxsuIFrame"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/74401",
+      "summary": "Maxsu 的无敌帧框架：在动画注释里声明无敌帧，免脚本不改行为图；DMCO 硬前置、TK Dodge RE 可选。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"A framework that allow modders to generates invincibility frames for their animations in a script-free way\"——作者在动画文件里用注释声明无敌帧，<strong>不改行为图、免脚本</strong>。</p>\n<h2>基本事实</h2>\n<ul><li><strong>作者是 Maxsu（maxsu2017），不是 Sokkvabekk</strong>【一手源】。</li><li>原版 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/74401\" target=\"<em>blank\" rel=\"noopener\">mods/74401</a> v1.03（2022-09，停更）；<strong>AE 版 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/82737\" target=\"</em>blank\" rel=\"noopener\">mods/82737</a> 由 doodlum 维护</strong>（源码 doodlum/MaxsuIFrame-ng，v1.03.1，明确 \"Only compatible with AE\"，2026-08-25 页面更新）【一手源】。</li><li>独立框架，<strong>不依赖 TK Dodge</strong>；反向关系是 TK Dodge RE 把它列为可选前置（要闪避无敌帧时装）、DMCO 新版把它列为必需。</li></ul>\n<h2>给玩家的定位（官方原话）</h2>\n<blockquote>\"The only thing you need to know about is that you had install some animations mods that require this mod… So all you need to do is download and install this mod.\"</blockquote>\n<p>即：某 mod 的 Requirements 写了它，装；没写，不用管。要求 SKSE + Address Library。</p>",
+      "_file": "03-dodge/iframe-generator.md",
+      "_chars": 1190
+    },
+    {
+      "id": "tk-dodge-family",
+      "title": "TK Dodge 家族——SE/RE/NG/Redux 四个分支",
+      "category": "03-dodge",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "TK Dodge",
+        "闪避",
+        "dodge",
+        "RE",
+        "Redux"
+      ],
+      "aliases": [
+        "tk dodge 哪个版本",
+        "TKD",
+        "闪避mod",
+        "tk dodge pandora",
+        "按键闪避"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/56956",
+      "summary": "TK Dodge 有四个分支；Pandora 用户选 RE（Standalone），要持续更新选 Redux（v3.6.2）。",
+      "content": "<h2>一句话</h2>\n<p>原版 tktk 的经典按键闪避（翻滚/快步），现在装<strong>RE 或 Redux</strong>，不要装老 SE 版。<strong>\"TK Dodge Ultimate\" 这个名字查无此 mod</strong>——那是把 TK Dodge 与 Ultimate Combat（另一个战斗 mod，mods/17196）套装混称了【一手源，官方渠道无此独立 mod】。</p>\n<h2>四个分支</h2>\n<table><thead><tr><th style=\"text-align:left\">分支</th><th style=\"text-align:left\">作者</th><th style=\"text-align:left\">状态</th><th style=\"text-align:left\">适用</th></tr></thead><tbody><tr><td style=\"text-align:left\">TK Dodge SE（原版）</td><td style=\"text-align:left\">tktk1</td><td style=\"text-align:left\">老脚本版</td><td style=\"text-align:left\">仅老整合【一手源】</td></tr><tr><td style=\"text-align:left\"><strong>TK Dodge RE</strong></td><td style=\"text-align:left\">Maxsu、FBplus、Loop、Xing</td><td style=\"text-align:left\">停更（v0.55-rc3，2023-07）</td><td style=\"text-align:left\"><strong>Pandora 用户选它</strong>（Standalone 文件 + Pandora 勾 \"Tk Dodge standalone\"）【一手源】</td></tr><tr><td style=\"text-align:left\">TK Dodge NG</td><td style=\"text-align:left\">moshikle（Maxsu 版 AE 适配）</td><td style=\"text-align:left\">AE 适配</td><td style=\"text-align:left\">1.6.x 老方案【一手源】</td></tr><tr><td style=\"text-align:left\"><strong>TK Dodge Redux</strong></td><td style=\"text-align:left\">PaulMix</td><td style=\"text-align:left\"><strong>活跃</strong>（v3.6.2，2026-06-26）</td><td style=\"text-align:left\">要 NPC 闪避/闪避攻击/8 向闪避等新功能；3.1.9+ 官方兼容 MCO 闪避攻击，并注明 \"BFCO Movesets must have BFCO format Animation annotations\"【一手源】</td></tr></tbody></table>\n<h2>硬性要求（RE 版）【一手源】</h2>\n<p>SKSE、Address Library、TK Dodge SE（仅需 meshes）、Nemesis/Pandora 打补丁；<strong>IFrame Generator RE 可选</strong>（只要闪避无敌帧时装）。</p>\n<h2>与框架的配合</h2>\n<ul><li>行为层闪避，可与 MCO/BFCO 共存；改动 1hm_behavior 的 mod 装完都要重跑 Pandora（BFCO 作者置顶帖原话提示 tkDodge 兼容问题需跑 Nemesis &amp; Pandora）【一手源】。</li><li>Pandora 3.0+ 下按补丁作者 jiuzhoucanglan 回帖（2025-07）：\"pandora 3.0+ 使所有额外补丁失效/不再需要\"，勾 standalone 即可【社区经验】。</li><li>与 DMCO <strong>互斥</strong>（同类功能）。BFCO 官方推荐的闪避搭档是 DMCO——见 <a href=\"./dmco.md\" target=\"_blank\" rel=\"noopener\">DMCO 条目</a>。</li></ul>",
+      "_file": "03-dodge/tk-dodge-family.md",
+      "_chars": 1486
+    },
+    {
+      "id": "maxsu-poise",
+      "title": "MaxsuPoise——韧性条与踉跄触发",
+      "category": "04-poise",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "MaxsuPoise",
+        "韧性",
+        "poise",
+        "踉跄",
+        "stagger"
+      ],
+      "aliases": [
+        "poise mod",
+        "韧性条",
+        "硬直mod",
+        "Maxsu 韧性",
+        "MaxsuPoiseRevise"
+      ],
+      "source": "https://github.com/max-su-2019/MaxsuPoise",
+      "summary": "Maxsu 的韧性系统：踉跄由双方体型/护甲/武器/动画计算，带防无限锁踉跄保护；硬前置 BDI + DMenu + Modern Stagger Lock。",
+      "content": "<h2>一句话</h2>\n<p>官方 Release 原文：\"A poise mod that intends to introduce a stagger trigger mechanics that fitting the modern action combat environment\"——用<strong>韧性值</strong>决定何时踉跄，替代原版的随机硬直。</p>\n<h2>机制要点【一手源】</h2>\n<ul><li>攻击造成的 poise damage 超过阈值才触发踉跄；韧性伤害与踉跄等级基于<strong>双方的 mass、scale、护甲、武器、攻击动画</strong>计算。</li><li>内置 <strong>staggerProtectTime</strong> 机制防\"无限锁踉跄\"。</li><li>2025-02 加入 <strong>TrueHUD 集成</strong>（配 special bar 显示韧性条）。</li></ul>\n<h2>硬性要求（GitHub Release 原文）【一手源】</h2>\n<ul><li><strong>Behavior Data Injector / BDI Universal Support</strong></li><li><strong>DMenu</strong></li><li><strong>Modern Stagger Lock Framework</strong>（见 <a href=\"./modern-stagger-lock.md\" target=\"_blank\" rel=\"noopener\">Modern Stagger Lock</a>）</li></ul>\n<p>推荐搭配 Shield Of Stamina 或 Valhalla Combat（开 Block Stamina + Guard Break）；否则把 BlockedModel 设为 PercentBlocked。</p>\n<h2>版本与衍生</h2>\n<ul><li>仓库最新 <strong>v0.34 AE</strong>（pre-release；修复 mass 读取与魔法踉跄问题），2025 年仍接受 PR【一手源】。</li><li>Nexus 有第三方修订版 <strong>MaxsuPoiseRevise（影天硬直修改）</strong>：<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/117988\" target=\"_blank\" rel=\"noopener\">mods/117988</a>【一手源】。</li></ul>\n<h2>同类对比</h2>\n<ul><li><strong>POISE（Loki）</strong>：格斗游戏式重做，改行为层，要求 Nemesis+DAR+AMR → <a href=\"./poise-family.md\" target=\"_blank\" rel=\"noopener\">POISE/Chocolate Poise</a></li><li><strong>Valhalla Combat</strong>：精力+计时格挡大修，韧性只是\"计划中\"未实装 → <a href=\"./valhalla-combat.md\" target=\"_blank\" rel=\"noopener\">Valhalla Combat</a></li></ul>",
+      "_file": "04-poise/maxsu-poise.md",
+      "_chars": 1425
+    },
+    {
+      "id": "modern-stagger-lock",
+      "title": "Modern Stagger Lock（MSLF）——踉跄动画框架",
+      "category": "04-poise",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Modern Stagger Lock",
+        "MSLF",
+        "踉跄动画",
+        "框架",
+        "Maxsu"
+      ],
+      "aliases": [
+        "stagger lock",
+        "踉跄框架",
+        "硬直动画"
+      ],
+      "source": "https://github.com/max-su-2019/ModernStaggerLock",
+      "summary": "Maxsu 的踉跄动画框架：管踉跄动画的衔接与限制；触发逻辑交给 MaxsuPoise 等触发型 mod——两者是配套关系。",
+      "content": "<h2>一句话</h2>\n<p>它是一个<strong>踉跄动画框架</strong>而非触发逻辑 mod——让角色踉跄中能进入新的踉跄动画（可被注释限制），<strong>踉跄的触发机制要由另一个 mod（如 MaxsuPoise）重新设计</strong>。</p>\n<h2>关键定位（fkmods 说明，社区转述但准确）【社区经验】</h2>\n<blockquote>\"MSLF 使得角色处于交错动画时，能够进入新的交错动画，但可以通过添加注释的方式对其进行限制……MSLF 本身只是一个交错动画框架，它需要另一个模组来重新设计《天际》的交错触发机制！\"</blockquote>\n<p><strong>作者归属勘误：MSLF 的作者是 Maxsu（max-su-2019），不是 Dtry</strong>【一手源，GitHub】。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>GitHub：<a href=\"https://github.com/max-su-2019/ModernStaggerLock\" target=\"_blank\" rel=\"noopener\">max-su-2019/ModernStaggerLock</a>，SKSE 插件（SE/AE）。</li><li>代码更新至 <strong>v1.1.7（2024-03-17，\"Updated for new Precision API\"）</strong>。</li><li>是 <a href=\"./maxsu-poise.md\" target=\"_blank\" rel=\"noopener\">MaxsuPoise</a> 的<strong>硬性前置</strong>（GitHub Release 原文 \"Hard Requirements\"）。</li><li>Elden Rim 新版社区反馈也硬性要求它【一手源，ER Katana 页面回帖】。</li></ul>",
+      "_file": "04-poise/modern-stagger-lock.md",
+      "_chars": 1000
+    },
+    {
+      "id": "poise-family",
+      "title": "POISE 与 Chocolate Poise——两代韧性重做",
+      "category": "04-poise",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "POISE",
+        "Chocolate Poise",
+        "韧性",
+        "stagger",
+        "doodlum",
+        "Loki"
+      ],
+      "aliases": [
+        "Loki poise",
+        "格斗游戏硬直",
+        "POISE NG",
+        "poise 对比"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/72653",
+      "summary": "POISE（Loki）用行为层重做硬直但已停更；Chocolate Poise（doodlum）是 SKSE 数值韧性条、当前活跃替代品——别混淆。",
+      "content": "<h2>一句话</h2>\n<p><strong>POISE</strong>（作者 Loki）近乎彻底移除原版随机硬直、改格斗游戏式机制，但已停更；<strong>Chocolate Poise</strong>（doodlum）是当前活跃维护的替代品——两者<strong>别混淆</strong>。</p>\n<h2>POISE（原版）</h2>\n<ul><li><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/72653\" target=\"_blank\" rel=\"noopener\">mods/72653</a>，官方描述原文：\"A near complete gutting of the vanilla stagger system for something more inspired by traditional fighting games\"——踉跄由攻击属性决定而非 RNG，作者声明绝不加\"硬直冷却\"；实现方式是移除人形角色进原版踉跄动画的能力、全部换成自己的行为【一手源】。</li><li>硬性要求：SKSE、<strong>Nemesis、DAR、AMR</strong>【一手源】。</li><li><strong>NG 版 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/72692\" target=\"_blank\" rel=\"noopener\">mods/72692</a> 已于 2026-08-22 被 doodlum 设为隐藏</strong>（\"not supported by the author(s) and/or has issue(s) they are unable to fix yet\"）【一手源】。</li><li>原版 v1.0.2（2022-08-21）后无更新。配套 addon：Poisebreaker（ConnerRia/Linnsanity）。</li></ul>\n<h2>Chocolate Poise（doodlum，活跃替代品）</h2>\n<ul><li><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/70478\" target=\"_blank\" rel=\"noopener\">mods/70478</a>：SKSE 纯数值韧性条，风格类似 Elden Ring，v30F（2026-08-25）仍在更新【一手源】。</li></ul>\n<h2>选型提示</h2>\n<ul><li>新装且要\"韧条显示\"的现代组合 → Chocolate Poise，或 <a href=\"./maxsu-poise.md\" target=\"_blank\" rel=\"noopener\">MaxsuPoise</a>（配 TrueHUD 条）。</li><li>老整合绑死 POISE 的照原样保留，但要接受 Nemesis/DAR/AMR 老生态。</li></ul>\n<p><strong>注意</strong>：常被说的\"韧性显示需要 TrueHUD\"更多见于 MaxsuPoise / Loki 系用法；POISE 原版页面正文并无 TrueHUD 要求【一手源核对】。</p>",
+      "_file": "04-poise/poise-family.md",
+      "_chars": 1512
+    },
+    {
+      "id": "valhalla-combat",
+      "title": "Valhalla Combat——无脚本战斗大修（dTry，停更）",
+      "category": "04-poise",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Valhalla Combat",
+        "精力",
+        "计时格挡",
+        "dTry",
+        "停更"
+      ],
+      "aliases": [
+        "瓦尔哈拉",
+        "valhalla 战斗",
+        "耗尽机制",
+        "timed block"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/64741",
+      "summary": "dTry 的无脚本战斗大修：精力重制+计时格挡+眩晕处决；\"韧性系统\"只是计划中未实装；2022 后停更。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"a modular, consistent, and script-free combat overhaul\"——精力重制 + 无脚本计时格挡/弹反投掷物 + 眩晕处决。<strong>注意：韧性（poise）系统在其描述里是 \"(Planned)\"，从未实装</strong>【一手源】。</p>\n<h2>作者勘误</h2>\n<p><strong>作者是 dTry（D7ry），不是 Dieny</strong>。GitHub：<a href=\"https://github.com/D7ry/valhallaCombat\" target=\"_blank\" rel=\"noopener\">D7ry/valhallaCombat</a>【一手源】。</p>\n<h2>机制要点【一手源】</h2>\n<ul><li>精力回复 5 倍速、命中轻击回精力、耗尽进入 Exhaustion（玩家减半伤害 / NPC 不能攻击）。</li><li>无脚本<strong>计时格挡</strong>（timed block）与<strong>弹反投掷物</strong>。</li><li>眩晕值 + 处决（类似 AC:Valhalla / God of War）。</li></ul>\n<h2>现状</h2>\n<ul><li><strong>停更</strong>：v1.2 更新说明自述 \"No update for the newest AE update, but should work with older versions of AE\"，最后实质更新停留在 2022 年【一手源】。</li><li>AE 1.6.1170 的用户靠社区补丁（dTry 系列 AE 补丁 Nexus 85740）【社区经验】。</li><li>与 <a href=\"../05-block-parry/elden-parry.md\" target=\"<em>blank\" rel=\"noopener\">Elden Parry</a> 有官方联动（Valhalla 更新后 Elden Parry 可对 NPC 追加眩晕伤害）；<a href=\"./maxsu-poise.md\" target=\"</em>blank\" rel=\"noopener\">MaxsuPoise</a> 推荐开它的 Block Stamina + Guard Break 搭配使用【一手源】。</li></ul>",
+      "_file": "04-poise/valhalla-combat.md",
+      "_chars": 1168
+    },
+    {
+      "id": "dual-wield-parrying",
+      "title": "Dual Wield Parrying SKSE——双持格挡",
+      "category": "05-block-parry",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Dual Wield Parrying",
+        "双持",
+        "格挡",
+        "parry"
+      ],
+      "aliases": [
+        "双持格挡",
+        "双持弹反",
+        "DWP",
+        "双手武器格挡"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/85505",
+      "summary": "双持（及武器+法术等组合）按独立键格挡的老牌 mod 的 SKSE 化新版；被 BFCO 官方列为不兼容（功能重复）。",
+      "content": "<h2>一句话</h2>\n<p>老牌 mod 的 SKSE 化新版：双持（及武器+法术等组合）时按独立键（默认 V）格挡/招架。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>现行 Nexus 页 <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/85505\" target=\"<em>blank\" rel=\"noopener\">Dual Wield Parrying SKSE</a>；插件源码 <a href=\"https://github.com/DennisSoemers/DualWieldParryingSKSE\" target=\"</em>blank\" rel=\"noopener\">DennisSoemers/DualWieldParryingSKSE</a>。</li><li>老原版（LE mods/9247）与 SSE SKSE 移植：DennisSoemers / Borgut1337；<strong>支持 1.6.1130+（含 1.6.1170）的 v2.0.1（2024-03-26）代码由 moshikle 编写</strong>（文件页原文 \"Code written by moshikle\"）。</li><li><strong>注意：alandtse 不是本 mod 维护者</strong>——他只是编译所用 CommonLibSSE-NG 库的作者之一（GitHub 另有 clayne/DualWieldParryingNG 等镜像仓）【一手源】。</li><li>GitHub README：SE 1.5.97 测试、兼容 1.6.353+；SKSE + Address Library；自称 \"Safe to install / update / uninstall mid-game\"。</li></ul>\n<h2>与 BFCO 冲突【一手源】</h2>\n<p>BFCO 官方不兼容清单明列 <strong>\"Dual Wield Parrying (Repetitive functions)\"</strong>——BFCO MCM 已内置同类功能。<strong>BFCO 用户不装</strong>。老 MCO/SkySA 时代它是标配双持弹反方案。</p>",
+      "_file": "05-block-parry/dual-wield-parrying.md",
+      "_chars": 1188
+    },
+    {
+      "id": "elden-counter",
+      "title": "Elden Counter——环学防御反击（dTry）",
+      "category": "05-block-parry",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Elden Counter",
+        "防御反击",
+        "guard counter",
+        "dTry",
+        "BFCO"
+      ],
+      "aliases": [
+        "格挡反击",
+        "弹反后反击",
+        "BFCO 补丁"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/65579",
+      "summary": "dTry 的无脚本\"防御反击\"：格挡成功后短时间内按重击触发；依赖 DAR+AMR+Payload Interpreter；BFCO 用户需第三方 Fix。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"Perform an Elden Ring style 'guard counter' against your enemy shortly after blocking their attack\"——<strong>格挡成功后短时间内按重击</strong>触发防御反击；每类原版武器有专属反击动画，可选无敌帧。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>作者 dTry（D7ry），GitHub：<a href=\"https://github.com/D7ry/EldenCounter\" target=\"_blank\" rel=\"noopener\">D7ry/EldenCounter</a>。</li><li>Nexus Requirements：Address Library、<strong>Animation Motion Revolution、Dynamic Animation Replacer、Payload Interpreter</strong>（注意依赖的是 DAR 不是 OAR）。</li><li>v1.6（ESLified AE version）；原版发布 2022-03-27。</li></ul>\n<h2>框架适配【一手源】</h2>\n<ul><li>MCO/ADXP：官方提供可选 MCO 兼容补丁；Skysa/ABR：无需补丁。</li><li><strong>BFCO 无官方补丁</strong>——社区方案 <strong>Elden Counter - BFCO MCO Fix</strong>（<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/174642\" target=\"_blank\" rel=\"noopener\">mods/174642</a>，作者 VX09，v1.1，2026-05-09）。</li><li>BFCO 官方另提示：可兼容但<strong>勿勾 Elden Counter 的 Vanilla Behavior Patch</strong>【一手源，BFCO description】。</li></ul>\n<h2>注意</h2>\n<ul><li>官方称与 Wildcat、Blade&amp;Blunt、Inpa Sekiro、Ultimate Combat 等兼容。</li><li>FAQ：无敌帧若与改 <code>setGhost</code> 的 mod 冲突会<strong>武器隐身</strong>【一手源】。</li></ul>",
+      "_file": "05-block-parry/elden-counter.md",
+      "_chars": 1260
+    },
+    {
+      "id": "elden-parry",
+      "title": "Elden Parry——盾击变弹反（dTry，停更）",
+      "category": "05-block-parry",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Elden Parry",
+        "弹反",
+        "parry",
+        "dTry",
+        "格挡"
+      ],
+      "aliases": [
+        "盾反",
+        "parry mod",
+        "弹箭",
+        "projectile parry",
+        "轻盾击"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/70240",
+      "summary": "dTry 的 SKSE 插件：轻盾击改成精确时机弹反，可把箭矢/法术弹回去；不要求 MCO/BFCO，AE 需社区补丁。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"Light bash is now turned into 'parry'\"——<strong>轻盾击改成精确时机弹反</strong>，成功弹反不耗精力，且可把箭矢/法术<strong>弹回去</strong>（hook 投射物碰撞函数实现，非特权/假弹补偿）。</p>\n<h2>作者勘误</h2>\n<p><strong>作者是 dTry（D7ry），不是 Maxsu</strong>。GitHub：<a href=\"https://github.com/D7ry/EldenParry\" target=\"_blank\" rel=\"noopener\">D7ry/EldenParry</a>【一手源】。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/70240\" target=\"_blank\" rel=\"noopener\">mods/70240</a>，v1.3（2022-08-04）后停更。</li><li>要求 SKSE + Address Library；<strong>不要求 MCO/BFCO</strong>，官方称 \"Compatible with every single combat mods/behavior mods\"。</li><li>官方注明：与 Better God Modes 不兼容；Ersh 的 Precision beta 需 ≥0.4。</li></ul>\n<h2>AE 用户注意【社区经验】</h2>\n<p>原版<strong>不支持 AE 1.6.1170</strong>。Nexus 讨论区置顶经验（2025-08 回帖）：需另装 dTry 系列 AE 补丁（mods/85740）与 Precision 下盾击修复（mods/188223）。</p>\n<h2>相关条目</h2>\n<p><a href=\"../04-poise/valhalla-combat.md\" target=\"<em>blank\" rel=\"noopener\">Valhalla Combat</a>（联动眩晕）· <a href=\"./elden-counter.md\" target=\"</em>blank\" rel=\"noopener\">Elden Counter</a>（格挡后的防御反击）· <a href=\"./maxsu-block-overhaul.md\" target=\"_blank\" rel=\"noopener\">MaxsuBlockOverhaul</a>（格挡受击动画重做）</p>",
+      "_file": "05-block-parry/elden-parry.md",
+      "_chars": 1196
+    },
+    {
+      "id": "inpa-sekiro",
+      "title": "Inpa Sekiro Combat——只狼式战斗大修（老 mod）",
+      "category": "05-block-parry",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Inpa Sekiro",
+        "只狼",
+        "架势",
+        "弹反",
+        "大修"
+      ],
+      "aliases": [
+        "sekiro mod",
+        "只狼化",
+        "架势条",
+        "危攻击",
+        "inpa"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/41428",
+      "summary": "把原版战斗改成只狼式（架势条/弹反/危险攻击/忍杀处决）；2021 停更、Papyrus 脚本系，不依赖 MCO/BFCO，BFCO 兼容性未声明。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"This is a revolutionary project that overturns the boring Vanilla combat system to Sekiro system\"——架势（posture）条、弹反/招架、危险攻击、忍杀处决。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>作者 Inpa Skyrim；Nexus <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/41428\" target=\"_blank\" rel=\"noopener\">mods/41428</a>。</li><li><strong>v2.2.3（2021-07-24）后停更</strong>，是 Papyrus 脚本系大修，页面 Requirements 无 MCO/OAR/AMR 等现代框架——<strong>不依赖 MCO/BFCO</strong>。</li><li>硬性前置：moreHUD SE、<strong>Spell Perk Item Distributor（SPID）</strong>、VioLens；HUD 部分另需 SkyHUD、MoreHUD、FISS。</li><li>官方兼容补丁只有 Ultimate Combat 与 Zxlice BackStab and Parry 两个。</li></ul>\n<h2>与 BFCO 的关系【未核实】</h2>\n<p>官方页面<strong>未声明 BFCO 兼容性</strong>。架构上其架势逻辑与动画框架无关，但动画层面与改 1hm_behavior 的框架（BFCO/MCO）需要用户自行测试。社区普遍反馈其脚本负载较高、前置必须装齐。</p>\n<h2>提醒</h2>\n<p>只狼系玩法在现代组合里的替代路线：架势条可用 <a href=\"../04-poise/maxsu-poise.md\" target=\"<em>blank\" rel=\"noopener\">MaxsuPoise</a> 系，弹反可用 <a href=\"./elden-parry.md\" target=\"</em>blank\" rel=\"noopener\">Elden Parry</a> + <a href=\"./elden-counter.md\" target=\"_blank\" rel=\"noopener\">Elden Counter</a>——都还在维护。</p>",
+      "_file": "05-block-parry/inpa-sekiro.md",
+      "_chars": 1193
+    },
+    {
+      "id": "maxsu-block-overhaul",
+      "title": "MaxuBlockOverhaul——格挡受击动画重做",
+      "category": "05-block-parry",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "MaxsuBlockOverhaul",
+        "格挡",
+        "block",
+        "破防",
+        "Nemesis"
+      ],
+      "aliases": [
+        "格挡大修",
+        "block overhaul",
+        "guard break",
+        "破防动画"
+      ],
+      "source": "https://github.com/max-su-2019/MaxuBlockOverhaul",
+      "summary": "Maxsu 重做原版格挡受击行为与动画，向现代动作游戏看齐；提供 guard break 破防动画；与改格挡行为的 mod 潜在冲突。",
+      "content": "<h2>一句话</h2>\n<p>GitHub Release 原文：\"Reworked the Skyrim BlockHit behavior &amp; animations to make it perform similar to the way in modern action games\"——把格挡受击的反馈重做得像现代动作游戏。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>GitHub：<a href=\"https://github.com/max-su-2019/MaxuBlockOverhaul\" target=\"_blank\" rel=\"noopener\">max-su-2019/MaxuBlockOverhaul</a>，作者 Maxsu。</li><li>主要是行为/动画文件（仓库含 behaviors、animationdatasinglefile，无 SKSE DLL 声明）——<strong>装完必须在 Nemesis/Pandora 里勾补丁刷新行为</strong>。</li><li>v0.21a 起为其他战斗 mod 提供 <strong>guard break（破防）</strong> 动画供调用。</li><li>v0.24a（2025-02-17）：\"Convert the block hit DAR animations folder into OAR folder struct\"——动画目录已支持 OAR 结构。</li></ul>\n<h2>冲突清单（Release 原文）【一手源】</h2>\n<blockquote>\"Incompatible with: Impactful Blocking、Dual Wield Blocking and Attack Cancelling（用其 SKSE 版代替）、any other mod that modify the block behavior.\"</blockquote>\n<p>即与一切改格挡行为的 mod 潜在冲突。</p>",
+      "_file": "05-block-parry/maxsu-block-overhaul.md",
+      "_chars": 1136
+    },
+    {
+      "id": "precision",
+      "title": "Precision——Accurate Melee Collisions（武器精确碰撞）",
+      "category": "06-ai-camera",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Precision",
+        "碰撞",
+        "命中判定",
+        "Ersh",
+        "hitstop"
+      ],
+      "aliases": [
+        "武器碰撞",
+        "碰撞mod",
+        "accurate melee",
+        "卡肉"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/72347",
+      "summary": "Ersh 的基于 Havok 的真实武器碰撞：贴合挥砍轨迹判定、程序化受击、卡肉、镜头震动；支持 SE/AE，v2.0.4。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"Physically accurate, true Havok collisions for melee. Procedural, physics-based hit reactions. Weapon trails. Hitstop and camera shake. Recoils…\"——武器碰撞<strong>贴合挥砍轨迹</strong>判定，不再按\"挥到哪都算\"的距离盒判定。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>全称 <strong>Precision - Accurate Melee Collisions</strong>；作者 <strong>Ersh</strong>（Nexus 上传名 Ershin）。</li><li><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/72347\" target=\"_blank\" rel=\"noopener\">mods/72347</a>，<strong>v2.0.4（2023-01-22）</strong>；官方明确 \"Supports SE/AE\"（未见\"要求 1.6.640+\"的表述）。</li><li>要求 SKSE64、Address Library；可选：Nemesis（\"very strongly recommended\"）、SkyUI + MCM Helper、AMR（自定义后坐力位移）、SSE Display Tweaks。</li><li>支持第一/第三人称、NPC 与生物；为新 moveset 提供<strong>自定义碰撞</strong>（动作包通过注释接入）。</li></ul>\n<h2>两个易混点</h2>\n<ul><li><strong>箭矢精确碰撞不是 Precision 本体功能</strong>——那是衍生 mod <strong>Accurate Projectile Collision</strong>（Ersh &amp; Seb263，<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/188551\" target=\"_blank\" rel=\"noopener\">mods/188551</a>，2026-08 首发，依赖 Precision，不支持 VR）【一手源】。</li><li>Precision 是底层碰撞系统，与 MCO/BFCO <strong>都兼容</strong>；部分动作包（如 Anchor 系）的动画使用 Precision 事件，属\"强烈推荐\"而非硬前置【社区经验】。</li></ul>",
+      "_file": "06-ai-camera/precision.md",
+      "_chars": 1329
+    },
+    {
+      "id": "scar",
+      "title": "SCAR——Skyrim Combos AI Revolution（NPC 连招 AI）",
+      "category": "06-ai-camera",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "SCAR",
+        "AI",
+        "连招",
+        "NPC",
+        "Maxsu"
+      ],
+      "aliases": [
+        "combos ai",
+        "NPC 连招",
+        "敌人 AI",
+        "Skyrim Combos AI Revolution",
+        "scar 补丁"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/72014",
+      "summary": "Maxsu 的 SKSE 连招 AI：NPC 按距离/角度选攻击动作打连段；本体锁 1.5.97，AE 用 doodlum 移植版；BFCO 下 NPC 出招由 BFCO 默认 AI 接管。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"SCAR introduces a dynamic and highly customizable AI attack system... One Moveset, One Attack AI Setup\"——<strong>NPC 每次出招前检查距离、角度等条件</strong>，选取符合条件的攻击动作，实现连招 AI。<strong>全称是 Skyrim Combos AI Revolution</strong>（不是 \"Skyrims Combat AI Reborn\"）。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>作者 <strong>Maxsu</strong>（原版概念来自 Monitor144hz/221hz，Maxsu 重制为 SKSE 插件）。Nexus <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/72014\" target=\"<em>blank\" rel=\"noopener\">mods/72014</a>，GitHub <a href=\"https://github.com/max-su-2019/SCAR\" target=\"</em>blank\" rel=\"noopener\">max-su-2019/SCAR</a>。</li><li>要求：SKSE、Address Library、VC++ 2015-2022、<strong>Nemesis</strong>。</li><li>兼容 <strong>ADXP|MCO v1.3.2+</strong>；Skysa/ABR 需打补丁。<strong>页面未提及 BFCO</strong>（停更早于 BFCO 发布）。</li></ul>\n<h2>版本地雷【一手源】</h2>\n<ul><li><strong>v1.06 起作者移除 1.6 runtime 支持，仅支持 1.5.97</strong>（changelog 原文 \"Remove supporting of v1.6 runtime, from now on all of my plugin supports only 1.5.97\"）。</li><li><strong>AE 用户装 doodlum 的 SCAR AE Support</strong>（<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/77285\" target=\"_blank\" rel=\"noopener\">mods/77285</a>，v1.06.1，2026-08-24 更新）。</li><li>GitHub 另有 SCAR v2.01 pre-release（仅 1.5.97，改要求 OAR + BDI + Nemesis）。</li></ul>\n<h2>与 BFCO 的分工【一手源，BFCO 作者站点】</h2>\n<p>NPC 使用带 SCAR 注释的动作时完全由 SCAR 管理；无 SCAR 注释时 BFCO 启用默认 AI 出招。<strong>moveset 必须预先打好 SCAR patch 才对 NPC 生效</strong>（所以很多动作包文件名里带 \"SCAR\"）。</p>",
+      "_file": "06-ai-camera/scar.md",
+      "_chars": 1557
+    },
+    {
+      "id": "smoothcam",
+      "title": "SmoothCam——现代第三人称相机",
+      "category": "06-ai-camera",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "SmoothCam",
+        "相机",
+        "第三人称",
+        "camera"
+      ],
+      "aliases": [
+        "镜头mod",
+        "camera mod",
+        "相机平滑",
+        "第三人称相机"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/41252",
+      "summary": "mwilsnd 的高可配置第三人称相机：帧插值平滑+射线准星；官方兼容 TDM；仅支持 1.5.97 与 1.6.x。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"SmoothCam is a highly configurable third-person camera, with smooth frame-interpolation and a raycasting crosshair to help you aim.\"</p>\n<h2>基本事实【一手源】</h2>\n<ul><li><strong>作者是 mwilsnd</strong>（不是 \"Merge\"）；GitHub：<a href=\"https://github.com/mwilsnd/SkyrimSE-SmoothCam\" target=\"_blank\" rel=\"noopener\">mwilsnd/SkyrimSE-SmoothCam</a>。</li><li><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/41252\" target=\"_blank\" rel=\"noopener\">mods/41252</a>，要求 SKSE64、Address Library；用 MCM 时要 SkyUI。</li><li><strong>官方仅支持 1.5.97 与 1.6.x runtime</strong>（README 原文）。</li><li>v1.7.1（2026-03-10，适配最新 AE 更新）。</li><li>与 TDM 官方兼容：README 兼容列表列出 TDM；v1.6 起内置 TDM 十字准星补偿。</li></ul>\n<h2>BFCO 作者提示【一手源，BF001 Nexus 回帖】</h2>\n<p>SmoothCam 1.7 有<strong>冲刺攻击 FOV 跳变 bug</strong>，BF001 个人推荐用 1.5——遇到\"冲刺攻击镜头乱跳\"先想到这条。</p>",
+      "_file": "06-ai-camera/smoothcam.md",
+      "_chars": 988
+    },
+    {
+      "id": "tdm",
+      "title": "True Directional Movement（TDM）——第三人称锁定与八向移动",
+      "category": "06-ai-camera",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "TDM",
+        "True Directional Movement",
+        "锁定",
+        "八向移动",
+        "Ersh"
+      ],
+      "aliases": [
+        "锁定mod",
+        "第三人称锁定",
+        "八向攻击",
+        "TrueHUD",
+        "target lock"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/51614",
+      "summary": "Ersh 的现代动作游戏式第三人称大修：任意方向移动攻击+目标锁定；要求 TrueHUD；v2.3.1 已适配 BFCO 攻击事件。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文：\"Overhauls the third person gameplay similarly to modern action RPGs, entirely through SKSE. Move and attack in any direction. Includes a custom target lock component…\"——现代动作游戏式第三人称：<strong>八向移动/攻击 + 自定义锁定</strong>（动画准星 widget）。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>作者 <strong>Ersh</strong>（ersh1），GitHub：<a href=\"https://github.com/ersh1/TrueDirectionalMovement\" target=\"_blank\" rel=\"noopener\">ersh1/TrueDirectionalMovement</a>（贡献者含 max-su-2019）。</li><li><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/51614\" target=\"_blank\" rel=\"noopener\">mods/51614</a>，要求：SKSE、Address Library、SkyUI + MCM Helper、<strong>TrueHUD</strong>（锁定准星 widget 必需）；Nemesis 可选但强烈推荐（修复头跟）。</li><li><strong>v2.3.1（2026-09-02 更新）</strong>——页面已恢复更新；v2.2.6 更新日志明确 \"<strong>Added BFCO attack events</strong> to the attack phase recognition logic\"，另有 Dodge Framework 兼容说明【一手源】。</li></ul>\n<h2>配套与易混</h2>\n<ul><li>相机搭档：<a href=\"./smoothcam.md\" target=\"_blank\" rel=\"noopener\">SmoothCam</a>（v1.6 起内置 TDM 十字准星补偿）。</li><li><strong>\"DM-IIO\" 查无此物</strong>：未能找到任何以此为名的 TDM 附属 mod，TDM 相关知名附属是 <strong>TrueHUD</strong>（Ersh 同作者）与 Dodge Framework【未核实，疑为记忆混淆】。</li><li>与 <a href=\"../02-foundations/key-utils-and-dmk.md\" target=\"_blank\" rel=\"noopener\">DMK（Directional Movement Keys）</a> 是不同作者的<strong>不同 mod</strong>，别混淆。</li></ul>",
+      "_file": "06-ai-camera/tdm.md",
+      "_chars": 1401
+    },
+    {
+      "id": "elden-rim",
+      "title": "Elden Rim——艾尔登战技（战斗大修 + 动作包）",
+      "category": "07-movesets",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Elden Rim",
+        "艾尔登",
+        "战技",
+        "black364",
+        "BFCO"
+      ],
+      "aliases": [
+        "艾尔登战技",
+        "elden rim 战技",
+        "战灰",
+        "ER 系动作包",
+        "elden rim 要求"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/65625",
+      "summary": "black364/Achang 团队的法环风战斗大修：战技体系+特殊硬直+战意值；MCO 与 BFCO 双支持，仍活跃更新。",
+      "content": "<h2>一句话</h2>\n<p>官方描述原文（作者中文）：\"艾尔登战技是一个战斗大修模组，拥有完整的技能体系，特殊硬直动画，按键触发，法术框架，韧性机制和熟练度系统……大部分功能基于原版架构，因此它稳定且兼容性良好\"——不只是动作包，是一整套法环风战斗系统。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>Nexus <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/65625\" target=\"_blank\" rel=\"noopener\">mods/65625</a>，作者 \"black achang\"（Black / black364 与 Achang 团队）。</li><li><strong>仍在活跃更新</strong>：v3.7.5（2026-09-26，新增战意 UI）。</li><li><strong>框架双支持</strong>：作者明确写 \"I recommend you to use MCO with 1.5.X or BFCO\"——MCO 与 BFCO 都能用。</li><li>社区反馈<strong>最新版硬性要求 Maxsu 的 <a href=\"../04-poise/modern-stagger-lock.md\" target=\"_blank\" rel=\"noopener\">Modern Stagger Lock</a></strong>【一手源，ER Katana 页面回帖】。</li></ul>\n<h2>配套包</h2>\n<ul><li><strong>ADXP I MCO elden rim moveset collection (SCAR)</strong>：<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/72220\" target=\"_blank\" rel=\"noopener\">mods/72220</a>（black364，MCO+OAR+SCAR 硬性，2024-08 更新）——NPC 可用的 ER 风连招动作合集。</li><li>同作者还有 WoLong、ER Katana、ER Rapier 系列包 → 见 <a href=\"./misc-movesets.md\" target=\"_blank\" rel=\"noopener\">其他动作包</a>。</li></ul>",
+      "_file": "07-movesets/elden-rim.md",
+      "_chars": 1157
+    },
+    {
+      "id": "for-honor-in-skyrim",
+      "title": "For Honor in Skyrim——荣耀战魂动作包",
+      "category": "07-movesets",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "For Honor",
+        "荣耀战魂",
+        "Smooth",
+        "动作包",
+        "AIO"
+      ],
+      "aliases": [
+        "荣耀战魂mod",
+        "for honor moveset",
+        "FHIS",
+        "valkyrie",
+        "nobushi"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/151478",
+      "summary": "lSmoothl 的荣耀战魂全角色动作包（AIO v1.8）；MCO 框架、前置清单很长；作者已搁置 BFCO 版，社区转换整合是替代路线。",
+      "content": "<h2>一句话</h2>\n<p>Smooth（lSmoothl）把荣耀战魂角色招式搬进天际的动作包，<strong>现行形态是 All-in-One</strong>（旧单角色包已全部停更并入 AIO）。</p>\n<h2>基本事实【一手源】</h2>\n<ul><li>AIO 页：<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/151478\" target=\"_blank\" rel=\"noopener\">mods/151478</a>，v1.8（2026-01-18 更新，2025-05 首发）。</li><li><strong>框架：MCO</strong>——依赖 ADXPMCO 1.6.0.6 + OCPA 或 For Honor Power Attack 重击触发。</li><li>前置清单很长（见页面）：Nemesis、OAR、AMR、Payload Interpreter、Key Utils（1.6 更新后推荐 PaulMix 的 dTry Key Utils Extend）、Smooth Moveset、Keyword Compatibility Framework、Left Hand Equipment Overhaul 等；失衡系统指定 <a href=\"../04-poise/modern-stagger-lock.md\" target=\"_blank\" rel=\"noopener\">Modern Stagger Lock</a>。</li></ul>\n<h2>旧单角色包（已停更）</h2>\n<p>Valkyrie（78609）、Peacekeeper（77630）、<strong>Aramusha（84916）、Nobushi（75790）</strong> 等页面均标注 \"no longer supported\"——<strong>\"Skypia 系列\"是讹传</strong>，Aramusha/Nobushi 实为 For Honor in SKYRIM 的单角色包，作者就是 lSmoothl，查无 \"Skypia\" 作者【一手源+未核实】。</p>\n<h2>BFCO 状态【一手源】</h2>\n<ul><li><strong>作者本人明确搁置官方 BFCO 版</strong>（回帖列举：帧 0 注释失效、冲刺重击死循环、FOV 混合破碎、输入延迟）。</li><li>社区路线：BFCO 作者 BF001 的指南推荐 \"For Honor Reforged / For Honor in Skyrim - BFCO Edition (All-in-One)\"；另有社区 BFCO 转换整合（Nexus 181389，27 角色，只需 BFCO + <a href=\"../02-foundations/key-utils-and-dmk.md\" target=\"_blank\" rel=\"noopener\">DMK</a>）【转换包本体页面未逐一核验，属社区经验】。</li></ul>",
+      "_file": "07-movesets/for-honor-in-skyrim.md",
+      "_chars": 1460
+    },
+    {
+      "id": "stances",
+      "title": "Stances——架式系统（DAR/OAR 层工具）",
+      "category": "07-movesets",
+      "kind": "tool",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "Stances",
+        "架式",
+        "DAR",
+        "OAR",
+        "OmecaOne"
+      ],
+      "aliases": [
+        "架式系统",
+        "stances mod",
+        "换架势",
+        "Stances NG"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/40484",
+      "summary": "OmecaOne 的架式系统：每武器 4 套架式，本体不带动画需自填 hkx；NG 版（aljo/styyx）SKSE 重写并内置 OAR 结构。",
+      "content": "<h2>一句话</h2>\n<p>官方机制：通过脚本切换 perk + DAR 条件实现<strong>每武器 4 套架式</strong>（含中立）——<strong>本体不带动画</strong>，架式里放什么招式由你自己填 hkx。它是 <strong>DAR/OAR 层工具，不绑定 MCO/BFCO</strong>。</p>\n<h2>两个版本【一手源】</h2>\n<table><thead><tr><th style=\"text-align:left\">版本</th><th style=\"text-align:left\">作者</th><th style=\"text-align:left\">形态</th><th style=\"text-align:left\">状态</th></tr></thead><tbody><tr><td style=\"text-align:left\">Stances - Dynamic Animation Sets（<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/40484\" target=\"_blank\" rel=\"noopener\">SE mods/40484</a>）</td><td style=\"text-align:left\">OmecaOne</td><td style=\"text-align:left\">脚本 + perk + DAR 条件</td><td style=\"text-align:left\">老版，依赖 DAR + MCM</td></tr><tr><td style=\"text-align:left\"><strong>Stances NG</strong>（<a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/117986\" target=\"_blank\" rel=\"noopener\">mods/117986</a>）</td><td style=\"text-align:left\">aljo/styyx</td><td style=\"text-align:left\">SKSE DLL 重写，内置 OAR 文件夹</td><td style=\"text-align:left\"><strong>v2.0.1（2026-06-15 更新）</strong>，依赖 OAR + Address Library，不依赖 Key Utils</td></tr></tbody></table>\n<p>另有数值 Add-On（mods/41251）。</p>\n<h2>定位提醒</h2>\n<p>Stances 解决\"<strong>同一把武器多种打法</strong>\"的组织问题；招式内容仍要靠 <a href=\"./moveset-ecosystem.md\" target=\"_blank\" rel=\"noopener\">动作包</a> 或自备 hkx 提供。</p>",
+      "_file": "07-movesets/stances.md",
+      "_chars": 1039
+    },
+    {
+      "id": "misc-movesets",
+      "title": "其他动作包——WoLong / ER Katana / ER Rapier 等",
+      "category": "07-movesets",
+      "kind": "reference",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "WoLong",
+        "ER Katana",
+        "ER Rapier",
+        "SoulCalibur",
+        "动作包"
+      ],
+      "aliases": [
+        "卧龙",
+        "太刀动作包",
+        "刺剑动作包",
+        "黑悟空",
+        "er 系列"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/74503",
+      "summary": "black364 的 WoLong/ER 系列多为 MCO+BFCO 双支持；\"SoulCalibur moveset\" 在 Nexus 查无页面，未核实。",
+      "content": "<p>均为 black364（<a href=\"./elden-rim.md\" target=\"_blank\" rel=\"noopener\">Elden Rim</a> 作者）的招式库内容包【一手源】：</p>\n<table><thead><tr><th style=\"text-align:left\">包</th><th style=\"text-align:left\">Nexus</th><th style=\"text-align:left\">框架</th><th style=\"text-align:left\">备注</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>wolong Dual Wield (MCO SCAR)</strong></td><td style=\"text-align:left\"><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/93144\" target=\"_blank\" rel=\"noopener\">mods/93144</a></td><td style=\"text-align:left\">MCO（DAR/OAR 皆可），支持 SCAR</td><td style=\"text-align:left\">黑悟空/卧龙风格双持剑 + 4 个武器技能；仅一版（2023-06 上传）</td></tr><tr><td style=\"text-align:left\"><strong>ADXP I MCO I BFCO ER Katana (SCAR)</strong></td><td style=\"text-align:left\"><a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/74503\" target=\"_blank\" rel=\"noopener\">mods/74503</a></td><td style=\"text-align:left\"><strong>MCO + BFCO 双框架</strong>（标题即含）</td><td style=\"text-align:left\">法环太刀 + 居合/特殊硬直；完整 Requirements 未逐项核验【未核实】</td></tr><tr><td style=\"text-align:left\"><strong>ADXP I MCO I BFCO ER rapiers (SCAR)</strong></td><td style=\"text-align:left\">（原版页未直接抓取）</td><td style=\"text-align:left\">MCO + BFCO</td><td style=\"text-align:left\">法环刺剑；另有 <strong>OAR 转换版</strong> <a href=\"https://www.nexusmods.com/skyrimspecialedition/mods/146407\" target=\"_blank\" rel=\"noopener\">mods/146407</a>（Strife/BlessingS91，2025-03，要求 MCO + OAR）</td></tr></tbody></table>\n<h2>查无此包</h2>\n<ul><li><strong>SoulCalibur moveset</strong>：两轮检索未能在 Nexus 找到同名 Skyrim moveset 页面（只有 SC 武器模型 mod）——可能为 Patreon/Discord 发布或记忆偏差【未核实】。</li><li>更多分辨套路见 <a href=\"./moveset-ecosystem.md\" target=\"_blank\" rel=\"noopener\">moveset 生态格局</a>。</li></ul>",
+      "_file": "07-movesets/misc-movesets.md",
+      "_chars": 1285
+    },
+    {
+      "id": "moveset-ecosystem",
+      "title": "动作包（moveset）生态格局",
+      "category": "07-movesets",
+      "kind": "concept",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "moveset",
+        "动作包",
+        "生态",
+        "招式库",
+        "MCO",
+        "BFCO"
+      ],
+      "aliases": [
+        "动作包推荐",
+        "moveset 怎么装",
+        "哪些动作包"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/117052",
+      "summary": "动作包是\"内容\"不是框架：MCO 系作者多为西系、BFCO 双支持多为中文作者系；文件名里的 MCO/BFCO/SCAR 字样决定依赖。",
+      "content": "<h2>一句话</h2>\n<p>动作包（moveset）是给 <a href=\"../00-overview/framework-choice.md\" target=\"<em>blank\" rel=\"noopener\">攻击框架</a> 供\"招式库\"的<strong>内容</strong>，不是框架本身——换框架要么找对应版本，要么用 <a href=\"../01-frameworks/mco-to-bfco-converter.md\" target=\"</em>blank\" rel=\"noopener\">MCO to BFCO Converter</a> 转。</p>\n<h2>格局（按官方页核实）【一手源】</h2>\n<table><thead><tr><th style=\"text-align:left\">阵营</th><th style=\"text-align:left\">作者</th><th style=\"text-align:left\">特点</th></tr></thead><tbody><tr><td style=\"text-align:left\">MCO 单支持</td><td style=\"text-align:left\">Smooth（For Honor）、Edg3lord（Edgemaster）、Verolevi（Vanargand 系）</td><td style=\"text-align:left\">西方作者主要绑定 MCO</td></tr><tr><td style=\"text-align:left\">MCO+BFCO 双支持</td><td style=\"text-align:left\">Black/black364（ER Katana/Rapier、WoLong）、Achang 团队（Elden Rim）</td><td style=\"text-align:left\">中文作者系多双支持或 BFCO 原生</td></tr><tr><td style=\"text-align:left\">BFCO 原生</td><td style=\"text-align:left\">BF001 官方动画、社区 BFCO 转换整合</td><td style=\"text-align:left\">BFCO 官方提供 Converter 作为过渡</td></tr></tbody></table>\n<h2>文件名怎么读</h2>\n<p>Nexus 页面标题常写成 <code>ADXP I MCO I BFCO xxx (SCAR)</code>——逐段解读：</p>\n<ul><li><strong>MCO / BFCO</strong>：适配哪个攻击框架（hkx 文件名与注释遵循谁的规范）。</li><li><strong>SCAR</strong>：附带 <a href=\"../06-ai-camera/scar.md\" target=\"_blank\" rel=\"noopener\">SCAR</a> patch——NPC 才能用这些招式；没打 SCAR patch 的包只对玩家生效。</li><li><strong>OAR / DAR</strong>：条件替换层（OAR 向后兼容 DAR 包）。</li></ul>\n<h2>装包的通用检查单</h2>\n<ol><li>确认包的框架与你装的框架一致（不一致先想 Converter）。</li><li>FOMOD 里按框架选对选项（MCO/BFCO/Pandora）。</li><li>装完<strong>重跑 Pandora</strong> 并勾选新增补丁项。</li><li>位移类招式确认 <a href=\"../02-foundations/amr-amf.md\" target=\"_blank\" rel=\"noopener\">AMR/AMF</a> 在位。</li><li>技能/连招不触发时先查：<a href=\"../02-foundations/payload-interpreter.md\" target=\"_blank\" rel=\"noopener\">Payload Interpreter</a> 与重击键四选一是否就位。</li></ol>",
+      "_file": "07-movesets/moveset-ecosystem.md",
+      "_chars": 1352
+    },
+    {
+      "id": "bfco-incompatibilities",
+      "title": "BFCO 官方不兼容清单",
+      "category": "08-compatibility",
+      "kind": "reference",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "BFCO",
+        "不兼容",
+        "冲突",
+        "清单"
+      ],
+      "aliases": [
+        "BFCO 冲突",
+        "哪些mod和BFCO冲突",
+        "飞行mod 冲突",
+        "incompatible"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/117052",
+      "summary": "逐条对照 BFCO Nexus description 的 \"Incompatible with\" 原文——含功能性冲突（SkySA/ABR/MCO/CGO 等）与\"可兼容但需注意\"两类。",
+      "content": "<p>全部引自 BFCO Nexus description 的 <strong>\"Incompatible with\"</strong> 原文【一手源】；\"可兼容但需注意\"类也在同页。</p>\n<h2>功能性冲突（别同装）</h2>\n<table><thead><tr><th style=\"text-align:left\">对象</th><th style=\"text-align:left\">官方原文要点</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>SkySA / ABR / MCO</strong></td><td style=\"text-align:left\">功能重复（\"Repetitive functions\"）；官方并指出可用 MCO To BFCO Converter 迁移</td></tr><tr><td style=\"text-align:left\"><strong>重击热键类</strong>（One Click Power Attack NG、Elden Power Attack、For Honor Power Attack）</td><td style=\"text-align:left\">同类功能 MCM&gt;BFCO 已内置</td></tr><tr><td style=\"text-align:left\"><strong>Dual Wield Parrying</strong></td><td style=\"text-align:left\">功能重复</td></tr><tr><td style=\"text-align:left\"><strong>UCBO</strong>（Unarmed Combat Behavior Overhaul）、<strong>One Handed Crossbow Framework</strong></td><td style=\"text-align:left\">功能重复</td></tr><tr><td style=\"text-align:left\"><strong>CGO</strong></td><td style=\"text-align:left\">功能重复，且<strong>跳攻会卡在坠落状态</strong>（\"Whenever player jumps to attack, it will cause stuck in a falling\"）</td></tr><tr><td style=\"text-align:left\"><strong>Dragon Clutch</strong></td><td style=\"text-align:left\">会卡坠落</td></tr><tr><td style=\"text-align:left\"><strong>FNIS</strong></td><td style=\"text-align:left\">\"FNIS is outdated, please use Pandora\"</td></tr><tr><td style=\"text-align:left\"><strong>Kaputt</strong>（Melee Killmove Manager）</td><td style=\"text-align:left\">破坏强力重击衔接</td></tr></tbody></table>\n<h2>飞行类 mod——是\"条件兼容\"不是绝对不兼容</h2>\n<p>官方原文：flying mod beta <strong>\"may cause the jump attack to fail, user can disable jump attack in MCM&gt;BFCO\"</strong>——飞 mod 可能破坏跳跃攻击，但可以在 MCM 里<strong>关掉 BFCO 的跳攻</strong>来共存【一手源】。</p>\n<h2>可兼容但需注意</h2>\n<ul><li><strong>Elden Counter</strong>：勿勾其 Vanilla Behavior Patch（BFCO 下用社区 <a href=\"../05-block-parry/elden-counter.md\" target=\"_blank\" rel=\"noopener\">BFCO MCO Fix</a>）。</li><li><strong>Campfire</strong>：勿让其他 mod 覆盖 PapyrusUtil.dll。</li><li><strong>VioLens</strong>、<strong>TK Dodge 系</strong>：装完改动 1hm_behavior 的 mod 后要重跑 Pandora/Nemesis 刷新。</li><li><strong>SmoothCam 1.7</strong>：冲刺攻击 FOV 跳变 bug（作者推荐 1.5）→ <a href=\"../06-ai-camera/smoothcam.md\" target=\"_blank\" rel=\"noopener\">SmoothCam</a>。</li></ul>",
+      "_file": "08-compatibility/bfco-incompatibilities.md",
+      "_chars": 1594
+    },
+    {
+      "id": "version-pitfalls",
+      "title": "版本地雷——1.5.97（SE）与 1.6.x（AE）的分界",
+      "category": "08-compatibility",
+      "kind": "reference",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "版本",
+        "1.5.97",
+        "AE",
+        "SE",
+        "地雷"
+      ],
+      "aliases": [
+        "1.5.97 还是 1.6",
+        "ae se 区别",
+        "版本装错",
+        "runtime 版本"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/145100",
+      "summary": "动作系统各插件对 1.5.97/1.6.x 的支持分界表——前置装错版本会直接炸 MCM 或攻击失效。",
+      "content": "<p>先确定自己游戏版本：1.5.97（SE 最终版）还是 1.6.x（AE）。SKSE64 与本体的精确版本对应关系见 <a href=\"../../skyrim-tools-kb/01-frameworks/\" target=\"_blank\" rel=\"noopener\">skyrim-tools-kb/01-frameworks/</a>（SKSE64 条目）。下表只列<strong>官方页面明说的</strong>分界【一手源，除注明外】：</p>\n<h2>明确分版本下载的</h2>\n<table><thead><tr><th style=\"text-align:left\">插件</th><th style=\"text-align:left\">1.5.97</th><th style=\"text-align:left\">1.6.x（AE）</th><th style=\"text-align:left\">出处</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Behavior Data Injector</strong></td><td style=\"text-align:left\">mods/78146（v0.13 官方原文 \"Supports only v1.5.97\"）</td><td style=\"text-align:left\">mods/78159</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\"><strong>IFrame Generator RE</strong></td><td style=\"text-align:left\">mods/74401（v1.03 停更）</td><td style=\"text-align:left\">mods/82737（doodlum AE 版，\"Only compatible with AE\"）</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\"><strong>SCAR 本体</strong></td><td style=\"text-align:left\">v1.06+ 官方移除 1.6 支持</td><td style=\"text-align:left\">用 doodlum 的 SCAR AE Support（mods/77285）</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\"><strong>dTry's Key Utils</strong></td><td style=\"text-align:left\">SE 版 DLL</td><td style=\"text-align:left\">AE 版 DLL（或 doodlum 的 dTry Plugin Updates FOMOD）</td><td style=\"text-align:left\">【一手源】</td></tr></tbody></table>\n<h2>明确双版本支持的</h2>\n<ul><li><strong>AMF</strong>：v1.2.0 官方原文 \"supports 1.5.97, 1.6.640, 1.6.1170, 1.6.1179, 1.7.104, VR\"。</li><li><strong>Animation Queue Fix</strong>：作者原话 \"compatible with any non-ancient Skyrim version, including 1.5.97, 1.6+ and VR\"。</li><li><strong>Payload Interpreter</strong> v1.0.1：clib-ng 通吃全部版本。</li><li><strong>Dual Wield Parrying SKSE</strong>：README \"Tested with 1.5.97… Compatible with 1.6.353 and above\"。</li></ul>\n<h2>明确卡死的</h2>\n<ul><li><strong>SmoothCam</strong>：官方仅支持 1.5.97 与 1.6.x（README 原文）。</li><li><strong>Valhalla Combat / Elden Parry</strong>：2022 年停更，最新 AE 需社区补丁（见各自条目）。</li><li><strong>POISE NG</strong>：已隐藏停更。</li></ul>\n<h2>症状对照</h2>\n<p>前置版本装错的典型表现：<strong>MCM 菜单消失/炸开</strong>、<strong>攻击直接失效</strong>、<strong>CTD on launch</strong>。排错时第一步永远是核对 SKSE 版本与每个 SKSE 插件的 AE/SE 文件选择。工具层面的版本矩阵见 <a href=\"../../skyrim-tools-kb/12-sources/common-misconceptions.md\" target=\"_blank\" rel=\"noopener\">skyrim-tools-kb/12-sources/common-misconceptions.md</a>。</p>",
+      "_file": "08-compatibility/version-pitfalls.md",
+      "_chars": 1755
+    },
+    {
+      "id": "install-workflow",
+      "title": "装完动作包的刷新流程（最常见翻车点）",
+      "category": "08-compatibility",
+      "kind": "tutorial",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "安装",
+        "流程",
+        "Pandora",
+        "刷新",
+        "排错"
+      ],
+      "aliases": [
+        "攻击失效",
+        "装完没反应",
+        "T-Pose",
+        "重跑 pandora",
+        "动作包安装顺序"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/117052",
+      "summary": "新增/改动动作包后的固定流程：FOMOD 选对框架 → 启用插件 → 重跑 Pandora 勾补丁 → 排序 → 进游戏自检。",
+      "content": "<h2>为什么必须刷新</h2>\n<p>改动 <code>1hm_behavior.hkx</code> 等行为文件的 mod（框架、闪避、格挡类）需要把补丁合进动画数据库；<strong>不重跑引擎 = 新命令不存在 = 攻击失效/大字 T-Pose</strong>。机制见 <a href=\"../../behaviour-engine-kb/01-principles/behaviour-patcher.md\" target=\"_blank\" rel=\"noopener\">behaviour-engine-kb/01-principles/behaviour-patcher.md</a>。BFCO 作者置顶帖明确提示过 tkDodge 兼容问题要靠重跑 Nemesis &amp; Pandora 解决【一手源】。</p>\n<h2>固定流程</h2>\n<ol><li><strong>FOMOD 安装时选对框架选项</strong>（MCO / BFCO / Pandora / Nemesis / OAR 各分支选错是第一翻车点）。</li><li><strong>启用所有附带的 .esp/.dll</strong>，确认 <a href=\"./version-pitfalls.md\" target=\"_blank\" rel=\"noopener\">version-pitfalls</a> 里的 SE/AE 文件选对。</li><li><strong>重跑行为引擎</strong>：Pandora 界面里勾选新增 mod 的补丁项 → Launch；<strong>Pandora 与 Nemesis/FNIS 不要同时跑</strong>。</li><li><strong>LOOT 排序</strong>（只管插件顺序不管资源覆盖——资源覆盖规则见 <a href=\"../../mo2-usvfs-kb/05-usage/\" target=\"_blank\" rel=\"noopener\">mo2-usvfs-kb/05-usage/</a>）。</li><li>进游戏自检：轻击/重击/蓄力/方向重击各来一下；位移类招式检查 <a href=\"../02-foundations/amr-amf.md\" target=\"_blank\" rel=\"noopener\">AMR/AMF</a> 是否在位。</li></ol>\n<h2>常见症状 → 分叉点</h2>\n<table><thead><tr><th style=\"text-align:left\">症状</th><th style=\"text-align:left\">最易误判的点</th></tr></thead><tbody><tr><td style=\"text-align:left\">攻击完全无效（大字/无动作）</td><td style=\"text-align:left\">不是 mod 冲突，是<strong>没重跑 Pandora</strong> 或 FOMOD 框架选项选错</td></tr><tr><td style=\"text-align:left\">只有重击失效</td><td style=\"text-align:left\">没装/装了冲突的<strong>重击热键 mod</strong>（MCO 要四选一、BFCO 要一个都不装）</td></tr><tr><td style=\"text-align:left\">位移招式原地漂移/被吸回</td><td style=\"text-align:left\"><a href=\"../02-foundations/amr-amf.md\" target=\"_blank\" rel=\"noopener\">AMR/AMF</a> 缺位或 ini 磁吸开关</td></tr><tr><td style=\"text-align:left\">进图动画加载慢、偶发 T-Pose</td><td style=\"text-align:left\">没装 <a href=\"../02-foundations/animation-queue-fix.md\" target=\"_blank\" rel=\"noopener\">Animation Queue Fix</a>（OAR 官方要求）</td></tr><tr><td style=\"text-align:left\">踉跄完全不触发</td><td style=\"text-align:left\"><a href=\"../04-poise/maxsu-poise.md\" target=\"_blank\" rel=\"noopener\">MaxsuPoise</a> 的硬前置（BDI/DMenu/MSLF）没装齐</td></tr></tbody></table>\n<h2>更多排错</h2>\n<p>症状索引见 <a href=\"../../01-navigation/troubleshooting-index.md\" target=\"<em>blank\" rel=\"noopener\">01-navigation/troubleshooting-index.md</a>；Pandora 自身故障见 <a href=\"../../behaviour-engine-kb/04-pandora/pandora-troubleshooting.md\" target=\"</em>blank\" rel=\"noopener\">behaviour-engine-kb/04-pandora/pandora-troubleshooting.md</a>。</p>",
+      "_file": "08-compatibility/install-workflow.md",
+      "_chars": 1748
+    },
+    {
+      "id": "unreliable-claims",
+      "title": "常见错误说法、查无此物与作者勘误",
+      "category": "09-sources",
+      "kind": "reference",
+      "version": "1.0.0",
+      "updated": "2026-09-30",
+      "tags": [
+        "来源",
+        "辨析",
+        "勘误",
+        "未核实",
+        "内容农场"
+      ],
+      "aliases": [
+        "错误认知",
+        "常见讹传",
+        "查无此mod",
+        "作者是谁",
+        "勘误表"
+      ],
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/117052",
+      "summary": "本次建库逐条核实中推翻/纠正的流传说法：查无此 mod 的名称、张冠李戴的作者、域名失效的\"官方\"站点等。",
+      "content": "<p>以下每条都经官方渠道（GitHub 仓库 / Nexus 发布页 / 作者回帖）核实，标注证据等级。<strong>本工作区来源纪律的总纲见 <a href=\"../../skyrim-tools-kb/12-sources/unreliable-sources.md\" target=\"_blank\" rel=\"noopener\">skyrim-tools-kb/12-sources/unreliable-sources.md</a>。</strong></p>\n<h2>查无此物（名称讹传）</h2>\n<ul><li><strong>\"Elden Dodge\"</strong>：Nexus 查无此独立 mod，Maxsu 的 GitHub 也无此仓库。最接近的存在是 <strong>Elden Ring Step Dodge</strong>（mods/64248，作者 skypia/Smooth）与 <strong>Elden Rim dodge</strong>（mods/76868 系，TK Dodge RE 动画替换）【一手源】。</li><li><strong>\"TK Dodge Ultimate\"</strong>：不存在此独立 mod——是 TK Dodge + Ultimate Combat 套装的混称【一手源】。</li><li><strong>\"Skypia 系列\"</strong>：查无此作者。Aramusha/Nobushi 实为 <strong>lSmoothl 的 For Honor in SKYRIM 单角色包</strong>（现已并入 AIO）【一手源】。</li><li><strong>\"SoulCalibur moveset\"</strong>：Nexus 查无同名 moveset 页面（只有武器模型 mod），可能为 Patreon/Discord 发布【未核实】。</li><li><strong>\"DM-IIO\"</strong>：查无此 TDM 附属 mod；TDM 的知名附属是 TrueHUD 与 Dodge Framework【未核实，疑为记忆混淆】。</li></ul>\n<h2>作者勘误（张冠李戴高发区）</h2>\n<table><thead><tr><th style=\"text-align:left\">说法</th><th style=\"text-align:left\">核实结果</th><th style=\"text-align:left\">证据</th></tr></thead><tbody><tr><td style=\"text-align:left\">Pandora 作者是 shikyZ</td><td style=\"text-align:left\">官方仓库在 <strong>Monitor221hz</strong>（Nexus 署名 Pandora Behaviour Engine Team）名下；shikyZ 与 ShikyoKira（Nemesis 作者）拼写相近致混淆</td><td style=\"text-align:left\">【一手源】GitHub</td></tr><tr><td style=\"text-align:left\">BDI 是 Dtry 写的</td><td style=\"text-align:left\"><strong>Maxsu and Dropkicker</strong>（Nexus 页 Created by 原文）</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">AMR 是 Maxsu 写的</td><td style=\"text-align:left\"><strong>alexsylex</strong>（Maxsu 仅在致谢中提供过汇编帮助）</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">Modern Stagger Lock 是 Dtry 写的</td><td style=\"text-align:left\"><strong>Maxsu</strong>（GitHub max-su-2019）</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">Valhalla Combat / Elden Parry / Elden Counter 是 Maxsu 写的</td><td style=\"text-align:left\">均为 <strong>dTry（D7ry）</strong></td><td style=\"text-align:left\">【一手源】GitHub</td></tr><tr><td style=\"text-align:left\">iFrame Generator RE 是 Sokkvabekk 写的</td><td style=\"text-align:left\"><strong>Maxsu</strong>（AE 版 doodlum）</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">Dual Wield Parrying NG 维护者是 alandtse</td><td style=\"text-align:left\">1.6.1130+ 代码由 <strong>moshikle</strong> 写（文件页原文）；alandtse 只是 CommonLibSSE-NG 库作者之一</td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">ABR = Attack Behavior Replacer</td><td style=\"text-align:left\">实为 <strong>Attack Behavior Revamp</strong></td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">OCPA = Omni directional Power Attack</td><td style=\"text-align:left\">实为 <strong>One Click Power Attack</strong></td><td style=\"text-align:left\">【一手源】</td></tr><tr><td style=\"text-align:left\">MCO 原页 mods/124806 可引用</td><td style=\"text-align:left\">该页已 <strong>Removed by staff</strong>；现行官方页为 <strong>mods/175044</strong>（2026-03 重传，v1.6.0.6 终版）</td><td style=\"text-align:left\">【一手源】</td></tr></tbody></table>\n<h2>站点与信息源警示</h2>\n<ul><li><strong>distaranimation.com</strong>（Distar 官网）：抓取已被解析到无关垃圾页面（疑似域名失效/被劫持），其上的 \"SkySA Guide / MCO 教程\" 内容<strong>不可引用</strong>，一律以 Nexus 页为准【未核实具体原因，但内容不可用】。</li><li>\"DMK 是 BFCO 3.100 硬前置\"的说法仅见于作者授权中文镜像 magicskyrim 的前置清单；Nexus 正文只在 FAQ 提 dTry's Key Utils——两层说法并存，<strong>以 Nexus 正文为准</strong>【一手源+社区经验】。</li><li>内容农场（CSDN、toolify 等）转载的动作教程<strong>版本号与前置清单错漏百出</strong>，本库一律不采；工具领域的不可信来源清单见 <a href=\"../../skyrim-tools-kb/12-sources/unreliable-sources.md\" target=\"_blank\" rel=\"noopener\">skyrim-tools-kb/12-sources/unreliable-sources.md</a>。</li></ul>\n<h2>未核实项（欢迎补证）</h2>\n<p>OAR 官方最低游戏版本表述、Nemesis 的 .NET 4.8 要求、FNIS SE 页最后更新日期（Cloudflare 拦截）、BFCO NG 细节、ER Katana/ER Rapiers 原版页完整 Requirements、Inpa Sekiro 与 BFCO 的兼容性。</p>",
+      "_file": "09-sources/unreliable-claims.md",
+      "_chars": 2638
+    }
+  ]
+}

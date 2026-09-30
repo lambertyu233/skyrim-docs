@@ -1,0 +1,63 @@
+{
+  "kb": {
+    "name": "上古卷轴5 动作系统资料库",
+    "description": "Skyrim SE/AE 动作（战斗）系统生态的结构化知识库：行为引擎与运行时插件（Pandora / Nemesis / OAR / Payload Interpreter / BDI / AMR / AMF）、攻击动作框架三代演进（SkySA/ABR → MCO → BFCO）、闪避、韧性与硬直、格挡与弹反、战斗 AI 与碰撞（SCAR / Precision）、视角与操控（TDM / SmoothCam）、动作包（moveset 招式库）生态、兼容性与版本地雷。分层组织、便于增删改查与协作维护。",
+    "source_name": "GitHub 官方仓库 README 与 Releases、Nexus Mods 发布页描述正文与 Requirements、Nexus 作者回帖、作者公开声明",
+    "locale": "zh-CN"
+  },
+  "version": "1.0.0",
+  "generated_at": "2026-09-30",
+  "maintainers": ["社区协作"],
+  "sources": [
+    { "name": "Pandora Behaviour Engine+ 官方仓库（Monitor221hz）", "url": "https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus" },
+    { "name": "Nemesis 官方仓库（ShikyoKira）", "url": "https://github.com/ShikyoKira/Project-New-Reign---Nemesis-Main" },
+    { "name": "Open Animation Replacer 官方仓库（ersh1）", "url": "https://github.com/ersh1/OpenAnimationReplacer" },
+    { "name": "BFCO - Attack Behavior Framework（Nexus 发布页）", "url": "https://www.nexusmods.com/skyrimspecialedition/mods/117052" },
+    { "name": "Attack - MCO（Distar，现行 Nexus 页）", "url": "https://www.nexusmods.com/skyrimspecialedition/mods/175044" },
+    { "name": "MCO to BFCO Converter（Nexus 发布页）", "url": "https://www.nexusmods.com/skyrimspecialedition/mods/119926" },
+    { "name": "Nexus Mods 发布页描述正文（其余各 mod 主页，逐条在条目 source 字段标注）", "url": "https://www.nexusmods.com/skyrimspecialedition/" }
+  ],
+  "license_note": "各 mod 与文字版权归各自作者所有。本资料库为结构化整理与出处汇编，关键事实均标注来源与证据等级（一手源/社区经验/未核实），仅供学习与协作维护。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind", "aliases"],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 01-frameworks），索引据此过滤",
+        "kind": "concept / reference / tutorial / tool",
+        "aliases": "检索别名数组（他人会用的俗称/英文术语/错拼），不与 tags 重复",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "主要来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    { "dir": "00-overview", "title": "总览", "desc": "动作系统五层生态地图、攻击框架选型（BFCO 时代）" },
+    { "dir": "01-frameworks", "title": "攻击动作框架", "desc": "SkySA/ABR（一代）、MCO（二代）、BFCO（三代）、转换器、CGO 与 OCPA" },
+    { "dir": "02-foundations", "title": "行为引擎与运行时插件", "desc": "Pandora/Nemesis/FNIS 选型指针、OAR 生态、Payload Interpreter、Key Utils/DMK、BDI、AMR/AMF" },
+    { "dir": "03-dodge", "title": "闪避", "desc": "TK Dodge 家族、DMCO、IFrame Generator RE" },
+    { "dir": "04-poise", "title": "韧性与硬直", "desc": "MaxsuPoise、Modern Stagger Lock、Valhalla Combat、POISE/Chocolate Poise" },
+    { "dir": "05-block-parry", "title": "格挡与弹反", "desc": "Elden Parry、Elden Counter、MaxsuBlockOverhaul、双持格挡、Inpa Sekiro" },
+    { "dir": "06-ai-camera", "title": "战斗 AI、碰撞与视角", "desc": "SCAR 连招 AI、Precision 碰撞、True Directional Movement、SmoothCam" },
+    { "dir": "07-movesets", "title": "动作包（招式库）", "desc": "moveset 生态格局、Elden Rim、For Honor in Skyrim、Stances、其他系列" },
+    { "dir": "08-compatibility", "title": "兼容性与安装流程", "desc": "BFCO 官方不兼容清单、1.5.97/1.6.x 版本地雷、装完动作包的刷新流程" },
+    { "dir": "09-sources", "title": "来源与辨析", "desc": "常见错误说法、查无此 mod 的名称、作者归属勘误、未核实项" }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、别名规范、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接 lint：报告解析不到实际文件的失效链接，并提示非 LF 换行的文件",
+    "scripts/fix_links.py": "按「目标尾部路径在本库反查实际文件」反算正确相对路径，一次性修复链接深度错误"
+  }
+}

@@ -15,9 +15,9 @@ summary: 把一个 DAR 格式的动画包改成 OAR 原生结构的完整流程�
 
 > 本页的流程与本工作区的一次真实改造（把一个 DAR 格式的站姿弓动作包改成"潜行专用 + 移动保持姿势"）一一对应，所有结论都在 Skyrim SE + MO2 + OAR 环境下实测或对照 vanilla 行为文件核实。
 
-## 心智模型回顾
+## 替换核心机制回顾
 
-动手前请先读完 [替换的心智模型](animation-key-model.md)。一句话：**替换的键是「路径 + 文件名」；文件名错 = 永不生效且不报错。**
+动手前请先读完 [OAR 替换的核心机制：文件名是键](animation-key-model.md)。一句话：**替换的键是「路径 + 文件名」；文件名错 = 永不生效且不报错。**
 
 ## Step 0 · 备份
 
@@ -213,7 +213,7 @@ for p in glob.glob(base + r'\**\config.json', recursive=True):
 
 ## 相关
 
-- [替换的心智模型](animation-key-model.md)
+- [OAR 替换的核心机制：文件名是键](animation-key-model.md)
 - [坑与代价](pitfalls-and-costs.md)
 - [手动迁移流程](../07-migration/manual-migration.md)
 - [条件系统总览](../03-conditions/conditions-overview.md)

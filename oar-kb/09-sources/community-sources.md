@@ -46,7 +46,7 @@ summary: 官方没写的部分散在 Nexus 论坛（scorrp10 的经典解释）�
 
 - **帖**：<https://forums.nexusmods.com/topic/13506665-need-answer-with-oar-how-it-actually-works/>（2025-01）
 
-把"CK 里能选的 idle 名 → 行为文件里的动画事件 → 具体 hkx 路径"这条链路讲通了，并示范了走 OAR 与走补丁器两条路的区别。本库整理在 [替换的心智模型](../08-practices/animation-key-model.md#二怎么查游戏到底请求哪个文件名)。
+把"CK 里能选的 idle 名 → 行为文件里的动画事件 → 具体 hkx 路径"这条链路讲通了，并示范了走 OAR 与走补丁器两条路的区别。本库整理在 [OAR 替换的核心机制：文件名是键](../08-practices/animation-key-model.md#二怎么查游戏到底请求哪个文件名)。
 
 ### 4. 巴哈姆特 — 两篇中文实操教程（质量意外地高）
 

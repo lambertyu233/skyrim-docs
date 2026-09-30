@@ -1,17 +1,17 @@
 ---
 id: animation-key-model
-title: 替换的心智模型：文件名的权威来源与 hkx 判定
+title: OAR 替换的核心机制：文件名是键
 category: 08-practices
 kind: concept
 version: 1.0.0
 updated: 2026-09-21
-tags: [OAR, 心智模型, 文件名, hkx, 行为文件, 排错]
-aliases: [文件名很重要, 动画命名规则, 替换的心智模型, hkx 版本怎么判, 原动画路径, key model]
+tags: [OAR, 替换机制, 文件名, hkx, 行为文件, 排错]
+aliases: [文件名很重要, 动画命名规则, 替换的核心机制, 文件名是键, hkx 版本怎么判, 原动画路径, key model]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/92109
 summary: OAR 替换的键是"路径+文件名"；想知道游戏请求哪个文件名，要读 vanilla 行为文件、交叉验证专业动画包的分包方式，或直接看 OAR 日志；hkx 位宽不能看标签，只能与已知可用的 SSE 文件逐字节比对。
 ---
 
-# 替换的心智模型：文件名的权威来源与 hkx 判定
+# OAR 替换的核心机制：文件名是键
 
 ## 一、三条铁律（本工作区实测总结）
 

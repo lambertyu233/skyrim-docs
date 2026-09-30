@@ -101,4 +101,4 @@ C:\Users\<用户名>\Documents\My Games\Skyrim Special Edition\SKSE\OpenAnimatio
 
 - [游戏内编辑器](in-game-editor.md)
 - [排错对照表](troubleshooting.md)
-- [替换的心智模型](../08-practices/animation-key-model.md)
+- [OAR 替换的核心机制：文件名是键](../08-practices/animation-key-model.md)

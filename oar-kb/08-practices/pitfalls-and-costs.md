@@ -117,7 +117,7 @@ summary: OAR 的能力边界与常见坑：替换是换文件不是改逻辑，�
 
 ## 相关
 
-- [替换的心智模型](animation-key-model.md)
+- [OAR 替换的核心机制：文件名是键](animation-key-model.md)
 - [排错对照表](../05-editor/troubleshooting.md)
 - [实战：改造别人的动作包](authoring-workflow.md)
 - [不可信来源警示](../09-sources/unreliable-sources.md)

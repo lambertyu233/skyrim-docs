@@ -46,6 +46,7 @@ $KB read <id>                 #    确认相关才读正文（也可用 Read 工
 | **工具本身：装哪个 / 怎么装 / 版本对不对**（SKSE64、Address Library、MO2、LOOT、xEdit、DynDOLOD、BodySlide 之外的整套工具链） | `skyrim-tools-kb` | `00-overview`（选工具）、`01-frameworks`（前置）、`09-diagnostics`（崩溃与存档） |
 | OAR 条件 / `config.json` / submod / 优先级 / 游戏内编辑器 / DAR 迁移 | `oar-kb` | `03-conditions`、`08-practices` |
 | FNIS / Nemesis / Pandora 行为补丁、hkx、动画数据库 | `behaviour-engine-kb` | `01-principles`、`06-practices` |
+| **战斗/动作 mod 生态**：攻击框架（SkySA/ABR/MCO/BFCO）、闪避、韧性硬直、格挡弹反、战斗 AI 与碰撞（SCAR/Precision）、视角（TDM/SmoothCam）、动作包（Elden Rim / For Honor 等）、装完动作包怎么刷新 | `combat-animation-kb` | `00-overview`（生态地图+选型）、`01-frameworks`（BFCO/MCO）、`08-compatibility`（不兼容清单/版本地雷/刷新流程）、`09-sources`（讹传勘误） |
 | Community Shaders 功能、ENB 迁移、画质与着色器 | `community-shaders-kb` | `02-features`、`01-installation` |
 | Creation Kit、Papyrus 脚本、ESP/编辑器操作 | `creation-kit-kb` | `04-scripting`、`03-game-systems` |
 | MO2 / USVFS / 虚拟文件系统 / 冲突覆盖 / 实例管理 | `mo2-usvfs-kb` | `05-usage` |

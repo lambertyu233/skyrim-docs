@@ -49,7 +49,7 @@ Animations\SneakWalk_Forward.hkx
 | 2 | 「换不到」优先怀疑**文件名**，而不是条件 | 条件写错最多是不命中；文件名写错是根本不会被问 |
 | 3 | **一个事件名 = 一个文件**，不是「一段动作」 | 你以为的「一整套拉弓动作」底层是 4 个互不相干的文件；只换 idle，一移动就掉回原版 |
 
-完整的展开见 [替换的心智模型](../08-practices/animation-key-model.md)。
+完整的展开见 [OAR 替换的核心机制：文件名是键](../08-practices/animation-key-model.md)。
 
 ## 核心能力（官方功能列表）
 
@@ -93,4 +93,4 @@ Animations\SneakWalk_Forward.hkx
 - [OAR 与 DAR：兼容策略与 Legacy](oar-vs-dar.md)
 - [Replacer 与 Patcher：OAR 与 FNIS/Nemesis/Pandora 的分工](replacer-vs-patcher.md)
 - [版本迭代史与关键节点](version-history.md)
-- [替换的心智模型](../08-practices/animation-key-model.md)
+- [OAR 替换的核心机制：文件名是键](../08-practices/animation-key-model.md)

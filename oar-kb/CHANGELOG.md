@@ -15,7 +15,7 @@
 - **05-editor**：游戏内编辑器三模式、动画日志与 trace、排错对照表。
 - **06-plugins**：SKSE 插件 API、Detection Plugin、Math Plugin、IED Conditions。
 - **07-migration**：手动迁移流程、转换工具（单人 / 批量 / dar2oar）。
-- **08-practices**：替换心智模型、改造别人动作包的六步法、两篇巴哈姆特编辑器工作流、坑与代价。
+- **08-practices**：替换核心机制（文件名是键）、改造别人动作包的六步法、两篇巴哈姆特编辑器工作流、坑与代价。
 - **09-sources**：官方来源清单、社区来源清单、不可信来源警示。
 
 ### 说明

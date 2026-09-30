@@ -51,7 +51,12 @@
 - 本机特有：**PowerShell `Add-Type` 被安全策略禁止** → 调 Win32 API 用托管 Python + ctypes；
   沙箱下回收站不可靠，**动用户目录的文件备份必须自己做**。
 
-## 已有库（8 库 / 310 条）
+## 已有库（9 库 / 349 条）
+- `combat-animation-kb`（39 / 10 类，2026-09-30 新建）：**战斗/动作 mod 生态**——攻击框架三代
+  （SkySA/ABR 淘汰 → MCO 终版 1.6.0.6 → BFCO 3.100.x 现役）、闪避/韧性/格挡/SCAR/Precision/TDM/moveset、
+  BFCO 不兼容清单与版本地雷。核心勘误条目 `09-sources/unreliable-claims.md`（Elden Dodge/TK Dodge
+  Ultimate/Skypia/SoulCalibur moveset/DM-IIO 查无此物；作者归属 8 处纠正；MCO 官方页已换 175044；
+  distaranimation.com 已失效）。与 behaviour-engine-kb/oar-kb 的分工：本库只留选型结论，机制不重复。
 - `01-navigation`（1）：跨库排错索引（症状 → 条目路径 + 最易误判的分叉点）。
   ⚠️ 该文件通篇用**反引号纯文本**引用条目路径 → `check_links.py` 对它等于**空跑假通过**
   （报"0 条 / 全部有效"），改它时必须人工核实路径存在。
