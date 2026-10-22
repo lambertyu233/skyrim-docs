@@ -3,9 +3,9 @@ id: unreliable-and-unconfirmed
 title: 不可信来源与未确认事项
 category: 08-sources
 kind: reference
-version: 1.0.0
-updated: 2026-09-22
-tags: [来源, 辨析, 不可信, 未确认, 内容农场]
+version: 2.0.0
+updated: 2026-09-30
+tags: [来源, 辨析, 不可信, 未确认, 内容农场, 1.7]
 aliases: [不可信来源, csdn, 假信息, 别信, ai 生成]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/19080
 summary: 本领域的内容农场/AI 聚合站黑名单与判据，以及撰写时确认过的"未确认事项"清单——避免把转述或臆测当成现状。
@@ -55,6 +55,10 @@ jingyan.baidu.com
 | **The Eyes of Beauty SE 的版本是 10.x** | **10.x 是 LE 的版本号体系**；SE 官方移植是 **1.2** |
 | **CBPC 可以做头发/衣服物理** | **不能**。头发与衣物必须用 HDT-SMP / FSMP |
 | **"九大猫 / 醉梦 / 陶德"是整合包** | 检索后**均未确认存在**（详见 [`../07-workflow/chinese-modpacks.md`](../07-workflow/chinese-modpacks.md)） |
+| **1.6.1130 对应 SKSE64 2.2.6** | **错**。PapyrusUtil 官方 changelog 明写 4.5 = "SKSE64 **2.2.4** & Skyrim **1.6.1130**"，2.2.6 对应的是 **1.6.1170**（4.6）。**本库旧版对照表曾误写，2026-09-30 已修正** |
+| **1.6.640 对应 SKSE64 2.2.2** | **错**，应为 **2.2.3**。**本库旧版对照表曾误写，2026-09-30 已修正** |
+| **"1.6.1170 是当前 AE 版本"** | **已过时**。2026-08 起 Bethesda 发布 1.7.x，当前 Steam AE 为 **1.7.104（SKSE 2.3.1）**；1.6.1170 退为"上一代稳定版"。但**捏脸生态仍建议留在 1.6.1170** |
+| **"UBE 取代了 3BA"** | **未获证据支持**。新 mod 是同时发 3BA / HIMBO / UBE 三套文件，见 [`../03-body/ube.md`](../03-body/ube.md) |
 
 ## 三、⭐ 未确认事项清单（明确标注，勿当现状）
 
@@ -75,7 +79,11 @@ jingyan.baidu.com
 | **AutoBody 与 OBody NG 的先后/取代关系** | 社区说法不一致，**未确认** |
 | **"Vector Plexus 原域名失效"** | 社区传言，**未确认**；稳妥来源是 Wabbajack 白名单 GD |
 | **Actor 的 `GetNthHeadPart` / `SetNthHeadPart` 函数页** | 仅见于 CK wiki **示例**，未单独确认 |
-| **RaceMenu 的 1.7.99 / CommonLibSSE-NG 版本是否已发布** | 作者帖中的**计划**，未确认已发布 |
+| ~~**RaceMenu 的 1.7.99 / CommonLibSSE-NG 版本是否已发布**~~ | ✅ **已核实（2026-09-30）**：**未发布**。1.7.99 版已完成但被 SKSE 的 Papyrus 函数 bug 卡住；1.7.104 未开始；CLSSE-NG 移植进行中。作者帖 2026-08-23 为一手依据 |
+| **Faster HDT-SMP 是否有 1.7.x 档位** | **未确认**（本轮未见任何 1.7.x 档位信息；多份插件页反而直接写 "Not supported: 1.7.x"） |
+| **HIMBO 的 Nexus ID / 当前版本号** | **未确认**（成人内容墙后）。可见证据：全称 *Highly Improved Male Body Overhaul*，作者 **Kreiste**，作为可选前置出现在多个盔甲 mod 的 Requirements 列表 |
+| **UBE 2.0 的作者与 Nexus ID** | **未确认**。可见证据：全称 *UBE 2.0 -- Ultimate Body Enhancer 2.0*，Nexus 有独立标签 `UBE Bodybase` |
+| **UBE 是否取代 3BA** | **未确认，且现有证据倾向"否"** —— 新 mod 同时发 3BA / HIMBO / UBE 三套 Bodyslide 文件，见 [`../03-body/ube.md`](../03-body/ube.md) |
 | **RaceMenu morph 滑块的精确上下限** | 社区记录由 `OnSliderRequest` 的 `factor` 决定（默认 2.0），但该讨论针对 `RaceMenuMorphsUUNP.psc`，**未在 CBBE 版脚本上确认** |
 | **「拖 morph 只对玩家与 EFF 随从直接生效」** | **未找到来源支持**。可确认的只有「只影响玩家」；给单个 NPC 固定身材的途径是「构建专属裸体网格 + ArmorAddon + 设为裸体皮肤」（社区经验） |
 | **CK 官方站在本轮检索时停机** | 骨骼系统条目因此缺少一手官方引文，**待补** |

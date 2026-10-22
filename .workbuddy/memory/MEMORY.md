@@ -51,7 +51,13 @@
 - 本机特有：**PowerShell `Add-Type` 被安全策略禁止** → 调 Win32 API 用托管 Python + ctypes；
   沙箱下回收站不可靠，**动用户目录的文件备份必须自己做**。
 
-## 已有库（9 库 / 349 条）
+## 已有库（9 库 / 353 条）
+- ⚠️ **2026-08 起游戏进入 1.7.x 分支**（SKSE 官网首页挂 2026-08-14 更新警告）：
+  Steam AE 现为 **1.7.104 ↔ SKSE 2.3.1**、1.7.99 ↔ 2.3.0；**GOG 仍停在 1.6.1179 ↔ 2.2.6**（两渠道分裂）。
+  **RaceMenu 未适配 1.7.x** → 依赖捏脸就留在 **1.6.1170**。权威条目：
+  `character-appearance-kb/00-overview/game-version-1-7-x.md`（含 SKSE 映射纠错：
+  1.6.1130=**2.2.4**、1.6.640/1.6.659=**2.2.3**，旧记录曾写错）。
+  **写任何 Skyrim 版本相关结论前先查这条**，别默认 1.6.1170 是最新。
 - `combat-animation-kb`（39 / 10 类，2026-09-30 新建）：**战斗/动作 mod 生态**——攻击框架三代
   （SkySA/ABR 淘汰 → MCO 终版 1.6.0.6 → BFCO 3.100.x 现役）、闪避/韧性/格挡/SCAR/Precision/TDM/moveset、
   BFCO 不兼容清单与版本地雷。核心勘误条目 `09-sources/unreliable-claims.md`（Elden Dodge/TK Dodge
@@ -77,7 +83,7 @@
   **Pandora 不是 Nemesis 的 fork**（社区常错）。
 - `community-shaders-kb`（64 / 7）：稳定 1.8.x；**Nexus 是唯一受支持渠道**；
   1.6.1170 / 1.6.1179 / 1.5.97 支持；GPU 口径 **Vulkan 1.4+**；VR 停止支持；进阶看 GitHub Developer Wiki。
-- `character-appearance-kb`（44 / 9）：核心 `03-body/morph-runtime-vs-bake.md`（**运行时 morph 只影响玩家
+- `character-appearance-kb`（48 / 9，2026-09-30 升 v2.0.0）：核心 `03-body/morph-runtime-vs-bake.md`（**运行时 morph 只影响玩家
   vs 离线烘焙写进 .nif 影响所有 NPC**；正解 `Zeroed Sliders + Build Morphs + Batch Build`）；
   产出 `08-sources/unreliable-and-unconfirmed.md`（**13 条错误知识 + 17 项未确认**）。
 - `creation-kit-kb`（29）、`mo2-usvfs-kb`（43）：已统一到 stock 脚本与 stock manifest。

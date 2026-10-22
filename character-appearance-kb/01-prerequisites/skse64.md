@@ -3,9 +3,9 @@ id: skse64
 title: SKSE64 与 Address Library
 category: 01-prerequisites
 kind: tool
-version: 1.0.0
-updated: 2026-09-22
-tags: [前置, SKSE, Address Library, 版本]
+version: 2.0.0
+updated: 2026-09-30
+tags: [前置, SKSE, Address Library, 版本, 1.7]
 aliases: [脚本扩展, 版本库, 地址库]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/30379
 summary: SKSE64 的版本对应关系与安装方式，以及 Address Library（地址库）为什么能解耦 SKSE 插件的版本依赖，和两者错误配置的症状。
@@ -21,7 +21,15 @@ summary: SKSE64 的版本对应关系与安装方式，以及 Address Library（
 - Nexus 页：`https://www.nexusmods.com/skyrimspecialedition/mods/30379`
 - **仅支持 Steam 与 GOG 版本**，不支持 Epic / Game Pass
 - 版本必须与游戏可执行文件版本**精确对应**（见 [`../00-overview/version-matrix.md`](../00-overview/version-matrix.md)）
-- **1.6.1170 → SKSE64 2.2.6**
+- **1.5.97 → 2.0.20**
+- **1.6.1170 → 2.2.6**（GOG 1.6.1179 同样是 2.2.6，但要用 GOG 专属下载）
+- **1.7.99 → 2.3.0**
+- **1.7.104 → 2.3.1**（当前 Steam AE 档，SKSE 官方站口径）
+
+> ⚠️ **2026-08 起游戏进入 1.7.x 分支**。SKSE 已跟进（2.3.x），但**下游插件普遍没跟上** ——
+> RaceMenu 截至 2026-09-30 仍未发布 1.7.x 版。完整现状见
+> [`../00-overview/game-version-1-7-x.md`](../00-overview/game-version-1-7-x.md)；
+> 修正后的完整对照表见 [`../00-overview/version-matrix.md`](../00-overview/version-matrix.md)。
 
 ### 安装要点
 
@@ -54,7 +62,7 @@ Address Library 提供一份**地址映射数据库**，插件通过"库编号�
 装错了的表现是：**依赖 Address Library 的插件全部静默失效**，而游戏本身照常运行。
 排查时不要盯着某个 mod 找原因，先确认 ADL 装的是不是 AE 版。
 
-## 最小前置链（1.6.1170）
+## 最小前置链（推荐停在 1.6.1170）
 
 ```
 SkyrimSE.exe 1.6.1170
@@ -63,6 +71,10 @@ SkyrimSE.exe 1.6.1170
 ├─ SkyUI
 └─ 之后才是 RaceMenu / 物理 / 分配工具
 ```
+
+> **为什么推荐 1.6.1170 而不是最新的 1.7.104**：1.7.x 上 SKSE 有 2.3.1，
+> 但 RaceMenu 还没发布适配版 —— 捏脸功能是直接没有的，不是"降级可用"。
+> 详见 [`../00-overview/game-version-1-7-x.md`](../00-overview/game-version-1-7-x.md)。
 
 ## 来源
 

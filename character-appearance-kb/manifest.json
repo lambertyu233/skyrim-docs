@@ -5,10 +5,14 @@
     "source_name": "Nexus 发布页与描述正文、GitHub 官方仓库、UESP 与 Creation Kit wiki、作者本人说明",
     "locale": "zh-CN"
   },
-  "version": "1.0.0",
-  "generated_at": "2026-09-22",
+  "version": "2.0.0",
+  "generated_at": "2026-09-30",
   "maintainers": ["社区协作"],
   "sources": [
+    {
+      "name": "SKSE 官方站 skse.silverlock.org（版本档位与 1.7.x 更新警告）",
+      "url": "https://skse.silverlock.org/"
+    },
     {
       "name": "RaceMenu（expired6978）Nexus 发布页",
       "url": "https://www.nexusmods.com/skyrimspecialedition/mods/19080"

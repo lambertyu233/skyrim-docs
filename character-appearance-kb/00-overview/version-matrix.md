@@ -3,9 +3,9 @@ id: version-matrix
 title: 版本对照表（游戏 ↔ SKSE ↔ RaceMenu ↔ 物理）
 category: 00-overview
 kind: reference
-version: 1.0.0
-updated: 2026-09-22
-tags: [总览, 版本, 对照, 兼容性]
+version: 2.0.0
+updated: 2026-09-30
+tags: [总览, 版本, 对照, 兼容性, 1.7]
 aliases: [version matrix, 版本对照, 哪个版本, 1170 对应, skse 版本对应, 版本不匹配]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/30379
 summary: 以游戏版本为主键，列出 SKSE64 / RaceMenu / Faster HDT-SMP 的对应版本，并给出"版本错配会有什么症状"。
@@ -20,16 +20,27 @@ summary: 以游戏版本为主键，列出 SKSE64 / RaceMenu / Faster HDT-SMP �
 
 | 游戏版本 | SKSE64 | RaceMenu | Faster HDT-SMP |
 |---|---|---|---|
-| **1.6.1170 / 1179（当前 AE，Steam / GOG）** | **2.2.6** | **0.4.19.16 及以上**（0.4.20.0 亦可） | 最新 4.x，FOMOD 里选 **1.6.1170.0** |
-| 1.6.1130 | 2.2.6 | 0.4.19.15+ | — |
-| 1.6.640 | 2.2.2 | 0.4.19.13+ | 选 1.6.640 档 |
-| 1.6.659（GOG） | 2.2.2 | 0.4.19.14+ | — |
+| **1.7.104（当前 Steam AE）** | **2.3.1** | ❌ **尚未支持**（最新 0.4.20.0 仍停在 1.6.1179 一支） | ❓ 未见 1.7.x 档位 |
+| **1.7.99** | **2.3.0** | ❌ 已完成但被 SKSE 卡住，未发布 | ❓ |
+| 1.6.1170（Steam AE，**当前最稳**） | 2.2.6 | **0.4.19.16 及以上**（0.4.20.0 亦可） | 最新 4.x，FOMOD 里选 **1.6.1170.0** |
+| 1.6.1179（GOG AE） | 2.2.6 | 0.4.20.0 起（标注 untested） | 选 GOG 档 |
+| 1.6.1130 | **2.2.4** | 0.4.19.15+ | — |
+| 1.6.640 | **2.2.3** | 0.4.19.13+ | 选 1.6.640 档 |
+| 1.6.659（GOG） | 2.2.3 | 0.4.19.14+ | — |
 | 1.6.353 | 2.1.5 | 0.4.19.x 相应版本 | 选 1.6.353 档 |
 | 1.5.97（pre-AE 长期版本） | 2.0.20 | 0.4.19.12 及以下一支 | 选 1.5.97 档 |
 | VR | SKSEVR 2.0.12 | — | 选 VR 档 |
 
-> RaceMenu 的 changelog 里，"Support for Game Version 1.6.1170" 出现在 **0.4.19.16**。
-> 官方 Files 页的主文件标注 SKSE64 **2.2.6** 或更高。
+> RaceMenu 的 changelog 里，"Support for Game Version 1.6.1170" 出现在 **0.4.19.16**；
+> 官方 Files 页主文件标注 SKSE64 **2.2.6** 或更高，**最新为 0.4.20.0（2026-04-21）**。
+
+> ⚠️ **本表在 2026-09-30 做过一次较大修正**：
+> - 新增 **1.7.99 / 1.7.104** 两行（2026 年 8 月 Bethesda 更新后的新分支）；
+> - 修正 **1.6.1130 → 2.2.4**（原表误写 2.2.6）、**1.6.640 / 1.6.659 → 2.2.3**（原表误写 2.2.2）。
+>   修正依据见下方"来源"。
+>
+> **1.7.x 的完整现状另立一条**：[`game-version-1-7-x.md`](game-version-1-7-x.md)。
+> 简言之：**SKSE 已跟进，RaceMenu 没跟上** —— 依赖捏脸的话，当下应留在 **1.6.1170**。
 
 ## Community Shaders 的口径可作旁证
 
@@ -57,8 +68,11 @@ summary: 以游戏版本为主键，列出 SKSE64 / RaceMenu / Faster HDT-SMP �
 
 ## 来源
 
-- SKSE64 版本与安装说明：`https://www.nexusmods.com/skyrimspecialedition/mods/30379` + Nexus 官方 wiki —— **一手**
-- RaceMenu changelog（0.4.19.16 对应 1.6.1170）：`https://www.nexusmods.com/skyrimspecialedition/mods/19080?tab=files` —— **一手**
+- **SKSE64 官方站**（AE 档 **2.3.1 = 1.7.104**、GOG **2.2.6 = 1.6.1179**、SE **2.0.20 = 1.5.97**、VR 2.0.12）：`https://skse.silverlock.org/` —— **一手（SKSE 团队）**
+- **1.6.1130 → 2.2.4、1.6.1170 → 2.2.6**：PapyrusUtil 官方 changelog（4.5 写 "Updated for SKSE64 AE/SE **2.2.4** & Skyrim **1.6.1130**"；4.6 写 "**2.2.6** & Skyrim **1.6.1170**"）：`https://www.nexusmods.com/skyrimspecialedition/mods/13048` —— **一手**
+- **1.7.99 → 2.3.0、1.7.104 → 2.3.1**：插件发布页 sticky 中列出的版本对照表 —— **一手（作者整理）**
+- RaceMenu changelog（0.4.19.16 对应 1.6.1170；最新 0.4.20.0 / 2026-04-21）：`https://www.nexusmods.com/skyrimspecialedition/mods/19080?tab=files` —— **一手**
+- RaceMenu 未适配 1.7.x（作者 2026-08-23 帖）：同页 Posts 区 —— **一手（作者本人）**
 - Faster HDT-SMP FOMOD 档位与游戏版本对应：`https://www.nexusmods.com/skyrimspecialedition/mods/57339` 文件页 —— **一手**
 - Address Library：`https://www.nexusmods.com/skyrimspecialedition/mods/32444` —— **一手**
 - 1.6.640 / 1.7.9x 不被 CS 支持：见本工作区 [安装](../../community-shaders-kb/01-installation/) —— **一手（CS 官方）**

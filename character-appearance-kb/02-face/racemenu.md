@@ -3,9 +3,9 @@ id: racemenu
 title: RaceMenu（捏脸核心）
 category: 02-face
 kind: tool
-version: 1.0.0
-updated: 2026-09-22
-tags: [捏脸, RaceMenu, 滑块, CharGen, NiOverride]
+version: 2.0.0
+updated: 2026-09-30
+tags: [捏脸, RaceMenu, 滑块, CharGen, NiOverride, 1.7]
 aliases: [rm, 捏脸工具, 捏脸界面, showracemenu, skee, 滑块界面]
 source: https://www.nexusmods.com/skyrimspecialedition/mods/19080
 summary: RaceMenu 的功能、前置、morph 与雕塑机制、控制台命令、内置补光与高分辨率战纹设置，并澄清它不依赖 PapyrusUtil。
@@ -21,7 +21,16 @@ summary: RaceMenu 的功能、前置、morph 与雕塑机制、控制台命令�
 
 ## 前置
 
-**只要求 SKSE64。** 主文件对应 SKSE64 **2.2.6**（AE 1.6.1170）。
+**只要求 SKSE64。** 最新版 **0.4.20.0（2026-04-21）**，对应 SKSE64 **2.2.6**（AE 1.6.1170）；
+0.4.20.0 另增 GOG 1.6.1179 支持（作者标注 **untested**）。
+
+> ⚠️ **1.7.x 目前不能用。** 作者 2026-08-23 说明：1.7.99 版**已完成**但被 SKSE 的
+> Papyrus 函数 bug 卡住，**1.7.104 还没做**；正在改写成 CommonLibSSE-NG 版本。
+> 截至 2026-09-30 官方 Files 页最新仍是 **0.4.20.0**。
+> 完整现状与"该留在哪个版本"见 [`../00-overview/game-version-1-7-x.md`](../00-overview/game-version-1-7-x.md)。
+>
+> ⚠️ 已跟进 1.7.x 的人还要注意：**旧版 overlay NIF 会直接让游戏崩溃** ——
+> 见 [`../06-troubleshooting/overlay-nif-ctd.md`](../06-troubleshooting/overlay-nif-ctd.md)。
 
 - RaceMenu **不依赖 PapyrusUtil**（常见误传，见
   [`../01-prerequisites/skse-plugin-frameworks.md`](../01-prerequisites/skse-plugin-frameworks.md)）。
