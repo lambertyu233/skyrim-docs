@@ -4,7 +4,7 @@
     "description": "基于官方用户 wiki（modding.wiki）、官方仓库与 Developer Wiki、Nexus 发布页整理的可维护 Community Shaders 资料库，分层组织、便于增删改查与版本化协作。",
     "locale": "zh-CN"
   },
-  "version": "2.2.0",
+  "version": "2.2.1",
   "generated_at": "2026-10-22",
   "maintainers": ["社区协作"],
   "sources": [

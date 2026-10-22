@@ -7,6 +7,25 @@
 
 ---
 
+## [2.2.1] - 2026-10-22
+
+**补版本**：`settings-persistence.md` 补入**本地实测**得到的、上游文档未覆盖的三块知识（MO2 落盘行为 / PP 预设档 / 新版配置文件清单），并扩充排错速查。
+
+### 修订条目
+
+| 条目 | 变更 | 依据 |
+|------|------|------|
+| `03-reference/settings-persistence.md` | ① 新增「PostProcessing 预设」章节与表格行；② 新增「新版（1.9.x/26.x）配置文件清单明显变长」章节；③ 新增「MO2 环境：全部落 overwrite，与存档无关」章节；④ 排错速查补 5 行；⑤ `version` 1.0.0 → 1.1.0，补 aliases | 本地整合包实测（DLL 二进制字符串扫描 + 磁盘文件核对） |
+
+### 具体补充内容
+
+- **PostProcessing 预设档**：`CommunityShaders\PostProcessing\<预设名>.json` 与 `SettingsUser.json` 的分工（快照 vs 当前状态）。实测某包 `Astral.json` 41,647 B **大于** `SettingsUser.json` 32,430 B —— 预设承载了 PP 绝大部分调参，**备份不能只备主参数档**。另标注 1.9.x 起按 `ColorGrading/`、`DoF/` 等子功能再分目录，以及 PP 与 Effects 11 互斥。
+- **新版配置文件从 8 种增至约 21 种**（≤1.8.x → 1.9.x / Jiaye 26.10.3）：新增 `SceneManager.json`、`cs_editor.json`、`Skin.json`/`NewSkin.json`、`State.json`、`Location.json`、`preset.json`、`_active.json`、`_locationweather.ini`、`_weatherlist.ini`，并新增 `Presets/`、`UnifiedWaterCache/` 目录。附跨版本升级实测数据（`zh_CN.json`：Jiaye 26.10.3 = 356,142 B vs 官方 v1.9.1 = 161,545 B；Feature 数 39/40/48）。
+- **MO2 落盘行为**：CS 配置全部落 `<MO2>\overwrite\`，「我的文档」下**实测不存在** CS 配置目录；参数**与存档无关**（全局共用一份）。新增操作时序警告：**关游戏 → 关 MO2 → 改文件**，否则 CS 与 MO2 会互相覆盖。
+- **排错速查**新增：画面灰白/过曝（PP 未设 tonemapper）、预设套上效果怪（版本不匹配）、「我的文档」找不到配置（MO2 接管）、换存档参数「没了」（实为未点 Save）、升级后卡死（旧配置结构不兼容）。
+
+---
+
 ## [2.2.0] - 2026-10-22
 
 **新增条目版**：补上此前缺失的一块知识——**游戏内菜单（END）调的参数到底持久化到哪个文件**。
