@@ -1,0 +1,63 @@
+{
+  "kb": {
+    "name": "上古卷轴5 环境美化资料库",
+    "description": "Skyrim SE/AE 环境美化（画质/材质/地形/植被/水体/天气光照）生态的结构化知识库：材质包（SMIM/Skyland/202X/Noble/aMidianBorn/RUSTIC/Vivid Landscapes）、地形与山脉（Majestic Mountains/Blended Roads/Terrain LOD Redone/Cathedral Landscapes）、植被与树木（Happy Little Trees/Aspens Ablaze/Nature of the Wild Lands/SFO 及草类生态）、水体（RW2/Water for ENB/Pure Waters）、天气与光照（Obsidian/Cathedral/NAT/True Storms/ELFX/Lux/Embers XD）、网格与 LOD 工具（SSE NIF Optimizer/Cathedral Assets Optimizer/xLODGen/DynDOLOD）、视差与 Complex Material 原理、安装冲突与 LOD 生成实战、性能与 VRAM 预算、症状排错、来源讹传勘误。分层组织、便于增删改查与协作维护。",
+    "source_name": "Nexus Mods 发布页描述正文与文件/日志页、作者论坛回帖、STEP Modifications Wiki、Modding.wiki、ENBSeries 官方站（enbdev.com）",
+    "locale": "zh-CN"
+  },
+  "version": "1.0.0",
+  "generated_at": "2026-10-22",
+  "maintainers": ["社区协作"],
+  "sources": [
+    { "name": "Nexus Mods — Skyrim Special Edition（各 mod 发布页，逐条在条目 source 字段标注）", "url": "https://www.nexusmods.com/skyrimspecialedition/" },
+    { "name": "STEP Modifications Wiki — Skyrim SE 指南与 ENBSeries INI Reference", "url": "https://stepmodifications.org/wiki/SkyrimSE:2.0.0" },
+    { "name": "Modding.wiki — Complex Material / parallax ENB guide", "url": "https://modding.wiki/en/skyrim/developers/complex-parallax-materials" },
+    { "name": "DynDOLOD 官方站（Sheson）", "url": "https://dyndolod.info/" },
+    { "name": "SSE NIF Optimizer GitHub 仓库（ousnius）", "url": "https://github.com/ousnius/SSE-NIF-Optimizer" },
+    { "name": "ENBSeries 官方站（Boris Vorontsov）", "url": "https://www.enbdev.com/" }
+  ],
+  "license_note": "各 mod 与文字版权归各自作者所有。本资料库为结构化整理与出处汇编，关键事实均标注来源与证据等级（一手源/社区经验/未核实），仅供学习与协作维护。",
+  "schema": {
+    "entry_file": "每个条目一个 Markdown 文件，置于对应分类目录。",
+    "frontmatter": {
+      "required": ["id", "title", "category", "version", "updated", "tags", "source", "summary"],
+      "optional": ["kind", "aliases"],
+      "fields": {
+        "id": "唯一标识（小写连字符），与文件名一致",
+        "title": "中文标题",
+        "category": "分类目录名（如 02-textures），索引据此过滤",
+        "kind": "concept / reference / tutorial / tool",
+        "aliases": "检索别名数组（他人会用的俗称/英文术语/错拼），不与 tags 重复",
+        "version": "条目版本（语义化，随内容变更递增）",
+        "updated": "最后更新日期 YYYY-MM-DD",
+        "tags": "标签数组，便于检索",
+        "source": "主要来源 URL",
+        "summary": "一句话摘要"
+      }
+    }
+  },
+  "categories": [
+    { "dir": "00-overview", "title": "总览", "desc": "环境美化生态地图、选型总纲、与其它资料库的分工" },
+    { "dir": "01-principles", "title": "材质与渲染原理", "desc": "视差与 Complex Material、DDS 压缩格式、VRAM 与 ENBoost、LOD 层级原理" },
+    { "dir": "02-textures", "title": "建筑与综合材质", "desc": "SMIM、Skyland、Skyrim 202X、Noble、aMidianBorn、RUSTIC、Vivid Landscapes 与选型原则" },
+    { "dir": "03-landscape", "title": "地形与山脉", "desc": "Majestic Mountains、Blended Roads、Terrain LOD Redone、Cathedral Landscapes、Skyrim 3D Landscapes" },
+    { "dir": "04-flora", "title": "植被与树木", "desc": "树木 overhaul、草类生态、草地 INI、NGIO、Landscape Fixes" },
+    { "dir": "05-water", "title": "水体", "desc": "Realistic Water Two、Water for ENB、Pure Waters" },
+    { "dir": "06-weather-lighting", "title": "天气与光照", "desc": "天气 mod 生态、Obsidian、Cathedral Weathers、ELFX、Lux、Embers XD" },
+    { "dir": "07-mesh-tools", "title": "网格与 LOD 工具", "desc": "SSE NIF Optimizer、Cathedral Assets Optimizer、xLODGen、DynDOLOD" },
+    { "dir": "08-practices", "title": "安装与实战", "desc": "安装顺序与冲突、LOD 生成流程、INI 设置、ENB 预设与 CS 衔接、性能预算" },
+    { "dir": "09-troubleshooting", "title": "排错", "desc": "视差异常、白块 glitch、水缝与 LOD 条纹、VRAM 耗尽、草地穿模" },
+    { "dir": "10-sources", "title": "来源与辨析", "desc": "作者归属勘误、不可信来源、过时与改名页面" }
+  ],
+  "index_files": {
+    "index.json": "纯元数据索引（程序化消费 / 外部工具）",
+    "index.html": "内嵌数据的离线可搜索浏览器（双击即用）"
+  },
+  "tooling": {
+    "scripts/build_index.py": "扫描全部条目 frontmatter，生成 index.json 与 index.html（与技能 build-maintainable-kb 的 stock 版逐字节一致）",
+    "scripts/validate_kb.py": "机械校验：id/目录一致性、必填字段、索引完整性、别名规范、占位符残留",
+    "scripts/check_index_ui.py": "索引页交互回归：抽内联脚本 + DOM 桩，在 Node 里模拟点击验证筛选/收起/搜索",
+    "scripts/check_links.py": "站内相对链接 lint：报告解析不到实际文件的失效链接，并提示非 LF 换行的文件",
+    "scripts/fix_links.py": "按「目标尾部路径在本库反查实际文件」反算正确相对路径，一次性修复链接深度错误"
+  }
+}

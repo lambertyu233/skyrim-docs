@@ -1,0 +1,1410 @@
+{
+  "generated": "2026-10-22",
+  "total": 53,
+  "by_category": {
+    "00-overview": 2,
+    "01-principles": 4,
+    "02-textures": 8,
+    "03-landscape": 5,
+    "04-flora": 9,
+    "05-water": 3,
+    "06-weather-lighting": 5,
+    "07-mesh-tools": 4,
+    "08-practices": 5,
+    "09-troubleshooting": 5,
+    "10-sources": 3
+  },
+  "entries": [
+    {
+      "id": "kb-scope-and-boundaries",
+      "title": "本库收录范围与边界",
+      "category": "00-overview",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "总览",
+        "范围",
+        "边界",
+        "分工"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/",
+      "summary": "明确本库收录什么、不收录什么，以及与工作区其它资料库的边界，避免重复建设。",
+      "aliases": [
+        "收录范围",
+        "scope",
+        "不收录",
+        "本库管什么",
+        "内容边界"
+      ],
+      "content": "<h2>收录</h2>\n<ul><li><strong>静态环境视觉</strong>：建筑/景观/杂物的材质与网格替换（textures &amp; static meshes）。</li><li><strong>地形、山脉、道路</strong>：含其 LOD 配套资源。</li><li><strong>植被</strong>：树木 overhaul、草类插件、草地 INI、去草丛工具。</li><li><strong>水体</strong>：水面材质、流动、波浪、瀑布、水缝修补。</li><li><strong>天气与光照</strong>：weather mod、interior/exterior 灯光 overhaul、火焰/粒子视觉。</li><li><strong>视差与 Complex Material</strong>：作为材质管线的一部分收录原理与工具。</li><li><strong>LOD 生成工具</strong>：xLODGen / DynDOLOD / TexGen / SSE Terrain Tamriel。</li><li><strong>网格工具</strong>：SSE NIF Optimizer / Cathedral Assets Optimizer / NifSkope（指针）。</li><li><strong>性能与 VRAM 管理</strong>：ENBoost、分辨率分层、显存预算。</li></ul>\n<h2>不收录（去别的库）</h2>\n<table><thead><tr><th style=\"text-align:left\">内容</th><th style=\"text-align:left\">归属</th></tr></thead><tbody><tr><td style=\"text-align:left\">Community Shaders 的功能/安装/版本矩阵/Subsurface Scattering 等</td><td style=\"text-align:left\"><code>community-shaders-kb</code></td></tr><tr><td style=\"text-align:left\">角色外观：捏脸、身形、骨骼、NPC 分配</td><td style=\"text-align:left\"><code>character-appearance-kb</code></td></tr><tr><td style=\"text-align:left\">MO2/Vortex 安装器机制、USVFS、覆盖冲突的底层原理</td><td style=\"text-align:left\"><code>mo2-usvfs-kb</code></td></tr><tr><td style=\"text-align:left\">SKSE/Address Library/Engine Fixes 版本对应</td><td style=\"text-align:left\"><code>skyrim-tools-kb</code></td></tr><tr><td style=\"text-align:left\">动作/战斗动画、行为引擎（FNIS/Nemesis/Pandora）</td><td style=\"text-align:left\"><code>behaviour-engine-kb</code>、<code>combat-animation-kb</code></td></tr><tr><td style=\"text-align:left\">城市/村庄 overhaul（JK's、ETaC 等 gameplay+visual 混合体）</td><td style=\"text-align:left\">仅在与环境层冲突处引用，不展开</td></tr><tr><td style=\"text-align:left\">具体 ENB 预设的调参教程</td><td style=\"text-align:left\">只收录选型原则，预设本身随用随查 Nexus</td></tr></tbody></table>\n<h2>写作纪律（沿袭工作区 AGENTS.md）</h2>\n<ol><li>引用落到条目路径，用 markdown 相对链接（同库上一层目录、跨库上两层，</li></ol>\n<p>链接文字写条目标题）。</p>\n<ol><li>关键数值（版本号、Nexus ID、文件大小、VRAM 占用）<strong>照抄一手源</strong>，不凭记忆改写。</li><li>区分一手源 / 社区经验 / 未核实；版本绑定上游，过期明说。</li><li>不用 CSDN、toolify 等内容农场与 AI 聚合站作为来源——已集中记录于</li></ol>\n<p><a href=\"../10-sources/unreliable-sources-and-fabrications.md\" target=\"_blank\" rel=\"noopener\">不可信来源</a>。</p>",
+      "_file": "00-overview/kb-scope-and-boundaries.md",
+      "_chars": 1525
+    },
+    {
+      "id": "visual-ecosystem-map",
+      "title": "环境美化生态地图与选型总纲",
+      "category": "00-overview",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "总览",
+        "生态",
+        "选型",
+        "环境美化",
+        "画质"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/659",
+      "summary": "一张图看懂环境美化的六层结构：网格底座→材质替换→地形/植被/水体→天气光照→视差增强→LOD 远景，以及各层怎么选。",
+      "aliases": [
+        "材质",
+        "graphics",
+        "visuals",
+        "overhaul"
+      ],
+      "content": "<h2>六层结构（自下而上）</h2>\n<p>环境美化 mod 不是一堆并列的\"高清包\"，而是<strong>分层的堆叠</strong>。理解层级是排序与排错的前提：</p>\n<table><thead><tr><th style=\"text-align:left\">层</th><th style=\"text-align:left\">作用</th><th style=\"text-align:left\">代表 mod</th><th style=\"text-align:left\">详见</th></tr></thead><tbody><tr><td style=\"text-align:left\">L6 LOD 远景</td><td style=\"text-align:left\">让远处的地平线不再平坦</td><td style=\"text-align:left\">DynDOLOD + xLODGen</td><td style=\"text-align:left\"><a href=\"../07-mesh-tools/dyndolod.md\" target=\"_blank\" rel=\"noopener\">DynDOLOD</a></td></tr><tr><td style=\"text-align:left\">L5 后处理</td><td style=\"text-align:left\">全局光照/景深/辉光/视差开关</td><td style=\"text-align:left\">ENBSeries 预设、Community Shaders</td><td style=\"text-align:left\"><a href=\"../08-practices/enb-presets-and-cs-bridge.md\" target=\"_blank\" rel=\"noopener\">ENB 预设与 CS 衔接</a></td></tr><tr><td style=\"text-align:left\">L4 天气与光照</td><td style=\"text-align:left\">决定情绪与色彩的总开关</td><td style=\"text-align:left\">Obsidian / Cathedral / NAT + ELFX / Lux</td><td style=\"text-align:left\"><a href=\"../06-weather-lighting/weather-mods-overview.md\" target=\"_blank\" rel=\"noopener\">天气 mod 生态</a></td></tr><tr><td style=\"text-align:left\">L3 世界内容</td><td style=\"text-align:left\">地形/山脉/树/草/水</td><td style=\"text-align:left\">MM / HLT / RW2 等</td><td style=\"text-align:left\">03~05 分类</td></tr><tr><td style=\"text-align:left\">L2 材质替换</td><td style=\"text-align:left\">贴图与静态网格</td><td style=\"text-align:left\">SMIM / Skyland / 202X 等</td><td style=\"text-align:left\">02 分类</td></tr><tr><td style=\"text-align:left\">L1 网格底座</td><td style=\"text-align:left\">修接缝、加切线、补面</td><td style=\"text-align:left\">SMIM</td><td style=\"text-align:left\"><a href=\"../02-textures/smim.md\" target=\"_blank\" rel=\"noopener\">SMIM</a></td></tr></tbody></table>\n<p><strong>选型逻辑</strong>：L1/L2 决定\"材质统一感\"，L3 决定\"世界形状\"，L4 决定\"氛围\"， L5 决定\"镜头感\"，L6 决定\"远景可信度\"。<strong>预算有限时优先 L4</strong>—— 天气光照是单位成本视觉收益最大的一层（社区共识，多个指南均如此建议）。</p>\n<h2>三大选型轴线</h2>\n<ol><li><strong>一体化 vs 混搭</strong>：一体化包（Skyland AIO、Noble、Vivid Landscapes AIO）</li></ol>\n<p>胜在风格统一；混搭（SMIM + 202X + 单独山脉/树/草）胜在单点质量上限。 混搭的前提是理解<a href=\"../08-practices/install-order-and-conflicts.md\" target=\"_blank\" rel=\"noopener\">覆盖规则</a>。</p>\n<ol><li><strong>分辨率分层</strong>：同一包常提供 4K/2K/1K 甚至 512（Verdant）。</li></ol>\n<p>原则是\"<strong>2K 全覆盖胜过 4K 爆显存</strong>\"——见<a href=\"../08-practices/performance-budget.md\" target=\"_blank\" rel=\"noopener\">性能预算</a>。</p>\n<ol><li><strong>视差依赖</strong>：视差（parallax）地形/网格<strong>必须</strong>有 ENB 或 Community Shaders</li></ol>\n<p>才能显示（一手源：Skyrim 202X 发布页\"To see the parallax effect, download the latest ENB version for Skyrim SE Or Community Shaders\"）。无 ENB/CS 时， 视差包的白配置不如普通 2K 包。原理见<a href=\"../01-principles/parallax-and-complex-material.md\" target=\"_blank\" rel=\"noopener\">视差与 Complex Material</a>。</p>\n<h2>本工作区其它库的分工</h2>\n<ul><li><strong>渲染框架本身</strong>（Community Shaders 功能/安装/版本）→ <code>community-shaders-kb</code>，本库不重复。</li><li><strong>角色捏脸/身形/骨骼</strong> → <code>character-appearance-kb</code>。</li><li><strong>MO2 覆盖规则/USVFS 机制</strong> → <code>mo2-usvfs-kb</code>，本库只在实战条目里引用结论。</li><li><strong>工具链版本</strong>（SKSE/Address Library/引擎修复）→ <code>skyrim-tools-kb</code>。</li></ul>\n<h2>版本敏感性</h2>\n<p>本库条目记录的事实均绑定 2026-10 前后的上游版本。游戏已进入 1.7.x 分支 （见 <code>character-appearance-kb/00-overview/game-version-1-7-x.md</code> 与 <code>skyrim-tools-kb</code>），部分环境 mod 是否适配 1.7.x 需在条目内单独确认—— 目前确认适配的有 No Grass In Objects 1.6.11+（一手源：Nexus 更新日志）。</p>\n<h2>证据等级约定</h2>\n<ul><li><strong>一手源</strong>：Nexus 发布页描述/文件页/更新日志、官方仓库 README、官方站点。</li><li><strong>社区经验</strong>：STEP 指南、Nolvus 等整合指南、论坛高赞回帖。</li><li><strong>未核实</strong>：单一二手转述且无出处的说法，本库明确标注，不当作事实传播。</li></ul>",
+      "_file": "00-overview/visual-ecosystem-map.md",
+      "_chars": 2333
+    },
+    {
+      "id": "texture-formats-and-compression",
+      "title": "DDS 压缩格式与贴图实务",
+      "category": "01-principles",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "压缩",
+        "BC1",
+        "BC5",
+        "BC7",
+        "DDS",
+        "法线",
+        "mipmap",
+        "原理"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/18247",
+      "summary": "漫反射用 BC1/BC3、法线用 BC5、alpha/视差通道有专门讲究；压缩格式选错是\"贴图发灰/伪影\"的常见根因。",
+      "aliases": [
+        "BC3",
+        "法线压缩",
+        "DXT1",
+        "DXT5"
+      ],
+      "content": "<h2>各通道常用格式（一手源 + 社区经验）</h2>\n<table><thead><tr><th style=\"text-align:left\">贴图类型</th><th style=\"text-align:left\">常用格式</th><th style=\"text-align:left\">说明</th></tr></thead><tbody><tr><td style=\"text-align:left\">无 alpha 漫反射</td><td style=\"text-align:left\">BC1（DXT1）</td><td style=\"text-align:left\">Skyrim 3D Landscapes 明确\"DXT1 for non-alpha diffuse\"（一手源）</td></tr><tr><td style=\"text-align:left\">带 alpha 漫反射</td><td style=\"text-align:left\">BC3（DXT5）</td><td style=\"text-align:left\">同上\"DXT5 for alpha diffuse and normal maps\"（一手源）</td></tr><tr><td style=\"text-align:left\">法线</td><td style=\"text-align:left\">BC5（3Dc/ATI2）</td><td style=\"text-align:left\">双通道法线的行业标准做法</td></tr><tr><td style=\"text-align:left\">视差/高度图</td><td style=\"text-align:left\">BC4</td><td style=\"text-align:left\">Community Shaders 官方建议\"recompress parallax textures to BC4\"以省带宽（一手源：modding.wiki）</td></tr><tr><td style=\"text-align:left\">高保真 PBR 组</td><td style=\"text-align:left\">BC7</td><td style=\"text-align:left\">无损块压缩，显存换质量；老游戏引擎支持有限，多用于 CS/ENB 工作流</td></tr></tbody></table>\n<h2>容易踩的坑</h2>\n<ul><li><strong>法线图不要用 BC1</strong>：R/G 通道被压烂会出现 shading 错误（阶梯状高光）。</li><li><strong>视差通道的压缩精度</strong>：Complex Material 的 G 通道 ≤4/255 会被判黑并**禁用整个</li></ul>\n<p>complex material**（一手源：modding.wiki）——写通道图必须注意 grayscale 2.2。</p>\n<ul><li><strong>mipmap 与 alpha 缩放</strong>：Folkvangr 明确其贴图\"mipmap alpha scaling\"处理</li></ul>\n<p>以在远处保留细节（一手源：Nexus 44899 changelog）；Terrain LOD Redone 则相反——大面积 LOD 贴图<strong>删掉了 mipmap</strong>（\"they are wasting only space\"， 一手源：Nexus 9135）。同一手段在不同场景结论相反，别一概而论。</p>\n<ul><li><strong>切线（tangents）</strong>：视差/法线需要正确切线空间；SSE NIF Optimizer 会给</li></ul>\n<p>需要的网格补切线（一手源：Nexus 4089）。HLT 曾因\"Reach/Aspen 树切线空间 问题\"出过可见 bug（一手源：Nexus 50961 changelog）。</p>\n<h2>分辨率与显存的换算直觉（社区经验）</h2>\n<ul><li>一张 4K BC1 ≈ 22MB 显存；2K ≈ 5.5MB；1K ≈ 1.4MB（含 mipmap 约 +33%）。</li><li>材质包从 4K 降 2K，显存约降到 1/4，视觉损失远小于预期——这是</li></ul>\n<p><a href=\"../08-practices/performance-budget.md\" target=\"_blank\" rel=\"noopener\">性能预算</a> 的核心手段。</p>\n<h2>工具</h2>\n<ul><li>NVIDIA Texture Tools / DirectXTex（命令行批处理）、Photoshop + 插件（作者工作流）。</li><li>检查/扫描贴图兼容性可顺手用 <a href=\"../07-mesh-tools/sse-nif-optimizer.md\" target=\"_blank\" rel=\"noopener\">SSE NIF Optimizer</a></li></ul>\n<p>的 \"scan textures\" 功能（一手源：Nexus 4089）。</p>",
+      "_file": "01-principles/texture-formats-and-compression.md",
+      "_chars": 1717
+    },
+    {
+      "id": "lod-principles",
+      "title": "LOD 层级原理",
+      "category": "01-principles",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "LOD",
+        "远景",
+        "原理",
+        "地形 LOD",
+        "物体 LOD"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/32382",
+      "summary": "远景分地形 LOD / 物体 LOD / 树木 LOD 三类；xLODGen 管地形，DynDOLOD 管物体与树木，改世界内容后必须重跑。",
+      "aliases": [
+        "树木 LOD",
+        "pop-in",
+        "地平线"
+      ],
+      "content": "<h2>为什么需要 LOD</h2>\n<p>原版 Skyrim 超过约 500 米后，世界退化为<strong>平铺地表 + 广告牌树</strong>——房子、塔、 独立树木全部消失，走近时\"凭空弹出\"（pop-in）。LOD（Level of Detail）就是在 远处用低模/贴图集维持世界轮廓。</p>\n<h2>三类 LOD 与责任工具（一手源：Sheson 在 Nexus 论坛的多次说明）</h2>\n<table><thead><tr><th style=\"text-align:left\">类型</th><th style=\"text-align:left\">内容</th><th style=\"text-align:left\">工具</th></tr></thead><tbody><tr><td style=\"text-align:left\">地形 LOD</td><td style=\"text-align:left\">远处地面网格 + 贴图</td><td style=\"text-align:left\"><strong>xLODGen</strong>（beta，地形 LOD 功能 2018 年起取代 Oscape）</td></tr><tr><td style=\"text-align:left\">物体 LOD</td><td style=\"text-align:left\">建筑、废墟、石头等静态物</td><td style=\"text-align:left\"><strong>DynDOLOD</strong></td></tr><tr><td style=\"text-align:left\">树木 LOD</td><td style=\"text-align:left\">广告牌树 / 3D 树 LOD</td><td style=\"text-align:left\"><strong>DynDOLOD</strong></td></tr></tbody></table>\n<p>Sheson 原话（一手源，Nexus 论坛）：\"Use xLODGen to generate terrain LOD and vanilla/CK style object and tree LOD. DynDOLOD is the improved version of xLODgen for Skyrim/Enderal/SE/VR tree and object LOD.\"</p>\n<h2>关键事实</h2>\n<ul><li><strong>DynDOLOD 只做物体/树木，不做地形</strong>——地形必须 xLODGen beta。</li></ul>\n<p>xLODGen beta <strong>不在 Nexus 发布</strong>，官方渠道在 STEP 论坛 （forum.step-project.com，一手源：Nolvus 指南 + Sheson 回帖指向该论坛帖）。 Nexus 上的 \"SSELODGen\" 是<strong>完全过时</strong>的旧版（社区经验：fkmods 教程，2026-05）。</p>\n<ul><li><strong>TexGen</strong> 生成与当前材质匹配的 LOD 贴图（缝合物体 LOD 贴图集），</li></ul>\n<p>是 DynDOLOD 工作流的前置步骤。</p>\n<ul><li><strong>SSE Terrain Tamriel</strong>（Nexus 54680，Sheson）：给世界边缘补回地形数据，</li></ul>\n<p>生成地形 LOD 时装着，<strong>生成后即可卸载/关掉</strong>（一手源：该页描述）。</p>\n<ul><li>改<strong>世界内容</strong>（新地块、城市 overhaul、草设置）后必须重跑对应工具；</li></ul>\n<p>仅调 <code>OverwriteGrassDistance/FadeRange</code> 不必重建草缓存 （一手源：Nolvus LODGEN 章）。</p>\n<h2>与预生成 LOD 包的关系</h2>\n<p>预生成包（如 MM 自带 LOD atlas、Terrain LOD Redone、HD LODs）在简单列表下 \"也能用\"，但它们不认识你的 modlist——<strong>有世界改动就得自己生成</strong>。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 生成完整流程</a></li><li><a href=\"../07-mesh-tools/dyndolod.md\" target=\"<em>blank\" rel=\"noopener\">DynDOLOD</a>、<a href=\"../07-mesh-tools/xlodgen.md\" target=\"</em>blank\" rel=\"noopener\">xLODGen</a></li><li>排错：<a href=\"../09-troubleshooting/water-seams-and-lod-stripes.md\" target=\"_blank\" rel=\"noopener\">水缝与 LOD 条纹</a></li></ul>",
+      "_file": "01-principles/lod-principles.md",
+      "_chars": 1749
+    },
+    {
+      "id": "vram-and-enboost",
+      "title": "VRAM 预算与 ENBoost 内存管理",
+      "category": "01-principles",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "VRAM",
+        "显存",
+        "ENBoost",
+        "ENB",
+        "内存",
+        "性能"
+      ],
+      "kind": "concept",
+      "source": "https://stepmodifications.org/wiki/SkyrimSE:2.0.0",
+      "summary": "Skyrim SE 是 64 位但仍受 VRAM/系统内存行为影响；ENBoost 在 SE 上已被 STEP 判定为冗余，真正的显存管理靠分辨率分层与 ENB 参数。",
+      "aliases": [
+        "enbboost",
+        "videoMemorySizeMb",
+        "爆显存",
+        "显存不足"
+      ],
+      "content": "<h2>先破一个讹传：SE 上还要不要 ENBoost？</h2>\n<p><strong>STEP 官方立场（一手源）</strong>：\"ENBoost is entirely redundant in Skyrim SE on a 64-bit system with &gt; 4 GB RAM…… The ENBoost option exists solely so that the Skyrim LE engine can behave more like a 64-bit game engine…… Use it only for Skyrim LE.\"</p>\n<p>即：<strong>SE/AE 64 位 + &gt;4GB 内存 → ENBoost 不必要</strong>。中文教程里\"装 ENB 必配 ENBoost 防爆显存\"是 LE 时代遗留。仅当 SE 跑在 ≤4GB 内存的 64 位系统上才考虑。</p>\n<h2>如果确实用 ENB，关键参数（社区经验，STEP/Skyrim Stability Guide）</h2>\n<p><code>enblocal.ini</code>：</p>\n<ul><li><code>VideoMemorySizeMb</code>：ENB 可支配的总显存。STEP 公式：</li></ul>\n<p>≥8GB 系统内存 → \"Total Available Graphics Memory - 170(Win7)/350(Win8/10)\"； &lt;8GB 系统内存 → \"(VRAM + System RAM) - 2048\"。</p>\n<ul><li><code>ReservedMemorySizeMb</code>：默认 64；<strong>走路时物体加载卡顿</strong>先试着加到 128/512。</li><li><code>AutodetectVideoMemorySize</code>：不确定就留 true。</li><li><code>ForceAnisotropicFiltering=true</code> + <code>MaxAnisotropy=16</code>，**并关掉显卡控制面板的</li></ul>\n<p>AF**——驱动级强制 AF 会破坏视差效果（一手源：Skyrim Stability Guide）。</p>\n<ul><li><code>EnableCompression=true</code> 与卡顿的取舍（关掉解卡顿但更接近无 ENBoost 的内存风险）。</li></ul>\n<h2>Skyrim 自己的内存块（LE 遗物，SE 已不需要）</h2>\n<p>Skyrim Memory Patch（SKSE.ini 512MB 首块）针对 LE 的 256MB 块爆满 CTD， SE 不适用——见 <code>skyrim-tools-kb</code>。</p>\n<h2>SE/AE 上的现实规则（社区经验）</h2>\n<ol><li><strong>爆显存的症状不是弹窗，是 stutter → CTD</strong>。Skyrim 202X 页面原话：</li></ol>\n<p>\"Crashes, lags, low fps? Check your enb settings, vram and allocation\"。</p>\n<ol><li>202X 全 4K 需要 <strong>8GB+ 显存</strong>（二手源：mythiq 对该页的转述，建议以 Nexus</li></ol>\n<p>文件页的分辨率选项为准——作者提供 2K/1K 降级版）。</p>\n<ol><li>Cathedral Weathers 自称仅占 <strong>~16MB VRAM</strong>（一手源：Nexus 24791）。</li><li>Water for ENB 提供 <strong>2K 版</strong>供低显存（一手源：Nexus 37061）。</li><li>降级顺序：先降同一贴图包的分辨率（4K→2K），再砍 LOD 质量档位，</li></ol>\n<p>最后才减 mod 数量——见<a href=\"../08-practices/performance-budget.md\" target=\"_blank\" rel=\"noopener\">性能预算</a>。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../01-principles/parallax-and-complex-material.md\" target=\"_blank\" rel=\"noopener\">视差与 Complex Material</a>（视差是带宽敏感大户）</li><li><a href=\"../08-practices/enb-presets-and-cs-bridge.md\" target=\"_blank\" rel=\"noopener\">ENB 预设与 CS 衔接</a></li></ul>",
+      "_file": "01-principles/vram-and-enboost.md",
+      "_chars": 2026
+    },
+    {
+      "id": "parallax-and-complex-material",
+      "title": "视差与 Complex Material 原理",
+      "category": "01-principles",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "视差",
+        "parallax",
+        "complex material",
+        "原理",
+        "着色器"
+      ],
+      "kind": "concept",
+      "source": "https://modding.wiki/en/skyrim/developers/complex-parallax-materials",
+      "summary": "Skyrim 视差靠 ENB/CS 着色器实现：地形视差把高度图塞进地表 alpha，Complex Material 用环境遮罩四通道承载 glossiness/金属度/视差。",
+      "aliases": [
+        "地形视差",
+        "complex parallax",
+        "POM",
+        "高度图"
+      ],
+      "content": "<h2>一句话</h2>\n<p>视差（parallax）是法线贴图的进阶：<strong>法线只骗光照，视差真的扭曲纹理本身</strong>—— 表面看起来有真实凹凸和深度（一手源：Hein84 的 Vivid Landscapes 页面释义： \"the depth-information doesn't get simply drawn on the surface, it rather warps the texture itself in the desired direction\"）。</p>\n<h2>依赖链（这是排错的关键）</h2>\n<p>Skyrim <strong>原生不支持</strong>地形视差，必须叠一层：</p>\n<ul><li><strong>ENBSeries</strong>（<code>enbseries.ini</code> 的 <code>[EFFECT]</code> 段开启</li></ul>\n<p><code>EnableTerrainParallax</code> / <code>EnableComplexParallax</code>，一手源：modding.wiki）；或</p>\n<ul><li><strong>Community Shaders</strong>（Extended Materials 功能，实现 Contact Refinement</li></ul>\n<p>Parallax Mapping，CRPM，作者自测约 0.22ms 开销，一手源：modding.wiki CS Extended Materials 页）。</p>\n<p><strong>没有 ENB/CS 就没有视差</strong>。装了视差材质却看不到效果，99% 是这条链断了。</p>\n<h2>地形视差（Terrain Parallax）</h2>\n<ul><li>高度图放在<strong>地表漫反射贴图的 alpha 通道</strong>里。</li><li><strong>亮度 127 = 平坦</strong>（不产生偏移，但仍参与计算；不是\"关闭\"开关）。</li></ul>\n<p>（一手源：modding.wiki Complex Material 指南）</p>\n<h2>Complex Material（网格视差 + PBR 化）</h2>\n<p>ENB 把<strong>环境遮罩贴图（environment mask）</strong>的四个通道重新定义：</p>\n<table><thead><tr><th style=\"text-align:left\">通道</th><th style=\"text-align:left\">内容</th></tr></thead><tbody><tr><td style=\"text-align:left\">R</td><td style=\"text-align:left\">环境贴图遮罩（同原版语义）</td></tr><tr><td style=\"text-align:left\">G</td><td style=\"text-align:left\">glossiness 光泽度图（暗=更光滑的镜面；粗糙度图<strong>取反</strong>即可得到）</td></tr><tr><td style=\"text-align:left\">B</td><td style=\"text-align:left\">metallic 金属度图（255=全金属，0=非金属）</td></tr><tr><td style=\"text-align:left\">A</td><td style=\"text-align:left\">parallax 高度图（255=平坦且不计算；与地形视差的 127 规则不同）</td></tr></tbody></table>\n<p>坑（一手源，modding.wiki）：</p>\n<ul><li><strong>G 通道 ≤4/255 的值会被当成黑色，直接禁用 complex material</strong>——</li></ul>\n<p>这是压缩精度问题，写通道图时注意 grayscale 2.2。</p>\n<ul><li>金属观感强依赖 ENB 预设的 <code>[ENVIRONMENT] COLOR POW</code> 变量。</li><li>皮肤着色器只支持 G 通道 glossiness（R 仍是原版 specular）。</li></ul>\n<h2>配套工具链（社区经验，Nexus 125527）</h2>\n<ul><li><strong>Auto Parallax</strong>：给视差网格自动打标记，防止\"无对应贴图的视差网格\"出现<strong>蓝块</strong>。</li><li><strong>ParallaxGen</strong>：批量给既有材质生成视差贴图并修补网格；每次增删网格/贴图后需重跑。</li><li><strong>Terrain Parallax Blending Fix</strong>：修地形视差与地表混合的接缝。</li><li><strong>SSE Parallax Shader Fix</strong>（aers / shadowking97）：修原版视差着色器 bug；</li></ul>\n<p>Community Shaders 的 Extended Materials 出现后其必要性下降。</p>\n<h2>与其它条目的关系</h2>\n<ul><li>视差版材质包选哪个 → <a href=\"../02-textures/skyrim-202x.md\" target=\"_blank\" rel=\"noopener\">Skyrim 202X</a>、</li></ul>\n<p><a href=\"../02-textures/vivid-landscapes.md\" target=\"<em>blank\" rel=\"noopener\">Vivid Landscapes</a>、<a href=\"../02-textures/skyland-aio.md\" target=\"</em>blank\" rel=\"noopener\">Skyland AIO</a>。</p>\n<ul><li>视差异常排错 → <a href=\"../09-troubleshooting/parallax-artifacts.md\" target=\"_blank\" rel=\"noopener\">视差异常排错</a>。</li><li>渲染框架侧 → <code>community-shaders-kb</code> 的 Extended Materials 条目。</li></ul>",
+      "_file": "01-principles/parallax-and-complex-material.md",
+      "_chars": 2248
+    },
+    {
+      "id": "noble-skyrim",
+      "title": "Noble Skyrim（HD-2K）",
+      "category": "02-textures",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Noble",
+        "材质",
+        "Shutt3r",
+        "HD-2K"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/21423",
+      "summary": "Shutt3r 的统一风格建筑/风景材质包，2018 年后停更但贴图 mod 不受游戏版本影响，仍是\"混搭底座\"常用选项。",
+      "aliases": [
+        "Noble Skyrim",
+        "noble hd",
+        "2k"
+      ],
+      "content": "<ul><li><strong>作者</strong>：Shutt3r（一手源：Nexus 21423；二手源：howtovideogame 2026 榜单）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/<strong>21423</strong>（SE 版 2018-11-24 上传，</li></ul>\n<p>最终 v5.5.0，2018-12-03；LE 原版在 skyrim/mods/45807）； 当前 70,418 endorsements（一手源：Nexus 21423）</p>\n<ul><li><strong>分辨率</strong>：HD-2K 主线；另有 <strong>performance FullPack</strong>（室外多降至 1K、</li></ul>\n<p>\"主\"纹理仍 2K，一手源：21423 readme）</p>\n<h2>定位</h2>\n<p>Noble 是<strong>风格统一导向</strong>的整合包：建筑为主线，延伸到风景、地牢、矿洞、 洞穴与杂物。与 Skyland（扫描写实）相比，Noble 更\"手绘、统一、略暗\"—— 社区常把它当作<strong>混搭底座</strong>（base），上面叠其它包的局部覆盖 （一手源：Skyland AIO 页\"use it as a base or to overwrite whatever base you use like Noble\"）。</p>\n<h2>停更的影响</h2>\n<ul><li>贴图 mod <strong>不含插件逻辑</strong>，不受游戏 1.6.x→1.7.x 升级影响</li></ul>\n<p>（社区经验，与 2026 年榜单\"texture-only mod is not affected by game patches\" 的表述一致）。</p>\n<ul><li>停更意味着新区域/新 DLC 内容无覆盖，与新世界的接缝需自己接受。</li></ul>\n<h2>常见搭配（社区经验）</h2>\n<ul><li>Noble + SMIM + 单点高质量包（CleverCharff 城市系列、RUSTIC 系列）。</li><li>STEP 指南历史上用 Noble 作为多个材质 mod 的覆盖基准（一手源：STEP wiki）。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../02-textures/texture-pack-selection.md\" target=\"<em>blank\" rel=\"noopener\">材质包选型</a>、<a href=\"../02-textures/smim.md\" target=\"</em>blank\" rel=\"noopener\">SMIM</a></li></ul>",
+      "_file": "02-textures/noble-skyrim.md",
+      "_chars": 1264
+    },
+    {
+      "id": "rustic-series",
+      "title": "RUSTIC 系列（fadingsignal / Gamwich）",
+      "category": "02-textures",
+      "version": "1.0.1",
+      "updated": "2026-10-22",
+      "tags": [
+        "RUSTIC",
+        "材质",
+        "fadingsignal",
+        "Gamwich",
+        "系列"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/17923",
+      "summary": "RUSTIC 是系列品牌：fadingsignal 原创 Windows/Clothing，Gamwich（与 Saerileth）续作 Clutter Collection/Soulgems/Cooking 等——作者归属易错，二手文章常张冠李戴。",
+      "aliases": [
+        "rustic windows",
+        "rustic clothing",
+        "rustic clutter",
+        "窗户贴图"
+      ],
+      "content": "<h2>⚠️ 作者归属（高频错误）</h2>\n<p><strong>RUSTIC 不是单一作者</strong>：</p>\n<table><thead><tr><th style=\"text-align:left\">子系列</th><th style=\"text-align:left\">作者</th><th style=\"text-align:left\">证据</th></tr></thead><tbody><tr><td style=\"text-align:left\">RUSTIC Windows / RUSTIC Clothing 等早期单品</td><td style=\"text-align:left\"><strong>fadingsignal</strong></td><td style=\"text-align:left\">Nexus 各页 + moddingskyrim 作者名录（一手源）</td></tr><tr><td style=\"text-align:left\">RUSTIC Clutter Collection / RUSTIC Soulgems / RUSTIC Cooking</td><td style=\"text-align:left\"><strong>Gamwich</strong>（Soulgems 与 Saerileth 合作）</td><td style=\"text-align:left\">SETOG 指南原文 \"RUSTIC CLUTTER COLLECTION - Special Edition by Gamwich\"、\"RUSTIC SOULGEMS - Special Edition by Gamwich and Saerileth\"（一手源：Nexus 5883）</td></tr><tr><td style=\"text-align:left\">RUGNAROK（地毯，常与 RUSTIC 并列推荐）</td><td style=\"text-align:left\">Gamwich</td><td style=\"text-align:left\">同上</td></tr></tbody></table>\n<p>中文二手文章常把整个 RUSTIC 系列归给 fadingsignal 或笼统写\"某工作室\"——都是错的。</p>\n<h2>代表页</h2>\n<ul><li>RUSTIC Windows SE = skyrimspecialedition/mods/17923（fadingsignal）</li><li>RUSTIC Clutter Collection SE = Gamwich（Nexus 搜索 \"RUSTIC Clutter\"）</li><li>RUSTIC Soulgems SE = Gamwich and Saerileth</li></ul>\n<h2>生态位</h2>\n<p>\"<strong>单点高质量替换</strong>\"的代表：每个 mod 只做一件事（窗、衣服、灵魂石、炊具）， 独立版本管理。适合逐项雕琢、不喜欢一体化包风格的玩家。</p>\n<h2>版本注意</h2>\n<p>RUSTIC 系列多为 2017-2018 年 SE 版，之后停更；贴图 mod 不受游戏版本影响， 但 AE/新 Creation Club 内容无覆盖。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../02-textures/texture-pack-selection.md\" target=\"_blank\" rel=\"noopener\">材质包选型</a></li><li><a href=\"../10-sources/author-attribution-corrections.md\" target=\"_blank\" rel=\"noopener\">作者归属勘误</a></li></ul>",
+      "_file": "02-textures/rustic-series.md",
+      "_chars": 1492
+    },
+    {
+      "id": "smim",
+      "title": "SMIM 静态网格改进模组",
+      "category": "02-textures",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "SMIM",
+        "静态网格",
+        "网格",
+        "底座",
+        "Brumbek"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/659",
+      "summary": "Brumbek 的静态 3D 模型改进项目：900+ 网格、30000+ 放置点，环境美化的公认底座，但其自带纹理会覆盖其它贴图替换器。",
+      "aliases": [
+        "静态网格改进",
+        "Static Mesh Improvement",
+        "mesh fix",
+        "网格修补"
+      ],
+      "content": "<ul><li><strong>作者</strong>：Brumbek（一手源：Nexus 659）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/659；2016-10-29 上传，当前 2.08</li></ul>\n<p>（2018-07-03），文件页 2025-02-17 仍有更新</p>\n<ul><li><strong>规模</strong>：900+ 个网格改进，30000+ 处世界放置（一手源：发布页）</li><li><strong>体积</strong>：约 1008MB</li></ul>\n<h2>它是什么</h2>\n<p>把 Skyrim 里\"被忽视的\"低模静态物（建筑构件、杂物、家具、景观物）重做： 修接缝、补细节，并修正部分原版贴图错误。作者自 2012-02 启动，目标 500 个 \"最严重 offender\"，实际远超。</p>\n<h2>三个必须知道的行为（一手源：发布页）</h2>\n<ol><li><strong><code>textures-smim/</code> 里的 SMIM 专属纹理会覆盖任何贴图替换器</strong>——</li></ol>\n<p>SMIM 网格用的是 SMIM 纹理，不是你的 Skyland/202X 的同名纹理。 作者建议<strong>先装 SMIM，再装贴图替换器</strong>（后装的赢）。</p>\n<ol><li>SMIM 还修改了若干<strong>原版贴图的错误</strong>（如木桩），这些会与替换器冲突，</li></ol>\n<p>装哪个取决于你的load order——\"None of this hurts your game\"。</p>\n<ol><li><strong>强烈建议配 USSEP</strong>；USSEP 是 BSA 包，SMIM 松散文件永远优先，顺序无关。</li></ol>\n<h2>兼容性</h2>\n<ul><li>202X 页面：\"SMIM, is like an extension for this mod, just overwrite SMIM\"</li></ul>\n<p>（一手源：Nexus 2347）——202X 覆盖 SMIM。</p>\n<ul><li>Majestic Mountains 用的网格比 SMIM 面数高，<strong>建议让 MM 覆盖 SMIM 网格</strong></li></ul>\n<p>（一手源：Nexus 11052 readme）。</p>\n<ul><li>Blended Roads 与 SMIM 桥梁兼容（一手源：Blended Roads 页）。</li><li>大量 mod 提供 \"SMIM patch\"；STEP 指南中 ELFX/SMIM 组合是标准操作。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../02-textures/skyrim-202x.md\" target=\"<em>blank\" rel=\"noopener\">Skyrim 202X</a>、<a href=\"../02-textures/texture-pack-selection.md\" target=\"</em>blank\" rel=\"noopener\">材质包选型</a></li><li>安装顺序总原则见<a href=\"../08-practices/install-order-and-conflicts.md\" target=\"_blank\" rel=\"noopener\">安装顺序与冲突</a></li></ul>",
+      "_file": "02-textures/smim.md",
+      "_chars": 1455
+    },
+    {
+      "id": "skyland-aio",
+      "title": "Skyland AIO 与 Skyland 系列",
+      "category": "02-textures",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Skyland",
+        "材质",
+        "建筑",
+        "风景",
+        "mathy79"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/34179",
+      "summary": "mathy79 的 4K 3D 扫描材质家族，AIO 覆盖全部建筑与风景纹理，1K/2K 两档，自带视差选项与水色 ESP。",
+      "aliases": [
+        "Skyland AIO",
+        "skyland landscape",
+        "天空之地",
+        "扫描材质"
+      ],
+      "content": "<ul><li><strong>作者</strong>：mathy79（一手源：Nexus 34179 / 3820）</li><li><strong>Nexus</strong>：Skyland AIO = 34179；Skyland - A Landscape Texture Overhaul = 3820</li><li><strong>来源工艺</strong>：真实表面 <strong>4K 3D 扫描</strong>（一手源：发布页）</li></ul>\n<h2>覆盖范围（一手源：AIO 页）</h2>\n<p>建筑：道路标志、帝国堡垒与地牢、马卡斯与晨风区域遗迹（含金属）、 北欧遗迹（含壁画）、兽人长屋、裂谷城船只与棚屋、帐篷与毛皮墙、索尔塞、 城镇村庄农舍、高赫罗特加尔、天空圣殿、松加德、风盔城、黎明守卫/龙裔全境、 雪漫、冬堡、夜空、栅栏、黑降、立石、Skyland 窗户…… 风景：桥梁、道路（含 Blended Roads）、矿脉、Hearthfire 黏土花岗岩、 花岗岩山脉（含 MM 兼容三色）、冰洞石洞矿井、裂谷/松林/火山/沼泽/雪原/冰川、 Solstheim、河岸河底、海岸……</p>\n<h2>家族成员（作者推荐组合）</h2>\n<ul><li><strong>Skyland AIO</strong>（风景+建筑主体）</li><li><strong>Skyland Bits and Bobs</strong>（杂物）</li><li><strong>Skyland LODs</strong>（基础 LOD 包）</li><li><strong>Skyland Landscape Parallax</strong>（视差风景，AIO 页有 complex parallax 选项文件）</li><li><strong>Skyland Watercolor ESP</strong>：水色插件——不用 RW2/iNeed/Water for ENB 时可随便放；</li></ul>\n<p><strong>用了这些水 mod 则放在它们之后</strong>（一手源：AIO 页）</p>\n<ul><li><strong>Skyland Lit Road Signs ESP</strong>：路灯标志，与 Point the Way 等移动路标的 mod 不兼容</li></ul>\n<h2>选型特征（社区经验）</h2>\n<ul><li>Skyland 是\"干净、现代、高保真\"路线；Noble 是\"手绘、统一、略暗\"路线。</li></ul>\n<p>AIO 页明说可以用 Skyland 覆盖 Noble 或反之，<strong>取决于个人口味</strong>。</p>\n<ul><li>分辨率 <strong>2K/1K 两档</strong>；作者拒绝 4K（\"Upscaling to 4k would lose much of</li></ul>\n<p>it's quality\"，一手源：3820 FAQ）。</p>\n<ul><li>松散文件发布（BSA 尝试失败，一手源：3820 FAQ）。</li></ul>\n<h2>安装注意（一手源：AIO 页）</h2>\n<ul><li>只要对方不改网格/贴图路径，Skyland 可覆盖 SMIM/HPP 等并宣称无缝。</li><li>与城市 overhaul（JK 等）兼容；可在周目中随时装卸（贴图非存档数据）。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../02-textures/smim.md\" target=\"_blank\" rel=\"noopener\">SMIM</a>（被 Skyland 覆盖）</li><li><a href=\"../03-landscape/blended-roads.md\" target=\"_blank\" rel=\"noopener\">Blended Roads</a>（Skyland 捆绑其网格，感谢 T4GTR34UM3R）</li></ul>",
+      "_file": "02-textures/skyland-aio.md",
+      "_chars": 1642
+    },
+    {
+      "id": "skyrim-202x",
+      "title": "Skyrim 202X（Pfuscher）",
+      "category": "02-textures",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "202X",
+        "材质",
+        "Pfuscher",
+        "视差",
+        "高清"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2347",
+      "summary": "最大规模的高分辨率材质工程：约 2200 个文件分三部分发布，v10.5.2（2025-07），视差地形单独配套，4K 全量需 8GB+ 显存。",
+      "aliases": [
+        "Skyrim 202X",
+        "Skyrim 2020",
+        "Skyrim 2020 Parallax",
+        "2020视差"
+      ],
+      "content": "<ul><li><strong>作者</strong>：Pfuscher（一手源：Nexus 2347）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/<strong>2347</strong>；2016-11 上传，当前 <strong>v10.5.2</strong></li></ul>\n<p>（2025-07-30/31 更新）</p>\n<ul><li><strong>规模</strong>：约 2200 个文件；下载量 2200 万+（一手源：files 页）</li></ul>\n<h2>⚠️ 页面改名史（排错高频）</h2>\n<p>中文教程常写\"<strong>Skyrim 2020 Parallax</strong>\"——那是 <strong>LE</strong> 时代与 SE 旧页（2777）的名字。 <strong>SE 现行页面是 \"Skyrim 202X by Pfuscher\"（2347）</strong>，旧页已被取代。 找不着\"2020 Parallax SE\"不是被下架，是改名了。详见 <a href=\"../10-sources/outdated-pages-and-renames.md\" target=\"_blank\" rel=\"noopener\">过时与改名页面</a>。</p>\n<h2>结构（一手源：files 页）</h2>\n<ul><li><strong>三部分</strong>：Part I Landscape（约 4.3GB）/ Part II Architecture（约 9.2GB）/</li></ul>\n<p>Part III Other（约 10.8GB）——4K/8K 拆分控制体积，<strong>必须按作者顺序装</strong>。</p>\n<ul><li><strong>Skyrim 2018</strong>：主文件前置依赖（作者强烈建议）。</li><li><strong>Bugfixes 1.5 + 1.6</strong>：同页安装。</li><li><strong>Parallax Meshes - Whiterun / - Riften Ground</strong>：complex parallax 网格</li></ul>\n<p>（Whiterun 的视差<strong>必须</strong>装网格；其它区域用各自的 mesh mod）。</p>\n<ul><li>可选：Whiterun Street/City Wall Alternative、Snow alternative、</li></ul>\n<p>Blended Roads Retexture、7 Mountain Textures（无 parallax）。</p>\n<h2>视差依赖（一手源：发布页）</h2>\n<p>\"To see the parallax effect, download the latest ENB version for Skyrim SE <strong>Or Community Shaders</strong>\"——没这两者视差不显示。地形视差另有 \"Skyrim 2020 Terrain Parallax / Complex Terrain Parallax\"配套。</p>\n<h2>兼容性与坑（均一手源：发布页/files 页）</h2>\n<ul><li><strong>SMIM 视为扩展，直接覆盖</strong>。</li><li><strong>Blended Roads 是\"life like roads\"必备</strong>。</li><li>ELFX：让 202X 覆盖 ELFX；与 Lux 兼容。</li><li><strong>不兼容 Better Dynamic Snow 3.x</strong>（文件页注明）。</li><li><strong>白块贴图 glitch = 雪着色器冲突，用 Simplicity of Snow 修</strong>（作者原话）。</li><li>早期需要 \"SSE Parallax Shader Fix\"，有 ENB 后不再需要。</li><li>崩溃/卡顿/低帧先查 \"enbsettings, vram and allocation\"（LE 页原话）。</li><li>支持 1.6.1170 / 1.6.640 / 1.5.97 与 VR（二手转述：mythiq，以 Nexus 页为准）。</li></ul>\n<h2>显存（社区经验 + 二手源）</h2>\n<p>全 4K 建议 <strong>8GB+ 显存</strong>；作者提供 2K 降级版（202X Downscale Mod）。 显存不足症状是 stutter 而非警告——见<a href=\"../01-principles/vram-and-enboost.md\" target=\"_blank\" rel=\"noopener\">VRAM 预算</a>。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../01-principles/parallax-and-complex-material.md\" target=\"_blank\" rel=\"noopener\">视差原理</a></li><li><a href=\"../02-textures/texture-pack-selection.md\" target=\"_blank\" rel=\"noopener\">材质包选型</a></li></ul>",
+      "_file": "02-textures/skyrim-202x.md",
+      "_chars": 2102
+    },
+    {
+      "id": "vivid-landscapes",
+      "title": "Vivid Landscapes（Hein84）",
+      "category": "02-textures",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Vivid Landscapes",
+        "材质",
+        "Hein84",
+        "视差",
+        "山脉"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/5488",
+      "summary": "Hein84 的老牌地形/山脉/岩石材质系列，AIO 覆盖山脉悬崖溪流地牢遗迹等，Tundra 等单品带视差版， Credits 里能看到 Skyrim HD/CaBaL/Tamu75/Brumbek。",
+      "aliases": [
+        "vivid",
+        "岩石",
+        "山脉贴图",
+        "rocking stones"
+      ],
+      "content": "<ul><li><strong>作者</strong>：Hein84（一手源：Nexus 5488）</li><li><strong>Nexus</strong>：AIO SE = skyrimspecialedition/mods/5488；</li></ul>\n<p>单品如 Tundra Region SE = 66247、Complex Parallax Occlusion Tundra = 81816</p>\n<ul><li><strong>Credits（一手源）</strong>：Nebula01（Skyrim HD）、CaBaL120（石墙与窗户纹理）、</li></ul>\n<p>Tamu75（LOD 纹理）、Brumbek（SMIM 网格）</p>\n<h2>系列构成（一手源：AIO 页）</h2>\n<p>山脉、悬崖、溪流、地牢、遗迹、帝国堡垒、雪、苔原、火山区域、林地地表、 兽人与农舍、Gildergreen 树……以及 <strong>Rocking Stones and Mountains</strong> （山脉主力，有 parallax 版与 Complex Parallax Occlusion 版）。</p>\n<h2>视差特色</h2>\n<p>Hein84 是最早系统做<strong>地形视差</strong>的作者之一；Tundra 等单品分 \"普通版 / Complex Parallax Occlusion 版\"，后者需 ENB 的 POM （一手源：66247/81816 页）。作者原话释义视差： \"parallax is a advancement of normalmapping…… it rather warps the texture itself in the desired direction\"。</p>\n<h2>与 MM 的关系</h2>\n<p>Vivid Landscapes 的山脉与 Majestic Mountains <strong>二选一</strong>（同为山脉替换， 互相覆盖）——社区常见组合是 MM（主山脉）+ VL 的其它区域件。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../03-landscape/majestic-mountains.md\" target=\"_blank\" rel=\"noopener\">Majestic Mountains</a></li><li><a href=\"../01-principles/parallax-and-complex-material.md\" target=\"_blank\" rel=\"noopener\">视差原理</a></li></ul>",
+      "_file": "02-textures/vivid-landscapes.md",
+      "_chars": 1316
+    },
+    {
+      "id": "amidianborn-book-of-silence",
+      "title": "aMidianBorn Book of Silence",
+      "category": "02-textures",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "aMidianBorn",
+        "材质",
+        "CaBaL120",
+        "书籍",
+        "整合包"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/35382",
+      "summary": "CaBaL120 的经典整合材质包，护甲/武器/生物/杂物全覆盖；LE 版 2012 起、2020 年最终版，SE 版单独发布。",
+      "aliases": [
+        "Book of Silence",
+        "寂静之书",
+        "CaBaL",
+        "护甲贴图"
+      ],
+      "content": "<ul><li><strong>作者</strong>：CaBaL120（+ EmeraldReign 与 AMB team，一手源：Nexus 24909）</li><li><strong>Nexus</strong>：SE 版 = skyrimspecialedition/mods/<strong>35382</strong>；</li></ul>\n<p>LE 版 = skyrim/mods/24909（v1.9.1，2020-05-22 最后更新）</p>\n<ul><li><strong>性质</strong>：CaBaL 个人材质 mod 的<strong>完整合集</strong>（complete package）</li></ul>\n<h2>内容与定位</h2>\n<p>覆盖护甲、武器、生物、杂物等\"物品向\"贴图，是<strong>角色装备侧</strong>最经典的整合包。 环境向（建筑/风景）不是它的重点——环境底座仍应选 SMIM/Skyland/202X 一类。</p>\n<h2>注意（一手源：LE 页）</h2>\n<ul><li><strong>Nexus 独家发布，作者明确拒绝任何转载</strong>——只在 Nexus 下载。</li><li>FAQ 里作者对\"定制变体\"请求态度坚决（\"NO, I will not make fancy variations\"）。</li><li>与任何 body mod 兼容（作者原话）。</li></ul>\n<h2>与其它包的边界</h2>\n<ul><li>与 Noble/202X 的环境贴图冲突少（领域不同），主要冲突在共享的杂物/容器贴图。</li><li>大量护甲 mod 提供 \"aMidianBorn patch\"。</li></ul>\n<h2>相关</h2>\n<ul><li>角色/装备侧深度内容属 <code>character-appearance-kb</code> 边界，本库只收录环境交集部分。</li></ul>",
+      "_file": "02-textures/amidianborn-book-of-silence.md",
+      "_chars": 1037
+    },
+    {
+      "id": "texture-pack-selection",
+      "title": "材质包选型与混搭原则",
+      "category": "02-textures",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "选型",
+        "混搭",
+        "覆盖",
+        "分辨率",
+        "材质"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/659",
+      "summary": "一体化 vs 混搭怎么选；覆盖规则三定律；分辨率分层策略；SMIM 纹理覆盖陷阱。",
+      "aliases": [
+        "材质选型",
+        "覆盖规则",
+        "降级",
+        "2k",
+        "4k",
+        "base"
+      ],
+      "content": "<h2>两种路线</h2>\n<table><thead><tr><th style=\"text-align:left\">路线</th><th style=\"text-align:left\">代表</th><th style=\"text-align:left\">优点</th><th style=\"text-align:left\">代价</th></tr></thead><tbody><tr><td style=\"text-align:left\">一体化</td><td style=\"text-align:left\">Skyland AIO、Noble、Vivid Landscapes AIO、202X 全量</td><td style=\"text-align:left\">风格统一、省心</td><td style=\"text-align:left\">单点未必最强、体积/显存大</td></tr><tr><td style=\"text-align:left\">混搭</td><td style=\"text-align:left\">SMIM + 202X + MM + HLT + 单城市包</td><td style=\"text-align:left\">单点质量上限</td><td style=\"text-align:left\">要懂覆盖规则、接缝风险</td></tr></tbody></table>\n<p><strong>混搭第一定律</strong>：建筑/风景/杂物分别选\"主包\"，其余全部让位。 典型组合：底座 SMIM → 主包 202X 或 Skyland AIO → 单点覆盖 （MM 山脉、HLT 树、CleverCharff 城市、RUSTIC 单件）。</p>\n<h2>覆盖规则三定律（机制详见 mo2-usvfs-kb）</h2>\n<ol><li><strong>后装赢</strong>（同文件路径，load order 后者胜；松散文件永远赢 BSA）。</li><li><strong>先底座后覆盖</strong>：SMIM 先装，贴图包后装（SMIM 官方建议）。</li><li><strong>让该赢的赢</strong>：MM 覆盖 SMIM 网格（面数更高）；202X 覆盖 SMIM；</li></ol>\n<p>ELFX 被 202X 覆盖——这些结论全部来自各自发布页，见对应条目。</p>\n<h2>分辨率分层策略</h2>\n<ul><li>同一包先看有没有 2K/1K 选项：202X（有 Downscale Mod）、Skyland（1K/2K）、</li></ul>\n<p>Water for ENB（2K）、Embers XD（lite 2K/1K）、Verdant（1K/512）。</p>\n<ul><li><strong>全 2K 优于半 4K</strong>：显存溢出时表现是 stutter→CTD，不是画质下降。</li><li>大地图（山脉、风景）优先保分辨率；小杂物（ingot、杯子）放心 1K。</li></ul>\n<h2>风格一致性检查（社区经验）</h2>\n<p>混搭前问三个问题：</p>\n<ol><li>明暗基调一致吗？（Noble 偏暗手绘，Skyland 偏亮扫描）</li><li>雪/岩石的处理一致吗？（MM 的雪与 Fluffy Snow/Simplicity of Snow 的配合）</li><li>视差依赖一致吗？（一半视差一半没有 = 接缝与观感撕裂）</li></ol>\n<h2>相关</h2>\n<ul><li><a href=\"../02-textures/smim.md\" target=\"<em>blank\" rel=\"noopener\">SMIM</a>、<a href=\"../02-textures/skyland-aio.md\" target=\"</em>blank\" rel=\"noopener\">Skyland AIO</a>、</li></ul>\n<p><a href=\"../02-textures/skyrim-202x.md\" target=\"<em>blank\" rel=\"noopener\">Skyrim 202X</a>、<a href=\"../02-textures/noble-skyrim.md\" target=\"</em>blank\" rel=\"noopener\">Noble Skyrim</a></p>\n<ul><li><a href=\"../08-practices/install-order-and-conflicts.md\" target=\"_blank\" rel=\"noopener\">安装顺序与冲突</a></li><li><a href=\"../08-practices/performance-budget.md\" target=\"_blank\" rel=\"noopener\">性能预算</a></li></ul>",
+      "_file": "02-textures/texture-pack-selection.md",
+      "_chars": 1503
+    },
+    {
+      "id": "blended-roads",
+      "title": "Blended Roads",
+      "category": "03-landscape",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Blended Roads",
+        "道路",
+        "3D 路面",
+        "T4GTR34UM3R"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/5760",
+      "summary": "把路面石\"混\"进地面网格而不是贴一层贴图，消除道路 UV 瑕疵；与 Real Roads 互斥，需要带 alpha 的道路贴图配合。",
+      "aliases": [
+        "混路",
+        "3d 道路",
+        "real roads"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>T4GTR34UM3R</strong>（与 Majestic Mountains 同作者，一手源：xmodhub 转录 +</li></ul>\n<p>Skyland AIO 页 Credits \"T4gtr34um3r\"）</p>\n<ul><li><strong>Nexus</strong>：skyrimspecialedition/mods/<strong>8834</strong>（SE 版，一手源：Lux Via /</li></ul>\n<p>IGN 视频 / Pale Pass Extension 等多个页面的 Credits 均链接至 8834； LE 原版为 skyrim/mods/8837 一系）</p>\n<h2>解决什么问题（一手源：作者页）</h2>\n<p>原版道路是\"地面上再铺一层带 UV 的 mesh/贴图\"，接缝与 UV 瑕疵难避免。 Blended Roads <strong>把路面材质直接混合进地面网格</strong>——不再有独立路面层， \"eliminates a lot of road uvw issues\"。</p>\n<h2>关键事实</h2>\n<ul><li><strong>v1.4 起每种道路独立法线</strong>（Rift 落叶、Reach 苔藓），道路贴图由</li></ul>\n<p>Majestic Mountains 提供（一手源：changelog）。</p>\n<ul><li><strong>与 Real Roads 互斥</strong>（Real Roads 是另一条 3D 道路技术路线）。</li><li>兼容 SMIM 桥梁。</li><li>其它包的道路贴图<strong>通常没有 alpha 通道，混不进去</strong>——需要作者提供兼容版；</li></ul>\n<p>Pfuscher 为其出了 \"Blended Roads Retexture\"（可选文件，一手源：Nexus 2347 files）。</p>\n<ul><li>Skyland AIO <strong>捆绑 Blended Roads 网格</strong>（经作者许可，一手源：AIO Credits）。</li><li>已知问题：mesh 内可混合、mesh 间不行；碰撞略浮（几乎不可见）；</li></ul>\n<p>积雪路面投影处理见其 readme。</p>\n<h2>搭配建议（社区经验 + 一手源混合）</h2>\n<ul><li>202X 页面称其为 \"a must have for life like roads\"。</li><li>STEP 指南中 Cathedral Landscapes 安装即选 Blended Roads 选项。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../03-landscape/majestic-mountains.md\" target=\"_blank\" rel=\"noopener\">Majestic Mountains</a></li><li><a href=\"../03-landscape/terrain-lod-redone.md\" target=\"_blank\" rel=\"noopener\">Terrain LOD Redone</a>（道路 LOD 配套）</li></ul>",
+      "_file": "03-landscape/blended-roads.md",
+      "_chars": 1431
+    },
+    {
+      "id": "cathedral-landscapes",
+      "title": "Cathedral Landscapes",
+      "category": "03-landscape",
+      "version": "1.1.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Cathedral Landscapes",
+        "草地",
+        "地形",
+        "DrJacopo",
+        "社区"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/21954",
+      "summary": "Cathedral 系列的风景/草地组件：致密草（3 倍于原版的可生长表面）+ 配套地表与地形 LOD；v3.0.3 起提供 ESPFE 选项但切勿在旧存档上用。",
+      "aliases": [
+        "cathedral 草地",
+        "cathedral concept",
+        "致密草地",
+        "lightweight grass"
+      ],
+      "content": "<ul><li><strong>作者栏</strong>：\"The Community\"，上传者 <strong>DrJacopo</strong>（一手源：Nexus 21954）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/<strong>21954</strong>；当前 <strong>v3.0.3</strong>，</li></ul>\n<p>25,306 endorsements；依赖 <strong>Cathedral Weathers and Seasons</strong></p>\n<ul><li><strong>体积</strong>：约 941MB</li></ul>\n<h2>定位（一手源：发布页）</h2>\n<p>\"A dense grass mod that <strong>outperforms vanilla Skyrim</strong> with complementary landscape and terrain LOD to eliminate grass pop-in.\"</p>\n<p><strong>Lightweight Grass &amp; Landscape Overhaul</strong> 血统：草比原版更轻， 可生长表面达原版 <strong>3 倍</strong>，陡坡也长草（Reach 全覆盖）。 是\"Cathedral 哲学\"（公开共享、社区共建）在风景层的落地。</p>\n<h2>版本要点（均一手源：Nexus 21954 changelog）</h2>\n<ul><li><strong>v3.0.3 新增 ESPFE（light plugin）选项——⚠️ 旧存档切勿选</strong>：</li></ul>\n<p>作者原话 \"DO NOT try to use the optional ESPFE plugin with an existing savegame\"；以旧版 CL 为 master 的 mod/补丁会因此 CTD/ILS。稳妥选传统 fat ESP。</p>\n<ul><li>v3.0.2：给所有草加 object bounds，<strong>LOD 草多样性 +约 40%</strong>——</li></ul>\n<p>需重跑 DynDOLOD 才能生效。</p>\n<ul><li>v3.0：草基于<strong>实拍草叶</strong>；短草进入 Reach；雪基于 Cathedral Snow 4.3。</li><li>v1.2：地形 LOD 打进 BSA（改善与 A Quality World Map 等地图 mod 兼容）。</li><li>默认 <code>iMinGrassSize=60</code>；捆绑 Blended Roads / \"Really Blended Roads\" 选项。</li></ul>\n<h2>与 Cathedral Weathers 的关系</h2>\n<p>CWS 围绕 Lightweight Grass Overhaul 设计草-地过渡，很多 ENB 会破坏这些过渡 （一手源：Nexus 24791）。CL 的 Nexus 依赖项直接列了 CWS。</p>\n<h2>Credits（一手源）</h2>\n<p>G'k、J'Tharpla、Deorder（Cathedral Concept 完成的关键角色）； JonnyWang 的资产可自由使用（条件：你的 mod 也开放权限）； Mindflux 的高模蕨类（ENB Particle Patch）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../06-weather-lighting/cathedral-weathers.md\" target=\"_blank\" rel=\"noopener\">Cathedral Weathers</a></li><li><a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 生成完整流程</a></li><li><a href=\"../04-flora/grass-mods-overview.md\" target=\"_blank\" rel=\"noopener\">DrJacopo 3D 素材库</a>（80687，modder 资源）</li></ul>",
+      "_file": "03-landscape/cathedral-landscapes.md",
+      "_chars": 1859
+    },
+    {
+      "id": "majestic-mountains",
+      "title": "Majestic Mountains",
+      "category": "03-landscape",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Majestic Mountains",
+        "山脉",
+        "T4GTR34UM3R",
+        "网格",
+        "LOD"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/11052",
+      "summary": "完整的山脉重制（非单纯贴图）：8192×4096 单贴图合并、全山投影阴影、MOSS 苔藓 ESP、DynDOLOD LOD 包，v4.02（2022-10）。",
+      "aliases": [
+        "MM",
+        "雪山",
+        "moss"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>T4GTR34UM3R</strong>（一手源：Nexus 11052）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/11052；2017-07-23 上传，</li></ul>\n<p>当前 <strong>v4.02</strong>（2022-10-16），53,162 endorsements</p>\n<ul><li><strong>依赖</strong>：<strong>DynDOLOD</strong>（作者标注 required，一手源：readme）</li></ul>\n<h2>它是什么（一手源：readme）</h2>\n<p>不是 retexture，是<strong>山脉完全重制</strong>：</p>\n<ul><li>两张原版 4K 山脉贴图合并为<strong>一张 8192×4096</strong>，重调 UV，自制匹配 LOD；</li><li><strong>所有山脉投影阴影</strong>；重做顶点色与预烘焙 AO；</li><li>滥用多层视差着色器制造岩层变化，避免\"叠石头\"观感；</li><li>移除顶点色获得雪网格→雪地面的过渡；</li><li><strong>MOSS</strong>：可选 ESP 给山体投影苔藓材质，分绿苔（Reach）与褐苔</li></ul>\n<p>（Tundra/Rift）两版，打断 tiling；</p>\n<ul><li><strong>SUN</strong>：两个日照方向 ESP（North 默认 / South），<strong>只启用一个</strong>。</li></ul>\n<h2>三个版本</h2>\n<p>default / <strong>Darkside</strong> / <strong>Lightside</strong>——STEP 推荐 Lightside 与指南光照最搭 （一手源：STEP wiki）。选哪个取决于你的天气/ENB。</p>\n<h2>加载顺序与坑（均一手源：Nexus 11052 readme/posts）</h2>\n<ul><li><code>MajesticMountains.esp</code> 放在本 mod 其它部件<strong>之上</strong>。</li><li><code>MajesticMountains_Landscape.esm</code> 与改地形的 ESM（如 Beyond Skyrim: Bruma）</li></ul>\n<p>冲突→把该 ESM 在 load order 里往上放。</p>\n<ul><li><strong>用 MOSS ESP 后必须重跑 DynDOLOD</strong>（作者 2021-07-29 回帖：</li></ul>\n<p>CK 曾吞掉 ESM flag，4.02 已重新加回）。</p>\n<ul><li><strong>SSE Engine Fixes</strong> 疑似导致问题时：<code>skse/plugins/EngineFixes.ini</code> 里</li></ul>\n<p><code>BSLightingShaderForceAlphaTest = false</code>。</p>\n<ul><li>雪花色异常 → 检查 weather mod 与 MM 的顺序（LOOT 常把天气放下面）。</li><li>灰/白山体 → MM.esp 被禁或位置过低，且需重跑 DynDOLOD。</li><li>黑山体/岩石 → 重装通常解决。</li><li><strong>与其它山脉 retexture 不兼容</strong>（MM 专用 retexture 除外）；与主流雪 mod 兼容。</li><li>MM 网格面数高于 SMIM → <strong>让 MM 覆盖 SMIM 网格</strong>。</li><li>\"HD LODs\" 用了 MM 的山脉 LOD 贴图，安装时别覆盖它。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../07-mesh-tools/dyndolod.md\" target=\"_blank\" rel=\"noopener\">DynDOLOD</a>（LOD 包在 MM 可选文件）</li><li><a href=\"../03-landscape/blended-roads.md\" target=\"_blank\" rel=\"noopener\">Blended Roads</a>（同作者）</li><li><a href=\"../03-landscape/terrain-lod-redone.md\" target=\"_blank\" rel=\"noopener\">Terrain LOD Redone</a>（同社区地形 LOD 方案）</li></ul>",
+      "_file": "03-landscape/majestic-mountains.md",
+      "_chars": 1814
+    },
+    {
+      "id": "skyrim-3d-landscapes",
+      "title": "Skyrim 3D Landscapes（mathy79）",
+      "category": "03-landscape",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Skyrim 3D Landscapes",
+        "地被",
+        "mathy79",
+        "3D 植物"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/18247",
+      "summary": "mathy79 的植被扩张 + 2×2 地被贴图包：90+ 手工摆放的 3D 植物模型，配套 1K/2K/4K 地表，DXT1/DXT5 压缩，无性能损耗。",
+      "aliases": [
+        "3d 地被",
+        "groundcovers",
+        "S3D"
+      ],
+      "content": "<ul><li><strong>作者</strong>：mathy79（一手源：Nexus 18247）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/18247；当前 1.0.7（2020-05-31）</li></ul>\n<h2>两部分内容（一手源：发布页）</h2>\n<ol><li><strong>植被扩张</strong>：90+ 定制 3D 植物模型<strong>手工摆放</strong>全境（首版约 7600 条记录），</li></ol>\n<p>含独特树木/植物/水生植物/花/土崖杂草。</p>\n<ol><li><strong>地被贴图包</strong>：2×2 地表贴图，<strong>1K/2K/4K</strong> 三档；53 张地表 +</li></ol>\n<p>对应法线（v1.0.6）；DLC01 全覆盖、DLC02 部分覆盖。</p>\n<h2>技术细节（一手源：发布页）</h2>\n<ul><li>压缩：<strong>无 alpha 漫反射 DXT1；带 alpha 漫反射与法线 DXT5</strong>。</li><li><strong>无性能损耗</strong>（资产针对 SSE 优化，少数高模树稀疏种植）。</li><li>可随时安装/卸载。</li><li>Credits：David Chumila（摄影测量树干贴图）。</li></ul>\n<h2>兼容性（一手源：发布页）</h2>\n<ul><li>不兼容：Waterplants（会重叠）、Enhanced Landscapes。</li><li>兼容所有树木/植被 mod，<strong>设计为与 Skyrim 3D Trees and Plants 并用</strong>。</li><li>推荐搭配 Skyrim 3D Rocks 与 Blended Roads（3D 网格选项）。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../02-textures/skyland-aio.md\" target=\"_blank\" rel=\"noopener\">Skyland AIO</a>（同作者）</li><li><a href=\"../04-flora/grass-mods-overview.md\" target=\"_blank\" rel=\"noopener\">草类生态</a></li></ul>",
+      "_file": "03-landscape/skyrim-3d-landscapes.md",
+      "_chars": 1119
+    },
+    {
+      "id": "terrain-lod-redone",
+      "title": "Terrain LOD Redone",
+      "category": "03-landscape",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Terrain LOD Redone",
+        "地形 LOD",
+        "T4GTR43UM3R",
+        "远景"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/9135",
+      "summary": "T4GTR43UM3R 的地形远景重制：高分辨率 LOD 贴图/法线 + 高模 LOD 网格，几乎消除远景条纹；单 BSA + dummy 插件，load order 尽量靠上。",
+      "aliases": [
+        "地形远景",
+        "TLR",
+        "远景条纹",
+        "lod terrain"
+      ],
+      "content": "<ul><li><strong>作者</strong>：T4GTR43UM3R（一手源：Nexus 9135；与 T4GTR34UM3R 仅数字顺序不同，</li></ul>\n<p>应为同一人的另一个账号——<strong>未获作者确认，标注为存疑</strong>）</p>\n<ul><li><strong>Nexus</strong>：skyrimspecialedition/mods/9135；最终 v1.42</li></ul>\n<h2>它做什么（一手源：发布页）</h2>\n<ul><li>重做地形 LOD 漫反射贴图以更好适配 LOD 雪；</li><li>重做 LOD 法线提升远景细节；</li><li><strong>高模 LOD 网格</strong>几乎消除\"stripe effect\"（远景条纹）；</li><li>Solstheim 世界直接烘焙苔原草进 LOD 贴图；</li><li>世界地图兼容。</li></ul>\n<h2>安装要点（一手源：发布页）</h2>\n<ul><li>整包打进<strong>一个 BSA + dummy 插件</strong>；<strong>load order 尽量高</strong>（置顶附近）。</li><li>用 Open Cities 等改 LOD 网格的 mod，必须让它们覆盖本 mod 的 LOD 文件。</li><li>不想多一个插件：可把 BSA 按进 <code>Skyrim.ini</code> 后删掉 esp（作者给了方法）。</li><li>FAQ：装后<strong>不强制</strong>跑 DynDOLOD/xLODGen；与 Spring Grass Overhaul、Skyland</li></ul>\n<p>自带的 LOD 文件可混用；v1.3 起概念变更，<strong>建议卸载旧版再装新版</strong>。</p>\n<ul><li>v1.1 起<strong>删掉所有 LOD 贴图 mipmap</strong>（大面积贴图 mip 无收益，只占空间）。</li></ul>\n<h2>与 xLODGen 的关系</h2>\n<p>本包是<strong>预生成</strong>地形 LOD 资产；xLODGen 是<strong>为自己的 load order 现生成</strong>。 两者哲学不同：简单列表用预生成包省事；有世界改动的列表必须 xLODGen （见 <a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 生成完整流程</a>）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../01-principles/lod-principles.md\" target=\"_blank\" rel=\"noopener\">LOD 层级原理</a></li><li><a href=\"../09-troubleshooting/water-seams-and-lod-stripes.md\" target=\"_blank\" rel=\"noopener\">水缝与 LOD 条纹排错</a></li></ul>",
+      "_file": "03-landscape/terrain-lod-redone.md",
+      "_chars": 1343
+    },
+    {
+      "id": "aspens-ablaze",
+      "title": "Aspens Ablaze（SimonMagin）",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Aspens Ablaze",
+        "白桦",
+        "树木",
+        "SimonMagin",
+        "区域特化"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/39998",
+      "summary": "只做白桦树的区域特化 overhaul：黄绿/红/橙秋色白桦 + 完整树 LOD 配套，可与全境树 mod 叠加。",
+      "aliases": [
+        "秋树",
+        "红叶",
+        "aspen",
+        "桦树",
+        "秋色白桦"
+      ],
+      "content": "<ul><li><strong>作者</strong>：SimonMagin（一手源：Nexus 39998）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/39998</li></ul>\n<h2>定位</h2>\n<p>只改<strong>白桦（aspen）</strong>：更多色彩变化（黄绿、红、橙）， 让 Riften 秋色等场景出彩。属\"区域特化\"路线—— <strong>与全境树 mod（HLT/NOTWL 等）不冲突</strong>，是叠加层。</p>\n<h2>搭配（一手源：STEP 论坛用户实测）</h2>\n<ul><li>HLT/Aspens 是 STEP 用户常见组合：\"You can still use Aspens Ablaze if you want\"<ul><li>需确认 Aspens 插件 LOOT 排在 HLT 之后（曾需手动规则）。</li></ul></li><li>有 \"Aspens Ablaze 3D Trees Patch\"（Nexus 40472）等第三方补丁生态。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/happy-little-trees.md\" target=\"<em>blank\" rel=\"noopener\">Happy Little Trees</a>、<a href=\"../04-flora/tree-mods-overview.md\" target=\"</em>blank\" rel=\"noopener\">树木生态总览</a></li></ul>",
+      "_file": "04-flora/aspens-ablaze.md",
+      "_chars": 867
+    },
+    {
+      "id": "happy-little-trees",
+      "title": "Happy Little Trees（Pfuscher）",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Happy Little Trees",
+        "HLT",
+        "树木",
+        "Pfuscher",
+        "动画"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/50961",
+      "summary": "Pfuscher 的原版风树替换：蒙皮动画树枝、GTX 970 约 -5 FPS、Treescale.esm 松树放大 20%、官方 DynDOLOD 3 附加包，作者宣布 final。",
+      "aliases": [
+        "快乐小树",
+        "pfuscher 树",
+        "树动画"
+      ],
+      "content": "<ul><li><strong>作者</strong>：Pfuscher（一手源：Nexus 50961）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/50961；作者宣布 **\"Happy Little Trees</li></ul>\n<p>is final\"**（已完结）</p>\n<ul><li><strong>性能</strong>：作者实测 GTX 970 关闭帧限时 <strong>-5 FPS</strong>（一手源：发布页）</li></ul>\n<h2>特性（一手源：发布页）</h2>\n<ul><li><strong>原版风</strong>树替换：好看与低开销兼得（作者立项动机即此）。</li><li><strong>树枝是蒙皮的</strong>——动画自然，不再每 10 秒重复一次摆动。</li><li><strong>Treescale.esm</strong>：把多数绿/枯松放大 <strong>20%</strong>（可自定缩放，articles 区有指南）。</li><li>自带树 LOD 选项 + articles 区的 LOD 广告牌制作指南；</li></ul>\n<p><strong>3D LOD 走外部 \"Happy Little Trees Add-On - DynDOLOD 3\"</strong>（STEP 社区托管）。</p>\n<ul><li>v0.41 起修 Reach/Aspen 的<strong>切线空间问题</strong>（可见 bug，changelog）。</li><li>与 Simplicity of Snow、JK's Winterhold 兼容。</li></ul>\n<h2>搭配纪律（一手源：STEP 论坛）</h2>\n<ul><li>与 <strong>Enhanced Vanilla Trees（EVT）互斥</strong>——同改原版树，</li></ul>\n<p>无自定义补丁不兼容（STEP 用户回帖）。</p>\n<ul><li>装 HLT 后跑 LOOT，再重生成 LOD（TexGen + DynDOLOD）。</li><li>可与 <strong>Aspens Ablaze</strong> 共存（Aspens 插件排在 HLT 之后）。</li><li>Lux Via 的 Credits 亦引用 HLT（一手源：Nexus 63588）。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/tree-mods-overview.md\" target=\"_blank\" rel=\"noopener\">树木生态总览</a></li><li><a href=\"../07-mesh-tools/dyndolod.md\" target=\"_blank\" rel=\"noopener\">DynDOLOD</a></li></ul>",
+      "_file": "04-flora/happy-little-trees.md",
+      "_chars": 1275
+    },
+    {
+      "id": "landscape-fixes-for-grass-mods",
+      "title": "Landscape Fixes For Grass Mods（code1k / Arthmoor）",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Landscape Fixes",
+        "草",
+        "接缝",
+        "code1k",
+        "Arthmoor"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/9005",
+      "summary": "改地形记录消掉\"草从物体里长出/路径被草盖住/雪区长绿草\"等问题；SE 版由 code1k 维护（LE 原作者 Arthmoor），v5.9（2026-09）。",
+      "aliases": [
+        "草地补丁",
+        "草穿模",
+        "地形接缝"
+      ],
+      "content": "<ul><li><strong>作者</strong>：SE 版 <strong>code1k</strong>；LE 原版 <strong>Arthmoor</strong></li></ul>\n<p>（一手源：Nexus 9005；Bethesda.net 移植页注明 \"Created by Arthmoor\"）</p>\n<ul><li><strong>Nexus</strong>：skyrimspecialedition/mods/9005；当前 <strong>v5.9</strong>（2026-09-27），</li></ul>\n<p>56,601 endorsements；Light 插件</p>\n<ul><li><strong>定位</strong>：性能优化 + Bug Fixes + Lore-Friendly</li></ul>\n<h2>它做什么（一手源：发布页 + Bethesda 页描述）</h2>\n<ul><li><strong>改地形记录</strong>（cell 级）让草不在石头/墙/物体位置生长，减少穿模；</li><li>恢复被草盖住的<strong>小径与细节</strong>，清理部分道路的过度生长；</li><li>移除看不到的位置的草（Whiterun 墙内、Falkreath 建筑内等）<strong>提性能</strong>；</li><li>修若干<strong>纹理接缝</strong>（如 cell 6,-11）；为 USSEP XLCN 转发记录；</li><li>v5.9 起主文件 FOMOD 化，捆绑 Vanilla Military Camps 与</li></ul>\n<p>Generic Grass Limiter（火山/雪原等不兼容纹理的通用限草器）。</p>\n<h2>安装纪律（一手源：Bethesda.net 页 + 9005 页）</h2>\n<ul><li><strong>放在 load order 顶部区域</strong>，且必须<strong>早于任何改这些区域地形高度的 mod</strong>。</li><li>与 NGIO 分工：NGIO 动态射线防长草；本 mod 静态改地形记录——</li></ul>\n<p>两者可互补（社区常见组合）。</p>\n<ul><li>与 Open Cities 兼容（v2.0 起\"full fix for open cities\"）。</li><li>有 Verdant 专用 tweaks 文件（changelog）。</li></ul>\n<h2>中文翻译（一手源）</h2>\n<p>Nexus 73098（FirstAstor 译）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/no-grass-in-objects.md\" target=\"_blank\" rel=\"noopener\">No Grass In Objects</a></li><li><a href=\"../09-troubleshooting/grass-clipping-and-density-issues.md\" target=\"_blank\" rel=\"noopener\">草穿模排错</a></li></ul>",
+      "_file": "04-flora/landscape-fixes-for-grass-mods.md",
+      "_chars": 1415
+    },
+    {
+      "id": "nature-of-the-wild-lands",
+      "title": "Nature of the Wild Lands（fxxkthisworld）",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Nature of the Wild Lands",
+        "NOTWL",
+        "摄影测量",
+        "树木",
+        "fxxkthisworld"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/63604",
+      "summary": "摄影测量森林重制：400+ 新树木植物物件、atlas 优化减面、SSS 与 3D LOD、支持季节 mod；v3.14（2025-09）仍在更新。",
+      "aliases": [
+        "野生自然",
+        "森林重制",
+        "photogrammetry",
+        "照片扫描",
+        "密林"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>fxxkthisworld</strong>（一手源：Nexus 63604）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/63604；当前 <strong>v3.14</strong>（2025-09-02），</li></ul>\n<p>14,820 endorsements</p>\n<ul><li><strong>要求</strong>：&lt;1.6.1130 的游戏版本需 Backported Extended ESL Support；</li></ul>\n<p>可选 Seasons of Skyrim、USSEP</p>\n<h2>特性（一手源：发布页/changelog）</h2>\n<ul><li>400+ <strong>摄影测量</strong>新树木/植物/物件，替换几乎全部原版树与植株网格；</li><li><strong>v3.00 起重做</strong>：所有树 <strong>atlas 化</strong>减少 draw call、减面、</li></ul>\n<p>简化碰撞并加 navcut（NPC 不会卡在树里）、加碰撞材质 （箭射树不再消失）；移除全部地形改动（提升兼容）。</p>\n<ul><li>v3.10+：主流树种加 <strong>SSS（次表面散射）与高光</strong>、<strong>3D LOD</strong> 并入主包；</li></ul>\n<p>枝干 1K / 树干 2K 默认，可选更高。</p>\n<ul><li>支持 <strong>Seasons of Skyrim</strong>（3.12 起进主包）。</li></ul>\n<h2>兼容性注意（一手源）</h2>\n<ul><li>支持/推荐与 Season of Skyrim 系补丁；3.12 提供兼容 Seasonal Landscapes、</li></ul>\n<p>Turn of the Seasons 等的替代季节补丁。</p>\n<ul><li>Solstheim 修复由 Czasior 贡献（3.12 changelog 致谢）。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/tree-mods-overview.md\" target=\"_blank\" rel=\"noopener\">树木生态总览</a></li><li><a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 生成完整流程</a></li></ul>",
+      "_file": "04-flora/nature-of-the-wild-lands.md",
+      "_chars": 1246
+    },
+    {
+      "id": "no-grass-in-objects",
+      "title": "No Grass In Objects（meh321）",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "NGIO",
+        "草",
+        "性能",
+        "meh321",
+        "SKSE"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/42161",
+      "summary": "SKSE 插件：阻止草从岩石/地板/木箱/路面里长出来，可扩展草的绘制距离并生成草 LOD 缓存；v1.6.14 已支持游戏 1.7.99/1.7.104。",
+      "aliases": [
+        "No Grass In Objects",
+        "草穿模",
+        "草缓存",
+        "grass cache"
+      ],
+      "content": "<ul><li><strong>作者</strong>：meh321（一手源：Nexus 42161）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/42161；当前 <strong>v1.6.14</strong></li></ul>\n<p>（2026-10-19 更新），26,077 endorsements</p>\n<ul><li><strong>依赖</strong>：SKSE64 + Address Library；需 VC++ 2022 x64 运行库</li></ul>\n<h2>功能（一手源：发布页）</h2>\n<ol><li><strong>阻止草从物体里长出</strong>：岩石、地板、床卷、木箱、路面等——</li></ol>\n<p>用射线检测判断草该不该长。</p>\n<ol><li><strong>Extended Grass Distance</strong>：允许草在已加载单元之外绘制。</li><li><strong>草缓存（grass cache）</strong>：为 DynDOLOD 的草 LOD 生成提供基础。</li></ol>\n<h2>版本与 1.7.x 适配（一手源：changelog）</h2>\n<ul><li>v1.6.11-1.6.14：连续修复 <strong>1.7.99/1.7.104</strong> 的启动报错与崩溃</li></ul>\n<p>（\"Fixed crash while loading a save with extended grass with game versions 1.7.99/104\"）——<strong>是环境类 mod 中较早适配 1.7.x 的</strong>。</p>\n<ul><li>v1.6.3：射线检测优化，草生成平均快 60%，减少切区卡顿。</li><li>v1.6.4：新增 <code>_NGIO</code> 后缀 ini 做<strong>按 trishape 的过滤</strong></li></ul>\n<p>（如只允许山崖平面长草、忽略路面泥土部分）。</p>\n<h2>与 LOD 的关系（一手源：Nolvus 指南）</h2>\n<ul><li>NGIO 设置变更（除两个距离值）→ <strong>重建草缓存</strong>（删 Grass Cache mod 重跑）。</li><li>顺序上：先 NGIO 出缓存 → DynDOLOD 用它生成草 LOD。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/grass-mods-overview.md\" target=\"<em>blank\" rel=\"noopener\">草类生态</a>、<a href=\"../04-flora/grass-ini-settings.md\" target=\"</em>blank\" rel=\"noopener\">草地 INI 设置</a></li><li><a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 生成完整流程</a></li><li>游戏版本矩阵见 <code>character-appearance-kb/00-overview/game-version-1-7-x.md</code></li></ul>",
+      "_file": "04-flora/no-grass-in-objects.md",
+      "_chars": 1422
+    },
+    {
+      "id": "sfo",
+      "title": "Skyrim Flora Overhaul（vurt）",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "SFO",
+        "树木",
+        "草地",
+        "vurt",
+        "经典"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2154",
+      "summary": "vurt 的经典树+草 overhaul：SMIM 页仍将其列为\"帧数代价可观但优秀\"的推荐；树为主、草为辅的老牌路线。",
+      "aliases": [
+        "Skyrim Flora Overhaul",
+        "植物大修",
+        "树"
+      ],
+      "content": "<ul><li><strong>作者</strong>：vurt（一手源：moddingskyrim 作者名录；巴哈姆特 mod 整理帖）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/<strong>2154</strong>（SE 版；一手源：Nexus 2154）</li><li><strong>现状</strong>：当前 <strong>v2.74a</strong>（2024-11-11 仍在更新），157,028 endorsements；</li></ul>\n<p>18 个新树模型 + ~65 种草/植物 + 180+ 纹理 + 自带 3D LOD （一手源：发布页）</p>\n<ul><li><strong>性能</strong>：作者 FAQ 自述 \"-1 to -10 FPS\"（Nvidia 980ti），</li></ul>\n<p>\"Avoid this mod if you are struggling with FPS already\"</p>\n<ul><li><strong>自带 ini</strong>：<code>skyrim flora overhaul.ini</code> 内含</li></ul>\n<p><code>iMaxGrassTypesPerTexure=7</code>（不可改）与 <code>iMinGrassSize=10</code>（作者默认， 可调大换性能）——一手源：FAQ</p>\n<ul><li><strong>Trees-only 版（2.7+）</strong>：纯替换无 esp，<strong>不要</strong>用 skyrim flora overhaul.ini</li></ul>\n<h2>与其它植被 mod 的关系（一手源：各页）</h2>\n<ul><li><strong>Verdant</strong>：\"install AFTER SFO and let it OVERWRITE ALL…… be sure to load</li></ul>\n<p>this AFTER SFO\"（Verdant 页 FAQ）——即 Verdant 的草覆盖 SFO 的草，树保留。</p>\n<ul><li>Folkvangr Credits 含 vurt（一手源：Nexus 44899）。</li><li>Tamrielic Grass Credits \"vurt, joshezzell\"（一手源：Nexus 46217）。</li><li>SETOG 指南用 \"SFO - No Grass file\" 搭配单独草 mod（一手源：Nexus 5883）。</li></ul>\n<h2>现状评估（社区经验）</h2>\n<p>SFO 已多年未大更；现代列表更多用 HLT/NOTWL（树）+ 现代草 mod（草）。 SFO 的遗留价值在<strong>树 LOD 广告牌资产</strong>（多个老指南仍以其 LOD 为基准）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/tree-mods-overview.md\" target=\"<em>blank\" rel=\"noopener\">树木生态总览</a>、<a href=\"../04-flora/grass-mods-overview.md\" target=\"</em>blank\" rel=\"noopener\">草类生态</a></li></ul>",
+      "_file": "04-flora/sfo.md",
+      "_chars": 1434
+    },
+    {
+      "id": "tree-mods-overview",
+      "title": "树木 overhaul 生态总览",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "树木",
+        "选型",
+        "生态",
+        "trees",
+        "森林"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/50961",
+      "summary": "五条技术路线：原版风替换（HLT/EVT）、摄影测量重制（NOTWL）、区域特化（Aspens/Bent Pines）、3D 植物扩张（S3D）、致密化（SFO/HLT scale）。",
+      "aliases": [
+        "树 mod",
+        "白桦",
+        "松树",
+        "EVT",
+        "Enhanced Vanilla Trees"
+      ],
+      "content": "<h2>技术路线（一手源：各发布页）</h2>\n<table><thead><tr><th style=\"text-align:left\">路线</th><th style=\"text-align:left\">代表</th><th style=\"text-align:left\">特征</th></tr></thead><tbody><tr><td style=\"text-align:left\">原版风精细替换</td><td style=\"text-align:left\"><strong>Happy Little Trees</strong>（50961）、Enhanced Vanilla Trees</td><td style=\"text-align:left\">蒙皮动画、低开销、树 LOD 指南齐全</td></tr><tr><td style=\"text-align:left\">摄影测量重制</td><td style=\"text-align:left\"><strong>Nature of the Wild Lands</strong>（63604）</td><td style=\"text-align:left\">400+ 新模型、atlas 优化、SSS、3D LOD</td></tr><tr><td style=\"text-align:left\">区域特化</td><td style=\"text-align:left\"><strong>Aspens Ablaze</strong>（39998，白桦）、Bent Pines II（8306）、Blubbos Reach 树</td><td style=\"text-align:left\">只改一类树，与其它树 mod 共存</td></tr><tr><td style=\"text-align:left\">3D 植物扩张</td><td style=\"text-align:left\"><strong>Skyrim 3D Trees and Plants</strong>（12371，mathy79）</td><td style=\"text-align:left\">加新树种/植株，非替换</td></tr><tr><td style=\"text-align:left\">树+草一体</td><td style=\"text-align:left\">SFO（树为主）、Seasonal Landscapes</td><td style=\"text-align:left\">自带季节或草配套</td></tr></tbody></table>\n<h2>共同纪律（一手源：STEP 论坛 + 各页）</h2>\n<ol><li><strong>两个全境树 mod 互斥</strong>（EVT 与 HLT 不能共存，STEP 原话：</li></ol>\n<p>\"EVT and HLT both change vanilla trees, so they are not compatible without custom patching\"）。</p>\n<ol><li><strong>换树 mod 后必须重生成 LOD</strong>（TexGen + DynDOLOD，STEP 论坛回帖）。</li><li>区域特化 mod（Aspens 等）通常可叠在全境树 mod 之上，注意 LOOT 排序</li></ol>\n<p>（Aspens Ablaze 的插件应在 HLT 之后，STEP 用户实测需手动规则）。</p>\n<ol><li>树 mod 是<strong>帧数大户</strong>：NOTWL 3.00 起做 atlas + 减面 + navcut 优化</li></ol>\n<p>（一手源：changelog），HLT 自称 GTX 970 上约 -5 FPS。</p>\n<h2>快速选型（社区经验）</h2>\n<ul><li>要\"原版味 + 高性能\"：HLT（+Treescale.esm 松树 +20%）。</li><li>要\"现代摄影测量观感\"：NOTWL（3.10+ 带 SSS 与 3D LOD）。</li><li>只想秋天红叶：Aspens Ablaze 叠在任意全境包上。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/happy-little-trees.md\" target=\"_blank\" rel=\"noopener\">Happy Little Trees</a>、</li></ul>\n<p><a href=\"../04-flora/aspens-ablaze.md\" target=\"<em>blank\" rel=\"noopener\">Aspens Ablaze</a>、 <a href=\"../04-flora/nature-of-the-wild-lands.md\" target=\"</em>blank\" rel=\"noopener\">Nature of the Wild Lands</a>、 <a href=\"../04-flora/sfo.md\" target=\"_blank\" rel=\"noopener\">Skyrim Flora Overhaul</a></p>\n<ul><li><a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 生成完整流程</a></li></ul>",
+      "_file": "04-flora/tree-mods-overview.md",
+      "_chars": 1688
+    },
+    {
+      "id": "grass-ini-settings",
+      "title": "草地 INI 设置与密度调校",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "INI",
+        "草地",
+        "密度",
+        "iMinGrassSize",
+        "iMaxGrassTypesPerTexure"
+      ],
+      "kind": "tutorial",
+      "source": "https://www.nexusmods.com/skyrim/mods/60220",
+      "summary": "[GRASS] 段两个关键值：iMaxGrassTypesPerTexure 决定草 mod 能否全貌工作，iMinGrassSize 反向调密度；改 NGIO 设置要重建草缓存。",
+      "aliases": [
+        "草地 ini",
+        "草密度",
+        "grass settings"
+      ],
+      "content": "<h2><code>[GRASS]</code> 段两个关键值（一手源：Verdant 页）</h2>\n<ul><li><strong><code>iMaxGrassTypesPerTexure=15</code></strong>：\"Always, even with SFO\"——</li></ul>\n<p>Verdant 每种地表纹理下挂了 15 种草，不到 15 很多草不显示。 <strong>装任何密草 mod 先查它自己的要求</strong>。</p>\n<ul><li><strong><code>iMinGrassSize=70</code></strong>：Verdant 作者个人值。<strong>值越小草越密</strong></li></ul>\n<p>（60=极密，100=性能）；作者明确不支持低于 60。 掉帧时先调它（社区经验：sinitar 指南建议试 80/100/120）。</p>\n<h2>常见组合参照（一手源：各页 + STEP）</h2>\n<ul><li>Cathedral Landscapes 默认 <code>iMinGrassSize=60</code>（一手源：21954 changelog）。</li><li>各草 mod 通常<strong>自带 ini</strong>（Folkvangr：\"I've included the grass ini settings</li></ul>\n<p>that I use. I do recommend keeping these settings\"，一手源：44899）。</p>\n<ul><li>STEP 指南：用 Cathedral Landscapes 时 Visuals 的 Grass 项无需再调</li></ul>\n<p>（一手源：STEP wiki）。</p>\n<h2><code>[Display]</code> 相关（社区经验）</h2>\n<ul><li><code>fWindGrassMultiplier</code>：加大风吹草动（sinitar 指南推荐值 3.5/7/11 实验）。</li><li>Grass Fade 等 View Distance 值：STEP 推荐 Grass Fade=18000（最大）。</li></ul>\n<h2>改设置后的连带动作（一手源：Nolvus LODGEN 章）</h2>\n<ul><li>改了 <strong>NGIO 的 <code>OverwriteGrassDistance/FadeRange</code> 之外</strong>的任何东西</li></ul>\n<p>（包括换草 mod、改 NGIO 其它设置）→ <strong>必须重建草缓存</strong> （删除 Grass Cache mod 后重跑生成）。</p>\n<ul><li>仅这两个距离值可直接改，无需重建。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/grass-mods-overview.md\" target=\"_blank\" rel=\"noopener\">草类生态</a></li><li><a href=\"../04-flora/no-grass-in-objects.md\" target=\"_blank\" rel=\"noopener\">No Grass In Objects</a></li><li><a href=\"../08-practices/ini-and-display-settings.md\" target=\"_blank\" rel=\"noopener\">游戏 INI 显示设置</a></li></ul>",
+      "_file": "04-flora/grass-ini-settings.md",
+      "_chars": 1486
+    },
+    {
+      "id": "grass-mods-overview",
+      "title": "草类 mod 生态总览",
+      "category": "04-flora",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "草",
+        "grass",
+        "生态",
+        "选型",
+        "性能"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/44899",
+      "summary": "现代草 mod 五大路线与互斥规则：致密高性能（Cathedral/Folkvangr）、ENB 复杂草（Tamrielic）、GoS  tweak（Verdant）、摄影测量（Origins of Forest）、区域混合（Skoglendi）。",
+      "aliases": [
+        "草地",
+        "草 mod",
+        "致密草地",
+        "ENB complex grass",
+        "GoS"
+      ],
+      "content": "<h2>铁律：<strong>全境草 mod 一次只装一个</strong></h2>\n<p>一手源证据链：</p>\n<ul><li>Verdant 页：\"GENERALLY ALL GRASS MODS ARE INCOMPATIBLE…… install AFTER……</li></ul>\n<p>and allow it to OVERWRITE ALL files\"（Nexus 60220）。</p>\n<ul><li>sinitar 指南：\"Between the grass mods that affect all Skyrim regions,</li></ul>\n<p><strong>install only one</strong>\"（社区经验，二手转述）。</p>\n<ul><li>区域小 mod 可叠在全境包之上（同上）。</li></ul>\n<h2>主要选手（均一手源：各自 Nexus 页）</h2>\n<table><thead><tr><th style=\"text-align:left\">mod</th><th style=\"text-align:left\">作者</th><th style=\"text-align:left\">特征</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Cathedral Landscapes</strong></td><td style=\"text-align:left\">The Community / DrJacopo</td><td style=\"text-align:left\">致密、3× 可生长表面、自带地形 LOD；21954</td></tr><tr><td style=\"text-align:left\"><strong>Folkvangr</strong></td><td style=\"text-align:left\">Grumbledoook</td><td style=\"text-align:left\">高质量 + 匹配地表；<strong>建议关 ENB Complex Grass</strong>（无 normal map，开了会怪）；44899</td></tr><tr><td style=\"text-align:left\"><strong>Verdant</strong></td><td style=\"text-align:left\">Preeum</td><td style=\"text-align:left\"><strong>Grass on Steroids（GoS）tweak</strong> 内建，中低配友好；1K/512 版；60220（LE 页）/ SE 有单独页</td></tr><tr><td style=\"text-align:left\"><strong>Tamrielic Grass</strong></td><td style=\"text-align:left\">Ciathyza</td><td style=\"text-align:left\">Complex Grass 版需 <strong>ENB v0.473+</strong>；NGIO 可选依赖；46217</td></tr><tr><td style=\"text-align:left\"><strong>Northern Grass SE</strong></td><td style=\"text-align:left\">BrosisJK</td><td style=\"text-align:left\">经典北欧风</td></tr><tr><td style=\"text-align:left\"><strong>Origins of Forest</strong></td><td style=\"text-align:left\">forbeatn</td><td style=\"text-align:left\">3D 森林地被；45719</td></tr><tr><td style=\"text-align:left\"><strong>Cathedral - 3D Pine Grass</strong></td><td style=\"text-align:left\">The Community</td><td style=\"text-align:left\">松林 3D 草</td></tr><tr><td style=\"text-align:left\"><strong>Skoglendi</strong></td><td style=\"text-align:left\">JPSteel2</td><td style=\"text-align:left\">现代流行款；93944</td></tr><tr><td style=\"text-align:left\"><strong>Kyne's Grass</strong></td><td style=\"text-align:left\">mnikjom 等</td><td style=\"text-align:left\">多作者素材混合</td></tr><tr><td style=\"text-align:left\"><strong>DrJacopo's 3D Landscapes and Grass Library</strong></td><td style=\"text-align:left\">DrJacopo</td><td style=\"text-align:left\"><strong>modder 资源库</strong>（80687），内含 WIP 的 Cathedral - 3D Landscapes</td></tr></tbody></table>\n<h2>ENB Complex Grass 专项</h2>\n<ul><li>ENB 的 Complex Grass 需要草的 normal map；没有的包（如 Folkvangr）</li></ul>\n<p>开了会\"looks weird\"（一手源：44899 页）。</p>\n<ul><li>Tamrielic 的 Complex Grass 版反过来<strong>要求</strong> ENB 0.473+。</li><li>社区有 \"ENB Complex Grass - Patch Compendium\" 给各草包补 normal map</li></ul>\n<p>（社区经验：sinitar 指南）。</p>\n<h2>性能（社区经验 + 一手源混合）</h2>\n<ul><li>密草是帧数第一杀手；FNIS 之前先确认 <code>iMinGrassSize</code>。</li><li>GoS 路线（Verdant）以少量草型实现密度，中低配首选。</li><li>\"Cathedral Landscapes - Skoglendi - 3D Pines - Blended\"（114540，</li></ul>\n<p>Hawksbill）展示了手混三家之草的区域混合思路（一手源：该页）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/grass-ini-settings.md\" target=\"_blank\" rel=\"noopener\">草地 INI 设置</a></li><li><a href=\"../04-flora/no-grass-in-objects.md\" target=\"_blank\" rel=\"noopener\">No Grass In Objects</a></li><li><a href=\"../04-flora/landscape-fixes-for-grass-mods.md\" target=\"_blank\" rel=\"noopener\">Landscape Fixes For Grass Mods</a></li></ul>",
+      "_file": "04-flora/grass-mods-overview.md",
+      "_chars": 2143
+    },
+    {
+      "id": "pure-waters",
+      "title": "Pure Waters（Laast）",
+      "category": "05-water",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Pure Waters",
+        "水体",
+        "Laast",
+        "老牌"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrim/mods/3541",
+      "summary": "老牌\"纯净自然水\"包：自然多样的水色 + 北欧遗迹内部水体覆盖；LE 时代经典，SE 用 RW2/Water for ENB 之前的老选择。",
+      "aliases": [
+        "纯净水",
+        "老牌水 mod",
+        "natural water",
+        "clean water",
+        "遗迹水"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>Laast</strong>（一手源：Steam Workshop 页署名 + playground.ru 转述；</li></ul>\n<p>同作者还有 Authentic Whiterun/Solitude/Windhelm 系列）</p>\n<ul><li><strong>Nexus</strong>：LE 版 skyrim/mods/3541（SE 玩家常经 LE 页下载手动安装）</li><li><strong>同作者其它</strong>：Authentic Whiterun / Solitude / Windhelm（1K 城市场景贴图，</li></ul>\n<p>一手源：Nexus 论坛用户推荐帖）</p>\n<h2>特性（一手源：Steam Workshop 描述）</h2>\n<ul><li>\"pure, clean, and natural water, as it should be in the cold mountains</li></ul>\n<p>of Skyrim\"——自然、野性、多样的水色；</p>\n<ul><li><strong>覆盖北欧遗迹内部水体</strong>（与重制地牢的光照配套）。</li></ul>\n<h2>现状（社区经验）</h2>\n<ul><li>LE 时代（2013 前后）最常用水包之一；SE 时代**主流已被 RW2 与</li></ul>\n<p>Water for ENB 取代<strong>（sinitar 指南把它列为 RW2 的 alternative， 并提醒</strong>不要与 RW2 同时用**）。</p>\n<ul><li>sinitar 指南另提 \"Simplicity of Sea\"（带 ENB 位移贴图的水 mod）为替代品。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../05-water/realistic-water-two.md\" target=\"<em>blank\" rel=\"noopener\">Realistic Water Two</a>、<a href=\"../05-water/water-for-enb.md\" target=\"</em>blank\" rel=\"noopener\">Water for ENB</a></li></ul>",
+      "_file": "05-water/pure-waters.md",
+      "_chars": 1083
+    },
+    {
+      "id": "realistic-water-two",
+      "title": "Realistic Water Two SE（isoku / TechAngel85 / CaptainCockerel）",
+      "category": "05-water",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "RW2",
+        "水体",
+        "isoku",
+        "TechAngel85",
+        "ENB"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2182",
+      "summary": "水体 overhaul 标杆：湖/池/沼/河/海各自独立的水色与音效，漂浮碎冰、铁匠槽水花、瀑布重制；SE 版 v5.7.3，ESM 主插件。",
+      "aliases": [
+        "Realistic Water Two",
+        "真实水体",
+        "水",
+        "water"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>isoku</strong>（原作）、<strong>TechAngel85</strong>（维护/扩展）、</li></ul>\n<p><strong>CaptainCockerel</strong>（WATER 资产与持续贡献）——一手源：Nexus 2182 Credits</p>\n<ul><li><strong>Nexus</strong>：skyrimspecialedition/mods/<strong>2182</strong>；当前 <strong>v5.7.3</strong>；</li></ul>\n<p>173,856 endorsements；<strong>主插件是 Master（ESM）</strong></p>\n<ul><li><strong>LE 原版</strong>：skyrim/mods/41076（isoku，v1.12）</li></ul>\n<h2>解决什么（一手源：xmodhub 转录的官方描述）</h2>\n<p>SE 的新水流系统\"一刀切\"地给几乎所有水体加流动——小沼泽池像河一样流。 RW2 让<strong>湖/池/沼泽/河/海重新变得视觉与听觉上各自独立</strong>。</p>\n<h2>主要特性（一手源：发布页）</h2>\n<ul><li>静水（湖/池/沼）不再单向流动，改为原地涟漪起伏；</li><li>各水体<strong>独有颜色</strong>（池、沼、火山水等）；</li><li>湖/河/海新环境音效（30-50 秒），<strong>池无声</strong>；音量可在游戏音频菜单调；</li><li><strong>铁匠水槽</strong>：浮动锻打碎屑（hammerscale）；</li><li><strong>碎冰/浮冰</strong>偶发开裂与汩汁声；部分小船随波起伏；</li><li>Solstheim 海岸浪加到 Skyrim 海岸；大瀑布提速/重制贴图/加粒子；</li><li>水面贴图最高 <strong>4K</strong>（取自高分辨率 3D 水模拟）；雨滴涟漪不再滑动；</li><li>\"绿反光\"SE bug 修复；MCM 支持把 RW2 功能扩展到其它 mod。</li></ul>\n<h2>权限特点（一手源：发布页）</h2>\n<ul><li>兼容补丁<strong>无需许可</strong>（鼓励）；但\"修 bug 的补丁\"需作者评估——</li></ul>\n<p>作者视其为应并入主 mod 的修复。</p>\n<ul><li>Xbox/PS 移植允许（需署名）。</li></ul>\n<h2>兼容性（一手源 + 社区经验）</h2>\n<ul><li><strong>与 ENBSeries 完全兼容</strong>（发布页原话 \"Fully compatible with ENBSeries\"）。</li><li>需 Dragonborn（waves 插件）；Brumbek 授权使用部分 SMIM 网格；</li></ul>\n<p>fadingsignal 的 Volcanic Tundra 热浪效果创意。</p>\n<ul><li>已知：瀑布 LOD 与 DynDOLOD 的配合问题曾在 5.7.1 被报（官方判 \"not a bug\"，</li></ul>\n<p>需按指南顺序生成）。</p>\n<ul><li>与其它水 mod <strong>二选一</strong>（社区共识）。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../05-water/water-for-enb.md\" target=\"<em>blank\" rel=\"noopener\">Water for ENB</a>、<a href=\"../05-water/pure-waters.md\" target=\"</em>blank\" rel=\"noopener\">Pure Waters</a></li><li><a href=\"../09-troubleshooting/water-seams-and-lod-stripes.md\" target=\"_blank\" rel=\"noopener\">水缝排错</a></li></ul>",
+      "_file": "05-water/realistic-water-two.md",
+      "_chars": 1669
+    },
+    {
+      "id": "water-for-enb",
+      "title": "Water for ENB（mindflux）",
+      "category": "05-water",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Water for ENB",
+        "水体",
+        "mindflux",
+        "ENB",
+        "CS",
+        "位移"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/37061",
+      "summary": "为 ENB/CS 位移水体设计的水 mod：多水样式、消水缝、粒子瀑布、大量内置补丁；v2.21（2026-08）仍高频更新，与其它水 mod 互斥。",
+      "aliases": [
+        "WFE",
+        "位移水",
+        "displacement",
+        "particle waterfalls"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>mindflux</strong>（一手源：Nexus 37061 文件信息）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/<strong>37061</strong>；当前 <strong>v2.21</strong></li></ul>\n<p>（主文件 2026-08-01），42,495 endorsements</p>\n<ul><li><strong>同作者</strong>：Embers XD、Particle Patch（见<a href=\"../06-weather-lighting/interior-lighting-mods.md\" target=\"_blank\" rel=\"noopener\">Embers XD</a>）</li></ul>\n<h2>功能（一手源：发布页）</h2>\n<ul><li><strong>位移（displacement）支持</strong>：ENB/CS 下的真实水面起伏；</li><li>多种水样式可选；大量自定义项；</li><li><strong>消除绝大多数水缝</strong>；更透明的静水；</li><li>大水体去流向、河流保留原版流向；</li><li>幽灵海/湖/河各自波形；黑暗环境无发光瀑布；</li><li>4K 主贴图 + <strong>2K 性能版</strong>；</li><li><strong>粒子瀑布</strong>附加组件（需 <code>iMaxDesired≥10000</code>，一手源：files 页）；</li><li><strong>支持 Community Shaders</strong>（\"Shades of Skyrim\"系列）。</li></ul>\n<h2>依赖与互斥（一手源：发布页）</h2>\n<ul><li><strong>必须</strong>有 ENBSeries 或 Community Shaders 才有高级水效。</li><li><strong>与任何其它水 mod 互斥</strong>（RW2/Pure Waters 等二选一）。</li><li>与 Depths of Skyrim 配合良好；兼容 iNeed/RND2.0/Keep it Clean/</li></ul>\n<p>Wade In Water（选 Legacy iNeed Support）。</p>\n<ul><li>卸载警告：<strong>Shades of Skyrim for ENB 版不建议中途卸载</strong>（不开新局别卸）；</li></ul>\n<p>CS 版可随时安全卸载。</p>\n<h2>补丁生态（一手源：发布页）</h2>\n<p>安装器内置大量补丁：Atlas Map Markers、Beyond Skyrim: Bruma、 ELFX Shadows、ETaC、Falskaar、Folkvangr、JK 系列、MEZF、 Flat World Map Framework 等；官方推荐用 <strong>Synthesis patcher</strong> （有 panthuncia 为 Shades of Skyrim ENB/CS 做的专用 patcher）。</p>\n<h2>Load order（一手源：发布页）</h2>\n<p><code>Water for ENB.esm</code> → 各处 patches（ Landscape Fixes 在前）→ 主插件 → 其它补丁 → FWMF 补丁最后。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../05-water/realistic-water-two.md\" target=\"_blank\" rel=\"noopener\">Realistic Water Two</a></li><li><a href=\"../08-practices/enb-presets-and-cs-bridge.md\" target=\"_blank\" rel=\"noopener\">ENB 预设与 CS 衔接</a></li></ul>",
+      "_file": "05-water/water-for-enb.md",
+      "_chars": 1663
+    },
+    {
+      "id": "cathedral-weathers",
+      "title": "Cathedral Weathers and Seasons（DrJacopo / Arindel）",
+      "category": "06-weather-lighting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Cathedral Weathers",
+        "天气",
+        "CWS",
+        "DrJacopo",
+        "季节",
+        "MOTM"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/24791",
+      "summary": "基于 Obsidian 与 Aequinoctium 的\"自然奇幻\"天气集大成者：Nexus 月度最佳，4096×1024 云、雪flake 与雷音频、全游戏内可调，~16MB VRAM。",
+      "aliases": [
+        "大教堂天气",
+        "季节性天气",
+        "natural fantasy",
+        "cathedral seasons",
+        "云贴图"
+      ],
+      "content": "<ul><li><strong>作者</strong>：DrJacopo 与 Arindel 主导，<strong>社区共建</strong>（作者栏 \"The Community\"）</li></ul>\n<p>（一手源：Nexus 24791）</p>\n<ul><li><strong>Nexus</strong>：skyrimspecialedition/mods/24791；<strong>Nexus Mod of the Month</strong></li><li><strong>基础</strong>：Obsidian Weathers + Aequinoctium（一手源：Credits）</li></ul>\n<h2>特性（均一手源：Nexus 24791）</h2>\n<ul><li><strong>性能开销作者宣称 zero FPS loss</strong>；占 <strong>~16MB VRAM</strong>。</li><li><strong>4096×1024（等效 2K）云贴图</strong>用于各日出/日落（每种天气最多 1 张）。</li><li>自定义雪 flake 纹理与雷音频；<strong>天空内闪电</strong>；JawZ 平滑天空网格。</li><li><strong>移除原版一个恼人的相机效果</strong>（两张空白雪 flake 纹理腾出 VRAM）。</li><li>脚本按日期切换天气概率（<strong>季节</strong>）。</li><li><strong>Cathedral Meditation 法术/MCM</strong>：实时调亮度/饱和/对比/泛光/色调、</li></ul>\n<p>夜间黑暗度、室内亮度、\"Sombre\" 气候（雾/阴/雨雪概率提到约 80%）。</p>\n<h2>兼容性（均一手源：Nexus 24791）</h2>\n<ul><li><strong>与其它天气 mod 互斥</strong>（覆盖不生效）。</li><li>True Storms 同时开会<strong>雨雷音量滑条过多</strong>——想打 TS 音效建议自制</li></ul>\n<p>依赖其声音文件的独立 esp。</p>\n<ul><li>兼容 Frostfall、Wet and Cold、新大陆 mod（Bruma/Falskaar）、</li></ul>\n<p>Wonders of Weather、Mintys Lightning。</p>\n<ul><li>为 Obsidian 写的补丁<strong>大概率需要为 CWS 重做</strong>。</li><li><strong>DynDOLOD 强烈推荐</strong>（树 LOD）。</li><li>⚠️ <strong>多数 ENB 会破坏</strong>其精心平衡的草-地过渡与地平线接缝修复</li></ul>\n<p>（远雾混入第 28 层云）——ENB 作者应用 ENB Helper（Aers）做天气支持。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../06-weather-lighting/weather-mods-overview.md\" target=\"_blank\" rel=\"noopener\">天气 mod 生态</a></li><li><a href=\"../03-landscape/cathedral-landscapes.md\" target=\"_blank\" rel=\"noopener\">Cathedral Landscapes</a>（依赖项）</li><li><a href=\"../08-practices/enb-presets-and-cs-bridge.md\" target=\"_blank\" rel=\"noopener\">ENB 预设与 CS 衔接</a></li></ul>",
+      "_file": "06-weather-lighting/cathedral-weathers.md",
+      "_chars": 1616
+    },
+    {
+      "id": "elfx",
+      "title": "Enhanced Lights and FX（anamorfus）",
+      "category": "06-weather-lighting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "ELFX",
+        "光照",
+        "anamorfus",
+        "室内",
+        "室外"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2424",
+      "summary": "经典灯光 overhaul：给所有光源配光、砍掉无源光，含室内/室外/增强/天气/硬核/冰六个模块；SE 版 v3.06 停更但仍是无数配置的底座。",
+      "aliases": [
+        "Enhanced Lights and FX",
+        "灯光",
+        "室内光照"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>anamorfus</strong>（一手源：Nexus 2424 + PS4 移植页 Credits）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/2424；当前 <strong>v3.06</strong>（2019），</li></ul>\n<p>217k endorsements</p>\n<ul><li><strong>权限严格</strong>：禁止转载（含 Bethesda.net）、修改与资产使用需授权</li></ul>\n<p>（一手源：发布页）</p>\n<h2>模块（均一手源：发布页）</h2>\n<table><thead><tr><th style=\"text-align:left\">插件</th><th style=\"text-align:left\">作用</th></tr></thead><tbody><tr><td style=\"text-align:left\">EnhancedLightsandFX.esp</td><td style=\"text-align:left\">主模块：所有光源发光（含室内窗户）、新蜡烛烟 FX、新水反射、市摊/帝国帐篷半透明、每旅店按当地天气配色、昼夜差强化、酒馆更暗更烟</td></tr><tr><td style=\"text-align:left\">ELFXEnhancer.esp</td><td style=\"text-align:left\">室内/地牢压暗、雾色与距离调整、降色调（去\"白\"灯）、动态环境光模板</td></tr><tr><td style=\"text-align:left\">ELFX - Hardcore.esp</td><td style=\"text-align:left\">含 Enhancer 全部 + 非人居区域极暗</td></tr><tr><td style=\"text-align:left\">ELFX - Exteriors.esp</td><td style=\"text-align:left\">室外光位与 FX：大城市建筑窗外新着色器、裂谷灯笼 bug 修正、桥/船假阴影、去掉\"不照亮地形\"旗标、加\"Never fades\"</td></tr><tr><td style=\"text-align:left\">ELFX - Weathers.esp</td><td style=\"text-align:left\">天气光照调色：更大的太阳与新纹理、更密的雨与雷声、浓雾仅见数米、夜更暗且随天气变化</td></tr><tr><td style=\"text-align:left\">Enhanced Ice</td><td style=\"text-align:left\">浮冰与冻湖着色器</td></tr></tbody></table>\n<h2>兼容性（一手源：发布页）</h2>\n<ul><li>主模块：兼容任何不改光/FX/其网格的 mod；<strong>其网格必须覆盖对方</strong>。</li><li>Enhancer：兼容任何不改 imagespace 与光照模板的 mod。</li><li>Weathers：兼容任何不改天气的 mod；与 CoT 理论兼容但<strong>不推荐</strong></li></ul>\n<p>（CoT 天气太多，ELFX 的天气很少被轮到）。</p>\n<ul><li>与雪 mod 有专门兼容（3.05 为 Better Dynamic Snow 调过网格）。</li></ul>\n<h2>现状（社区经验）</h2>\n<p>v3.06 后停更；现代配置更多用 <strong>Lux 系</strong>（见<a href=\"interior-lighting-mods.md\" target=\"_blank\" rel=\"noopener\">室内光照 mods</a>） 或 Community Shaders 的 Light Limit Fix；ELFX 的遗留价值在其 <strong>大量兼容补丁生态</strong>与\"去无源光\"的经典调光哲学。</p>\n<h2>相关</h2>\n<ul><li><a href=\"interior-lighting-mods.md\" target=\"<em>blank\" rel=\"noopener\">室内光照 mods</a>、<a href=\"weather-mods-overview.md\" target=\"</em>blank\" rel=\"noopener\">天气 mod 生态</a></li></ul>",
+      "_file": "06-weather-lighting/elfx.md",
+      "_chars": 1505
+    },
+    {
+      "id": "obsidian-weathers",
+      "title": "Obsidian Weathers and Seasons（DrJacopo / Arindel）",
+      "category": "06-weather-lighting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Obsidian",
+        "天气",
+        "DrJacopo",
+        "Arindel",
+        "季节"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/12125",
+      "summary": "阴郁派\"天气标杆：约 90 种天气（含 DLC）、400kB 插件、区域气候与季节光照，官方宣称随时可装卸。",
+      "aliases": [
+        "Obsidian Weathers",
+        "黑曜石天气",
+        "DrMegaloblast"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>DrJacopo</strong>（旧名 Dr. Megaloblast）与 <strong>Arindel</strong></li></ul>\n<p>（一手源：Nexus 12125 + Cathedral Weathers Credits 列表）</p>\n<ul><li><strong>Nexus</strong>：skyrimspecialedition/mods/12125</li><li><strong>规模</strong>：约 <strong>90 种天气</strong>（含 DLC），插件仅约 <strong>400kB</strong>；</li></ul>\n<p>\"safe to install or uninstall at any time\"（发布页，经二手榜单转述）</p>\n<h2>风格与定位（社区经验 + 一手源混合）</h2>\n<p>\"阴郁、压迫、电影感\"：近景细节锐利，远景藏在翻滚的雾里。 与 Cathedral Weathers 二选一——后者是其\"自然奇幻\"后继 （Cathedral Weathers 直接以 Obsidian 为基础构建，一手源：24791 Credits）。</p>\n<h2>已知配合（一手源）</h2>\n<ul><li><strong>Obsidian Mountain Fogs</strong> 被 Cathedral Weathers 明确列为兼容</li></ul>\n<p>（\"Compatible with Obsidian Mountain Fogs. Excluded by special request\"）—— 说明山雾资产可跨天气 mod 使用。</p>\n<ul><li>Dolomite Weathers 由 DrJacopo 与 Kojak747 合作，是 Natural Lighting 系延伸。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../06-weather-lighting/weather-mods-overview.md\" target=\"_blank\" rel=\"noopener\">天气 mod 生态</a></li><li><a href=\"../06-weather-lighting/cathedral-weathers.md\" target=\"_blank\" rel=\"noopener\">Cathedral Weathers</a></li></ul>",
+      "_file": "06-weather-lighting/obsidian-weathers.md",
+      "_chars": 1233
+    },
+    {
+      "id": "weather-mods-overview",
+      "title": "天气 mod 生态总览",
+      "category": "06-weather-lighting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "天气",
+        "weather",
+        "选型",
+        "生态",
+        "NAT"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/12125",
+      "summary": "一次只装一个天气 mod；七大主流（Obsidian/Cathedral/NAT/CoT/Vivid WD/Dolomite/Aequinoctium）各有明确作者与风格，雷雨音效另算一层。",
+      "aliases": [
+        "天气 mod",
+        "云",
+        "雪",
+        "雷雨",
+        "climates"
+      ],
+      "content": "<h2>铁律</h2>\n<p><strong>天气 mod 之间互斥</strong>（Cathedral Weathers 原话：\"Not compatible with other weather mods\"，一手源：Nexus 24791）。雷电/降雨特效 mod（True Storms） 通常作为可叠加层，但同功能（都改雷声）依然冲突。</p>\n<h2>主流选手与作者（一手源：Nexus 各页 / Epicube 对比视频整理）</h2>\n<table><thead><tr><th style=\"text-align:left\">mod</th><th style=\"text-align:left\">作者</th><th style=\"text-align:left\">Nexus</th><th style=\"text-align:left\">备注</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Obsidian Weathers and Seasons</strong></td><td style=\"text-align:left\">DrJacopo（Megaloblast）+ Arindel</td><td style=\"text-align:left\">12125</td><td style=\"text-align:left\">~90 天气，~400kB 插件，随时可装卸</td></tr><tr><td style=\"text-align:left\"><strong>Cathedral Weathers and Seasons</strong></td><td style=\"text-align:left\">DrJacopo + Arindel（\"The Community\"）</td><td style=\"text-align:left\">24791</td><td style=\"text-align:left\">MOTM；围绕 Lightweight Grass 设计；~16MB VRAM</td></tr><tr><td style=\"text-align:left\"><strong>NAT（Natural and Atmospheric Tamriel）</strong></td><td style=\"text-align:left\"><strong>l00ping</strong>（Nexus 名 L00）</td><td style=\"text-align:left\">SE 版 Nexus 搜 \"NAT\"</td><td style=\"text-align:left\"><strong>必须放在 load order 最后</strong>（发布页原话）；自带 FX/SSS/粒子</td></tr><tr><td style=\"text-align:left\"><strong>Climates of Tamriel SE</strong></td><td style=\"text-align:left\">JJC71</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\">老牌经典</td></tr><tr><td style=\"text-align:left\"><strong>Vivid Weathers Definitive Edition</strong></td><td style=\"text-align:left\">Mangaclub - Doodlezoid</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\">老牌 VE 移植</td></tr><tr><td style=\"text-align:left\"><strong>Dolomite Weathers</strong></td><td style=\"text-align:left\">DrJacopo + Kojak747</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\">Natural Lighting 系</td></tr><tr><td style=\"text-align:left\"><strong>Aequinoctium</strong></td><td style=\"text-align:left\">Arindel</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\">CWS 的前身之一</td></tr><tr><td style=\"text-align:left\"><strong>Rustic Weathers and Lighting</strong></td><td style=\"text-align:left\">Arindel</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\">Rustic 系天气</td></tr><tr><td style=\"text-align:left\"><strong>True Storms SE</strong></td><td style=\"text-align:left\"><strong>fadingsignal</strong></td><td style=\"text-align:left\">2472</td><td style=\"text-align:left\">雷雨音效+贴图，无脚本可随时装卸</td></tr><tr><td style=\"text-align:left\"><strong>Mythical Ages</strong></td><td style=\"text-align:left\">Arindel</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\"></td></tr><tr><td style=\"text-align:left\"><strong>Azurite Weathers</strong></td><td style=\"text-align:left\">JonnyWang（Megaloblast）</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\"></td></tr><tr><td style=\"text-align:left\"><strong>RAID Weathers</strong></td><td style=\"text-align:left\">Olivier Doorenbos</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\"></td></tr></tbody></table>\n<h2>与光照/ENB 的耦合（一手源）</h2>\n<ul><li><strong>Cathedral Weathers 的草-地过渡会被多数 ENB 破坏</strong>；其\"地平线接缝修复\"</li></ul>\n<p>（把远雾混入第 28 层云）也会被 ENB 破坏——选 ENB 预设要专门找 \"works with Cathedral Weathers without breaking the horizon\" 的 （STEP 给了名单：A Cathedralist's ENB、Blubbos ENB ReShade、 CELESTIAL CATHEDRAL、iiENB、Ljoss、Lucid ENB、PRENB、 Ragnar's Vivid ENB for Cathedral Weathers 2、Serio's ENB）。</p>\n<ul><li>NAT 自带 tonemapping/粒子/伪云影，与重度 ENB 叠加易过艳——</li></ul>\n<p>作者所有展示图均<strong>未用 ENB/ReShade/SweetFX</strong>（一手源：NAT 页）。</p>\n<h2>选型速查（社区经验）</h2>\n<ul><li>要\"自然奇幻 + 现代维护\"：Cathedral Weathers。</li><li>要\"阴郁压迫 + 远景清晰\"：Obsidian。</li><li>要\"All-in-one 视觉 overhaul + 愿意读长文\"：NAT（且接受置底）。</li><li>只要更好的雷声雨声：True Storms 叠在任意天气 mod 上（同功能仍冲突）。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../06-weather-lighting/obsidian-weathers.md\" target=\"_blank\" rel=\"noopener\">Obsidian Weathers</a>、</li></ul>\n<p><a href=\"../06-weather-lighting/cathedral-weathers.md\" target=\"_blank\" rel=\"noopener\">Cathedral Weathers</a></p>\n<ul><li><a href=\"../06-weather-lighting/elfx.md\" target=\"<em>blank\" rel=\"noopener\">ELFX</a>、<a href=\"../06-weather-lighting/interior-lighting-mods.md\" target=\"</em>blank\" rel=\"noopener\">室内光照 mods</a></li><li><a href=\"../08-practices/enb-presets-and-cs-bridge.md\" target=\"_blank\" rel=\"noopener\">ENB 预设与 CS 衔接</a></li></ul>",
+      "_file": "06-weather-lighting/weather-mods-overview.md",
+      "_chars": 2453
+    },
+    {
+      "id": "interior-lighting-mods",
+      "title": "室内光照 mods（Lux 系 / Embers XD / RLO / ELE）",
+      "category": "06-weather-lighting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Lux",
+        "室内光照",
+        "Embers XD",
+        "GGUNIT",
+        "mindflux",
+        "火焰"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/63588",
+      "summary": "ELFX 之后的现代答案：GGUNIT 的 Lux 三件套（Via 资源+补丁hub+Lux）手工重打室内光；mindflux 的 Embers XD 接替 Embers HD 管火焰粒子。",
+      "aliases": [
+        "Lux Via",
+        "Lux Orbis",
+        "室内光",
+        "RLO",
+        "ELE"
+      ],
+      "content": "<h2>Lux 系（GGUNIT）</h2>\n<ul><li><strong>主条目</strong>：Nexus 搜 \"Lux\"（GGUNIT）；资源与补丁：</li></ul>\n<p><strong>Lux Via</strong> = skyrimspecialedition/mods/<strong>63588</strong>（作者页 Credits 可见 其与 SMIM/HLT/路灯/中世纪灯笼等大量联动，一手源）</p>\n<ul><li><strong>哲学（一手源：发布页转述）</strong>：\"if there is a light source, there is</li></ul>\n<p>light, and where there is none, expect darkness\"——<strong>手工逐个重打</strong> 全境室内光，比原版\"平铺照亮\"更电影感；<strong>专为 ENB 用户设计</strong>。</p>\n<ul><li><strong>硬性依赖</strong>：Lux Via 资源 + Lux patch hub（发布页 Requirements）。</li><li>家族含 <strong>Lux Orbis</strong>（室内体积光/光柱）等。</li></ul>\n<h2>Embers XD（mindflux）</h2>\n<ul><li><strong>作者</strong>：mindflux（同 Water for ENB、Particle Patch）</li><li><strong>定位</strong>：<strong>Embers HD 的继任者</strong>（装 XD 前先卸 HD，一手源：榜单转述）；</li></ul>\n<p>重制营火等火源。</p>\n<ul><li><strong>特性</strong>：无脚本 → 随时安全装卸；提供 <strong>lite 2K/1K</strong> 版给低显存；</li></ul>\n<p><strong>不与其它改火的 mod 共存</strong>；2026-09 仍有更新（二手源：howtovideogame）。</p>\n<h2>老将指针（一手源：巴哈姆特整理帖）</h2>\n<ul><li><strong>Realistic Lighting Overhaul SSE（RLO）</strong>：sydney666。</li><li><strong>ELE - Eternal Existence Lighting / (ELE)</strong>：--JawZ--。</li></ul>\n<p>两者是 ELFX 时代的替代品，现多被 Lux 系取代。</p>\n<h2>搭配注意（一手源混合）</h2>\n<ul><li>Lux 与 ELFX <strong>同功能冲突</strong>（都改室内光）——二选一。</li><li>202X 页面明说 \"ELFX, let Skyrim 2020 overwrite ELFX. Also compatible</li></ul>\n<p>with Lux\"（一手源：Nexus 2347）。</p>\n<ul><li>Lux Via Credits 显示其与 HLT、MM Real Lantern、medieval lanterns、</li></ul>\n<p>SDlutz 路灯替换等<strong>同一盏灯的竞争关系</strong>——装灯类 mod 逐个试覆盖。</p>\n<h2>相关</h2>\n<ul><li><a href=\"elfx.md\" target=\"<em>blank\" rel=\"noopener\">ELFX</a>、<a href=\"weather-mods-overview.md\" target=\"</em>blank\" rel=\"noopener\">天气 mod 生态</a></li></ul>",
+      "_file": "06-weather-lighting/interior-lighting-mods.md",
+      "_chars": 1605
+    },
+    {
+      "id": "cathedral-assets-optimizer",
+      "title": "Cathedral Assets Optimizer（G'k）",
+      "category": "07-mesh-tools",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "Cathedral Assets Optimizer",
+        "CAO",
+        "Gk",
+        "资产",
+        "工具"
+      ],
+      "kind": "tool",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/24469",
+      "summary": "Cathedral 系列的资产生成/优化工具：批量处理贴图/网格/LOD 资产，Cathedral Weathers 等大包构建管线的一环。",
+      "aliases": [
+        "资产优化",
+        "cathedral 工具",
+        "LE 移植",
+        "bc7",
+        "asset optimizer"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>G_k</strong>（上传者 Gka1；一手源：Nexus 23316；</li></ul>\n<p>Cathedral Weathers Credits 列表亦署名 \"Cathedral Assets Optimizer by G'k\"）</p>\n<ul><li><strong>Nexus</strong>：skyrimspecialedition/mods/<strong>23316</strong>；当前 <strong>v5.3.15</strong></li></ul>\n<p>（2026-03-23，另有 v7.0 BETA），23,921 endorsements</p>\n<ul><li><strong>许可</strong>：GPL-3.0（GitLab 仓库，一手源：发布页 LICENSE 说明）</li></ul>\n<h2>定位（一手源：发布页 + thegamercodex 转述）</h2>\n<p><strong>资产生成/优化自动化工具</strong>：批量处理 <strong>BSA / meshes / textures / animations</strong>：</p>\n<ul><li>贴图：<strong>BC7 重压缩</strong>、分辨率过超时降采样、修 mipmap；</li><li>网格：<strong>LE → SE 格式转换</strong>（几何不变、二进制头不同——不转换则游戏加载崩溃）、</li></ul>\n<p>结构优化（内建 nifly/NifOpt）；</p>\n<ul><li>动画：LE → SE（hkx）；</li><li>常见用途：LE mod 移植 SE；给 4K 重包瘦身降显存；修坏 mipmap（远处闪烁）。</li></ul>\n<h2>用户层面的意义</h2>\n<ul><li>解释 Cathedral 包\"为什么能又大又省\"：构建期就做过压缩/格式/尺寸分层。</li><li>自己做 Cathedral 风格资产包时的参考实现（输出规格见</li></ul>\n<p><a href=\"../01-principles/texture-formats-and-compression.md\" target=\"_blank\" rel=\"noopener\">DDS 压缩格式</a>）。</p>\n<ul><li>注意：<strong>只转格式不保运行</strong>——Papyrus 等 LE 专属内容它不管；</li></ul>\n<p>Defender 会拖慢它（建议加白名单，一手源：发布页）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"sse-nif-optimizer.md\" target=\"<em>blank\" rel=\"noopener\">SSE NIF Optimizer</a>、<a href=\"dyndolod.md\" target=\"</em>blank\" rel=\"noopener\">DynDOLOD</a></li></ul>",
+      "_file": "07-mesh-tools/cathedral-assets-optimizer.md",
+      "_chars": 1304
+    },
+    {
+      "id": "dyndolod",
+      "title": "DynDOLOD（Sheson）",
+      "category": "07-mesh-tools",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "DynDOLOD",
+        "LOD",
+        "Sheson",
+        "TexGen",
+        "远景"
+      ],
+      "kind": "tool",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/32382",
+      "summary": "物体/树木 LOD 生成的事实标准：按你的 load order 现生成远处模型与贴图（TexGen 缝图），支持动态远景；官方站 dyndolod.info。",
+      "aliases": [
+        "远景生成",
+        "物体 LOD",
+        "树木 LOD",
+        "lod 工具",
+        "地平线弹出"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>Sheson</strong>（一手源：Nexus 32382 + 论坛回帖）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/32382；官方站 <strong>dyndolod.info</strong></li><li><strong>支持</strong>：Skyrim SE/AE、Skyrim VR、Skyrim LE、Fallout 4、Enderal</li><li><strong>组成</strong>：<strong>工具本体</strong> + <strong>DynDOLOD Resources</strong>（资产，装成普通 mod）<ul><li><strong>TexGen</strong>（LOD 贴图生成器）</li></ul></li></ul>\n<h2>职责边界（一手源：Sheson 论坛原话）</h2>\n<p>\"DynDOLOD is just the advanced version of xLODGen for object and tree LOD generation\"——<strong>只做物体与树木 LOD；地形 LOD 归 xLODGen</strong>。 可生成持久 3D 物体（棚屋/塔/废墟/独立树）、带阴影的改良树 LOD、 <strong>动态远景</strong>（远处瀑布/风车动画）等。</p>\n<h2>工作流要点（一手源：Nolvus 指南 + Sheson 回帖）</h2>\n<ol><li>先 xLODGen 生成地形 LOD（beta）；</li><li>装 DynDOLOD Resources；MO2 里给 <code>TexGenx64.exe</code> 配 <code>-sse</code> 参数；</li><li>跑 <strong>TexGen</strong> 生成与当前材质匹配的 LOD 贴图（\"Zip &amp; Exit\" 产出当 mod 装）；</li><li>跑 <strong>DynDOLODx64.exe</strong>（<code>-sse</code>），选预设 Low/Medium/High/Ultra；</li><li>输出 <code>/DynDOLOD_Output</code>，在 MO2 里建成 \"DynDOLOD Output\" mod 启用。</li><li><strong>每次改动世界内容（新地块/城市 overhaul/草设置/MOSS ESP）都要重跑</strong>。</li></ol>\n<h2>成本（社区经验：thegamercodex）</h2>\n<ul><li>大列表 + Ultra：<strong>2-4 小时</strong>生成；输出 2-5GB。</li><li>低端 GPU 开高档位会掉帧（LOD 是额外 draw call）——有质量档位可调。</li></ul>\n<h2>排错锚点（一手源：各页）</h2>\n<ul><li>MM 装了 MOSS ESP → 必须重跑 DynDOLOD（作者回帖）。</li><li>Cathedral Landscapes 3.0.2+ → 重跑以获取 +40% 草 LOD 多样性。</li><li>换树 mod（HLT/EVT）后 → TexGen + DynDOLOD 都要重跑（STEP 论坛）。</li><li>RW2 的瀑布 LOD 问题按 5.7.1 官方回复处理（\"Not a bug\"）。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"xlodgen.md\" target=\"<em>blank\" rel=\"noopener\">xLODGen</a>、<a href=\"../01-principles/lod-principles.md\" target=\"</em>blank\" rel=\"noopener\">LOD 层级原理</a></li><li><a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 生成完整流程</a></li></ul>",
+      "_file": "07-mesh-tools/dyndolod.md",
+      "_chars": 1659
+    },
+    {
+      "id": "sse-nif-optimizer",
+      "title": "SSE NIF Optimizer（ousnius）",
+      "category": "07-mesh-tools",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "NIF",
+        "网格工具",
+        "ousnius",
+        "优化",
+        "NifSkope"
+      ],
+      "kind": "tool",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/4089",
+      "summary": "网格清理事实标准：转 BSTriShape、补切线、清 NiSkinData、重算包围球、删未引用块；GitHub 开源（ousnius/SSE-NIF-Optimizer + nifly，GPLv3）。",
+      "aliases": [
+        "SSE NIF Optimizer",
+        "nif 优化",
+        "nifly",
+        "BSTriShape",
+        "切线"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>ousnius</strong>（一手源：Nexus 4089）</li><li><strong>Nexus</strong>：skyrimspecialedition/mods/4089；当前 <strong>v3.2.1</strong>（2024-10-06）</li><li><strong>源码</strong>：GitHub <code>ousnius/SSE-NIF-Optimizer</code> 与 <code>ousnius/nifly</code>（GPLv3，</li></ul>\n<p>一手源：发布页）</p>\n<h2>它做什么（一手源：发布页）</h2>\n<ul><li>把 NIF 转成 <strong>SSE 格式（BSTriShape、NiSkinPartition 调整）</strong>；</li><li>head parts 转 <strong>BSDynamicTriShape</strong>（<strong>只对 head parts 用这个选项</strong>）；</li><li>三角化几何与蒙皮分区；清理无用顶点权重的 NiSkinData；</li><li><strong>重算几何与骨骼包围球</strong>；给需要的网格<strong>加切线</strong>；</li><li>删掉不需要的法线/切线（如 body meshes）；去全白顶点色；</li><li>重名网格改名（游戏要求唯一）；清头字符串；删未被引用的块；</li><li>可<strong>回转 LE 格式</strong>；可扫描贴图 SSE 兼容性。</li></ul>\n<h2>纪律（一手源：发布页）</h2>\n<ul><li><strong>先备份 NIF</strong>；</li><li><strong>不要对整个 meshes 文件夹一次跑</strong>；</li><li><strong>head parts 选项只能用于 head parts</strong>（头盔是普通网格，不是 head part）；</li><li>SSE 的 UV 精度更低——UV 超出 0-1 范围的先回 NifSkope 重整；</li><li>看新格式需<strong>最新 NifSkope</strong>（jonwd7 的 releases）。</li></ul>\n<h2>在环境美化里的位置</h2>\n<p>用户层面<strong>很少直接跑它</strong>——它主要是 mod 作者/移植工具。 但排错时值得知道：LE 网格\"爆炸\"、缺切线导致的法线错误， 标准答案就是用它过一遍（一手源：Nexus Wiki \"Porting Skyrim mods to Skyrim Special Edition\"：\"The easiest way is to use Ousnius' SSE NIF Optimizer\"）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"cathedral-assets-optimizer.md\" target=\"_blank\" rel=\"noopener\">Cathedral Assets Optimizer</a>（同类但侧重 LOD/资产）</li><li><a href=\"../01-principles/parallax-and-complex-material.md\" target=\"_blank\" rel=\"noopener\">视差与 Complex Material</a>（切线是视差前提）</li></ul>",
+      "_file": "07-mesh-tools/sse-nif-optimizer.md",
+      "_chars": 1519
+    },
+    {
+      "id": "xlodgen",
+      "title": "xLODGen（Sheson，beta）",
+      "category": "07-mesh-tools",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "xLODGen",
+        "地形 LOD",
+        "Sheson",
+        "STEP 论坛",
+        "beta"
+      ],
+      "kind": "tool",
+      "source": "https://forum.step-project.com/topic/13451-xlodgen-terrain-lod-beta-for-fnv-fo3-fo4-fo4vr-tes5-sse-tes5vr-enderal/",
+      "summary": "地形 LOD 生成器：2018 年起取代 Oscape；beta 版不在 Nexus 发布，官方渠道是 STEP 论坛帖；含遮挡剔除生成。",
+      "aliases": [
+        "SSELODGen",
+        "TES5LODGen",
+        "Oscape"
+      ],
+      "content": "<ul><li><strong>作者</strong>：<strong>Sheson</strong>（一手源：其 Nexus 论坛回帖）</li><li><strong>分发</strong>：<strong>beta 版不在 Nexus</strong>——官方渠道是 <strong>STEP 论坛帖</strong></li></ul>\n<p>forum.step-project.com（Sheson 自己在回帖里指向该帖； Nolvus 指南亦从该帖下载 \"xLODGen beta 93\"）</p>\n<ul><li><strong>谱系</strong>：xEdit 的 LOD 生成功能拆出 → TES5LODGen（LE）/ SSELODGen（SE 旧版）/</li></ul>\n<p>FO4LODGen；<strong>Nexus 上的 SSELODGen 已完全过时</strong>（社区经验：fkmods 教程 2026-05）</p>\n<h2>职责（一手源：Sheson 回帖）</h2>\n<p>\"Use xLODGen to generate terrain LOD and vanilla/CK style object and tree LOD. DynDOLOD is the improved version of xLODgen for…… tree and object LOD.\"</p>\n<ul><li>现代流程中：<strong>地形 LOD 用 xLODGen beta</strong>，物体/树木用 DynDOLOD。</li><li>beta 后来加入：<strong>遮挡（occlusion）生成</strong>、<strong>季节 mod 支持</strong>。</li><li>xLODGen 不生成 noise 材质（地形 LOD 上那层\"老电视雪花\"）——</li></ul>\n<p>生成地面与原地面<strong>色差可能来自 noise</strong>（社区经验：fkmods 教程）。</p>\n<h2>使用要点（一手源：Nolvus 指南 + FO4 版教程通用）</h2>\n<ul><li>MO2 里配 <code>-sse</code>（或 <code>-FO4</code> 等）与 <code>-o:\"输出路径\"</code>；</li></ul>\n<p><strong>输出必须在 MO2/Vortex/UAC 管控目录之外</strong>，否则 LOD 会坏。</p>\n<ul><li><strong>Object LOD 与 Terrain LOD 分开生成</strong>（地形 LOD 极少需要更新）。</li><li>生成时装 <strong>SSE Terrain Tamriel</strong>（Nexus 54680）补边缘地形，<strong>生成后可卸</strong>。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"dyndolod.md\" target=\"<em>blank\" rel=\"noopener\">DynDOLOD</a>、<a href=\"../08-practices/lod-generation-workflow.md\" target=\"</em>blank\" rel=\"noopener\">SSE Terrain Tamriel</a></li><li><a href=\"../01-principles/lod-principles.md\" target=\"_blank\" rel=\"noopener\">LOD 层级原理</a></li></ul>",
+      "_file": "07-mesh-tools/xlodgen.md",
+      "_chars": 1475
+    },
+    {
+      "id": "enb-presets-and-cs-bridge",
+      "title": "ENB 预设选择与 Community Shaders 衔接",
+      "category": "08-practices",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "ENB",
+        "预设",
+        "Community Shaders",
+        "CS",
+        "迁移"
+      ],
+      "kind": "tutorial",
+      "source": "https://stepmodifications.org/wiki/SkyrimSE:2.0.0",
+      "summary": "ENB 文件放游戏根目录而非 Data；预设要与天气 mod 配对（地平线修复易被破坏）；CS 是模块化替代路线，视差/复杂水两家互通。",
+      "aliases": [
+        "enb 预设",
+        "enbseries",
+        "enblocal",
+        "community shaders 迁移",
+        "PI-CHO",
+        "Rudy ENB"
+      ],
+      "content": "<h2>ENB 基础事实（一手源：enbdev.com + 社区经验）</h2>\n<ul><li><strong>ENBSeries 官方站 = enbdev.com</strong>（Boris Vorontsov）；二进制</li></ul>\n<p>（<code>d3d11.dll</code> + <code>enbhost.exe</code> + <code>enbseries/</code>）放<strong>游戏根目录</strong> （与 SkyrimSE.exe 同级），<strong>不是 Data</strong>。</p>\n<ul><li>预设 = <code>enbseries.ini</code> + <code>enblocal.ini</code>（+ 可能的 shaders/贴图）。</li></ul>\n<p>预设里带 Data 的部分才走 mod 管理器。</p>\n<ul><li>改性能先动 <code>enbseries.ini</code> 的 <code>EnableBloom</code> / <code>EnableDepthOfField</code> /</li></ul>\n<p><code>EnableAmbientOcclusion</code>——但与预设设计冲突时会\"变丑\"，谨慎。</p>\n<h2>预设配对（一手源：STEP wiki）</h2>\n<p>STEP 不为指南指定预设，但给了一份<strong>为 Cathedral Weathers 做、不破坏地平线</strong> 的名单：A Cathedralist's ENB、Blubbos ENB ReShade、CELESTIAL CATHEDRAL ENB、 iiENB、Ljoss、Lucid ENB、PRENB、Ragnar's Vivid ENB for Cathedral Weathers 2、 Serio's ENB。</p>\n<p>原因（一手源：CWS 页）：<strong>多数 ENB 会破坏</strong> CWS 的草-地过渡与 \"远雾混入第 28 层云\"的地平线修复。选预设先看它声明支持哪个天气 mod。</p>\n<h2>性能（一手源：STEP ENBSeries INI Reference）</h2>\n<ul><li><code>EnableSunRays</code>（godrays）：约 2-5% FPS。</li><li><code>EnableSkyLighting</code>：最高约 15% FPS；<code>EnableDirectionalSkyLighting</code> 在其之上再吃性能。</li><li><code>EnableCloudShadows</code>：默认开且<strong>游戏内不可改</strong>，由预设作者决定。</li></ul>\n<h2>Community Shaders 路线（详见 community-shaders-kb）</h2>\n<ul><li><strong>视差</strong>：202X 页明说视差可用 \"ENB <strong>or</strong> Community Shaders\"；</li></ul>\n<p>Water for ENB 同样双支持（\"Shades of Skyrim\"）。</p>\n<ul><li><strong>Complex Material</strong>：CS 的 Extended Materials 实现了 CRPM 视差</li></ul>\n<p>（约 0.22ms）+ Complex Material 规格（一手源：modding.wiki）。</p>\n<ul><li>迁移注意：ENB 与 CS 的某些功能<strong>互斥或行为不同</strong>（如 Complex Grass 的</li></ul>\n<p>normal map 要求见<a href=\"../04-flora/grass-mods-overview.md\" target=\"_blank\" rel=\"noopener\">草类生态</a>）。</p>\n<h2>驱动级 AF 必须关（一手源：Skyrim Stability Guide）</h2>\n<p>用 ENB 的 <code>ForceAnisotropicFiltering=true</code> + <code>MaxAnisotropy=16</code>； <strong>显卡控制面板的 AF 关掉</strong>——驱动强制 AF 破坏视差。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../01-principles/parallax-and-complex-material.md\" target=\"_blank\" rel=\"noopener\">视差与 Complex Material</a></li><li><a href=\"../01-principles/vram-and-enboost.md\" target=\"_blank\" rel=\"noopener\">VRAM 与 ENBoost</a></li><li><a href=\"../06-weather-lighting/cathedral-weathers.md\" target=\"_blank\" rel=\"noopener\">Cathedral Weathers</a></li></ul>",
+      "_file": "08-practices/enb-presets-and-cs-bridge.md",
+      "_chars": 2063
+    },
+    {
+      "id": "lod-generation-workflow",
+      "title": "LOD 生成完整流程",
+      "category": "08-practices",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "LOD",
+        "流程",
+        "DynDOLOD",
+        "xLODGen",
+        "TexGen",
+        "草缓存"
+      ],
+      "kind": "tutorial",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/32382",
+      "summary": "世界层稳定后的标准六步：xLODGen 地形 → TexGen 贴图 → DynDOLOD 物体树木 → NGIO 草缓存 → DynDOLOD 草 LOD；每步的\"何时必须重跑\"。",
+      "aliases": [
+        "LOD 流程",
+        "远景生成流程",
+        "dyndolod 教程",
+        "grass cache"
+      ],
+      "content": "<p><strong>前提</strong>：世界层（地形/城市/树/草/水/天气）<strong>全部装完并稳定后再跑</strong>。 中途加世界 mod = 重跑。MO2 用户全程在 MO2 里通过 executables 跑工具。</p>\n<h2>六步（一手源：Nolvus 指南 + 各工具页）</h2>\n<ol><li><strong>xLODGen beta → 地形 LOD</strong><ul><li>装 <strong>SSE Terrain Tamriel</strong>（54680）→ LOOT → 跑 xLODGen</li></ul></li></ol>\n<p>（<code>-sse</code>，只勾 Terrain LOD，LOD4/8/16/32 四档设置）→ 输出建成 mod → <strong>卸载 SSE Terrain Tamriel</strong>。</p>\n<ol><li><strong>TexGen → LOD 贴图</strong><ul><li>MO2 配 <code>TexGenx64.exe -sse</code> → Start → \"Zip &amp; Exit\" → 产物当 mod 装，</li></ul></li></ol>\n<p><strong>覆盖其它包提供的 LOD 贴图</strong>。</p>\n<ol><li><strong>DynDOLOD → 物体/树木 LOD</strong><ul><li>MO2 配 <code>DynDOLODx64.exe -sse</code> → 选预设（Low/Medium/High/Ultra）→</li></ul></li></ol>\n<p>输出建成 \"DynDOLOD Output\" mod。</p>\n<ol><li><strong>NGIO → 草缓存</strong>（若用 No Grass In Objects）<ul><li>按 NGIO ini 设好 → 生成 grass cache → 建成 \"Grass Cache\" mod。</li></ul></li><li><strong>重跑 DynDOLOD → 草 LOD</strong>（吃草缓存）</li><li>进游戏验证：地平线、树 LOD、草 LOD、水缝、条纹。</li></ol>\n<h2>何时必须重跑（一手源汇总）</h2>\n<table><thead><tr><th style=\"text-align:left\">变更</th><th style=\"text-align:left\">重跑项</th></tr></thead><tbody><tr><td style=\"text-align:left\">新地形/风景 mod、城市 overhaul、世界补丁</td><td style=\"text-align:left\">xLODGen + TexGen + DynDOLOD</td></tr><tr><td style=\"text-align:left\">换树 mod</td><td style=\"text-align:left\">TexGen + DynDOLOD</td></tr><tr><td style=\"text-align:left\">换/调草 mod、NGIO 设置（除两距离值）</td><td style=\"text-align:left\">NGIO 缓存 + DynDOLOD</td></tr><tr><td style=\"text-align:left\">MM 装/卸 MOSS ESP</td><td style=\"text-align:left\">DynDOLOD（作者原话）</td></tr><tr><td style=\"text-align:left\">Cathedral Landscapes ≥3.0.2</td><td style=\"text-align:left\">DynDOLOD（+40% 草 LOD）</td></tr><tr><td style=\"text-align:left\">仅调 <code>OverwriteGrassDistance/FadeRange</code></td><td style=\"text-align:left\"><strong>都不用</strong></td></tr></tbody></table>\n<h2>成本与耐心（社区经验）</h2>\n<p>中列表 + 中档：地形约 40 分钟、TexGen 约 20 分钟、DynDOLOD 20 分钟-2 小时。 Ultra + 大列表可 2-4 小时、输出 2-5GB。</p>\n<h2>常见事故（一手源/社区经验）</h2>\n<ul><li>输出目录在 MO2/Vortex/UAC 管控内 → LOD 全坏（xLODGen 的 <code>-o:</code> 必须指外面）。</li><li>TexGen 产物没覆盖包自带 LOD → 远景贴图与近景不匹配。</li><li>忘了装/卸 SSE Terrain Tamriel → 边缘缺地形。</li><li>FOMOD \"Respect Enable Parents\" 乱用 → CTD（FO4 教程的警告通用于各游戏：</li></ul>\n<p>mod 作者不要预勾选）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../07-mesh-tools/dyndolod.md\" target=\"<em>blank\" rel=\"noopener\">DynDOLOD</a>、<a href=\"../07-mesh-tools/xlodgen.md\" target=\"</em>blank\" rel=\"noopener\">xLODGen</a></li><li><a href=\"../01-principles/lod-principles.md\" target=\"_blank\" rel=\"noopener\">LOD 层级原理</a></li><li><a href=\"../04-flora/no-grass-in-objects.md\" target=\"_blank\" rel=\"noopener\">No Grass In Objects</a></li><li>排错：<a href=\"../09-troubleshooting/water-seams-and-lod-stripes.md\" target=\"_blank\" rel=\"noopener\">水缝与 LOD 条纹</a></li></ul>",
+      "_file": "08-practices/lod-generation-workflow.md",
+      "_chars": 2046
+    },
+    {
+      "id": "install-order-and-conflicts",
+      "title": "安装顺序与冲突覆盖原则",
+      "category": "08-practices",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "安装顺序",
+        "覆盖",
+        "冲突",
+        "LOOT",
+        "补丁"
+      ],
+      "kind": "tutorial",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2347",
+      "summary": "材质层\"后装赢\"、插件层按作者指定、天气/水/草/树四类\"一次一个\"；冲突不全靠 LOOT，读取每个发布页的 Load Order 段。",
+      "aliases": [
+        "load order",
+        "排序",
+        "覆盖规则",
+        "冲突解决",
+        "mod 顺序"
+      ],
+      "content": "<h2>两条正交的秩序</h2>\n<table><thead><tr><th style=\"text-align:left\">层</th><th style=\"text-align:left\">裁决规则</th><th style=\"text-align:left\">工具</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>资源</strong>（贴图/网格/音效）</td><td style=\"text-align:left\"><strong>后装赢</strong>（同路径），松散文件永远赢 BSA</td><td style=\"text-align:left\">MO2 左侧顺序 + 安装时\"是否覆盖\"</td></tr><tr><td style=\"text-align:left\"><strong>插件</strong>（ESP/ESM）</td><td style=\"text-align:left\"><strong>按作者指定</strong>，LOOT 只能排序不能裁决资源</td><td style=\"text-align:left\">LOOT + 手动规则</td></tr></tbody></table>\n<p><strong>LOOT 只管插件顺序，不管资源覆盖</strong>（已在 <code>skyrim-tools-kb</code> 的 <code>12-sources/common-misconceptions.md</code> 记录）——材质冲突必须在 MO2 里看。</p>\n<h2>四类\"一次只装一个\"（互斥域）</h2>\n<ol><li><strong>天气</strong>（Obsidian / Cathedral / NAT / CoT……）</li><li><strong>水</strong>（RW2 / Water for ENB / Pure Waters）</li><li><strong>全境草</strong>（Cathedral Landscapes / Folkvangr / Verdant / Tamrielic……）</li><li><strong>全境树</strong>（HLT / EVT / NOTWL……）</li></ol>\n<p>依据均在各发布页：见<a href=\"../06-weather-lighting/weather-mods-overview.md\" target=\"<em>blank\" rel=\"noopener\">天气生态</a>、 <a href=\"../04-flora/grass-mods-overview.md\" target=\"</em>blank\" rel=\"noopener\">草类生态</a>、 <a href=\"../04-flora/tree-mods-overview.md\" target=\"_blank\" rel=\"noopener\">树木生态</a>。</p>\n<h2>作者指定的顺序（一手源汇总）</h2>\n<ul><li><strong>先 SMIM，后贴图包</strong>（SMIM 页：\"generally install SMIM first and then</li></ul>\n<p>texture replacers\"）。</p>\n<ul><li><strong>202X 覆盖 SMIM</strong>（202X 页：\"just overwrite SMIM\"）。</li><li><strong>MM 覆盖 SMIM 网格</strong>（MM readme：MM 面数更高）。</li><li><strong>MM 主 esp 在本 mod 其它部件之上</strong>；<code>MajesticMountains_Landscape.esm</code></li></ul>\n<p>与改地形 ESM 冲突时把 ESM 上放。</p>\n<ul><li><strong>Landscape Fixes 顶部</strong>且早于改地形高度的 mod（Bethesda.net 页）。</li><li><strong>Verdant 覆盖 SFO</strong>（\"install AFTER SFO and let it OVERWRITE ALL\"）。</li><li><strong>NAT 必须置底</strong>（\"mandatory to use it at the very last position\"）。</li><li><strong>Water for ENB</strong>：esm → Landscape Fixes 补丁 → 主插件 → 其它补丁 → FWMF 补丁。</li><li><strong>HLT → Aspens Ablaze</strong>（STEP 论坛：Aspens 插件在 HLT 后）。</li><li><strong>Skyland Watercolor ESP</strong> 放在 RW2/iNeed/Water for ENB <strong>之后</strong>。</li></ul>\n<h2>补丁从哪来（一手源）</h2>\n<ol><li>mod 自己的 Files 页（可选文件/补丁）；</li><li>Synthesis patcher（Water for ENB、MEZF 等官方推荐）；</li><li>xEdit 手搓（转发记录）；</li><li>补丁 hub（Lux patch hub、QUASIPC 等）。</li></ol>\n<h2>常见错误（社区经验）</h2>\n<ul><li>用 LOOT 排序后不管资源冲突 → 贴图\"赢了插件输了资源\"。</li><li>覆盖提示一律\"否\" → 底座 mod 反而压住主包。</li><li>补丁装完不更新 LOOT → 插件顺序回退。</li></ul>\n<h2>相关</h2>\n<ul><li>覆盖机制底层 → <code>mo2-usvfs-kb</code>；排序原理 → <code>mo2-usvfs-kb/05-usage</code></li><li><a href=\"performance-budget.md\" target=\"<em>blank\" rel=\"noopener\">性能预算</a>、<a href=\"lod-generation-workflow.md\" target=\"</em>blank\" rel=\"noopener\">LOD 生成完整流程</a></li></ul>",
+      "_file": "08-practices/install-order-and-conflicts.md",
+      "_chars": 2067
+    },
+    {
+      "id": "performance-budget",
+      "title": "性能预算与分辨率分层策略",
+      "category": "08-practices",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "性能",
+        "帧数",
+        "显存",
+        "分辨率",
+        "预算"
+      ],
+      "kind": "concept",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/44899",
+      "summary": "掉帧时按\"草→视差→LOD 档→贴图分辨率→mod 数量\"顺序降级；全 2K 胜过半 4K；每层都有作者给的低配选项。",
+      "aliases": [
+        "fps",
+        "降级",
+        "2k",
+        "1k",
+        "lite",
+        "低配"
+      ],
+      "content": "<h2>降级顺序（社区经验，掉帧时从前往后试）</h2>\n<ol><li><strong>草</strong>：<code>iMinGrassSize</code> 调大（Verdant：60→100）；或换 GoS 路线草包。</li></ol>\n<p>密草是帧数第一杀手（一手源：Folkvangr 页\"Expect a similar impact to other heavy grass mods\"）。</p>\n<ol><li><strong>视差</strong>：视差是带宽敏感大户（一手源：modding.wiki：</li></ol>\n<p>\"Parallax mapping is bandwidth-bound\"；CS 建议视差贴图重压缩 BC4）。</p>\n<ol><li><strong>LOD 档位</strong>：DynDOLOD High→Medium→Low。</li><li><strong>贴图分辨率</strong>：同包 4K→2K→1K。<strong>全 2K 胜过半 4K</strong>——</li></ol>\n<p>显存溢出的表现是 stutter→CTD，不是画质降级。</p>\n<ol><li><strong>ENB 重效果</strong>：SSR/DetailedShadow/SkyLighting 逐个关。</li><li><strong>减 mod 数量</strong>：最后手段。</li></ol>\n<h2>各包的低配选项（一手源汇总）</h2>\n<table><thead><tr><th style=\"text-align:left\">mod</th><th style=\"text-align:left\">低配选项</th></tr></thead><tbody><tr><td style=\"text-align:left\">Skyrim 202X</td><td style=\"text-align:left\">2K 降级版 / Downscale Mod</td></tr><tr><td style=\"text-align:left\">Skyland</td><td style=\"text-align:left\">1K 包（作者拒做 4K）</td></tr><tr><td style=\"text-align:left\">Noble Skyrim</td><td style=\"text-align:left\">performance FullPack（室外多 1K）</td></tr><tr><td style=\"text-align:left\">Water for ENB</td><td style=\"text-align:left\">2K 贴图选项</td></tr><tr><td style=\"text-align:left\">Embers XD</td><td style=\"text-align:left\">lite 2K / 1K</td></tr><tr><td style=\"text-align:left\">Verdant</td><td style=\"text-align:left\">1K / 512 草贴图</td></tr><tr><td style=\"text-align:left\">Cathedral Weathers</td><td style=\"text-align:left\">自称 zero FPS loss、~16MB VRAM</td></tr><tr><td style=\"text-align:left\">Cathedral - 3D Pine Grass / Ultralite Tundra GoS</td><td style=\"text-align:left\">\"XL models ala Grass on Steroids\" 极省版（80687 files 页）</td></tr></tbody></table>\n<h2>作者的性能自述（一手源，可作为预期管理）</h2>\n<ul><li>HLT：GTX 970 约 <strong>-5 FPS</strong>。</li><li>SFO：作者 <strong>-1 ~ -10 FPS</strong>（980ti），\" struggling with FPS already 就别装\"。</li><li>NOTWL：3.00 起 atlas + 减面 + navcut，观感与性能兼顾（作者目标）。</li><li>Cathedral Weathers：<strong>zero FPS loss</strong>（自称）。</li></ul>\n<h2>测量纪律（社区经验）</h2>\n<ul><li>一次只改一层，同一路线测两遍（取稳态，跳过加载）。</li><li>关注的不只是平均帧：<strong>切区卡顿</strong>指向内存/缓存（NGIO 1.6.3 优化过草生成），</li></ul>\n<p><strong>持续低帧</strong>指向 GPU 带宽（视差/水/草）。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../01-principles/vram-and-enboost.md\" target=\"_blank\" rel=\"noopener\">VRAM 与 ENBoost</a></li><li><a href=\"../04-flora/grass-ini-settings.md\" target=\"_blank\" rel=\"noopener\">草地 INI 设置</a></li><li><a href=\"../02-textures/texture-pack-selection.md\" target=\"_blank\" rel=\"noopener\">材质包选型</a></li></ul>",
+      "_file": "08-practices/performance-budget.md",
+      "_chars": 1703
+    },
+    {
+      "id": "ini-and-display-settings",
+      "title": "游戏 INI 显示设置（STEP 口径）",
+      "category": "08-practices",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "INI",
+        "显示",
+        "STEP",
+        "BethINI",
+        "View Distance"
+      ],
+      "kind": "tutorial",
+      "source": "https://stepmodifications.org/wiki/SkyrimSE:2.0.0",
+      "summary": "STEP 推荐的显示/视野距离/贴图细节值：Grass Fade 18000、Light Fade 50000、Flickering Light 8192、uGridsToLoad 永不动、水 SSR 0.5。",
+      "aliases": [
+        "显示设置",
+        "skyrim.ini",
+        "视野距离",
+        "uGrids",
+        "grass fade"
+      ],
+      "content": "<blockquote>均为<strong>社区经验级</strong>（STEP 指南推荐值），非引擎硬限；配合 BethINI 使用。</blockquote>\n<h2>View Distance（一手源：STEP wiki）</h2>\n<ul><li><strong>Grass Fade = 18000</strong>（最大）</li><li><strong>Light Fade = 50000</strong>（最大）</li><li><strong>Flickering Light = 8192</strong></li><li><strong><code>uGridsToLoad</code> 永远保持原版 5</strong>——STEP 原话 \"should never been changed</li></ul>\n<p>from vanilla's default of 5\"（改它=崩溃与脚本错乱的经典来源）。</p>\n<ul><li>其余 Fade 值看机器。</li></ul>\n<h2>Detail / Visuals（一手源：STEP wiki）</h2>\n<ul><li>水面反射：全选<strong>除了 Sky</strong>（反射天空会加重 LOD 水缝）。</li><li>Particles = 4500（约两倍原版）。</li><li>Depth of Field 开；Lens Flare / Anamorphic Lens Flare 可关。</li><li><strong>Improved Shader 关掉</strong>（MM 自带自定义 INI 改 Sparkles 与 Improved Snow Shader）。</li><li>Project UV Diffuse Normal 开。</li><li>用 Cathedral Landscapes 时 Grass 项无需再调（其 ini 已含默认）。</li></ul>\n<h2>Custom（一手源：STEP wiki）</h2>\n<ul><li><code>fWaterSSRIntensity=0.5</code>（修 SSR 在水面的一道线）。</li><li><code>uMaxSkinDecals</code> / <code>uMaxSkinDecalsPerActor</code> = 100；</li></ul>\n<p><code>iMaxDecalsPerFrame</code> / <code>iMaxSkinDecalsPerFrame</code> = 200。</p>\n<ul><li><code>fBookOpenTime=500</code>（翻书加速，可选）。</li></ul>\n<h2>草地（一手源：各草 mod 页）</h2>\n<ul><li><code>[GRASS] iMaxGrassTypesPerTexure</code> 与 <code>iMinGrassSize</code> 见</li></ul>\n<p><a href=\"../04-flora/grass-ini-settings.md\" target=\"_blank\" rel=\"noopener\">草地 INI 设置</a>——<strong>以草 mod 作者值为准</strong>。</p>\n<h2>风（社区经验：sinitar 指南）</h2>\n<ul><li><code>[Display] fWindGrassMultiplier</code>：3.5/7/11 实验，加大草摆。</li></ul>\n<h2>纪律（社区经验）</h2>\n<ul><li>改 ini <strong>一次改一段，进游戏测一次</strong>——出问题能回滚定位。</li><li>MO2 用户的 ini 在 profile 里，别直接改 Documents 下的。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/grass-ini-settings.md\" target=\"_blank\" rel=\"noopener\">草地 INI 设置</a></li><li><a href=\"../01-principles/vram-and-enboost.md\" target=\"_blank\" rel=\"noopener\">VRAM 与 ENBoost</a></li><li>ENB 的 ini 体系另见 <a href=\"enb-presets-and-cs-bridge.md\" target=\"_blank\" rel=\"noopener\">ENB 预设与 CS 衔接</a></li></ul>",
+      "_file": "08-practices/ini-and-display-settings.md",
+      "_chars": 1759
+    },
+    {
+      "id": "vram-exhaustion-symptoms",
+      "title": "VRAM 耗尽症状与处置",
+      "category": "09-troubleshooting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "VRAM",
+        "爆显存",
+        "stutter",
+        "CTD",
+        "排错"
+      ],
+      "kind": "tutorial",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2347",
+      "summary": "Skyrim 爆显存不弹窗：先 stutter 后 CTD；按\"降贴图分辨率→查 ENB 分配→降 LOD 档→减 mod\"处置。",
+      "aliases": [
+        "卡顿",
+        "显存不足",
+        "爆显存处置",
+        "out of vram",
+        "降分辨率"
+      ],
+      "content": "<h2>症状链（一手源：202X 页 + 社区经验）</h2>\n<p><strong>走路 stutter（新物体/新 cell 加载时）→ 频繁 stutter → CTD</strong>。 Skyrim <strong>不会</strong>提示\"显存不足\"——这是它最危险的地方。</p>\n<h2>排查顺序</h2>\n<ol><li><strong>确认是显存问题</strong>：刚装完大贴图包/视差包/水 mod 后出现，高度可疑。</li><li><strong>降贴图分辨率</strong>：同包 4K→2K（202X 有 Downscale Mod；Skyland 有 1K）。</li></ol>\n<p><strong>全 2K 胜过半 4K</strong>。</p>\n<ol><li><strong>查 ENB 分配</strong>：<code>VideoMemorySizeMb</code> 是否≈显卡实际显存（过高会</li></ol>\n<p>\"过度占用易 CTD\"，一手源：LoversLab 引 STEP）；<code>ReservedMemorySizeMb</code> 走路卡顿时从 64 → 128/512。</p>\n<ol><li><strong>关驱动级 AF</strong>，改用 ENB AF（视差也会因驱动 AF 出怪）。</li><li><strong>降 LOD 档位</strong>（DynDOLOD High→Medium）。</li><li><strong>减视差/水/草</strong>（带宽三巨头）。</li><li>仍不行才减 mod 数量。</li></ol>\n<h2>各 mod 的显存刻度（一手源）</h2>\n<ul><li>202X 全 4K：<strong>8GB+ 显存</strong>（二手源：mythiq；作者提供 2K 降级版）。</li><li>Cathedral Weathers：<strong>~16MB VRAM</strong>（自称）。</li><li>Water for ENB：提供 2K 选项。</li><li>Embers XD：lite 2K/1K \"for systems short on video memory\"。</li></ul>\n<h2>与系统内存的区别（社区经验）</h2>\n<ul><li>SE 是 64 位，<strong>ENBoost 冗余</strong>（STEP 结论，见</li></ul>\n<p><a href=\"../01-principles/vram-and-enboost.md\" target=\"_blank\" rel=\"noopener\">VRAM 与 ENBoost</a>）—— 别在 SE 上折腾 ENBoost 的内存补丁。</p>\n<ul><li>ILS/CTD 若无贴图包也出现 → 查插件/脚本问题，转</li></ul>\n<p><code>skyrim-tools-kb/09-diagnostics</code>。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../01-principles/vram-and-enboost.md\" target=\"_blank\" rel=\"noopener\">VRAM 与 ENBoost</a></li><li><a href=\"../08-practices/performance-budget.md\" target=\"_blank\" rel=\"noopener\">性能预算</a></li></ul>",
+      "_file": "09-troubleshooting/vram-exhaustion-symptoms.md",
+      "_chars": 1395
+    },
+    {
+      "id": "water-seams-and-lod-stripes",
+      "title": "水缝与地形 LOD 条纹排错",
+      "category": "09-troubleshooting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "水缝",
+        "LOD 条纹",
+        "stripe",
+        "远景",
+        "排错"
+      ],
+      "kind": "tutorial",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2182",
+      "summary": "水缝=水 mod 的 cell/worldspace 记录被覆盖（Synthesis 转发）；LOD 条纹=地形 LOD 未重生成或用了旧 mesh；两件事都指向\"改了世界就要重跑\"。",
+      "aliases": [
+        "water seam",
+        "远景条纹",
+        "色差水"
+      ],
+      "content": "<h2>水缝 / 水面色块不一致（一手源：Nexus 37061）</h2>\n<p>Water for ENB 官方排查逻辑：</p>\n<ul><li>症状：奇怪接缝、不同色块的水。</li><li>病因：<strong>水 mod 的插件记录被其它 mod 覆盖</strong>（cell 记录与</li></ul>\n<p>worldspace 记录都要\"转发/forward\"）。</p>\n<ul><li>处置：① 尽量把水 mod 在 load order 里抬高（不总可行）；</li></ul>\n<p>② <strong>首选 Synthesis patcher</strong>（官方为 Shades of Skyrim ENB/CS 提供专用 patcher）；③ 手搓 xEdit 补丁转发记录。</p>\n<ul><li>世界空间记录被覆盖的特定表现：<strong>高精度水与远处 LOD 水之间的突兀缝</strong>。</li></ul>\n<h2>地形 LOD 条纹（一手源：Nexus 9135）</h2>\n<ul><li>症状：远景地面一道道\"梳齿\"条纹。</li><li>病因：LOD 网格/贴图与当前世界不匹配；旧版概念（分件）导致的混乱。</li><li>处置：Terrain LOD Redone 的<strong>高模 LOD 网格</strong>就是为\"几乎消除 stripe effect\"</li></ul>\n<p>而做；v1.3 起整包单 BSA，<strong>建议卸载旧版再装</strong>。</p>\n<h2>远景与近景贴图不一致（一手源：TexGen/Nolvus）</h2>\n<ul><li>没跑 TexGen 或 TexGen 产物没覆盖包自带 LOD → 远处贴图对不上。</li><li>改世界后没重跑 → 同上。见<a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 生成完整流程</a>。</li></ul>\n<h2>水面反射与天空（一手源：STEP）</h2>\n<ul><li>水面反射勾了 Sky 会<strong>加重 LOD 水缝</strong>——STEP 建议水面反射只选除 Sky 外的项。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../05-water/realistic-water-two.md\" target=\"_blank\" rel=\"noopener\">Realistic Water Two</a>、</li></ul>\n<p><a href=\"../05-water/water-for-enb.md\" target=\"_blank\" rel=\"noopener\">Water for ENB</a></p>\n<ul><li><a href=\"../03-landscape/terrain-lod-redone.md\" target=\"_blank\" rel=\"noopener\">Terrain LOD Redone</a></li></ul>",
+      "_file": "09-troubleshooting/water-seams-and-lod-stripes.md",
+      "_chars": 1309
+    },
+    {
+      "id": "white-texture-and-snow-shader-glitch",
+      "title": "白块纹理 glitch 与雪着色器冲突",
+      "category": "09-troubleshooting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "白块",
+        "glitch",
+        "雪",
+        "Simplicity of Snow",
+        "BDS",
+        "排错"
+      ],
+      "kind": "tutorial",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2347",
+      "summary": "202X 白块 = 雪着色器冲突，官方解法 Simplicity of Snow；另记 MM 的灰/黑山体与 SSE Engine Fixes 冲突两组高频症状。",
+      "aliases": [
+        "白纹理",
+        "white glitch",
+        "better dynamic snow",
+        "灰山"
+      ],
+      "content": "<h2>202X 白块（一手源：Nexus 2347 files 页）</h2>\n<ul><li>作者原话：**\"White texture glitch is a snow shader conflict,</li></ul>\n<p>Simplicity of snow fixes it\"**。</p>\n<ul><li>同页：<strong>\"Not compatible with BDS 3.X\"</strong>（Better Dynamic Snow 3.x）——</li></ul>\n<p>看到白块先查这两个。</p>\n<ul><li>位置：Whiterun 视差网格文件说明里，但根因是雪着色器，不限于 Whiterun。</li></ul>\n<h2>MM 灰/黑/白山体（一手源：Nexus 11052 readme）</h2>\n<ul><li><strong>灰/白</strong>：<code>MajesticMountains.esp</code> 被禁用或位置过低，雪材质设置被其它 mod 恢复；</li></ul>\n<p>且<strong>必须重跑 DynDOLOD</strong>。</p>\n<ul><li><strong>黑</strong>：重装通常解决。</li><li><strong>夜间岩石/山体发光</strong>：关游戏雪着色器（用 Better Dynamic Snow 或</li></ul>\n<p>整体发光时）。</p>\n<ul><li><strong>雪花色不对</strong>：weather mod 与 MM 的顺序——LOOT 常把天气放下面，需手调。</li><li><strong>SSE Engine Fixes 冲突</strong>：<code>skse/plugins/EngineFixes.ini</code> 设</li></ul>\n<p><code>BSLightingShaderForceAlphaTest = false</code>。</p>\n<h2>一般\"贴图不对\"排查顺序（社区经验）</h2>\n<ol><li>该贴图被谁覆盖？MO2 里看冲突列表，确认赢家是你想要的包。</li><li>该网格指向的贴图路径是否被改（换 mesh 的 mod 会把 UV 指到别处）。</li><li>是否 LOD 未重生成（远景与近景不一致）。</li><li>是否雪/天气着色器在改同材质。</li></ol>\n<h2>相关</h2>\n<ul><li><a href=\"../03-landscape/majestic-mountains.md\" target=\"_blank\" rel=\"noopener\">Majestic Mountains</a></li><li><a href=\"parallax-artifacts.md\" target=\"_blank\" rel=\"noopener\">视差异常排错</a></li></ul>",
+      "_file": "09-troubleshooting/white-texture-and-snow-shader-glitch.md",
+      "_chars": 1296
+    },
+    {
+      "id": "grass-clipping-and-density-issues",
+      "title": "草穿模 / 不显示 / 密度异常排错",
+      "category": "09-troubleshooting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "草",
+        "穿模",
+        "密度",
+        "NGIO",
+        "Landscape Fixes",
+        "排错"
+      ],
+      "kind": "tutorial",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/42161",
+      "summary": "穿模=NGIO/Landscape Fixes 缺失或 ini 错；不显示=iMaxGrassTypesPerTexure 不够或草 mod 被覆盖；密度不对=iMinGrassSize 与草 LOD 缓存过期。",
+      "aliases": [
+        "草穿模",
+        "草不显示",
+        "草太少",
+        "草太多",
+        "grass clipping",
+        "密度异常"
+      ],
+      "content": "<h2>症状 → 病因（一手源汇总）</h2>\n<table><thead><tr><th style=\"text-align:left\">症状</th><th style=\"text-align:left\">病因</th><th style=\"text-align:left\">处置</th></tr></thead><tbody><tr><td style=\"text-align:left\">草从石头/地板/木箱里长出</td><td style=\"text-align:left\">没 NGIO 或没 Landscape Fixes</td><td style=\"text-align:left\">装 <a href=\"../04-flora/no-grass-in-objects.md\" target=\"<em>blank\" rel=\"noopener\">NGIO</a> + <a href=\"../04-flora/landscape-fixes-for-grass-mods.md\" target=\"</em>blank\" rel=\"noopener\">Landscape Fixes</a></td></tr><tr><td style=\"text-align:left\">草该密的地方稀疏/整类草不见</td><td style=\"text-align:left\"><code>iMaxGrassTypesPerTexure</code> 低于草 mod 要求（Verdant 需 15）</td><td style=\"text-align:left\">按草 mod 要求设 ini（见<a href=\"../04-flora/grass-ini-settings.md\" target=\"_blank\" rel=\"noopener\">草地 INI</a>）</td></tr><tr><td style=\"text-align:left\">草比原版还少</td><td style=\"text-align:left\">ini 被\"奇怪编辑\"；MO2 profile ini 与 Documents ini 不一致</td><td style=\"text-align:left\">SFO FAQ 原话：删 Documents 下两个 ini 让游戏重建，再检查 MO2 profile</td></tr><tr><td style=\"text-align:left\">苔原草不高</td><td style=\"text-align:left\"><strong>不是 bug</strong>——SFO FAQ：\"it's a tundra, it's supposed to look like that\"</td></tr><tr><td style=\"text-align:left\">草 LOD 与近景差太多</td><td style=\"text-align:left\">改了草/NGIO 没重建缓存 + 重跑 DynDOLOD</td><td style=\"text-align:left\">见<a href=\"../08-practices/lod-generation-workflow.md\" target=\"_blank\" rel=\"noopener\">LOD 流程</a></td></tr><tr><td style=\"text-align:left\">切区卡顿/冻结</td><td style=\"text-align:left\">NGIO 射线生成开销</td><td style=\"text-align:left\">升 NGIO 1.6.3+（生成快约 60%，一手源：changelog）</td></tr><tr><td style=\"text-align:left\">ENB Complex Grass 下草发怪</td><td style=\"text-align:left\">草包没有 normal map（Folkvangr）或 ENB 版本旧（Tamrielic 需 0.473+）</td><td style=\"text-align:left\">关 Complex Grass 或打 Patch Compendium</td></tr><tr><td style=\"text-align:left\">草被雪/地形\"切断一条线\"</td><td style=\"text-align:left\">lush→no-grass 边界</td><td style=\"text-align:left\">Landscape Fixes 的 cell 级修正就是干这个的</td></tr></tbody></table>\n<h2>顺序纪律（一手源）</h2>\n<ul><li>Landscape Fixes <strong>放顶部</strong>且早于改地形高度的 mod。</li><li>NGIO 生成缓存 → DynDOLOD 草 LOD；改设置（除两距离值）→ 重建缓存。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"../04-flora/grass-mods-overview.md\" target=\"<em>blank\" rel=\"noopener\">草类生态</a>、<a href=\"../04-flora/grass-ini-settings.md\" target=\"</em>blank\" rel=\"noopener\">草地 INI 设置</a></li></ul>",
+      "_file": "09-troubleshooting/grass-clipping-and-density-issues.md",
+      "_chars": 1563
+    },
+    {
+      "id": "parallax-artifacts",
+      "title": "视差异常排错（蓝块 / 无效果 / 白块）",
+      "category": "09-troubleshooting",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "视差",
+        "parallax",
+        "蓝块",
+        "排错",
+        "Auto Parallax"
+      ],
+      "kind": "tutorial",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/125527",
+      "summary": "三大症状对三因：蓝块=视差网格无贴图（Auto Parallax）；无效果=没 ENB/CS 或 ini 没开；效果怪=贴图与网格版本不匹配。",
+      "aliases": [
+        "视差排错",
+        "blue mesh",
+        "视差无效",
+        "parallax bug"
+      ],
+      "content": "<h2>症状 → 病因对照（一手源：Nexus 125527 + modding.wiki）</h2>\n<table><thead><tr><th style=\"text-align:left\">症状</th><th style=\"text-align:left\">病因</th><th style=\"text-align:left\">处置</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>蓝色/无贴图网格</strong></td><td style=\"text-align:left\">视差网格没有对应视差贴图</td><td style=\"text-align:left\">装 <strong>Auto Parallax</strong>（防止 \"blue meshes in game for parallax-enabled meshes with no corresponding texture\"，一手源：125527 页）</td></tr><tr><td style=\"text-align:left\"><strong>装了视差包毫无效果</strong></td><td style=\"text-align:left\">① 没装 ENB/CS；② <code>enbseries.ini</code> 的 <code>[EFFECT]</code> 没开 TerrainParallax/ComplexParallax</td><td style=\"text-align:left\">按<a href=\"../01-principles/parallax-and-complex-material.md\" target=\"_blank\" rel=\"noopener\">视差原理</a>检查依赖链</td></tr><tr><td style=\"text-align:left\"><strong>地形视差\"平坦处也歪\"</strong></td><td style=\"text-align:left\">高度图值不对：127=平坦（仍计算）；255=平坦且不计算（complex material 规则）</td><td style=\"text-align:left\">检查 alpha 通道语义用对没有</td></tr><tr><td style=\"text-align:left\"><strong>complex material 整个失效</strong></td><td style=\"text-align:left\">环境遮罩 G 通道 ≤4/255 被判黑</td><td style=\"text-align:left\">压缩精度问题；grayscale 2.2 重写通道图</td></tr><tr><td style=\"text-align:left\"><strong>金属不像金属</strong></td><td style=\"text-align:left\">ENB <code>[ENVIRONMENT] COLOR POW</code> 不适合你的 B 通道金属度</td><td style=\"text-align:left\">调预设或降金属度值</td></tr><tr><td style=\"text-align:left\"><strong>视差贴图远处过锐/撕裂</strong></td><td style=\"text-align:left\">视差贴图分辨率过高</td><td style=\"text-align:left\">视差贴图本就该\"略糊\"（125527 作者将其缩到 12.5%/原尺寸，一手源）</td></tr></tbody></table>\n<h2>版本匹配纪律（一手源：mythiq 对 202X 的转述 + 125527 页）</h2>\n<ul><li><strong>视差网格必须配同时代视差贴图</strong>——\"mixing a parallax mesh with a</li></ul>\n<p>non-parallax texture produces visible artefacts\"。</p>\n<ul><li>202X 的 Parallax Meshes 分 Whiterun / Riften Ground 等，各配各的。</li><li>每次增删视差网格/贴图后，用 ParallaxGen 的 <code>--upgrade-shaders</code> 重跑修补。</li></ul>\n<h2>已知历史问题（一手源）</h2>\n<ul><li>202X 文件页：\"<strong>-SSE Parallax Shader Fix no longer needed, if you got ENB</strong>\"。</li><li>CS 的 Extended Materials 已知会让\"环境遮罩 alpha 通道非法\"的 mod 内容变形</li></ul>\n<p>（如 Immersive Creatures 的 Durzog）——modding.wiki 明说。</p>\n<h2>相关</h2>\n<ul><li><a href=\"../01-principles/parallax-and-complex-material.md\" target=\"_blank\" rel=\"noopener\">视差与 Complex Material</a></li><li><a href=\"../08-practices/enb-presets-and-cs-bridge.md\" target=\"_blank\" rel=\"noopener\">ENB 预设与 CS 衔接</a></li></ul>",
+      "_file": "09-troubleshooting/parallax-artifacts.md",
+      "_chars": 1740
+    },
+    {
+      "id": "unreliable-sources-and-fabrications",
+      "title": "不可信来源与已知编造",
+      "category": "10-sources",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "不可信来源",
+        "黑名单",
+        "编造",
+        "CSDN",
+        "toolify",
+        "证据纪律"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/659",
+      "summary": "本库排除的内容农场/AI 聚合站清单，与已识别的具体编造案例；建库时就 sources 目录先查不可信来源的纪律。",
+      "aliases": [
+        "内容农场",
+        "ai 聚合",
+        "讹传",
+        "假消息",
+        "fake mods"
+      ],
+      "content": "<h2>排除清单（建库纪律，与 AGENTS.md 一致）</h2>\n<p>以下类别<strong>不作为本库来源</strong>：</p>\n<ul><li><strong>CSDN</strong>（及各转载站）：<code>oar-kb/09-sources/unreliable-sources.md</code> 已取证 12 处编造。</li><li><strong>toolify 一类 AI 聚合站</strong>：内容由机器拼贴，作者/版本/需求 routinely 错。</li><li>各种\"MOD 站\"镜像（1mod/xmodhub/qiyou/lagofast 等）：**描述可参考</li></ul>\n<p>（它们转录 Nexus 原文），但作者/版本/日期以 Nexus 文件信息页为准**。</p>\n<ul><li>无出境的\"2026 最佳 mod 榜单\"类文章：可用于发现候选，事实必须回 Nexus 核实。</li></ul>\n<h2>已识别的具体编造/错误（本库核实记录）</h2>\n<table><thead><tr><th style=\"text-align:left\">说法</th><th style=\"text-align:left\">事实</th><th style=\"text-align:left\">出处</th></tr></thead><tbody><tr><td style=\"text-align:left\">\"Water for ENB 作者 paganmetalfan\"</td><td style=\"text-align:left\">mindflux；paganmetalfan 是 Watercolor for ENB</td><td style=\"text-align:left\">Nexus 37061</td></tr><tr><td style=\"text-align:left\">\"SE 上装 ENB 必配 ENBoost 防爆显存\"</td><td style=\"text-align:left\">STEP：64 位 SE &gt;4GB 内存时 ENBoost 冗余</td><td style=\"text-align:left\">STEP wiki</td></tr><tr><td style=\"text-align:left\">\"Skyrim 3D Trees and Plants 是 Pfuscher 的\"</td><td style=\"text-align:left\">mathy79（Nexus 12371）</td><td style=\"text-align:left\">IGN 视频 Credits</td></tr><tr><td style=\"text-align:left\">\"RUSTIC 全是 fadingsignal\"</td><td style=\"text-align:left\">Clutter/Soulgems/Cooking 是 Gamwich(+Saerileth)</td><td style=\"text-align:left\">SETOG（Nexus 5883）</td></tr><tr><td style=\"text-align:left\">\"Nexus 上的 SSELODGen 就是地形 LOD 工具\"</td><td style=\"text-align:left\">那是个过时旧版；现行是 STEP 论坛的 xLODGen beta</td><td style=\"text-align:left\">fkmods 教程 + Sheson 回帖</td></tr><tr><td style=\"text-align:left\">\"T4GTR34UM3R 和 T4GTR43UM3R 是两个人\"</td><td style=\"text-align:left\">至少 Terrain LOD Redone 与 MM/Blended Roads 高度疑似同一人；<strong>未确认，存疑</strong></td><td style=\"text-align:left\">Nexus 9135 vs 11052/8834</td></tr></tbody></table>\n<h2>证据分级（本库用法）</h2>\n<ul><li><strong>一手源</strong>：Nexus 发布页/文件页/日志/作者回帖、官方仓库、官方站</li></ul>\n<p>（enbdev.com、dyndolod.info）、STEP/modding.wiki 的机制文档。</p>\n<ul><li><strong>社区经验</strong>：Nolvus/sinitar 等整合指南、论坛高赞回帖、榜单——</li></ul>\n<p>用于\"怎么做\"，不用于\"是什么\"。</p>\n<ul><li><strong>存疑</strong>：单一二手转述——本库显式标注，不当事实用。</li></ul>\n<h2>相关</h2>\n<ul><li><a href=\"author-attribution-corrections.md\" target=\"_blank\" rel=\"noopener\">作者归属勘误</a>、</li></ul>\n<p><a href=\"outdated-pages-and-renames.md\" target=\"_blank\" rel=\"noopener\">过时与改名页面</a></p>",
+      "_file": "10-sources/unreliable-sources-and-fabrications.md",
+      "_chars": 1637
+    },
+    {
+      "id": "author-attribution-corrections",
+      "title": "作者归属勘误表",
+      "category": "10-sources",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "勘误",
+        "作者",
+        "归属",
+        "讹传"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/37061",
+      "summary": "本库核实过的作者归属：Water for ENB=mindflux（非 paganmetalfan）、Folkvangr=Grumbledoook、Verdant=Preeum、NAT=l00ping、Skyrim 3D Trees=mathy79、RUSTIC 分两系。",
+      "aliases": [
+        "张冠李戴",
+        "mindflux",
+        "paganmetalfan"
+      ],
+      "content": "<p>以下条目在本库建库时逐一对照 Nexus 文件信息核实。<strong>引用本库时用此表，不要用二手文章的作者栏。</strong></p>\n<table><thead><tr><th style=\"text-align:left\">mod</th><th style=\"text-align:left\">常见错误归属</th><th style=\"text-align:left\">正确作者</th><th style=\"text-align:left\">证据</th></tr></thead><tbody><tr><td style=\"text-align:left\"><strong>Water for ENB</strong></td><td style=\"text-align:left\">paganmetalfan（\"Watercolor for ENB\" 的作者，被混为一谈）</td><td style=\"text-align:left\"><strong>mindflux</strong></td><td style=\"text-align:left\">Nexus 37061 文件信息 \"Created by mindflux\"</td></tr><tr><td style=\"text-align:left\"><strong>Folkvangr</strong></td><td style=\"text-align:left\">SimonMagin（Aspens 的作者）</td><td style=\"text-align:left\"><strong>Grumbledoook</strong></td><td style=\"text-align:left\">Nexus 44899</td></tr><tr><td style=\"text-align:left\"><strong>Verdant</strong></td><td style=\"text-align:left\">常与 Tamriel Reloaded 系混淆</td><td style=\"text-align:left\"><strong>Preeum</strong>（LE 页 60220）</td><td style=\"text-align:left\">Nexus 60220</td></tr><tr><td style=\"text-align:left\"><strong>NAT</strong></td><td style=\"text-align:left\">\"3jiou\" 等讹传</td><td style=\"text-align:left\"><strong>l00ping</strong>（Nexus 显示名 L00）</td><td style=\"text-align:left\">Bethesda Creations 页 \"by l00ping\"；LE 移植页 103691 \"Created by L00\"</td></tr><tr><td style=\"text-align:left\"><strong>Skyrim 3D Trees and Plants</strong></td><td style=\"text-align:left\">Pfuscher</td><td style=\"text-align:left\"><strong>mathy79</strong></td><td style=\"text-align:left\">Nexus 12371（IGN 视频 Credits）</td></tr><tr><td style=\"text-align:left\"><strong>RUSTIC 系列</strong></td><td style=\"text-align:left\">全部归 fadingsignal</td><td style=\"text-align:left\">Windows/Clothing = fadingsignal；Clutter/Soulgems/Cooking = <strong>Gamwich</strong>（+Saerileth）</td><td style=\"text-align:left\">SETOG 指南原文（Nexus 5883）</td></tr><tr><td style=\"text-align:left\"><strong>Pure Waters</strong></td><td style=\"text-align:left\">\"Laul\"</td><td style=\"text-align:left\"><strong>Laast</strong></td><td style=\"text-align:left\">Steam Workshop 署名 + playground.ru 转述</td></tr><tr><td style=\"text-align:left\"><strong>Cathedral Weathers</strong></td><td style=\"text-align:left\">\"某工作室\"</td><td style=\"text-align:left\"><strong>DrJacopo + Arindel</strong>（社区共建，作者栏 The Community）</td><td style=\"text-align:left\">Nexus 24791 Credits</td></tr><tr><td style=\"text-align:left\"><strong>Cathedral Landscapes</strong></td><td style=\"text-align:left\">与 CWS 混为一谈</td><td style=\"text-align:left\">作者栏 The Community，上传者 <strong>DrJacopo</strong>；JonnyWang 资产</td><td style=\"text-align:left\">Nexus 21954</td></tr><tr><td style=\"text-align:left\"><strong>Majestic Mountains</strong></td><td style=\"text-align:left\">KrittaKitty（那是另一个 Cathedral Concept 衍生）</td><td style=\"text-align:left\"><strong>T4GTR34UM3R</strong></td><td style=\"text-align:left\">Nexus 11052</td></tr><tr><td style=\"text-align:left\"><strong>Terrain LOD Redone</strong></td><td style=\"text-align:left\">与 MM 混为一谈</td><td style=\"text-align:left\"><strong>T4GTR43UM3R</strong>（疑为 T4GTR34UM3R 的马甲，未确认）</td><td style=\"text-align:left\">Nexus 9135</td></tr><tr><td style=\"text-align:left\"><strong>Landscape Fixes For Grass Mods</strong></td><td style=\"text-align:left\">只知 SE 版作者</td><td style=\"text-align:left\">SE = <strong>code1k</strong>；LE 原作者 <strong>Arthmoor</strong></td><td style=\"text-align:left\">Nexus 9005 + Bethesda.net 页</td></tr><tr><td style=\"text-align:left\"><strong>True Storms</strong></td><td style=\"text-align:left\">\"Prometheus\" 等</td><td style=\"text-align:left\"><strong>fadingsignal</strong></td><td style=\"text-align:left\">Nexus 2472 + Epicube 整理</td></tr><tr><td style=\"text-align:left\"><strong>Happy Little Trees</strong></td><td style=\"text-align:left\">—</td><td style=\"text-align:left\"><strong>Pfuscher</strong>（已宣布 final）</td><td style=\"text-align:left\">Nexus 50961</td></tr><tr><td style=\"text-align:left\"><strong>Nature of the Wild Lands</strong></td><td style=\"text-align:left\">—</td><td style=\"text-align:left\"><strong>fxxkthisworld</strong></td><td style=\"text-align:left\">Nexus 63604</td></tr><tr><td style=\"text-align:left\"><strong>SSE NIF Optimizer</strong></td><td style=\"text-align:left\">—</td><td style=\"text-align:left\"><strong>ousnius</strong></td><td style=\"text-align:left\">Nexus 4089</td></tr><tr><td style=\"text-align:left\"><strong>No Grass In Objects</strong></td><td style=\"text-align:left\">—</td><td style=\"text-align:left\"><strong>meh321</strong></td><td style=\"text-align:left\">Nexus 42161</td></tr><tr><td style=\"text-align:left\"><strong>Cathedral Assets Optimizer</strong></td><td style=\"text-align:left\">\"G'k\" 写法混乱</td><td style=\"text-align:left\"><strong>G_k</strong>（上传者 Gka1）</td><td style=\"text-align:left\">Nexus 23316</td></tr></tbody></table>\n<h2>使用纪律</h2>\n<ul><li>表格里的 Nexus ID 均已对照发布页/文件页；引用时优先给 Nexus ID + 作者。</li><li>发现新讹传 → 先找一手源（Nexus 文件信息页最权威），再补本表。</li></ul>",
+      "_file": "10-sources/author-attribution-corrections.md",
+      "_chars": 2289
+    },
+    {
+      "id": "outdated-pages-and-renames",
+      "title": "过时与改名页面指南",
+      "category": "10-sources",
+      "version": "1.0.0",
+      "updated": "2026-10-22",
+      "tags": [
+        "改名",
+        "过时",
+        "2020 Parallax",
+        "202X",
+        "页面"
+      ],
+      "kind": "reference",
+      "source": "https://www.nexusmods.com/skyrimspecialedition/mods/2347",
+      "summary": "Skyrim 2020 Parallax\"已改名\"Skyrim 202X\"（2347）；多个经典 mod 停在 2018-2019 但贴图仍可用；找不着旧名=改名不是下架。",
+      "aliases": [
+        "skyrim 2020 parallax",
+        "skyrim 202x",
+        "页面找不到"
+      ],
+      "content": "<h2>头部案例：Skyrim 2020 Parallax → Skyrim 202X</h2>\n<ul><li>中文教程高频写\"<strong>Skyrim 2020 Parallax</strong>\"并指向 SE 页——</li></ul>\n<p>实际 SE 现行页面是 <strong>\"Skyrim 202X by Pfuscher\"（Nexus 2347）</strong>， 当前 v10.5.2（2025-07）。</p>\n<ul><li>旧 SE 页（2777）与 LE 页/LE 移植页（112824，badcozmad 移植）仍存在，</li></ul>\n<p>但<strong>内容已并入 202X 体系</strong>。找不着旧名不是被下架，是改名+重组。</p>\n<ul><li>连带变更：视差网格改按区域发布（Whiterun / Riften Ground），</li></ul>\n<p>地形视差拆 \"Complex Terrain Parallax\"。</p>\n<h2>\"停更但可用\"清单（一手源：各页日期）</h2>\n<table><thead><tr><th style=\"text-align:left\">mod</th><th style=\"text-align:left\">最后更新</th><th style=\"text-align:left\">影响</th></tr></thead><tbody><tr><td style=\"text-align:left\">SMIM 2.08</td><td style=\"text-align:left\">2018-07（文件页 2025-02 仍有活动）</td><td style=\"text-align:left\">贴图/网格不受游戏版本影响</td></tr><tr><td style=\"text-align:left\">Noble Skyrim 5.5.0</td><td style=\"text-align:left\">2018-12</td><td style=\"text-align:left\">同上；AE 新内容无覆盖</td></tr><tr><td style=\"text-align:left\">ELFX 3.06</td><td style=\"text-align:left\">2019</td><td style=\"text-align:left\">同上；权限严格</td></tr><tr><td style=\"text-align:left\">Terrain LOD Redone 1.42</td><td style=\"text-align:left\">—</td><td style=\"text-align:left\">贴图类，可用</td></tr><tr><td style=\"text-align:left\">Pure Waters</td><td style=\"text-align:left\">LE 时代</td><td style=\"text-align:left\">已被 RW2/WFE 取代</td></tr><tr><td style=\"text-align:left\">RUSTIC 系列</td><td style=\"text-align:left\">2017-2018</td><td style=\"text-align:left\">同上</td></tr><tr><td style=\"text-align:left\">SFO 2.74a</td><td style=\"text-align:left\"><strong>2024-11（仍在更）</strong></td><td style=\"text-align:left\">别当它停更了</td></tr></tbody></table>\n<h2>找页面的正确姿势（社区经验）</h2>\n<ol><li><strong>用 Nexus 站内搜索 + 作者名</strong>，不要用百度/Google 找\"Nexus 页面\"</li></ol>\n<p>（镜像站会排在前面）。</p>\n<ol><li>认 <strong>Nexus ID</strong>（本库各条目 source 字段已给）。</li><li>看 <strong>Files 页的 \"Last updated\"</strong> 判断活跃度，别看发布页缓存。</li></ol>\n<h2>相关</h2>\n<ul><li><a href=\"unreliable-sources-and-fabrications.md\" target=\"_blank\" rel=\"noopener\">不可信来源</a>、</li></ul>\n<p><a href=\"author-attribution-corrections.md\" target=\"_blank\" rel=\"noopener\">作者归属勘误</a></p>",
+      "_file": "10-sources/outdated-pages-and-renames.md",
+      "_chars": 1367
+    }
+  ]
+}

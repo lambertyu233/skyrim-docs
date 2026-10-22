@@ -1,7 +1,7 @@
 # 项目长期记忆（skyrim-docs）
 
 ## 入口与纪律
-- 工作区 = 8 个资料库 + 根 `AGENTS.md`（**agent 入口契约，先读**）。症状类先读
+- 工作区 = 9 个资料库 + 根 `AGENTS.md`（**agent 入口契约，先读**）。症状类先读
   `01-navigation/troubleshooting-index.md`。**新增库后必跑 `kb.py check`**（漏写 AGENTS.md = 整库对 agent 隐形）。
 - 检索走 `scripts/kb.py`：`list → toc → find/grep → show（元数据+大纲）→ read`；
   Python 用 `C:/Users/laptopyu/.workbuddy/binaries/python/versions/3.13.12/python.exe`。
@@ -51,7 +51,7 @@
 - 本机特有：**PowerShell `Add-Type` 被安全策略禁止** → 调 Win32 API 用托管 Python + ctypes；
   沙箱下回收站不可靠，**动用户目录的文件备份必须自己做**。
 
-## 已有库（9 库 / 353 条）
+## 已有库（10 库 / 406 条）
 - ⚠️ **2026-08 起游戏进入 1.7.x 分支**（SKSE 官网首页挂 2026-08-14 更新警告）：
   Steam AE 现为 **1.7.104 ↔ SKSE 2.3.1**、1.7.99 ↔ 2.3.0；**GOG 仍停在 1.6.1179 ↔ 2.2.6**（两渠道分裂）。
   **RaceMenu 未适配 1.7.x** → 依赖捏脸就留在 **1.6.1170**。权威条目：
@@ -63,6 +63,16 @@
   BFCO 不兼容清单与版本地雷。核心勘误条目 `09-sources/unreliable-claims.md`（Elden Dodge/TK Dodge
   Ultimate/Skypia/SoulCalibur moveset/DM-IIO 查无此物；作者归属 8 处纠正；MCO 官方页已换 175044；
   distaranimation.com 已失效）。与 behaviour-engine-kb/oar-kb 的分工：本库只留选型结论，机制不重复。
+- `environment-visuals-kb`（53 / 11 类，2026-10-22 新建）：**环境美化（材质/地形/植被/水体/
+  天气光照/后处理/LOD）**。六层结构：L1 网格底座（SMIM）→ L2 材质替换 → L3 世界内容 →
+  L4 天气光照 → L5 后处理（ENB/CS）→ L6 LOD 远景。已核实 Nexus ID：Skyrim 202X=2347、
+  Majestic Mountains=11052、DynDOLOD=32382、Noble Skyrim=21423、Blended Roads=8834、
+  Cathedral Landscapes=21954、CAO=23316、NGIO=42161；**Water for ENB 作者是 mindflux**
+  （旧记录常错写成 paganmetalfan）。视差原理 + Complex Material 四通道：
+  `02-textures/parallax-and-complex-material.md`。作者归属勘误
+  `10-sources/author-attribution-corrections.md`（RUSTIC Clutter/Soulgems/Cooking =
+  Gamwich+Saerileth，旧记录全归 fadingsignal 是错的）。与 community-shaders-kb 分工：
+  本库管"装什么/为什么"，CS 管渲染框架本身。
 - `01-navigation`（1）：跨库排错索引（症状 → 条目路径 + 最易误判的分叉点）。
   ⚠️ 该文件通篇用**反引号纯文本**引用条目路径 → `check_links.py` 对它等于**空跑假通过**
   （报"0 条 / 全部有效"），改它时必须人工核实路径存在。

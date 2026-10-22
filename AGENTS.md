@@ -1,7 +1,7 @@
 # AGENTS.md — 上古卷轴5 模改工作区
 
-本工作区是一个**结构化知识库**（不是代码仓库）：8 个独立资料库 + 入口索引，
-共 309 条目，全部为「每主题一个 Markdown + 统一 frontmatter」。
+本工作区是一个**结构化知识库**（不是代码仓库）：9 个独立资料库 + 入口索引，
+共 406 条目，全部为「每主题一个 Markdown + 统一 frontmatter」。
 本文件是 agent 的入口契约：**先看这里，再决定读什么。**
 
 ---
@@ -47,17 +47,19 @@ $KB read <id>                 #    确认相关才读正文（也可用 Read 工
 | OAR 条件 / `config.json` / submod / 优先级 / 游戏内编辑器 / DAR 迁移 | `oar-kb` | `03-conditions`、`08-practices` |
 | FNIS / Nemesis / Pandora 行为补丁、hkx、动画数据库 | `behaviour-engine-kb` | `01-principles`、`06-practices` |
 | **战斗/动作 mod 生态**：攻击框架（SkySA/ABR/MCO/BFCO）、闪避、韧性硬直、格挡弹反、战斗 AI 与碰撞（SCAR/Precision）、视角（TDM/SmoothCam）、动作包（Elden Rim / For Honor 等）、装完动作包怎么刷新 | `combat-animation-kb` | `00-overview`（生态地图+选型）、`01-frameworks`（BFCO/MCO）、`08-compatibility`（不兼容清单/版本地雷/刷新流程）、`09-sources`（讹传勘误） |
+| **环境美化**：材质包（SMIM / Skyland / Skyrim 202X / Noble / aMidianBorn / RUSTIC / Vivid Landscapes）、地形与山脉（MM / Blended Roads / TLR / Cathedral Landscapes）、树木与草（HLT / Aspens / NOTWL / SFO / Cathedral Landscapes / NGIO）、水体（RW2 / Water for ENB / Pure Waters）、天气与光照（Obsidian / Cathedral / NAT / ELFX / Lux / Embers XD）、视差与 Complex Material、LOD 生成（xLODGen / DynDOLOD）、爆显存与性能预算 | `environment-visuals-kb` | `00-overview`（生态地图+选型）、`01-principles`（视差/压缩/VRAM/LOD 原理）、`02~06`（各层生态）、`08-practices`（安装顺序/LOD 流程/ENB 预设）、`09-troubleshooting` |
 | Community Shaders 功能、ENB 迁移、画质与着色器 | `community-shaders-kb` | `02-features`、`01-installation` |
 | Creation Kit、Papyrus 脚本、ESP/编辑器操作 | `creation-kit-kb` | `04-scripting`、`03-game-systems` |
 | MO2 / USVFS / 虚拟文件系统 / 冲突覆盖 / 实例管理 | `mo2-usvfs-kb` | `05-usage` |
 | 改造某个 mod 动画的实战方法论 | `oar-kb/08-practices/`（原 `OAR/` 目录的内容已并入本库） | 心智模型 + 六步改造法 |
 | **捏脸 / 身形 / 骨骼 / 物理 / NPC 身材分配** | `character-appearance-kb` | `02-face`、`03-body`、`04-physics`、`06-troubleshooting` |
 
-跨库问题通常要同时查多个库，别只查一个就下结论。四个高频组合：
+跨库问题通常要同时查多个库，别只查一个就下结论。高频组合：
 
 - "我的拉弓动画被覆盖了" → `mo2-usvfs-kb`（覆盖规则）+ `oar-kb`（替换逻辑）
 - "捏的脸进游戏变黑了" → `character-appearance-kb`（黑脸成因与四种修法）+ `mo2-usvfs-kb`（左栏/右栏不一致）
 - "身形装了但滑块不出现" → `character-appearance-kb`（morph 未构建）+ `mo2-usvfs-kb`（构建产物被覆盖）
+- "想美化环境 / 爆显存 / 视差不显示 / 远景一团糊" → `environment-visuals-kb`（选型 + 视差原理 + LOD 流程 + VRAM 排错）+ `mo2-usvfs-kb`（覆盖规则）；渲染框架本身（CS 功能/版本）去 `community-shaders-kb`
 - **"游戏启动就崩 / 报 SKSE 版本旧"** → `skyrim-tools-kb`（SKSE64 与 Address Library 版本矩阵）+ `01-navigation`（症状分类）
 - **"该用哪个工具干活"** → `skyrim-tools-kb/00-overview/choose-a-tool.md`（按任务选），
   再落到具体机制库（如排序原理看 `mo2-usvfs-kb`，动画替换原理看 `oar-kb`）
