@@ -57,6 +57,7 @@ summary: 全工作区的排错入口——按"你看到的现象"组织，每条
 | **某个效果与已有 mod 冲突** | `community-shaders-kb/03-reference/incompatible-mods.md` |
 | **不知道某功能该不该开、吃多少性能** | `community-shaders-kb/00-overview/feature-matrix.md`、`community-shaders-kb/03-reference/faq.md` |
 | **闪烁 / 阴影异常 / 贴图噪点** | `community-shaders-kb/06-community/common-pitfalls.md` |
+| **CS 菜单里调完参数，重启又变回去 / 不知道设置存在哪** | `community-shaders-kb/03-reference/settings-persistence.md` — **两个分叉点**：① 是不是**没点 `Save Settings`**（CS 退出时**不自动保存**）② 是不是被 `Overrides/*.json` 强制覆盖了（那层优先级高于你的设置） |
 
 ## 四、Creation Kit 与脚本
 

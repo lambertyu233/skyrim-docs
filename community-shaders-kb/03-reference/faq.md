@@ -76,7 +76,10 @@ A：刻意未实现（质量低）。用 ReShade 或原版 DoF。CS 后处理将
 ## 配置
 
 **Q：不用 CS 菜单能改设置吗？**
-A：能。首次改设置后生成 `SKSE/Plugins/CommunityShaders/SettingsUser.json`（MO2 overwrite 或 Data 夹），可直接编辑。
+A：能。首次改设置后生成 `SKSE/Plugins/CommunityShaders/SettingsUser.json`（MO2 overwrite 或 Data 夹），可直接编辑。完整路径表、4 层覆盖优先级、手改注意事项见 [设置持久化](settings-persistence.md)。
+
+**Q：菜单里调完参数，重启后又变回去了？**
+A：① 是不是**没点右上角的 `Save Settings`**——CS 关闭游戏时不会自动保存，不点就只存在内存里；② 参数是不是被某个 `Overrides/*.json` 强制覆盖了（MOD 作者的强制值优先级高于你的设置，要改得写 `Overrides/User/<特性名>.user.json`）。详见 [设置持久化](settings-persistence.md)。
 
 **Q：按 End 没反应！**
 A：若已装 CS，暂停菜单应有 `Settings > Graphics > Open Community Shaders Menu`，从中改键 `General > Keybindings` 并保存。若无此项，确认 CS 1.9.0+ 且装好。仍不开则禁用 overlays（RTSS/Fraps）；删 Fraps，禁 RTSS for `SkyrimSE.exe`。

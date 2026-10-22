@@ -51,7 +51,7 @@
 - 本机特有：**PowerShell `Add-Type` 被安全策略禁止** → 调 Win32 API 用托管 Python + ctypes；
   沙箱下回收站不可靠，**动用户目录的文件备份必须自己做**。
 
-## 已有库（10 库 / 406 条）
+## 已有库（10 库 / 407 条）
 - ⚠️ **2026-08 起游戏进入 1.7.x 分支**（SKSE 官网首页挂 2026-08-14 更新警告）：
   Steam AE 现为 **1.7.104 ↔ SKSE 2.3.1**、1.7.99 ↔ 2.3.0；**GOG 仍停在 1.6.1179 ↔ 2.2.6**（两渠道分裂）。
   **RaceMenu 未适配 1.7.x** → 依赖捏脸就留在 **1.6.1170**。权威条目：
@@ -91,8 +91,14 @@
 - `behaviour-engine-kb`（28 / 8）：Havok Behavior = 非确定性 FSM，序列化进 hkx；
   **Patcher（FNIS/Nemesis/Pandora，新增）vs Replacer（OAR/DAR，替换）**；FNIS 7.6 闭源停更；
   **Pandora 不是 Nemesis 的 fork**（社区常错）。
-- `community-shaders-kb`（64 / 7）：稳定 1.8.x；**Nexus 是唯一受支持渠道**；
+- `community-shaders-kb`（65 / 7，2026-10-22 升 v2.2.0）：稳定 1.8.x；**Nexus 是唯一受支持渠道**；
   1.6.1170 / 1.6.1179 / 1.5.97 支持；GPU 口径 **Vulkan 1.4+**；VR 停止支持；进阶看 GitHub Developer Wiki。
+  **设置持久化权威条目 = `03-reference/settings-persistence.md`**（一手源 = 官方仓库
+  `v1.8.4`/`main` 的 `src/Utils/FileSystem.cpp`）：主答案 `Data/SKSE/Plugins/CommunityShaders/SettingsUser.json`；
+  **4 层合并优先级 Default < User < Overrides < Overrides/User/*.user.json**（Overrides 优先级高于用户设置）；
+  **CS 退出时不自动保存**（只有菜单 `Save Settings` 按钮落盘）。
+  ⚠️ **官方 Developer Wiki 的 A/B 测试页仍写 0.8.x 旧名 `CommunityShadersUSER.json` / `CommunityShadersTEST.json`
+  （在 `Plugins\` 根下）——1.0.0 起改名 `Settings*.json` 且移入 `CommunityShaders\` 子夹**，旧文件不自动迁移。
 - `character-appearance-kb`（48 / 9，2026-09-30 升 v2.0.0）：核心 `03-body/morph-runtime-vs-bake.md`（**运行时 morph 只影响玩家
   vs 离线烘焙写进 .nif 影响所有 NPC**；正解 `Zeroed Sliders + Build Morphs + Batch Build`）；
   产出 `08-sources/unreliable-and-unconfirmed.md`（**13 条错误知识 + 17 项未确认**）。

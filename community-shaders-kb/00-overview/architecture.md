@@ -48,3 +48,4 @@ Community Shaders 在运行时替换 Skyrim 的原版着色器管线，并以**�
 
 - 更新 CS 后若没出现“编译着色器”弹窗 → 手动删除 Disk Cache（MO2: `Overwrite/ShaderCache`；Vortex: `<游戏>/Data/ShaderCache`）。详见 [FAQ](../03-reference/faq.md) 与 [安装-更新](../01-installation/installation-guide.md)。
 - “Shaders failed to compile” 红错 → 多为 CS 与附加特性版本混用，或缓存未重生。
+- 游戏内菜单调的参数存哪、为什么会丢 → 见 [设置持久化](../03-reference/settings-persistence.md)。

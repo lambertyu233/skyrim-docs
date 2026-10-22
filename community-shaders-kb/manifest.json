@@ -4,8 +4,8 @@
     "description": "基于官方用户 wiki（modding.wiki）、官方仓库与 Developer Wiki、Nexus 发布页整理的可维护 Community Shaders 资料库，分层组织、便于增删改查与版本化协作。",
     "locale": "zh-CN"
   },
-  "version": "2.1.0",
-  "generated_at": "2026-09-21",
+  "version": "2.2.0",
+  "generated_at": "2026-10-22",
   "maintainers": ["社区协作"],
   "sources": [
     {
@@ -49,7 +49,7 @@
     { "dir": "00-overview", "title": "概览", "desc": "定位、架构、缓存系统、功能对照矩阵、版本与支持策略" },
     { "dir": "01-installation", "title": "安装", "desc": "需求、安装、Vanilla 设置、ENB 迁移" },
     { "dir": "02-features", "title": "功能", "desc": "核心特性与附加特性（每特性一文件，分 core / additional 子目录）" },
-    { "dir": "03-reference", "title": "参考", "desc": "不兼容 MOD、FAQ" },
+    { "dir": "03-reference", "title": "参考", "desc": "不兼容 MOD、FAQ、设置持久化位置" },
     { "dir": "04-development", "title": "开发", "desc": "PBR 美术师指南、测试与调试、贡献" },
     { "dir": "05-tools", "title": "工具", "desc": "Light Placer、PGPatcher" },
     { "dir": "06-community", "title": "社区", "desc": "实战经验与常见坑、可信信息源与支持渠道" }

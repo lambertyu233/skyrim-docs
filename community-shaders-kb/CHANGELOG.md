@@ -7,6 +7,25 @@
 
 ---
 
+## [2.2.0] - 2026-10-22
+
+**新增条目版**：补上此前缺失的一块知识——**游戏内菜单（END）调的参数到底持久化到哪个文件**。
+
+### 新增条目（1）
+
+| 条目 | 说明 | 主要来源 |
+|------|------|---------|
+| `03-reference/settings-persistence.md` | 设置持久化全表：`SettingsUser.json` / `SettingsDefault.json` / `SettingsTest.json` / `SettingsTheme.json` / `Overrides\` / `Overrides\User\*.user.json` / `AppliedOverrides.json` / `SceneSettings\` / `CommunityShaders_ImGui.ini` / `Data\Shaders\Features\*.ini` 各自存什么；**4 层合并优先级**（Default → User → Overrides → User Overrides）；保存时机；手改配置的坑与排错速查 | 官方仓库 `v1.8.4` / `main` 的 `src/Utils/FileSystem.cpp`、`src/State.cpp`、`src/SettingsOverrideManager.cpp`、`src/Menu/MenuHeaderRenderer.cpp` + 官方 FAQ |
+
+### 修正
+
+- **`04-development/testing-and-debugging.md`**：A/B 测试一节原写 `CommunityShadersUSER.json` / `CommunityShadersTEST.json`——那是 **0.8.x** 的旧命名（旧文件在 `Data\SKSE\Plugins\` 根下）。**1.0.0 起已改名为 `SettingsUser.json` / `SettingsTest.json` 并移入 `Data\SKSE\Plugins\CommunityShaders\` 子夹**，现按源码更正并加注说明（该旧名来自官方 Developer Wiki 未同步的文档，不是笔误）。
+- **`03-reference/faq.md`**：配置区补一条「菜单里调完参数，重启后又变回去了」，点明两个分叉点（没点 `Save Settings` / 被 Overrides 强制覆盖），并链接新条目。
+- **`00-overview/architecture.md`**：排错关联补一行指向新条目。
+- **`01-navigation/troubleshooting-index.md`**：「画质与着色器」表补一行症状 → 新条目。
+
+---
+
 ## [2.1.0] - 2026-09-21
 
 **内容扩充版**：把整理范围从「官方用户 wiki 一份来源」扩展到 **官方用户 wiki + 官方仓库 README + 官方 GitHub Developer Wiki + Nexus 发布页与各附加特性 MOD 页**，并修正了一批与上游不一致的陈述。

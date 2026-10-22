@@ -18,14 +18,16 @@ summary: 官方 Developer Wiki 的调试手法：A/B 对比测试、TESTCUBEMAP�
 
 官方内置了一个「按固定间隔在两套设置之间自动切换」的模式，用来客观对比两种视觉效果：
 
-1. 调好第一套设置 → 点 **Save Settings**。这套会写入 `CommunityShadersUSER.json`，界面上显示为 `User Mode`。
+1. 调好第一套设置 → 点 **Save Settings**。这套会写入 `SettingsUser.json`，界面上显示为 `User Mode`。
 2. 改成第二套设置。这套显示为 `Test Mode`。
 3. 在 **Advanced** 菜单里找到 `Test Interval` 滑块。
-4. 设成任意**非零**值（单位：秒，即每套设置停留多久后切换）。此时会生成新的配置文件 `CommunityShadersTEST.json`；屏幕左上角会出现倒计时，你也可以盯着第 2 步改动的参数，确认它们确实在来回切。
+4. 设成任意**非零**值（单位：秒，即每套设置停留多久后切换）。此时会生成新的配置文件 `SettingsTest.json`；屏幕左上角会出现倒计时，你也可以盯着第 2 步改动的参数，确认它们确实在来回切。
 5. 退出：把 `Test Interval` 设回 **0**。第 2 步的设置会保留。
 6. 想恢复默认：点 **Load Settings**。
 
 > 实操建议：一次只改**一个**变量（例如只动 Skylighting 强度或 SSGI 的 GI 强度），让 Test Interval 在 3–5 秒间切换，看几轮就能判断差异是否真实存在。
+>
+> ⚠️ **文件名注意**：官方 Developer Wiki 这一页至今写的是旧名 `CommunityShadersUSER.json` / `CommunityShadersTEST.json`（那是 **0.8.x** 的命名，文件在 `Data/SKSE/Plugins/` 根下）。**1.0.0 起已改名为 `SettingsUser.json` / `SettingsTest.json`，并移入 `Data/SKSE/Plugins/CommunityShaders/` 子夹**。当前稳定版以新名新路径为准，详见 [设置持久化](../03-reference/settings-persistence.md)。
 
 ## Dynamic Cubemaps 反射测试模式
 
@@ -103,5 +105,6 @@ CS 1.4.6+ 内建 RenderDoc 支持。报 bug 时开发者常会索要一份捕获
 ## 相关条目
 
 - [架构与缓存系统](../00-overview/architecture.md)
+- [设置持久化：游戏内菜单调的参数存在哪](../03-reference/settings-persistence.md)
 - [FAQ - 通用排查建议](../03-reference/faq.md)
 - [贡献指南](contributing.md)
