@@ -3,17 +3,17 @@ id: troubleshooting-index
 title: 排错索引：从症状找答案
 category: 01-navigation
 kind: reference
-version: 1.2.0
-updated: 2026-09-23
+version: 1.3.0
+updated: 2026-10-23
 tags: [排错, 索引, 症状, 导航, 入口]
 aliases: [排错索引, 症状索引, 症状对照, 问题排查, 从症状找, 故障对照, troubleshooting, error, issue]
-source: 本工作区八库汇总（条目路径见下）
+source: 本工作区十库汇总（条目路径见下）
 summary: 全工作区的排错入口——按"你看到的现象"组织，每条症状直接给出该读哪个库的哪一条，并标出最容易误判的分叉点。
 ---
 
 # 排错索引：从症状找答案
 
-本工作区八个资料库按**主题**组织（捏脸与身形 / OAR / 动作引擎 / Community Shaders / Creation Kit / MO2，外加工具集与本次入口索引）。
+本工作区十个资料库按**主题**组织（工具集 / OAR / 动作引擎 / 战斗动画 / Community Shaders / Creation Kit / MO2-USVFS / 环境美化 / 捏脸与身形，外加本入口索引）。
 但你出问题时手里拿的是**症状**，不是主题。这页就是那座桥。
 
 > 用法：直接搜你的现象（如"T-Pose""贴图糊""改了没反应"）。

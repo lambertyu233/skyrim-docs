@@ -181,6 +181,27 @@ function renderGrid(){
   view.innerHTML=html;
   view.querySelectorAll('.card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
 }
+// ---- 深链：#id=<条目id> 直达条目；#q=<查询> 预填检索 ----
+// 目的：让 `<库>/index.html#id=<条目id>` / `<库>/index.html#q=<查询>` 这类链接
+// （工作区统一入口、聊天里分享的链接）打开后直接落到对应状态。
+// history/location 在个别环境不存在（如 check_index_ui 的 Node DOM 桩、个别
+// file:// 浏览器限制 replaceState），因此一律 typeof 守卫 + try/catch：
+// 读不到 hash 时静默退化为普通列表页，绝不在页面上抛错。
+function _hashFrag(name){
+  try{
+    if(typeof location==='undefined' || !location.hash) return null;
+    const m=new RegExp('^#'+name+'=(.+)$').exec(location.hash);
+    return m?decodeURIComponent(m[1]):null;
+  }catch(e){ return null; }
+}
+function _setHash(frag){
+  try{
+    if(typeof history==='undefined' || !history.replaceState || typeof location==='undefined') return;
+    // 传 pathname+search 而不是 '#'：个别浏览器对空 hash 的 replaceState 处理不一致
+    history.replaceState(null,'', frag ? '#'+frag : location.pathname+location.search);
+  }catch(e){}
+}
+function _hashId(){ const v=_hashFrag('id'); return (v && /^[A-Za-z0-9._-]+$/.test(v)) ? v : null; }
 function showDetail(id){
   const e=ENTRIES.find(x=>x.id===id); if(!e) return;
   const view=document.getElementById('view');
@@ -190,7 +211,7 @@ function showDetail(id){
   const als=((e.aliases||[]).length?
     '<div class="chips" style="margin:6px 0 0">'+
     (e.aliases||[]).map(a=>'<span class="chip muted">'+esc(a)+'</span>').join('')+'</div>':'');
-  view.innerHTML='<button class="back" onclick="renderGrid()">← 返回列表</button>'+
+  view.innerHTML='<button class="back" onclick="backToList()">← 返回列表</button>'+
     '<div class="detail"><h2>'+esc(e.title)+'</h2>'+
     '<div class="chips" style="margin-bottom:4px">'+
     '<span class="chip">'+esc(label(e.category))+'</span>'+
@@ -203,7 +224,9 @@ function showDetail(id){
     als+
     '<p class="tip">源文件：'+esc(e._file||'')+'</p></div>';
   document.querySelector('main').scrollTop=0;
+  _setHash('id='+id);
 }
+function backToList(){ _setHash(null); renderGrid(); }
 function selectCat(cat,btn){
   curCat=cat;
   document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
@@ -240,7 +263,8 @@ function renderStats(){
   for(const c in CATS) h+='<span class="stat">'+esc(label(c))+': '+CATS[c]+'</span>';
   s.innerHTML=h;
 }
-document.getElementById('q').oninput=e=>{curQ=e.target.value;renderGrid();};
+// 输入即同步 hash（#q=…），检索结果可直接复制分享；esc/清空时回退到无 hash
+document.getElementById('q').oninput=e=>{curQ=e.target.value;renderGrid();_setHash(curQ?'q='+encodeURIComponent(curQ):null);};
 document.getElementById('sort').onchange=e=>{sortBy=e.target.value;renderGrid();};
 document.getElementById('navtoggle').onclick=toggleNav;
 // 用 IIFE 包一层：TESTS 里也有同名变量，顶层重名会 SyntaxError（check_index_ui 会把两段拼在一起跑）
@@ -251,6 +275,22 @@ renderStats();renderNav();renderGrid();
   let collapsed=false;
   try{collapsed=localStorage.getItem('kb-nav-collapsed')==='1';}catch(e){}
   if(collapsed) setNavCollapsed(true);
+})();
+// 深链落地：#id=<条目id> 直接展开该条目；#q=<查询> 预填并执行检索。
+// （列表已先渲染，detail/检索结果覆盖之。两个 hash 形互斥，id 优先。）
+(function(){
+  function applyHash(){
+    const id=_hashId();
+    if(id){ showDetail(id); return; }
+    const qq=_hashFrag('q');
+    const input=document.getElementById('q');
+    if(input){ input.value=qq||''; curQ=qq||''; }
+    renderGrid();
+  }
+  if(typeof window!=='undefined' && window.addEventListener){
+    window.addEventListener('popstate',applyHash);
+  }
+  applyHash();
 })();
 </script>
 </body>

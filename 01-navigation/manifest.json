@@ -1,11 +1,11 @@
 {
   "kb": {
-    "name": "上古卷轴5 模改工作区",
-    "description": "七个资料库（工具集 / OAR / 动作引擎 / Community Shaders / Creation Kit / MO2-USVFS / 捏脸与身形）的统一入口与跨库排错索引。",
+    "name": "上古卷轴5 跨库排错索引",
+    "description": "从症状出发的跨库排错索引：一条现象直接指向该读哪个库的哪一条，并标出最易误判的分叉点。本库只做导航，主题内容在各子资料库。",
     "source_name": "各子资料库的官方与社区来源"
   },
-  "version": "1.1.0",
-  "generated_at": "2026-09-22",
+  "version": "1.2.0",
+  "generated_at": "2026-10-23",
   "maintainers": ["社区协作"],
   "sources": [
     {

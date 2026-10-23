@@ -10,7 +10,8 @@ check_index_ui.py — 索引页 index.html 的交互回归检查（不需要浏�
   3. 点某个分类只显示该分类条目，再点「全部」恢复全部条目且高亮回到「全部」；
   4. 分类过滤可收起/展开（#navbox 隐藏、aside 整条隐藏、#navfab 半圆把手出现/消失、两个把手共用
      .navfab 外形、状态写入 localStorage）；
-  5. 页面不含已删除的冗余说明文案。
+  5. 深链（2026-10-23 起进入 stock 模板）：popstate 带 `#id=<条目id>` 直达该条目详情且同步
+     hash；带 `#q=<查询>` 预填搜索框并执行检索；返回列表与空 hash 都能回到完整列表。
 
 用法：
   托管 python check_index_ui.py            # 检查本库（scripts/ 的上一级）
@@ -116,6 +117,16 @@ const localStorage = {
   });
   catnavEl.parent = navboxEl; navboxEl.children.push(catnavEl);
 })();
+// 伪造的浏览器环境：页面脚本会读 location.hash、调 history.replaceState、
+// 注册 popstate（#id=/#q= 深链，2026-10-23 起进入 stock 模板）。
+// 这里给可变假实现，供下方 [4] 断言驱动；Node 无这些全局，模块级 const 不会冲突。
+const _popstate = [];
+const location = { hash: "", pathname: "/index.html", search: "" };
+const history = { _last: null,
+  replaceState(s,t,u){ this._last = u; },
+  pushState(s,t,u){ this._last = u; } };
+const window = { addEventListener: function(name, fn){ if(name === "popstate") _popstate.push(fn); } };
+function firePopstate(){ _popstate.forEach(fn => fn()); }
 // ---------------- DOM 桩结束 ----------------
 """
 
@@ -184,6 +195,35 @@ if(navtoggle && navfab){
   ok(!navfab.classList.contains("show"), "展开后悬浮按钮再次隐藏");
   ok(localStorage.getItem("kb-nav-collapsed") === "0", "展开状态已持久化");
 }
+
+console.log("\n[4] 深链：#id= 直达条目 / #q= 预填检索");
+(function(){
+  const first = ENTRIES[0];
+  // 4a. popstate 带 #id= → 直接渲染该条目详情，且 hash 被同步
+  location.hash = "#id=" + first.id;
+  firePopstate();
+  const detail = document.getElementById("view").innerHTML;
+  ok(detail.indexOf('class="article"') >= 0, "popstate 带 #id= 渲染条目正文");
+  ok(detail.indexOf(esc(first.title)) >= 0, "渲染的是目标条目「" + first.title + "」");
+  ok(detail.indexOf("返回列表") >= 0, "详情含返回列表按钮");
+  ok(history._last === "#id=" + first.id, "详情渲染后 hash 同步为 #id=" + first.id);
+  // 4b. 返回列表 → 清 hash 并回到完整列表
+  backToList();
+  ok(cards().length === TOTAL, "backToList 回到完整列表");
+  ok(history._last === "/index.html", "backToList 清掉 hash（回退到 pathname）");
+  // 4c. popstate 带 #q= → 预填搜索框并执行检索
+  const q0 = (first.tags && first.tags[0]) || (first.aliases && first.aliases[0]) || first.id;
+  location.hash = "#q=" + encodeURIComponent(q0);
+  firePopstate();
+  ok(document.getElementById("q").value === q0, "popstate 带 #q= 预填搜索框");
+  const nq = cards().length;
+  ok(nq > 0 && nq <= TOTAL, "#q= 执行检索（" + nq + " / " + TOTAL + " 条）");
+  // 4d. 空 hash → 回到完整列表
+  location.hash = "";
+  firePopstate();
+  ok(cards().length === TOTAL, "无 hash 的 popstate 回到完整列表");
+  ok(document.getElementById("q").value === "", "无 hash 时搜索框被清空");
+})();
 
 console.log("\n================ 结果 ================");
 console.log("通过 " + PASS + " 项，失败 " + FAIL.length + " 项");

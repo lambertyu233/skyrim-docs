@@ -17,6 +17,16 @@
 
 它同时给出每条症状的**最易误判分叉点**——这比"该读哪篇"更值钱。
 
+## 零·补、HTML 预览入口（给人看；agent 也可以指路）
+
+- **统一入口 = 工作区根目录 `index.html`**（双击即用）：10 个资料库的卡片总览
+  + 跨库检索（标题 / 摘要 / 标签 / 别名 / 库名），命中直接跳
+  `<库>/index.html#id=<条目id>`——各库页面自 2026-10-23 起支持该深链，打开即落在条目上。
+- 元数据里没有、只出现在正文里的词（如「拉弓」）走结果区下方的「各库全文检索」桥接：
+  `<库>/index.html#q=<查询>`，打开即预填检索。
+- 重新生成：根 `python scripts/build_workspace_index.py`；各库 `python <库>/scripts/build_index.py`。
+  新增/删除资料库、条目增删后都要重跑，否则计数与检索结果是旧快照。
+
 ## 一、检索协议（四步，别跳）
 
 ```bash
@@ -33,6 +43,7 @@ $KB read <id>                 #    确认相关才读正文（也可用 Read 工
 
 - ❌ 不要读 `index.json` / `index.html`。它们内联了每条正文的渲染 HTML
   （oar-kb 单个 296KB），读一个就等于把整个库塞进上下文。
+  **根目录的统一入口 `index.html` 同样别读**（260KB 元数据载荷，是给人看的入口）。
 - ❌ 不要为了"了解全貌"通读整个库。700KB 正文 ≈ 全工作区上下文预算。
 - ✅ 找**具体事实**用 `grep`（返回 `路径:行号:内容`），找**该读哪篇**用 `find`。
 - ✅ `find` 会返回每条命中的**别名（aliases）**——那是这个库里的"俗称表"，
@@ -125,6 +136,7 @@ aliases: [conditions, conditions list, 条件列表, 条件速查表, AttackStat
 
 ```bash
 $KB check                                  # AGENTS.md 是否覆盖全部库（新增库后必跑）
+python scripts/build_workspace_index.py    # 重建工作区统一入口（改过库/条目后）
 python scripts/sync_scripts.py --check     # 各库的 stock 脚本是否还有分叉
 python <kb>/scripts/validate_kb.py         # 条目结构 + 索引 + 别名规范 + 脚本存在性
 python <kb>/scripts/check_index_ui.py      # 索引页交互回归（动过索引页 UI 必跑）

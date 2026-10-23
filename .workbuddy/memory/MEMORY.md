@@ -5,7 +5,8 @@
   `01-navigation/troubleshooting-index.md`。**新增库后必跑 `kb.py check`**（漏写 AGENTS.md = 整库对 agent 隐形）。
 - 检索走 `scripts/kb.py`：`list → toc → find/grep → show（元数据+大纲）→ read`；
   Python 用 `C:/Users/laptopyu/.workbuddy/binaries/python/versions/3.13.12/python.exe`。
-  **禁止读 `index.json`/`index.html`**（内联全库正文，比 `find` 一次大百倍）。
+  **禁止读 `index.json`/`index.html`**（内联全库正文，比 `find` 一次大百倍）；
+  **根 `index.html` 同样禁止读**（260KB 元数据载荷，是给人看的统一入口，见「HTML 入口体系」）。
 - `aliases` 写"别人会敲的**短查询**"（英文术语/俗称/错拼/上级词），不写整句、不抄 tags。
   `find` 加权：id 100 > 别名精确 60 > tag 40 > 别名模糊 26 > tag 模糊 22 > 标题 20 > 摘要 8。
   查询端**三条归一化**：空格不敏感；**大小写不敏感** → **绝不写 `DynDOLOD`+`dyndolod` 这类变体**
@@ -23,6 +24,19 @@
   动过脚本加 `sync_scripts.py --check`。**批量机械改写（如 linkify_refs）加 `verify_linkify.py`
   证明语义等价**——validate + check_links + UI + 条目数**四道全过也可能是坏的**（实测踩到）。
   结论必带条目路径，区分 一手源/社区经验/本机实测。
+
+## HTML 入口体系（2026-10-23 建成）
+- **根 `index.html` = 统一预览入口**（人看 / agent 指路）：`scripts/build_workspace_index.py` 生成，
+  只内联元数据不内联正文（10 库 / 407 条 / 83 分类，约 260KB）。跨库检索（标题/摘要/标签/别名/库名）
+  命中跳 `<库>/index.html#id=<条目id>`；只在正文出现的词（如「拉弓」）走结果区桥接
+  `<库>/index.html#q=<查询>`。**改过库/条目后必重跑**，否则计数与检索是旧快照。
+- **各库 `index.html` = 正文预览落点**。stock `build_index.py` 支持两种 hash 深链：
+  `#id=<条目id>` 直达条目、`#q=<查询>` 预填检索（`_hashFrag`/`_setHash`，全 typeof 守卫；
+  file:// 下 replaceState 可能静默失败，读 hash 不受影响；输入即同步 hash 便于复制分享）。
+- **深链回归已进 stock `check_index_ui.py` 断言段 [4]**（DOM 桩伪造 location/history/window/
+  firePopstate，模块级 const 不撞 Node 全局）；各库 ui 断言 24 → 34 项。改模板动到深链必跑。
+- `01-navigation` manifest 名 2026-10-23 改为「上古卷轴5 跨库排错索引」（v1.2.0，原来与工作区重名），
+  条目 troubleshooting-index 同步升 v1.3.0。
 
 ## 环境
 - git：`ssh://git@ssh.github.com:443/lambertyu233/skyrim-docs.git`（**必须 443 端口**：本机代理劫持 22，
