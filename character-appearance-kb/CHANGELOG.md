@@ -2,6 +2,39 @@
 
 本文件记录本资料库的结构与内容变更。条目自身的版本号见各自 frontmatter 的 `version` 字段。
 
+## 2.1.0 — 2026-10-25
+
+**新增条目 `04-physics/body-physics-tuning.md`（身体物理调参完全指南），全库 48 → 49 条。**
+
+- 定位为**操作层手册**：引擎选型看 [physics-overview](04-physics/physics-overview.md)、
+  mod 本身看 [cbpc](04-physics/cbpc.md)，本卷专讲"装好之后怎么调"。
+- 内容：配置文件全家福（8 类文件逐一说明）、全局参数表（官方注释中译 + 调节方向）、
+  3BA 逐骨骼参数族、幅度文件、主控映射（ConfigMap / MalePhysics / `< >` 链式排序）、
+  碰撞球（球/胶囊格式、权重插值、Nifskope 拟合）、System.ini 性能项、
+  条件配置（Conditions/Priority 语义与空壳校验）、Tuning.rate 实时调参工作流、
+  "把乳摇调大"的目标→参数处方与乘数实例、Physics Editor 游戏内手段、排错表。
+
+### 本轮新核实的一手材料（已写入该条目）
+
+- **源码定案（CBPC 1.5 系 MIT 源码，Discrim0/CBPC-1.5-AE-AS）**：
+  - `CBPConfig_3b.txt` 的**双值格式 = 体重 100 值 + 体重 0 值**，
+    运行时 `GetPercentageValue(v0, v100, actorWeight)` 按体重线性插值——
+    **纠正了"参考值+生效值"的流传误解**（只改第一个数 = 只改体重 100 的角色）；
+  - 文件加载规则：`SKSE\Plugins\` 下所有 `CBPConfig` 前缀 + `.txt/.ini` 都被加载；
+  - Conditions **先拆 AND 再拆 OR**（AND 绑定更紧）+ NOT 前缀；
+    Priority 降序、同级 AND 项多者优先、先匹配先得；
+  - 1.5.0 空壳校验（`IsConfigActuallyAllocated`）：条件配置未设
+    stiffness/stiffness2/damping 或未移离 ±100 的 collision*offset 会被静默忽略；
+  - `MalePhysics=0` 时男性自动跳过 breast/butt/belly/pelvis 及含
+    breast/thigh/calf 的节点；`< >` 链式顺序执行的并行/抖动权衡。
+- **Physics Editor（Nexus 186341，2026-07-25 首发）**：iMode 0/1/2/3、
+  Hybrid 分部位组、`physicseditor actor <mode>`、bFitColliders 运行时拟合碰撞球、
+  GUI 依赖 FLICK（Nexus 181603；mod 自带 ini 注释拼作 FUCK，系笔误）。
+- **Tuning 周期重载 + 3BA gravityBias/gravityCorrection → 胸部抽搐重置**
+  （LoversLab CBBE 3BBB 帖，多人确认；解法：调完关 Tuning.rate/TuningMode）。
+- 自检四连全过：build_index 49 条 / validate 0 错误 / check_index_ui 34 项 /
+  check_links 767 条全有效（全 LF）；工作区索引重建为 408 条。
+
 ## 2.0.0 — 2026-10-25
 
 **全库 48 条目百科化改写：从「要点笔记」升级为「百科全书式条目」。**
