@@ -3,12 +3,12 @@ id: morph-runtime-vs-bake
 title: 运行时 morph 与离线烘焙——为什么拖滑块衣服跟着变，换预设就穿模
 category: 03-body
 kind: concept
-version: 1.0.0
-updated: 2026-09-22
+version: 2.0.0
+updated: 2026-10-25
 tags: [身形, morph, 烘焙, Zeroed Sliders, 原理, RaceMenu, BodySlide]
-aliases: [运行时变形, 离线烘焙, 换预设穿模, 拖滑块衣服跟着变, 归零构建, 两套预设不通用, 3ba 那一栏, 裸体调好了穿衣服又变样]
+aliases: [运行时变形, 离线烘焙, 换预设穿模, 拖滑块衣服跟着变, 归零构建, 两套预设不通用, 3ba 那一栏, 裸体调好了穿衣服又变样, morph 是什么, build morphs, bodyslide 烘焙, racemenu 滑块原理, 为什么衣服跟着变, morph 历史, 运行时 vs 烘焙]
 source: https://forums.nexusmods.com/topic/12433428-cant-use-my-own-character-preset/
-summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部行为：捏脸菜单里那一栏的三层来源、为什么拖滑块衣服会跟着变、为什么换 BodySlide 预设就穿模，以及 Zeroed Sliders + Build Morphs + Batch Build 这条正解工作流。
+summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部行为：捏脸菜单里那一栏的三层来源、为什么拖滑块衣服会跟着变、为什么换 BodySlide 预设就穿模，以及 Zeroed Sliders + Build Morphs + Batch Build 这条正解工作流。全库旗舰机制条目。
 ---
 
 # 运行时 morph 与离线烘焙
@@ -22,6 +22,79 @@ summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部�
 
 **答案的关键是把"变形"拆成两条完全不同的路径**：一条在运行时算，一条在构建时烘焙。
 
+## 速览
+
+| 项 | 内容 |
+|---|---|
+| 作用层 | 网格顶点层（不是骨骼、不是物理） |
+| 两条路径 | **运行时 morph**（RaceMenu/NiOverride，实时、不改文件、只影响玩家）+ **离线烘焙**（BodySlide Build，写死进 nif、所有人受益） |
+| 关键文件 | `.tri`（morph 数据，`Build Morphs` 生成）· NIF 里的 `BODYTRI`（指向 .tri 的指针）· `.xml` 预设 vs `.jslot` 预设 |
+| 依赖 | [BodySlide](bodyslide-outfit-studio.md)（产生数据）+ RaceMenu / `skee64.dll`（施加数据）+ 身形的 morph 组件（定义滑块名） |
+| 影响范围 | 玩家与 NPC 的身形、衣服贴合、全部穿模/破皮类症状 |
+| 关键限制 | 两套预设体系**不通用**；NPC 不吃运行时 morph；起点不一致 ⇒ 叠加必错位 |
+
+要点：
+
+- **第一性事实**：Skyrim 里"穿衣服"是装备网格直接替换裸体网格，
+  所以所有网格的顶点形状必须一致——谁不一致，谁穿模。
+- **两条路径叠加**：构建时烘出"起点形状"，运行时往上面叠 morph；
+  **起点不一致，叠加就必然错位——这就是穿模的来源。**
+- **正解工作流**：Zeroed Sliders + `Build Morphs` + Batch Build，
+  把起点统一到零，把形状全部交给运行时。
+- **BodySlide 预设与 RaceMenu 预设不能互导**：格式、刻度、生效方式都不同。
+
+## 前世今生
+
+| 时间 | 事件 | 意义 |
+|---|---|---|
+| 2012 前后 | **ECE**（Enhanced Character Edit）在 LE 发布（作者谱系：tktk、RAN46、kaeper） | **slot morph 时代**：morph 数据按头部部件槽位组织，运行时由 ECE 施加（社区经验；作者谱系见 RaceMenu credits，一手） |
+| 2011-2013 | **BodySlide** 随 CBBE 滑块体系出现 | 第一次把"变形数据"变成可离线构建、可分享的资产（首发日期未确认，见 [bodyslide-outfit-studio.md](bodyslide-outfit-studio.md)） |
+| LE 中期 | **CharGen / NiOverride** 引擎成熟，RaceMenu 取代 ECE | morph/overlay 的运行时施加与捏脸框架合流（社区经验） |
+| 2018-08 | **RaceMenu SE 首发**；LE 时代的引擎重写合并为单个 `skee64.dll`（内含 NiOverride 与 CharGen 两个模块） | SE 时代的 morph 管线定型：BodySlide 产数据、skee64 施加数据（一手：RaceMenu 发布页与源码仓库） |
+| 2019-11 | BodySlide 提交 "Remember 'Build Morphs' selection in config" | `Build Morphs` 成为工具的一等选项并被默认记住（一手：GitHub） |
+| 2020 前后 | **OBody / RaceMenu BodyGen** 普及 | morph 数据第一次被分发给 NPC：直接读 `SliderPresets` 目录的 `.xml`（一手：作者文档） |
+| 2023-2026 | UBE / 新护甲转换普遍以"预构建 zero-slider 网格 + 预设"分发 | 零化起点成为分发标准形态（社区经验，见 [bodyslide-presets.md](bodyslide-presets.md)） |
+
+### 它从哪来
+
+morph 机制要解决的是同一个问题三代人都没绕开：**让同一具网格变形**。
+ECE 用 slot morph（数据绑槽位），BodySlide 用离线构建（数据写顶点），
+RaceMenu/skee64 用运行时施加（数据在内存里叠）——技术路线在演进，
+"顶点必须一致"的约束从未改变。
+
+### 中间经历了什么
+
+最大的分叉不是技术而是**工作流**：早期社区默认"烘一个固定体型"，
+于是 BodySlide 预设（离线）与 RaceMenu 预设（运行时）两套体系互相打架；
+Zeroed Sliders 工作流普及后，固定预设退位成"分配工具的素材"，
+运行时 morph 成为形状的唯一权威。
+
+### 现状
+
+管线稳定：BodySlide 产 `.tri` → NIF 写 `BODYTRI` → skee64/NiOverride 施加。
+Skyrim 1.7.x 与 RaceMenu 的适配仍在进行（见
+[racemenu.md](../02-face/racemenu.md)），但 morph 机制本身未被取代。
+
+## 它解决什么问题
+
+**没有它之前**：身形 mod 只发几个固定体型；衣服与身体对不齐只能靠运气；
+RaceMenu 里那一栏就算出现，也是"空的"——因为没有数据可叠。
+
+**它的解法**是把一件事拆成两层，各司其职：
+
+| 层 | 负责 | 工具 |
+|---|---|---|
+| 起点形状 | 身体与所有衣服的**基准顶点** | BodySlide 离线烘焙 |
+| 最终形状 | 起点之上的**实时微调** | RaceMenu / NiOverride 运行时 morph |
+
+> 理解了这两层，"拖滑块衣服跟着变"和"换预设就穿模"就不是两个 bug，
+> 而是同一机制的两面。
+
+对应到本资料库：[cbbe.md](cbbe.md) / [himbo.md](himbo.md)（谁定义滑块）、
+[racemenu.md](../02-face/racemenu.md)（谁提供能力）、
+[bodyslide-outfit-studio.md](bodyslide-outfit-studio.md)（谁产生数据）、
+[obody-ng.md](../05-distribution/obody-ng.md)（谁分发给 NPC）。
+
 ---
 
 ## 一、身型的第一性事实
@@ -33,8 +106,6 @@ summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部�
 > **所有网格（裸体 + 每一件衣服护甲）的顶点形状必须一致。谁不一致，谁穿模。**
 
 后面所有现象都是这一句的推论。
-
----
 
 ## 二、那一栏是谁给的：三层叠加
 
@@ -49,12 +120,9 @@ summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部�
 3BA 另带的物理骨骼与顶点权重（负责抖动）**与滑块变形是两回事**，别混：
 前者是物理模拟，后者是 morph 位移。
 
-对应到本资料库：
-[`cbbe-3ba.md`](cbbe-3ba.md)（谁定义滑块）、
-[`../02-face/racemenu.md`](../02-face/racemenu.md)（谁提供能力）、
-[`bodyslide-outfit-studio.md`](bodyslide-outfit-studio.md)（谁产生数据）。
-
----
+对应到本资料库：[cbbe-3ba.md](cbbe-3ba.md)（谁定义滑块）、
+[racemenu.md](../02-face/racemenu.md)（谁提供能力）、
+[bodyslide-outfit-studio.md](bodyslide-outfit-studio.md)（谁产生数据）。
 
 ## 三、两条变形路径（本页核心）
 
@@ -68,14 +136,13 @@ summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部�
 | 作用对象 | 身上**所有带同名 morph 的网格** | 你构建的那一个项目 |
 
 **这两条路径互不替代，而且是叠加的**：先在构建时烘出一个"起点形状"，
-再在运行时往它上面叠加 morph。**起点不一致，叠加就必然错位 —— 这就是穿模的来源。**
-
----
+再在运行时往它上面叠加 morph。**起点不一致，叠加就必然错位——这就是穿模的来源。**
 
 ## 四、conform：衣服为什么"拥有同一套 morph 名字"
 
-3BA 的衣服在 **Outfit Studio** 里做过 **conform** —— 把身体的滑块形变数据**复制到衣服的顶点上**。
-于是衣服和身体**拥有同一套 morph 名字**（`Breasts`、`AppleCheeks`…）。
+3BA 的衣服在 **Outfit Studio** 里做过 **conform**——把身体的滑块形变数据
+**复制到衣服的顶点上**。于是衣服和身体**拥有同一套 morph 名字**
+（`Breasts`、`AppleCheeks`…）。
 
 这就是"拖滑块衣服跟着变"的机制：
 
@@ -87,9 +154,7 @@ summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部�
 ```
 
 **反之**：某件衣服没被 3BA 化、不带这套 morph，它就**纹丝不动**。
-这就是最常见的抱怨 —— **"裸体调好了，穿上衣服又变样"**。
-
----
+这就是最常见的抱怨——**"裸体调好了，穿上衣服又变样"**。
 
 ## 五、于是两个现象都解释得通了
 
@@ -102,16 +167,14 @@ summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部�
 因为 BodySlide 的 Build 是**离线烘焙**：预设是一组滑块数值，Build 把这些数值
 **永久写进 `.nif` 的顶点坐标**，生成一个静态模型。
 
-> 你换预设只重新烘焙了**身体**，衣服的 nif 还停在**上一个预设的形状** ——
+> 你换预设只重新烘焙了**身体**，衣服的 nif 还停在**上一个预设的形状**——
 > 顶点对不上 ⇒ 破皮、穿模、塌陷。
 
-三个常见自伤原因（详见 [`../06-troubleshooting/clipping.md`](../06-troubleshooting/clipping.md)）：
+三个常见自伤原因（详见 [clipping.md](../06-troubleshooting/clipping.md)）：
 
 1. 只 Build 了身体，**没 Batch Build 把同一预设刷给所有衣服**；
 2. 衣服**压根不支持 3BA**（是给 CBBE 或 UNP 做的，滑块组和骨骼都对不上）；
 3. **预设用错**，例如把 CBBE 预设套在 3BA 项目上。
-
----
 
 ## 六、正解工作流：Zeroed Sliders + Build Morphs + Batch Build
 
@@ -140,9 +203,7 @@ summary: 用"运行时 morph vs 离线烘焙"两条路径解释身形的全部�
 - **代价**：带 morph 的 `.tri` 文件很大。社区实测过某大型身体包因此让网格体积
   从 1GB 涨到 4GB。这是"所有衣服都能实时调"的价格。
 
-做完之后：进游戏，用 RaceMenu 那一栏调形状 —— 会即时作用到身体和所有衣服上。
-
----
+做完之后：进游戏，用 RaceMenu 那一栏调形状——会即时作用到身体和所有衣服上。
 
 ## 七、两套预设体系不通用（重要）
 
@@ -174,9 +235,11 @@ BodySlide 预设里的对应内容则是"体重 0 一个值、体重 100 一个�
 - BodySlide 的滑块可以**手输负数或大于 100**（官方说"不推荐"，但不是硬限制）。
 - RaceMenu 滑块的可拖范围由 `RaceMenuMorphs*.psc` 里 `OnSliderRequest` 的
   `Float factor` 决定（社区记录默认 `2.0`，改它需要把 `.psc` 重编译成 `.pex`）。
-  ⚠️ **常见说法"RaceMenu 滑块是 -1 到 +1"并不准确** —— 以你实际界面为准。
+  ⚠️ **常见说法"RaceMenu 滑块是 -1 到 +1"并不准确**——以你实际界面为准。
 
----
+预设体系的完整形态（含被 OBody NG 引用的方式）见
+[bodyslide-presets.md](bodyslide-presets.md)；RaceMenu 侧预设见
+[racemenu-presets.md](../02-face/racemenu-presets.md)。
 
 ## 八、玩家 vs NPC
 
@@ -189,16 +252,46 @@ BodySlide 预设里的对应内容则是"体重 0 一个值、体重 100 一个�
 
 要让 NPC 有不同身材，有两条路：
 
-1. **分配工具**（推荐）：[`racemenu-bodygen.md`](../05-distribution/racemenu-bodygen.md) /
-   [`obody-ng.md`](../05-distribution/obody-ng.md) / [`autobody.md`](../05-distribution/autobody.md)。
+1. **分配工具**（推荐）：[racemenu-bodygen.md](../05-distribution/racemenu-bodygen.md) /
+   [obody-ng.md](../05-distribution/obody-ng.md) / [autobody.md](../05-distribution/autobody.md)。
    OBody NG 的做法正是**读取你 `SliderPresets` 文件夹里的 `.xml` 预设**，
-   把它分配给 NPC —— 这也解释了为什么它要求你先做第 6 节的 Zeroed Sliders 基础构建。
+   把它分配给 NPC——这也解释了为什么它要求你先做第 6 节的 Zeroed Sliders 基础构建。
 2. **给单个 NPC 专属身体**（社区经验，工作量大但精确）：
    以目标预设本地构建裸体/手/脚 → 把网格复制到该 NPC 的专属文件夹 →
    在 CK 里建指向这些 nif 的 ArmorAddon → 建一个含这些 Addon 的 Armor →
    把它设为该 NPC 的"裸体皮肤"。
 
----
+## 兼容与冲突
+
+| 关系 | 结论 |
+|---|---|
+| 运行时 morph vs 离线烘焙 | **叠加而非互斥**；但起点必须一致，否则穿模 |
+| 固定预设 vs Zeroed Sliders | 可以混用，但换预设时必须重烘全部相关网格 |
+| 两套预设文件 | `.xml` 与 `.jslot` **不能互导**（第七节） |
+| 构建产物 vs 其他 mod | 后装的 nif 会覆盖掉 `BODYTRI` ⇒ 滑块静默失效 |
+| NPC 美化包 | 多用预构建网格（离线路径）；别指望 RaceMenu 滑块改它们 |
+
+## 排错
+
+| 症状 | 判据 | 处理 |
+|---|---|---|
+| 拖滑块衣服跟着变（想知道为什么） | **正常现象**：conform 让衣服带同名 morph，NiOverride 同时施加 | 不用修；这正是贴合的原因 |
+| 换 BodySlide 预设后穿模 | 只重烘了身体，衣服还停在旧形状 | 同一预设 **Batch Build** 全部网格；或改用 Zeroed Sliders 工作流 |
+| 只有随从/某个 NPC 穿模 | 它穿的衣服没参与你的构建，或是别的身形做的 | 把它穿的衣服一并 Batch Build；不支持就转换 |
+| 「CBBE 3BA」那一栏是空的 | 没勾 `Build Morphs`，或 Group Filter 漏勾 `Unassigned` | 按第六节六步重做 |
+| 滑块拖了没反应 | `.tri` 没生成 / `BODYTRI` 被覆盖 / 没构建 3BBB 变体 | 确认勾了 Build Morphs、选对身体、检查覆盖关系 |
+| "我调好了身材，NPC 却还是老样子" | 运行时 morph 只作用于玩家 | 设计而非 bug；用 OBody NG / BodyGen 分配 |
+| 想导入别人的 RaceMenu 预设到 BodySlide | 两套体系不通用 | 只能逐滑块手工换算（第七节） |
+| 改了预设游戏里没变化 | 构建输出被其他 mod 覆盖 / 没 Batch Build | 查覆盖关系（[mo2-override-rules.md](../07-workflow/mo2-override-rules.md)） |
+
+## 取舍与建议
+
+- **只想给自己捏体型**：随便拖滑块——运行时路径零成本、零风险；
+- **想全世界 NPC 都有多样身材**：Zeroed Sliders 基础构建 + OBody NG，
+  这是当前社区唯一被大规模验证的组合；
+- **只想一劳永逸**：没有。装新护甲 → 重跑 Batch Build，这是标准动作；
+- **性能敏感**：`Build Morphs` 的 `.tri` 体积代价真实存在（1GB→4GB 的社区实测），
+  可在"全部衣服可调"与"磁盘/内存"之间自选。
 
 ## 来源
 
@@ -224,5 +317,8 @@ BodySlide 预设里的对应内容则是"体重 0 一个值、体重 100 一个�
 - **Outfit Studio 负责"在身形之间转换服装、创建滑块"（含 conform）**：
   BodySlide 官方 wiki —— **一手**
 - **NiOverride / CharGen 属于 `skee64.dll`**：RaceMenu 发布页与源码仓库 —— **一手**
-"""
-
+- **ECE Team（tktk, RAN46, kaeper）与 ECE Morphs、RaceMenu SE 2018-08-06 首发**：
+  RaceMenu 发布页 credits 与文件信息 —— **一手**
+- **OBody 启动时扫描 `SliderPresets` 建库**：OBody 作者文档（经社区整理）—— **一手（转述）**
+- **未确认**：ECE 的具体首发日期、LE 时代 CharGen/NiOverride 与 `skee64.dll` 的
+  精确对应关系（"重写合并"为社区通行说法）、BodySlide 首发日期

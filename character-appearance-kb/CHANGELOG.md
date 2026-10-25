@@ -2,6 +2,57 @@
 
 本文件记录本资料库的结构与内容变更。条目自身的版本号见各自 frontmatter 的 `version` 字段。
 
+## 2.0.0 — 2026-10-25
+
+**全库 48 条目百科化改写：从「要点笔记」升级为「百科全书式条目」。**
+
+### 改写标准
+
+每个条目统一采用九段骨架：`速览（信息卡 + 要点）` → `前世今生` → `它解决什么问题`
+→ `安装` → `使用与配置` → `兼容与冲突` → `排错` → `取舍与建议` → `来源`。
+排错类条目改用 `速览 / 前世今生 / 成因（按频率）/ 排查顺序 / 修法 / 判断分叉点（别误诊）/ 来源`。
+要求读者打开任一篇，即可看懂这个 mod 或这套机制的**来龙去脉**与**装用方法**。
+
+### 规模
+
+- 48 条目全部重写，总行数 **4336 → 12000+**；每条 `aliases` 补齐至 12~16 项（共约 400 项），
+  交叉引用全部改为 markdown 相对链接（751 条，`check_links.py` 全通）。
+- 所有条目 `version` 递增、`updated` 统一为 2026-10-25。
+
+### 本轮新核实的一手材料（已写入对应条目）
+
+- **RaceMenu**：Nexus Files 页完整 changelog（0.4.12→0.4.20.0），
+  含 0.4.13 首加 `skee` 命令、0.4.19.11 为 OBody 加 `bEnableEarlyRegistration`、
+  0.4.19.13 支持 1.6.640/GOG 1.6.659、0.4.19.16 支持 1.6.1170、0.4.20.0 部件标签 + GOG（untested）；
+  credits 中 ECE Team（tktk / RAN46 / kaeper）与 ousnius 的角色；作者 2026-08-23 原帖（1.7.x 现状与 overlay NIF 崩溃根因）。
+- **CBBE**：原名 **Caliente's Big Bottom Edition**、2011-12-04 首个配套服装、
+  后由 Jeir 与 Ousnius 接手维护（作者访谈转载，标社区经验）。
+- **UNP 家族**：Dimonized UNP（dimon99）→ UUNP → SE 时代 BodySlide 弃支持 →
+  Legacy UUNP（43773）→ UNP Female Body Renewal（1699）→ BHUNP（31126，Bakafactory/BakaHaeun）。
+- **HIMBO**：全称 Highly Improved Male Body Overhaul，作者 Kreiste，Nexus 46311，
+  主体网格 CC-BY-SA-4.0，四枚全身滑块 Hugh/Hassan/Hideo/Hector。
+- **UBE 2.0**：JohnyBungalow1 + lowresOutis，Nexus 92989（原条目误链 143045，已修正），
+  "新种族"而非身体替换、全部服装需 .esp 补丁 + Outfit Studio 转换。
+- **BodySlide**：仓库 2k+ 提交、GPL-3.0、2018-02 起拆分两个 exe、2026 年仍在活跃开发。
+- **HDT-SMP / FSMP / CBPC / XPMSSE**：HDT-PE→SMP 继任关系、MIT 释源、
+  FSMP 的 fork 链（HydrogensaysHDT→aers→Karonar1→DaymareOn）与 `smp` 命令组、
+  CBPC 基于 polygonhell 的 CBP Physics（MIT）、XPMSE 5.00→5.06 完整 changelog。
+- **OBody NG**：Aietos、CommonLibSSE NG 单 dll 通吃全版本、GPL-3、AI 使用政策；
+  原版 OBody 是 RaceMenu BodyGen 的完全重写。
+
+### 未确认事项
+
+集中在 `08-sources/unreliable-and-unconfirmed.md` 第三节，按
+「版本号 / 日期 / 归属 / 1.7.x 适配 / 文件字段」五类汇总 **68 项**；
+其中 4 项本轮毕业（BHUNP 展开式、UBE 真实来源、HIMBO 作者 ID、RaceMenu 1.7.x 现状）。
+
+### 结构维护
+
+- 修 2 处失效相对链接（`face-headparts-resources` 误链 04-physics、
+  `physics-overview` 误链同目录 cbbe-3ba）。
+- 重建 `index.json` / `index.html`（48 条目）与工作区根 `index.html`（10 库 / 407 条）。
+- `validate_kb.py` 0 错误、`check_index_ui.py` 34 项全过、`sync_scripts.py --check` 无分叉。
+
 ## 1.1.0 — 2026-09-22
 
 **新增「运行时 morph 与离线烘焙」条目，并把该机制反向接入相关条目。**

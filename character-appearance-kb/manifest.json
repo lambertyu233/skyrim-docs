@@ -1,12 +1,12 @@
 {
   "kb": {
     "name": "上古卷轴5 捏脸与身形资料库",
-    "description": "Skyrim SE/AE 的人物外貌改造知识库：捏脸（RaceMenu / 高模头 / 表情 morph）、身形（CBBE / UNP / 3BA）、骨骼与物理（XPMSE / HDT-SMP / CBPC）、NPC 身形分配、安装次序与排错，分层组织、便于增删改查与协作维护。",
+    "description": "Skyrim SE/AE 的人物外貌改造知识库：捏脸（RaceMenu / 高模头 / 表情 morph）、身形（CBBE / UNP / 3BA）、骨骼与物理（XPMSE / HDT-SMP / CBPC）、NPC 身形分配、安装次序与排错。48 个条目均按统一百科全书骨架写成，每篇包含速览信息卡、前世今生时间线、安装与使用步骤、兼容冲突、排错判据与分级来源。",
     "source_name": "Nexus 发布页与描述正文、GitHub 官方仓库、UESP 与 Creation Kit wiki、作者本人说明",
     "locale": "zh-CN"
   },
-  "version": "2.0.0",
-  "generated_at": "2026-09-30",
+  "version": "3.0.0",
+  "generated_at": "2026-10-25",
   "maintainers": ["社区协作"],
   "sources": [
     {

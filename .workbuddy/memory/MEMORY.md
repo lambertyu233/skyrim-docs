@@ -4,7 +4,9 @@
 - 工作区 = 9 个资料库 + 根 `AGENTS.md`（**agent 入口契约，先读**）。症状类先读
   `01-navigation/troubleshooting-index.md`。**新增库后必跑 `kb.py check`**（漏写 AGENTS.md = 整库对 agent 隐形）。
 - 检索走 `scripts/kb.py`：`list → toc → find/grep → show（元数据+大纲）→ read`；
-  Python 用 `C:/Users/laptopyu/.workbuddy/binaries/python/versions/3.13.12/python.exe`。
+  Python 用 `C:/Users/Lambert/.workbuddy/binaries/python/versions/3.13.12/python.exe`
+  （**旧记录里的 `laptopyu` 路径已失效**；各库 README/CONTRIBUTING 与根 `AGENTS.md`
+  里的该路径 2026-10-25 只修了前两者，根 AGENTS.md 待改）。
   **禁止读 `index.json`/`index.html`**（内联全库正文，比 `find` 一次大百倍）；
   **根 `index.html` 同样禁止读**（260KB 元数据载荷，是给人看的统一入口，见「HTML 入口体系」）。
 - `aliases` 写"别人会敲的**短查询**"（英文术语/俗称/错拼/上级词），不写整句、不抄 tags。
@@ -64,6 +66,11 @@
 > **要补/查这些教训就去技能里改，不要在这里重复。**
 - 本机特有：**PowerShell `Add-Type` 被安全策略禁止** → 调 Win32 API 用托管 Python + ctypes；
   沙箱下回收站不可靠，**动用户目录的文件备份必须自己做**。
+- **批量改写条目时的协作套路（2026-10-25 验证有效）**：先自己 WebSearch 取证 → 把
+  「已核实事实 + URL」写成共享简报文件 → 分组并行 subagent 按简报写 → 主控统一跑
+  五件套。关键两条：① **prompt 里必须禁止 subagent 跑 `build_index.py`/`fix_links.py`/
+  `sync_scripts.py`**（并行跑会互相覆盖产物）；② 简报里写明「宁可写未确认也不要补日期」，
+  否则时间线会被编造填满。
 
 ## 已有库（10 库 / 407 条）
 - ⚠️ **2026-08 起游戏进入 1.7.x 分支**（SKSE 官网首页挂 2026-08-14 更新警告）：
@@ -113,9 +120,21 @@
   **CS 退出时不自动保存**（只有菜单 `Save Settings` 按钮落盘）。
   ⚠️ **官方 Developer Wiki 的 A/B 测试页仍写 0.8.x 旧名 `CommunityShadersUSER.json` / `CommunityShadersTEST.json`
   （在 `Plugins\` 根下）——1.0.0 起改名 `Settings*.json` 且移入 `CommunityShaders\` 子夹**，旧文件不自动迁移。
-- `character-appearance-kb`（48 / 9，2026-09-30 升 v2.0.0）：核心 `03-body/morph-runtime-vs-bake.md`（**运行时 morph 只影响玩家
+- `character-appearance-kb`（48 / 9，**2026-10-25 百科化改写升 v3.0.0**：全库 4336 行 / 198KB →
+  **12299 行 / 737KB**，每篇 207~425 行）：核心 `03-body/morph-runtime-vs-bake.md`（**运行时 morph 只影响玩家
   vs 离线烘焙写进 .nif 影响所有 NPC**；正解 `Zeroed Sliders + Build Morphs + Batch Build`）；
-  产出 `08-sources/unreliable-and-unconfirmed.md`（**13 条错误知识 + 17 项未确认**）。
+  **每条统一骨架 = 速览(信息卡+要点) / 前世今生(时间线) / 它解决什么问题 / 安装 / 使用与配置 /
+  兼容与冲突 / 排错 / 取舍与建议 / 来源**；排错类条目用 `成因(按频率)/排查顺序/修法/判断分叉点(别误诊)`。
+  已核实写入的一手事实（勿再重复考证）：CBBE 原名 Caliente's Big Bottom Edition、2011-12-04 首个配套服装；
+  UNP 谱系 dimon99→UUNP→Legacy UUNP(43773)→UNP Female Body Renewal(1699)→BHUNP(31126, Bakafactory/BakaHaeun)；
+  HIMBO=Kreiste(46311, CC-BY-SA-4.0)；**UBE 2.0 = JohnyBungalow1+lowresOutis，Nexus 92989（旧记录误链 143045）**；
+  RaceMenu changelog 0.4.12→0.4.20.0（0.4.19.11 为 OBody 加 `bEnableEarlyRegistration`、
+  0.4.20.0 部件标签 Face=1,Eyes=2,Hair=3,Beard=4,Scar=5,Brow=6）；HDT-PE→HDT-SMP 继任 + MIT 释源；
+  FSMP fork 链 HydrogensaysHDT→aers→Karonar1→DaymareOn；CBPC 基于 polygonhell 的 CBP Physics(MIT)；
+  XPMSE 5.00→5.06；OBody NG = Aietos（CommonLibSSE NG 单 dll 全版本）。
+  产出 `08-sources/unreliable-and-unconfirmed.md`（**13 条错误知识 + 68 项未确认**，按
+  版本号/日期/归属/1.7.x 适配/文件字段五类汇总）。
+  ⚠️ **UBE / HIMBO / HPH 等"当前版本号"一律标未确认**——本轮刻意没把 Nexus 当前版本写死，改它前先查。
 - `creation-kit-kb`（29）、`mo2-usvfs-kb`（43）：已统一到 stock 脚本与 stock manifest。
 
 ## 索引页 UI（细节以 `build_index.py` 模板 + `check_index_ui.py` 断言为准）

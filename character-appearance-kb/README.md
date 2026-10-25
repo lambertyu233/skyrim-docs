@@ -3,9 +3,14 @@
 Skyrim SE/AE 的**人物外貌改造**知识库：把"捏脸"和"身形/身型"这条链
 拆成五层（前置框架 → 脸 → 身形 → 骨骼与物理 → 分配），逐层整理、标出处、可长期维护。
 
-- **44 个条目 / 9 个分类**
+- **48 个条目 / 9 个分类**（2026-10-25 全库百科化改写，每条均可独立读完）
 - 每个条目一个 Markdown + 统一 frontmatter
 - 双击 `index.html` 即可离线浏览与搜索（无需服务器）
+
+> **怎么读**：每个条目都按同一套百科全书骨架写成——打开任意一篇，
+> 从上往下就能看完一个 mod / 一套机制的**前世今生**（谁做的、从哪来、经历了什么、
+> 现在什么状态）与**怎么装、怎么用、踩坑怎么办**。
+> 骨架见下面「条目的骨架」一节；想看结论就直接读每篇的 `## 速览`。
 
 ---
 
@@ -21,7 +26,7 @@ Skyrim SE/AE 的**人物外貌改造**知识库：把"捏脸"和"身形/身型"�
 本工作区根目录有 `AGENTS.md` 作为 agent 入口契约，并提供跨库检索脚本：
 
 ```bash
-KB="C:/Users/laptopyu/.workbuddy/binaries/python/versions/3.13.12/python.exe scripts/kb.py"
+KB="C:/Users/Lambert/.workbuddy/binaries/python/versions/3.13.12/python.exe scripts/kb.py"
 $KB list                          # 有哪些库
 $KB toc character-appearance-kb   # 本库的分类地图
 $KB find AttackState 条件          # 检索（返回路径 + 别名 + 摘要）
@@ -54,15 +59,33 @@ $KB read racemenu                 # 正文
 
 | 目录 | 主题 | 条目数 |
 |---|---|---|
-| `00-overview` | 总览：生态地图、术语表、版本对照、学习路径、NIF/morph 机制 | 5 |
+| `00-overview` | 总览：生态地图、术语表、版本对照、学习路径、NIF/morph 机制、1.7.x 冲击 | 6 |
 | `01-prerequisites` | 前置：SKSE64 / Address Library、SKSE 插件框架 | 2 |
 | `02-face` | 捏脸：RaceMenu、预设、高模头、EFM/EFA、FaceGen、眼眉发须、补光、皮肤 | 8 |
-| `03-body` | 身形：CBBE、UNP/BHUNP、3BA、BodySlide、预设、身体皮肤、**运行时 morph vs 离线烘焙** | 7 |
+| `03-body` | 身形：CBBE、UNP/BHUNP、3BA、UBE、HIMBO、BodySlide、预设、身体皮肤、**运行时 morph vs 离线烘焙** | 9 |
 | `04-physics` | 骨骼与物理：总览选型、XPMSE、HDT-SMP、FSMP、CBPC、头发衣物物理 | 6 |
 | `05-distribution` | NPC 分配：BodyGen、OBody NG、AutoBody | 3 |
-| `06-troubleshooting` | 排错：黑脸、脖缝、穿模、物理失效、滑块缺失、预设不生效 | 6 |
+| `06-troubleshooting` | 排错：黑脸、脖缝、穿模、物理失效、滑块缺失、预设不生效、overlay NIF 崩溃 | 7 |
 | `07-workflow` | 安装实务：次序、MO2 覆盖、Wabbajack、中文整合包、教程评估 | 5 |
 | `08-sources` | 来源：一手来源清单、不可信来源与未确认事项 | 2 |
+
+---
+
+## 条目的骨架（百科全书式）
+
+```markdown
+## 速览               信息卡（作者/首发/当前版本/前置/影响范围…）+ 3~6 条要点
+## 前世今生           时间线表格 + 叙述：从哪来、经历了什么分叉、现状如何
+## 它解决什么问题     没有它之前是什么样 → 它怎么解决的
+## 安装               有序步骤 + 每步「装完该验证什么」
+## 使用与配置         菜单路径 / 文件路径 / 控制台命令 / 配置字段
+## 兼容与冲突         与哪些 mod 互斥或需要补丁
+## 排错               症状 → 判据（看到 X 说明是 Y）→ 处理
+## 取舍与建议         什么时候该用 / 不该用
+## 来源               按一手 / 社区经验 / 未确认 / 本工作区实测 分级
+```
+
+排错类条目改用：`速览 / 前世今生 / 成因（按频率排序）/ 排查顺序 / 修法 / 判断分叉点（别误诊）/ 来源`。
 
 ---
 
@@ -87,7 +110,7 @@ $KB read racemenu                 # 正文
 ### 自检四连
 
 ```bash
-PY="C:/Users/laptopyu/.workbuddy/binaries/python/versions/3.13.12/python.exe"
+PY="C:/Users/Lambert/.workbuddy/binaries/python/versions/3.13.12/python.exe"
 $PY scripts/build_index.py     # 重建 index.json / index.html
 $PY scripts/validate_kb.py     # 结构 + 索引 + 别名 + 模板校验（0 错误才过）
 $PY scripts/check_index_ui.py  # 索引页交互回归（内部调 Node，无需浏览器）
